@@ -84,11 +84,6 @@ public:
 class TB_EXPORT CWoormFrame : public CAbstractWoormFrame
 {
 	DECLARE_DYNCREATE(CWoormFrame)
-protected:
-	CWoormDocMng*	m_pDoc = NULL;
-	CPoint			m_ptAnchor;
-private:
-	BOOL	m_bCanUseReportEditor = FALSE;
 
 protected:
 	CWoormFrame();          // protected constructor used by dynamic creation
@@ -96,6 +91,13 @@ protected:
 	void SetPaneInfo (UINT nId, UINT nStyle, int cwWidth);
 	BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual BOOL IsRadarFrame() const { return FALSE; }
+
+protected:
+	CWoormDocMng*	m_pDoc = NULL;
+	CPoint			m_ptAnchor;
+private:
+	BOOL	m_bCanUseReportEditor = FALSE;
+	BOOL	m_bFirstToolbarAdjust = TRUE;
 
 private:
 	CTBTabbedToolbar* m_pWTabbedToolBar = NULL;

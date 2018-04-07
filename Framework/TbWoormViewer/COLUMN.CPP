@@ -40,7 +40,7 @@
 static const char BASED_CODE THIS_FILE[] = __FILE__;
 #endif
 
-// Non � possibile rideterminare la size corretta di una colonna hidden perch� non ho l'informazione
+// Non e' possibile rideterminare la size corretta di una colonna hidden perche' non ho l'informazione
 // del tipo della colonna in quanto in fase di parsing grafico non ho a disposizione l'EditorManager
 // che non ha ancora parsato la zona di report (variables)
 #define HIDDEN_DEFAULT_WIDTH	100
@@ -2180,7 +2180,7 @@ BOOL TableColumn::Parse (ViewParser& lex)
 		m_bMultipleRow = TRUE;
 	}
 
-	// In presenza di RowSep sulla tabella, non visualizza il bordo di separazione orizzontale se la riga successiva � vuota
+	// In presenza di RowSep sulla tabella, non visualizza il bordo di separazione orizzontale se la riga successiva e' vuota
 	if (lex.Matched(T_VMERGE_EMPTY_CELL))
 	{
 		m_bVMergeEmptyCell = TRUE;

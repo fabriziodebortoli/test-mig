@@ -906,10 +906,21 @@ void CWoormFrame::OnActivate(UINT nState, CWnd* pWndOther, BOOL bMinimized)
 {
 	__super::OnActivate(nState, pWndOther, bMinimized);
 
-	if (!m_pWTabbedToolBar && m_pDoc && m_pDoc->m_pWoormInfo && m_pDoc->m_pWoormInfo->m_bIconized && !m_pDoc->m_pWoormInfo->m_bHideFrame)
+	if (m_pDoc && m_pDoc->m_pWoormInfo)
+	{
+		if (!m_pWTabbedToolBar && m_pDoc->m_pWoormInfo->m_bIconized && !m_pDoc->m_pWoormInfo->m_bHideFrame)
 	{
 		if (nState == WA_ACTIVE || nState == WA_CLICKACTIVE)
 			CreateTools(m_pDoc);
+		}
+		else if (m_bFirstToolbarAdjust && m_pWTabbedToolBar && !m_pDoc->m_pWoormInfo->m_bHideFrame)
+		{
+			if (nState == WA_ACTIVE || nState == WA_CLICKACTIVE)
+			{
+				m_pWTabbedToolBar->AdjustLayout();
+				m_bFirstToolbarAdjust = FALSE;
+			}
+		}
 	}
 }
 

@@ -1319,7 +1319,7 @@ CNodeTree& CRSTreeCtrl::AddNode(const CString& sTitle, CNodeTree::ENodeType eTyp
 	}
 	else if (eType == CNodeTree::ENodeType::NT_LIST_COLUMN_INFO)
 	{
-		const SqlColumnInfoObject* pCol = (SqlColumnInfoObject*)(pItem);
+		const SqlColumnInfoObject* pCol = dynamic_cast<const SqlColumnInfoObject*>(pItem);
 		if (pCol->m_bSpecial)
 			nImage = CRSTreeCtrlImgIdx::PrimaryKey;
 	}
@@ -4061,6 +4061,7 @@ BOOL CRSTreeCtrl::FillWebMethods(CRSEditView* editView)
 						{
 							htMail = AddNode(IDF_WOORM_GROUP_MAIL, CNodeTree::ENodeType::NT_SUBROOT_MODULE, htMod, pAddOnMod, pAddOnApplication);
 							htPostaLite = AddNode(IDF_WOORM_GROUP_POSTALITE, CNodeTree::ENodeType::NT_SUBROOT_MODULE, htMod, pAddOnMod, pAddOnApplication);
+							if (this->GetDocument() && this->GetDocument()->m_bBetaFeatures)
 							htMiniHtml = AddNode(IDF_WOORM_GROUP_MINIHTML, CNodeTree::ENodeType::NT_SUBROOT_MODULE, htMod, pAddOnMod, pAddOnApplication);
 							htAdvanced = AddNode(IDF_WOORM_GROUP_ADVANCED, CNodeTree::ENodeType::NT_SUBROOT_MODULE, htMod, pAddOnMod, pAddOnApplication);
 						}
@@ -4191,7 +4192,7 @@ void CRSTreeCtrl::FillColumns(CHelperSqlCatalog::CTableColumns* pTC, HTREEITEM h
 	ASSERT_VALID(pTC);
 	for (int c = 0; c < pTC->m_arSortedColumns.GetSize(); c++)
 	{
-		SqlColumnInfoObject* pCol = (SqlColumnInfoObject*)(pTC->m_arSortedColumns.GetAt(c));
+		SqlColumnInfoObject* pCol = dynamic_cast<SqlColumnInfoObject*>(pTC->m_arSortedColumns.GetAt(c));
 		BOOL bLinked = FALSE;
 		if (parLinks)
 		{
@@ -6639,7 +6640,7 @@ void CRSReportTreeView::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult)
 	}
 	case  CNodeTree::ENodeType::NT_LIST_COLUMN_INFO:
 	{
-		const SqlColumnInfoObject* pCol = (SqlColumnInfoObject*)(pNode->m_pItemData);
+		const SqlColumnInfoObject* pCol = dynamic_cast<const SqlColumnInfoObject*>(pNode->m_pItemData);
 		if (pCol)
 		{
 			CString sNameTrad = pCol->GetColumnTitle();
@@ -9157,7 +9158,7 @@ void CRSReportTreeView::AddRuleFromDrop(CRSTreeCtrl* sourceTreeCtrl, CNodeTree* 
 						{
 							goto l_after_join;
 						}
-						SqlColumnInfoObject* pColInfo = (SqlColumnInfoObject*)(pTargetTC->m_arSortedColumns[idx]);
+						SqlColumnInfoObject* pColInfo = dynamic_cast<SqlColumnInfoObject*>(pTargetTC->m_arSortedColumns[idx]);
 						if (!pColInfo)
 						{
 							goto l_after_join;
@@ -9208,7 +9209,7 @@ void CRSReportTreeView::AddRuleFromDrop(CRSTreeCtrl* sourceTreeCtrl, CNodeTree* 
 				{
 					goto l_after_join;
 				}
-				SqlColumnInfoObject* pColInfo = (SqlColumnInfoObject*)(pTargetTC->m_arSortedColumns[idx]);
+				SqlColumnInfoObject* pColInfo = dynamic_cast<SqlColumnInfoObject*>(pTargetTC->m_arSortedColumns[idx]);
 				if (!pColInfo)
 				{
 					goto l_after_join;
@@ -10821,7 +10822,7 @@ void CRSToolBoxDBView::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult)
 	}
 	case  CNodeTree::ENodeType::NT_LIST_COLUMN_INFO:
 	{
-		const SqlColumnInfoObject* pCol = (SqlColumnInfoObject*)(pNode->m_pItemData);
+		const SqlColumnInfoObject* pCol = dynamic_cast<const SqlColumnInfoObject*>(pNode->m_pItemData);
 		CString sNameTrad = pCol->GetColumnTitle();
 		CString	strBuffer(pCol->GetDataObjType().ToString());
 		strBuffer += cwsprintf(_T("( %d"), pCol->GetColumnLength());

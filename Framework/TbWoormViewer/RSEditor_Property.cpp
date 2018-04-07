@@ -63,7 +63,8 @@
 //
 #define PROP_HAS_LIST 0x0001
 
-#define CHAR_DEGREE '\0xB0'	//°
+//char degree °
+#define CHAR_DEGREE '\0xB0'	
 
 void GetPrinters(CStringArray& szaPrinterArray){
 	DWORD dwNeeded = 0, dwItems = 0;
@@ -602,7 +603,7 @@ BOOL CRS_PropertyGrid::PreTranslateMessage(MSG* pMsg)
 
 	if ((pMsg->wParam == VK_ADD && pMsg->message == WM_KEYDOWN) || (pMsg->wParam == VK_SUBTRACT && pMsg->message == WM_KEYDOWN))
 	{
-		//gestione resa necessaria perch� i caratteri "+" e "-" sono catturati dalla property 
+		//gestione resa necessaria perche' i caratteri "+" e "-" sono catturati dalla property 
 		//list per il collapse ed expand dei gruppi
 		CrsProp* propCur = dynamic_cast<CrsProp*>(GetCurSel());
 		if (propCur && !propCur->IsGroup() && propCur->IsAllowEdit())
@@ -1713,7 +1714,7 @@ void CRS_ObjectPropertyView::OnUpdateLayout(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(m_bShowLayoutBtn);
 
-	//controllo se � cambiato lo stato del pulsante
+	//controllo se e' cambiato lo stato del pulsante
 	if (!m_bCheckLayoutBtnChanged) return;
 
 	//se deve essere checckato
@@ -1855,7 +1856,7 @@ void CRS_ObjectPropertyView::OnUpdateVariable(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(m_eShowVariableTypeBtn != WoormField::SourceFieldType::NONE );
 
-	//controllo se � cambiato lo stato del pulsante
+	//controllo se e' cambiato lo stato del pulsante
 	if (!m_bCheckVariableBtnChanged) return;
 
 	if (m_eShowVariableTypeBtn != WoormField::SourceFieldType::NONE)
@@ -1977,7 +1978,7 @@ void CRS_ObjectPropertyView::OnUpdateRequestField(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(m_bShowRequestFieldBtn);
 
-	//controllo se � cambiato lo stato del pulsante
+	//controllo se e' cambiato lo stato del pulsante
 	if (!m_bCheckRequestFieldBtnChanged) return;
 
 	//se deve essere checckato
@@ -2412,7 +2413,7 @@ void CRS_ObjectPropertyView::InitCRS_PropertyGrid()
 	m_pPropGrid->SetCommandsVisible(TRUE);
 	m_pPropGrid->EnableSearchBox(TRUE, _TB("Search"));
 	m_pPropGrid->EnableToolBar();		  // abilita la toolbar per ordine alfabetico delle properties oppure categorizzato a tree
-	m_pPropGrid->EnableHeaderCtrl(FALSE); // Property e Value in testa alla property Grid (eliminati perch� mi sembrano inutili)
+	m_pPropGrid->EnableHeaderCtrl(FALSE); // Property e Value in testa alla property Grid (eliminati perche' mi sembrano inutili)
 	m_pPropGrid->EnableDescriptionArea(); // area sottostante la property grid per la descrizione delle properties
 	m_pPropGrid->SetVSDotNetLook();
 	m_pPropGrid->MarkModifiedProperties(TRUE);
@@ -2427,7 +2428,7 @@ void CRS_ObjectPropertyView::InitCRS_PropertyGrid()
 	//aux->SetCommandsVisible(TRUE);
 	//aux->EnableSearchBox(TRUE, _TB("Search"));
 	//aux->EnableToolBar();		  // abilita la toolbar per ordine alfabetico delle properties oppure categorizzato a tree
-	//aux->EnableHeaderCtrl(FALSE); // Property e Value in testa alla property Grid (eliminati perch� mi sembrano inutili)
+	//aux->EnableHeaderCtrl(FALSE); // Property e Value in testa alla property Grid (eliminati perche' mi sembrano inutili)
 	//aux->EnableDescriptionArea(); // area sottostante la property grid per la descrizione delle properties
 	//aux->SetVSDotNetLook();
 	//aux->MarkModifiedProperties(TRUE);
@@ -3895,7 +3896,7 @@ void CRS_ObjectPropertyView::LoadVariableGeneralSettings(WoormField* wrmField)
 
 	if (wrmField->IsExprRuleField() && !wrmField->IsTableRuleField())
 	{
-		//RuleObj* pRule = wrmField->GetOwnerRule(); //NO � la Rule dell'engine e non dell'editor
+		//RuleObj* pRule = wrmField->GetOwnerRule(); //NO e' la Rule dell'engine e non dell'editor
 		RuleDataObj* pRule = GetDocument()->m_pEditorManager->GetRuleData()->GetRuleData(wrmField->GetName());
 		ASSERT_VALID(pRule);
 		ExpRuleData* pExpRule = dynamic_cast<ExpRuleData*>(pRule);
@@ -4237,7 +4238,7 @@ void CRS_ObjectPropertyView::InsertColumnBlock(CBCGPProp* father, CBCGPProp* cal
 
 	for (int i = 0; i < pTC->m_arSortedColumns.GetSize(); i++)
 	{
-		const SqlColumnInfoObject* pSqlColumnInfo =  (SqlColumnInfoObject*)(pTC->m_arSortedColumns.GetAt(i));
+		const SqlColumnInfoObject* pSqlColumnInfo = dynamic_cast<const SqlColumnInfoObject*>(pTC->m_arSortedColumns.GetAt(i));
 		ASSERT_VALID(pSqlColumnInfo);
 		if (!pSqlColumnInfo)
 			continue;
@@ -4433,7 +4434,7 @@ void CRS_ObjectPropertyView::CreateNewDBElement()
 			return;
 		}	
 
-		const SqlColumnInfoObject* currentColumn = (SqlColumnInfoObject*)((CObject*)propVarName->GetData());
+		const SqlColumnInfoObject* currentColumn = dynamic_cast<const SqlColumnInfoObject*>((CObject*)propVarName->GetData());
 		ASSERT_VALID(currentColumn);
 
 		// new DataType
@@ -5666,8 +5667,6 @@ void CRS_ObjectPropertyView::LoadFieldProperties(CNodeTree* pNode)
 	LoadFieldAppearenceProperties(pFieldR);
 
 	LoadFieldBehaviorProperties(pFieldR);
-
-	//show layout � gi� visibile di default per tutti gli oggetti di layout e checckato
 }
 
 // ----------------------------------------------------------------------------
@@ -5699,6 +5698,7 @@ void CRS_ObjectPropertyView::LoadFieldAppearenceProperties(FieldRect* pField)
 		DataType colType = pField->GetDataType();
 		if (colType == DataType::String || colType == DataType::Text)
 		{
+			if (wrmDocMng->m_bBetaFeatures)
 			pValueGroup->AddSubItem(new CRSBoolProp(pField, _TB("Mini html"), &(pField->m_bMiniHtml), _TB("Mini html ...")));
 		}
 
@@ -5725,7 +5725,7 @@ void CRS_ObjectPropertyView::LoadFieldAppearenceProperties(FieldRect* pField)
 
 	pFieldTypeProp->DrawProperties();
 
-	//aggiungo i gruppi label e Value dopo la combo del tipo perch� sta meglio, in quanto, in base al tipo rimuovo le properties
+	//aggiungo i gruppi label e Value dopo la combo del tipo perche' sta meglio, in quanto, in base al tipo rimuovo le properties
 	m_pAppearenceGroup->AddSubItem(pValueGroup);
 	//le salvo in una lista per poterle ridisegnare al posto giusto ad ogni modifica del 'showAs'
 	pFieldTypeProp->m_pPropToRedraw->AddTail(pValueGroup);
@@ -5778,6 +5778,7 @@ void CRS_ObjectPropertyView::LoadTextAppearenceProperties(TextRect* pText)
 	//Simil BitWise Alignment prop
 	m_pAppearenceGroup->AddSubItem(new CRSAlignBitwiseProp(this, pText, _TB("Alignment"), &(pText->m_StaticText.m_nAlign), TRUE, FALSE, TRUE));
 
+	if (GetDocument()->m_bBetaFeatures)
 	m_pAppearenceGroup->AddSubItem(new CRSBoolProp(pText, _TB("Mini html"), &(pText->m_bMiniHtml), _TB("Mini html ...")));
 }
 
@@ -6128,7 +6129,6 @@ void CRS_ObjectPropertyView::LoadChartSeriesPropertyGrid(CNodeTree* pNode)
 	m_pAppearenceGroup->AddSubItem(new CRSChartBoolProp(pSeries, _TB("Labels"), &pSeries->m_bShowLabels, _TB("Show labels"), this, GetDocument()->GetSymTable(), EnumChartObject::LABEL));
 	m_pPropGrid->AddProperty(m_pAppearenceGroup);
 
-
 	// Add Behavior properties------------------------------------------------
 	//m_pBehaviorGroup = new CrsProp(_TB("Behavior"));
 	//m_pBehaviorGroup->AddSubItem(new CRSBoolProp(this, _TB("Hidden"), &m_bIsHidden));
@@ -6166,7 +6166,7 @@ void CRS_ObjectPropertyView::LoadTableProperties(CNodeTree* pNode)
 	CStringList lstCommands;
 	lstCommands.AddTail(_TB("Clear all custom styles"));
 	
-	//� stato sce3gliere di non mostrare il command seguente perch�, nonostante fosse funzionante, era poco chiaro il significato di questo comando e sembrava pi� superfluo che utile
+	//e' stato scelto di non mostrare il command seguente perche', nonostante fosse funzionante, era poco chiaro il significato di questo comando e sembrava piu' superfluo che utile
 	//lstCommands.AddTail(_TB("Clear table custom styles"));
 	
 	m_pPropGrid->SetCommands(lstCommands);
@@ -6211,7 +6211,7 @@ void CRS_ObjectPropertyView::LoadTableAppearenceProperties(Table* pTable)
 			pTitleGroup->AddSubItem(new CRSTableTitlTextProp(pTable));
 
 			//BackGround Color 
-			pTitleGroup->AddSubItem(new CRSColorProp(pTable, _TB("Background Color"), &(pTable->m_Title.m_rgbBkgColor), _TB("The backGround color of the table title")));
+			pTitleGroup->AddSubItem(new CRSColorProp(pTable, _TB("Background Color"), &(pTable->m_Title.m_rgbBkgColor), _TB("The background color of the table title")));
 
 			//Text Color
 			pTitleGroup->AddSubItem(new CRSColorProp(pTable, _TB("Text Color"), &(pTable->m_Title.m_rgbTextColor), _TB("The text Color of the table title")));
@@ -6341,7 +6341,7 @@ void CRS_ObjectPropertyView::LoadTableAppearenceProperties(Table* pTable)
 		//separator
 		pBodyGroup->AddSubItem(new CRSBoolProp(pTable, _TB("Column Separator"), &(pTable->m_Borders.m_bColumnSeparator), _TB("Separator border of Body")));
 
-		//separator mode (propriet� ternaria)
+		//separator mode (proprieta' ternaria)
 		pBodyGroup->AddSubItem(new CRSTableRowSeparatorProp(pTable));
 
 		//row separator color (easyview)
@@ -6689,7 +6689,8 @@ void CRS_ObjectPropertyView::LoadColumnAppearenceProperties(TableColumn* pCol)
 
 		if (colType == DataType::String || colType == DataType::Text)
 		{
-			pBodyGroup->AddSubItem(new CRSBoolProp(pCol, _TB("Mini html"), &(pCol->m_bMiniHtml), _TB("Mini html ...")));
+			if (GetDocument()->m_bBetaFeatures)
+				pBodyGroup->AddSubItem(new CRSBoolProp(pCol, _TB("Mini html"), &(pCol->m_bMiniHtml), _TB("Mini html ...")));
 		}
 
 		if (wrmDocMng)
@@ -6714,7 +6715,7 @@ void CRS_ObjectPropertyView::LoadColumnAppearenceProperties(TableColumn* pCol)
 
 		//Type
 		pBodyGroup->AddSubItem(TypeProp);
-		// disegno le 'subproperties' qui e non nel costruttore perch� sono  allo stesso livello di profondit�
+		// disegno le 'subproperties' qui e non nel costruttore perche' sono  allo stesso livello di profondita'
 		// e in questo modo rimangono dopo e non prima la property 'Typeprop'
 		TypeProp->DrawProperties();
 
@@ -6872,12 +6873,12 @@ void CRS_ObjectPropertyView::LoadRepeaterLayoutProperties(Repeater* pRep)
 }
 
 // ----------------------------------------------------------------------------
-//Si occuper� di caricare la property grid con le properties comuni(vedi loadbaseproperties) 
-//e cicler� sugli elementi dell'array per i vari aggiornamenti. 
+//Si occupa di caricare la property grid con le properties comuni(vedi loadbaseproperties) 
+//e cicla sugli elementi dell'array per i vari aggiornamenti. 
 //RETURN IF HAVE TO EXIT FROM PARENT METHOD
 BOOL CRS_ObjectPropertyView::LoadMultipleSelectionProperties(SelectionRect* pMulSel)
 {
-	//controllo se la multiselezione � valida 
+	//controllo se la multiselezione e' valida 
 	if (!pMulSel || pMulSel->IsEmpty())
 	{
 		ClearPropertyGrid();
@@ -6905,14 +6906,14 @@ BOOL CRS_ObjectPropertyView::LoadMultipleSelectionProperties(SelectionRect* pMul
 	}
 
 	//TODO ANDREA: ORA RICARICO LA PROPERTY GRID PER RIPASSARE DAL COSTRUTTORE DI OGNI PROPERTY
-	//IN QUESTO MODO POSSO VALORIZZARLE CON IL VALORE COMUNE, SE C'�
+	//IN QUESTO MODO POSSO VALORIZZARLE CON IL VALORE COMUNE, SE C'e'
 
 	//UNA SOLUZIONE ALTERNATIVA SAREBBE INSERIRE UN METODO VIRTUALE IN CRSPROP (AD ESEMPIO UPDATEPROPERTYVALUE)
 	//E CHIAMARE SOLO QUELLO
 
 	//ho esattamente 2 elementi nell'array e devo capire se venivo da 1 o da 3. infatti se prima ne avevo
 	// 1 ->devo pulire la griglia e caricare la multiselezione
-	// 3 ->ho gi� la griglia caricata e non devo fare niente
+	// 3 ->ho gia' la griglia caricata e non devo fare niente
 	//if (pMulSel->GetSize() == 2 && pMulSel->GetPreviousSize() == 1)
 	//{
 		ClearPropertyGrid();
@@ -6926,7 +6927,7 @@ BOOL CRS_ObjectPropertyView::LoadMultipleSelectionProperties(SelectionRect* pMul
 		// Add Layout properties--------------------------------------------------
 		m_pLayoutGroup = new CrsProp(_TB("Layout"));
 
-		//caricamento propriet� comuni
+		//caricamento proprieta' comuni
 		LoadMultipleSelectionAllProperties(pMulSel);
 
 		m_pPropGrid->AddProperty(m_pAppearenceGroup);
@@ -6934,7 +6935,7 @@ BOOL CRS_ObjectPropertyView::LoadMultipleSelectionProperties(SelectionRect* pMul
 		m_pPropGrid->AddProperty(m_pLayoutGroup);
 	//}
 
-	////se ho pi� di 2 elementi nell'array, non devo fare niente tranne rivalutare le property
+	////se ho piu' di 2 elementi nell'array, non devo fare niente tranne rivalutare le property
 	////per vedere se ce ne sono alcune comuni da valorizzare
 	//else
 		//m_pPropGrid->AdjustLayout();
@@ -6945,7 +6946,7 @@ BOOL CRS_ObjectPropertyView::LoadMultipleSelectionProperties(SelectionRect* pMul
 }
 
 // ----------------------------------------------------------------------------
-//Si occuper� di caricare la property grid con le properties comuni(vedi loadbaseproperties) 
+//Si occupa di caricare la property grid con le properties comuni(vedi loadbaseproperties) 
 void CRS_ObjectPropertyView::LoadMultiColumnProperties(MultiColumnSelection* pMulCol)
 {
 	ClearPropertyGrid();
@@ -6979,7 +6980,7 @@ void CRS_ObjectPropertyView::LoadMultiColumnProperties(MultiColumnSelection* pMu
 }
 
 // ----------------------------------------------------------------------------
-//caricamento delle propriet� comuni a tutti le colonne presenti nella multiselezione
+//caricamento delle proprieta comuni a tutti le colonne presenti nella multiselezione
 void CRS_ObjectPropertyView::LoadMultiColumnAppearenceProperties(MultiColumnSelection* pMulCol)
 {
 	// ALL COLUMN TITLE----------------------------------------------------------------------------------------------------------ALL COLUMN TITLE
@@ -7049,7 +7050,7 @@ void CRS_ObjectPropertyView::LoadMultiColumnAppearenceProperties(MultiColumnSele
 		////separator
 		//pBodyGroup->AddSubItem(new CRSBoolProp(pTable, _TB("Column Separator"), &(pTable->m_Borders.m_bColumnSeparator), _TB("Separator border of Body")));
 
-		////separator mode (propriet� ternaria)
+		////separator mode (proprieta ternaria)
 		//pBodyGroup->AddSubItem(new CRSTableRowSeparatorProp(pTable));
 
 		//alignment bitwise
@@ -7157,7 +7158,7 @@ void CRS_ObjectPropertyView::LoadMultiColumnAppearenceProperties(MultiColumnSele
 }
 
 // ----------------------------------------------------------------------------
-//caricamento delle propriet� comuni a tutti le colonne presenti nella multiselezione
+//caricamento delle proprieta comuni a tutti le colonne presenti nella multiselezione
 void CRS_ObjectPropertyView::LoadMultiColumnBehaviorProperties(MultiColumnSelection* pMulCol)
 {
 	//Hidden
@@ -7166,7 +7167,7 @@ void CRS_ObjectPropertyView::LoadMultiColumnBehaviorProperties(MultiColumnSelect
 }
 
 // ----------------------------------------------------------------------------
-//caricamento delle propriet� comuni a tutti le colonne presenti nella multiselezione
+//caricamento delle proprieta comuni a tutti le colonne presenti nella multiselezione
 void CRS_ObjectPropertyView::LoadMultiColumnLayoutProperties(MultiColumnSelection* pMulCol)
 {
 	//Width
@@ -7174,7 +7175,7 @@ void CRS_ObjectPropertyView::LoadMultiColumnLayoutProperties(MultiColumnSelectio
 }
 
 // ----------------------------------------------------------------------------
-//caricamento delle propriet� comuni a tutti gli oggetti presenti nella multiselezione
+//caricamento delle proprieta comuni a tutti gli oggetti presenti nella multiselezione
 void CRS_ObjectPropertyView::LoadMultipleSelectionAllProperties(SelectionRect* pMulSel)
 {
 	LoadMultipleSelectionAppearenceProperties(pMulSel);
@@ -7343,7 +7344,7 @@ void CRS_ObjectPropertyView::LoadMultipleSelectionLayoutProperties(SelectionRect
 }
 
 // ----------------------------------------------------------------------------
-//caricamento delle propriet� relative alla cella di una tabella
+//caricamento delle proprieta relative alla cella di una tabella
 void CRS_ObjectPropertyView::LoadTableCellProperties(CNodeTree* pNode)
 {
 	TableCell* pCell = dynamic_cast<TableCell*>(pNode->m_pItemData);
@@ -7357,7 +7358,7 @@ void CRS_ObjectPropertyView::LoadTableCellProperties(CNodeTree* pNode)
 }
 
 // ----------------------------------------------------------------------------
-//caricamento delle propriet� relative alla cella di una tabella
+//caricamento delle proprieta relative alla cella di una tabella
 void CRS_ObjectPropertyView::LoadTableCellProperties(TableCell* pCell)
 {
 	ASSERT_VALID(pCell);
@@ -8649,7 +8650,7 @@ CRSEditDescriptionText::~CRSEditDescriptionText()
 }
 
 //-----------------------------------------------------------------------------
-//metodo chiamato quando tolgo il focus dal valore della property che � stato modificato, 
+//metodo chiamato quando tolgo il focus dal valore della property che e' stato modificato, 
 //prima chiamo il base per aggiornare il valore, quindi aggiorno l'oggetto e il documento di woorm
 BOOL CRSEditDescriptionText::OnUpdateValue()
 {
@@ -8876,9 +8877,9 @@ BOOL CRSHiddenProp::OnUpdateValue()
 
 	CString strNewValue = this->GetValue();
 
-	if (strOldValue != strNewValue) //solo se il valore della property � effettivamente cambiato
+	if (strOldValue != strNewValue) //solo se il valore della property e' effettivamente cambiato
 	{
-		if (*m_ppExp && !(*m_ppExp)->IsEmpty())//era presente un espressione, mi devo sincerare l'utente voglia cancellarla per settare una visibilit� non dinamica
+		if (*m_ppExp && !(*m_ppExp)->IsEmpty())//era presente un espressione, mi devo sincerare l'utente voglia cancellarla per settare una visibilita' non dinamica
 		{
 			if (AfxTBMessageBox(_TB("This change will erase the dynamic expression currently set. Are you sure you want to proceed?"), MB_ICONWARNING | MB_YESNO) == IDNO)
 			{
@@ -8887,7 +8888,7 @@ BOOL CRSHiddenProp::OnUpdateValue()
 				return baseUpdate;
 			}
 
-			//se l'utente � sicuro, cancello l'espressione settata precedentemente e procedo 
+			//se l'utente e' sicuro, cancello l'espressione settata precedentemente e procedo 
 			SAFE_DELETE(*m_ppExp);
 			*m_ppExp = NULL;
 		}	
@@ -9203,7 +9204,7 @@ BOOL CRSShowColumnTotalProp::OnUpdateValue()
 
 	BOOL value = this->GetValue();
 
-	if (previousValue == value) //se il valore non � cambiato esco
+	if (previousValue == value) //se il valore non e' cambiato esco
 		return baseUpdate;
 
 	if (m_pWndList != NULL)
@@ -9299,7 +9300,7 @@ BOOL CRSIntProp::OnUpdateValue()
 	}
 
 	//-------------------------------------------------------------------------------
-	//ottimizzazione per evitare di ridisegnare l'oggetto se il valore in realt� non � cambiato
+	//ottimizzazione per evitare di ridisegnare l'oggetto se il valore in realta' non e' cambiato
 	if (value == prevValue)
 		return baseUpdate;
 
@@ -9569,7 +9570,7 @@ CRSColorProp::CRSColorProp(CObject* pOwner, const CString& strName, COLORREF* pV
 	ASSERT_VALID(m_pOwner);
 	EnableOtherButton(_TB("Other..."));
 	//EnableAutomaticButton(_TB("Default"), ::GetSysColor(COLOR_3DFACE)); //disabilitato il bottone "Default"
-	//nella popup della palette dei colori, perch� settava il colore nero anche se era stato spcificato un colore di default diverso
+	//nella popup della palette dei colori, perche' settava il colore nero anche se era stato spcificato un colore di default diverso
 }
 
 //-----------------------------------------------------------------------------
@@ -9584,7 +9585,7 @@ CRSColorProp::CRSColorProp(CObject* pOwner, const CString& strName, COLORREF val
 	ASSERT_VALID(m_pOwner);
 	EnableOtherButton(_TB("Other..."));
 	//EnableAutomaticButton(_TB("Default"), ::GetSysColor(COLOR_3DFACE)); //disabilitato il bottone "Default"
-	//nella popup della palette dei colori, perch� settava il colore nero anche se era stato spcificato un colore di default diverso
+	//nella popup della palette dei colori, perche' settava il colore nero anche se era stato spcificato un colore di default diverso
 }
 
 //-----------------------------------------------------------------------------
@@ -9599,7 +9600,7 @@ CRSColorProp::CRSColorProp(MultiColumnSelection* p_Columns, const CString& strNa
 	ASSERT(!p_Columns==NULL);
 	EnableOtherButton(_TB("Other..."));
 	//EnableAutomaticButton(_TB("Default"), ::GetSysColor(COLOR_3DFACE)); //disabilitato il bottone "Default"
-	//nella popup della palette dei colori, perch� settava il colore nero anche se era stato spcificato un colore di default diverso
+	//nella popup della palette dei colori, perche' settava il colore nero anche se era stato spcificato un colore di default diverso
 }
 
 //-----------------------------------------------------------------------------
@@ -9859,7 +9860,7 @@ void CRSColorWithExprProp::OnDrawStateIndicator(CDC* pDC, CRect rect)
 		SetOriginalDescription();
 }
 
-//todo andrea: vedere se � meglio rimuovere il metodo seguente e inserirne il corpo nell'if sopra
+//todo andrea: vedere se e' meglio rimuovere il metodo seguente e inserirne il corpo nell'if sopra
 //-----------------------------------------------------------------------------
 BOOL CRSColorWithExprProp::HasExpression()
 {
@@ -10223,7 +10224,7 @@ void CRSDialogWithExprProp::OnLeftClick()
 
 //-----------------------------------------------------------------------------
 //Open expression editor 
-//todo andrea: refactoring per pulire un p� il metodo? 
+//todo andrea: refactoring per pulire un po' il metodo? 
 void CRSDialogWithExprProp::OnRightClick()
 {
 	CRSEditView* pEditView = m_pPropertyView->CreateEditView();
@@ -10481,16 +10482,14 @@ void CRSRectProp::UpdatePropertyValue() {
 //-----------------------------------------------------------------------------
 void CRSRectProp::UpdateLocationX(LONG previousValue, LONG currValue)
 {
-	//se � un repeater
 	if (m_pOwner->IsKindOf(RUNTIME_CLASS(Repeater)))
 	{
 		Repeater* pRepObj = (Repeater*)m_pOwner;
 		LONG diff = currValue - previousValue;
-		//pRepObj->MoveBaseRect(diff, 0, TRUE); // todo andrea, capire perch� con questa chiamata gli oggetti interni si muovono pi� dei contenitori (questa chiamata prevede di mettere in else l'if successivo)
+		//pRepObj->MoveBaseRect(diff, 0, TRUE); // todo andrea, capire perche' con questa chiamata gli oggetti interni si muovono piu' dei contenitori (questa chiamata prevede di mettere in else l'if successivo)
 		pRepObj->MoveObjects(diff, 0, TRUE); //muove solo gli oggetti interni, poi nel secondo if muovo l'oggetto ma mi perso l'ombra dei repeaters
 	}
-
-	//se � un baseRect, aggiorno direttamente il rect
+	//se e' un baseRect, aggiorno direttamente il rect
 	if (m_pOwner->IsKindOf(RUNTIME_CLASS(BaseRect)))
 	{
 		CRect rect = ((BaseRect*)m_pOwner)->GetBaseRect();
@@ -10503,8 +10502,7 @@ void CRSRectProp::UpdateLocationX(LONG previousValue, LONG currValue)
 
 		((BaseRect*)m_pOwner)->SetBaseRect(rect);
 	}
-
-	//altrimenti, se � una tabella, chiamo direttamente il metodo moveObject, che si occupa di tutto
+	//se e' una tabella, chiamo direttamente il metodo moveObject, che si occupa di tutto
 	else if (m_pOwner->IsKindOf(RUNTIME_CLASS(Table)))
 	{
 		Table* pTabObj = (Table*)m_pOwner;
@@ -10522,16 +10520,15 @@ void CRSRectProp::UpdateLocationX(LONG previousValue, LONG currValue)
 //-----------------------------------------------------------------------------
 void CRSRectProp::UpdateLocationY(LONG previousValue, LONG currValue)
 {
-	//se � un repeater
 	if (m_pOwner->IsKindOf(RUNTIME_CLASS(Repeater)))
 	{
 		Repeater* pRepObj = (Repeater*)m_pOwner;
 		LONG diff = (LONG)currValue - previousValue;
-		//pRepObj->MoveBaseRect(0, diff, TRUE); // todo andrea, capire perch� con questa chiamata gli oggetti interni si muovono pi� dei contenitori (questa chiamata prevede di mettere in else l'if successivo)
+		//pRepObj->MoveBaseRect(0, diff, TRUE); // todo andrea, capire perche' con questa chiamata gli oggetti interni si muovono piu' dei contenitori (questa chiamata prevede di mettere in else l'if successivo)
 		pRepObj->MoveObjects(0, diff, TRUE);//muove solo gli oggetti interni, poi nel secondo if muovo l'oggetto ma mi perso l'ombra dei repeaters
 	}
 
-	//se � un baseRect, aggiorno direttamente il rect
+	//se e' un baseRect, aggiorno direttamente il rect
 	if (m_pOwner->IsKindOf(RUNTIME_CLASS(BaseRect)))
 	{
 		CRect rect = ((BaseRect*)m_pOwner)->GetBaseRect();
@@ -10545,7 +10542,7 @@ void CRSRectProp::UpdateLocationY(LONG previousValue, LONG currValue)
 		((BaseRect*)m_pOwner)->SetBaseRect(rect);
 	}
 
-	//altrimenti, se � una tabella, chiamo direttamente il metodo moveObject, che si occupa di tutto
+	//altrimenti, se e' una tabella, chiamo direttamente il metodo moveObject, che si occupa di tutto
 	else if (m_pOwner->IsKindOf(RUNTIME_CLASS(Table)))
 	{
 		Table* pTabObj = (Table*)m_pOwner;
@@ -10565,7 +10562,7 @@ void CRSRectProp::UpdateWidth(LONG currValue)
 	int pLeftX = rect.TopLeft().x;
 	rect.BottomRight().x = pLeftX + currValue;
 	((BaseObj*)m_pOwner)->SetBaseRect(rect);
-	//se � un repeater aggiorno anche gli oggetti contenuti e ripetuti
+	//se e' un repeater aggiorno anche gli oggetti contenuti e ripetuti
 	if (m_pOwner->IsKindOf(RUNTIME_CLASS(Repeater)))
 	{
 		Repeater* pRepObj = (Repeater*)m_pOwner;
@@ -10581,7 +10578,7 @@ void CRSRectProp::UpdateHeight(LONG currValue)
 	rect.BottomRight().y = pTopY + currValue;
 	((BaseObj*)m_pOwner)->SetBaseRect(rect);
 
-	//se � un repeater aggiorno anche gli oggetti contenuti e ripetuti
+	//se e' un repeater aggiorno anche gli oggetti contenuti e ripetuti
 	if (m_pOwner->IsKindOf(RUNTIME_CLASS(Repeater)))
 	{
 		Repeater* pRepObj = (Repeater*)m_pOwner;
@@ -10692,7 +10689,7 @@ BOOL CRSRectProp::OnUpdateValue()
 {
 	LONG previousValue = (LONG)this->GetValue();
 
-	//Se � un baseRect provo a cancellare il rect precedente compreso di shadow (senn� rimane sporcizia quando lo sposto o cambio dimensione
+	//Se e' un baseRect provo a cancellare il rect precedente compreso di shadow (altrimenti rimane sporcizia quando lo sposto o cambio dimensione
 	if (m_pOwner->IsKindOf(RUNTIME_CLASS(BaseRect)))
 	{
 		BaseRect* pBaseObj = (BaseRect*)m_pOwner;
@@ -10712,7 +10709,7 @@ BOOL CRSRectProp::OnUpdateValue()
 
 	SqrRect* pSqr = dynamic_cast<SqrRect*>(m_pOwner);
 
-	//Se � un sqr, aggiorno la sua descrizione nel tree control, essendo di fatto rappresentata dalle sue coordinate
+	//Se e' un sqr, aggiorno la sua descrizione nel tree control, essendo di fatto rappresentata dalle sue coordinate
 	if (pSqr)
 	{
 		SqrRect* pSqr = (SqrRect*)m_pOwner;
@@ -10725,7 +10722,7 @@ BOOL CRSRectProp::OnUpdateValue()
 		pSqr->UpdateDocument();
 	}
 
-	//Se � un baseRect, aggiorno semplicemente il report
+	//Se e' un baseRect, aggiorno semplicemente il report
 	else if (m_pOwner->IsKindOf(RUNTIME_CLASS(BaseRect)))
 	{
 		BaseRect* pRectObj = (BaseRect*)m_pOwner;
@@ -11133,7 +11130,7 @@ CRSFieldTypeProp::CRSFieldTypeProp(FieldRect* pFieldRect, const CString& strName
 	AddOption(::EFieldShowAsToString(::EFieldShowAs::FT_TEXTFILE),	TRUE, ::EFieldShowAs::FT_TEXTFILE);
 	//AddOption(::EFieldShowAsToString(::EFieldShowAs::FT_URL),		TRUE, ::EFieldShowAs::FT_URL);
 
-	//this->SelectOption(m_pFieldRect->m_ShowAs); -> commentato perch�, selezionandolo, viene mostrato in bold (come se fosse stato editato)
+	//this->SelectOption(m_pFieldRect->m_ShowAs); -> commentato perche', selezionandolo, viene mostrato in bold (come se fosse stato editato)
 	SetValue((_variant_t)::EFieldShowAsToString(m_pFieldRect->m_ShowAs));
 
 	//aggiunge properties al proprio livello: le disegna dopo essere stata aggiunta lei stessa
@@ -11277,7 +11274,7 @@ void CRSFieldTypeProp::DrawProperties(int index)
 
 		m_pPropertyView->m_pPropGrid->SetCommands(lstCommands);
 
-		//nascondo le propriet� dipendenti
+		//nascondo le proprieta' dipendenti
 		SetDepPropsVisibile(FALSE);
 	}
 
@@ -11343,7 +11340,7 @@ void CRSFieldTypeProp::DrawProperties(int index)
 		//default Barcode
 		pBarcodeGroup->AddSubItem(new CRSValueProp(m_pFieldRect, _TB("Preview Barcode"), &(m_pFieldRect->m_Value), _TB("!Only for Preview! The value of this property is temporary and will not be saved.")));
 
-		//nascondo le propriet� dipendenti
+		//nascondo le proprieta' dipendenti
 		SetDepPropsVisibile(FALSE);
 	}
 
@@ -11363,14 +11360,14 @@ void CRSFieldTypeProp::DrawProperties(int index)
 		//filename
 		pFileGroup->AddSubItem(new CRSSearchTbDialogProp(m_pFieldRect, &(m_pFieldRect->m_Value), CRSSearchTbDialogProp::PropertyType::FieldValueFileName, CRSFileNameProp::Filter::Txt, m_pPropertyView), m_pPropertyView->GetPropertyGrid());
 		
-		//mostro le propriet� dipendenti
+		//mostro le proprieta' dipendenti
 		SetDepPropsVisibile(FALSE);
 	}
 
 	else if ((::EFieldShowAs)option == ::EFieldShowAs::FT_URL)
 	{
 		//TODO ANDREA
-		//mostro le propriet� dipendenti
+		//mostro le proprieta' dipendenti
 		SetDepPropsVisibile(TRUE);
 	}
 
@@ -11386,7 +11383,7 @@ void CRSFieldTypeProp::DrawProperties(int index)
 		else if (m_pFieldRect->m_ShowAs == EFieldShowAs::FT_TEXTFILE)
 			m_pFieldRect->ToggleTextFile();
 
-		//mostro le propriet� dipendenti
+		//mostro le proprieta dipendenti
 		SetDepPropsVisibile(TRUE);
 	}
 
@@ -11407,7 +11404,7 @@ void CRSFieldTypeProp::DrawProperties(int index)
 
 //-----------------------------------------------------------------------------
 //questo metodo serve a settare a visible False alcune properties "registrate" a questa come sue dipendenti, 
-//ovvero che cambiano visibilit� in base al suo valore. 
+//ovvero che cambiano visibilita in base al suo valore. 
 void CRSFieldTypeProp::SetDepPropsVisibile(BOOL visible)
 {
 	POSITION pos;
@@ -11615,7 +11612,7 @@ void CRSColumnTypeProp::DrawProperties(int index)
 	m_pPropertyView->m_pPropGrid->AdjustLayout();
 }
 
-//================================CRSImageFitProp=================================== todo andrea->da rimuovere perch� non gestita in woorm
+//================================CRSImageFitProp=================================== todo andrea->da rimuovere perche' non gestita in woorm
 //-----------------------------------------------------------------------------
 CRSImageFitProp::CRSImageFitProp(CObject* pOwner, const CString& strName, CTBPicture::ImageFitMode* pValue, const CString& description)
 	:
@@ -11707,7 +11704,7 @@ void CRSStyleProp::OnSelectCombo()
 		int index = GetSelectedOption();
 		if (index >= 0)
 		{
-			CObject* pStyleObj = (CObject*)GetOptionData(index);//pu� essere null perch� per custom e default ho puntatore a null
+			CObject* pStyleObj = (CObject*)GetOptionData(index);//puo' essere null perche' per custom e default ho puntatore a null
 			
 			GenericDrawObj* pCurrObj = dynamic_cast<GenericDrawObj*>(m_pOwner);
 			if (pCurrObj)
@@ -11739,12 +11736,12 @@ void CRSStyleProp::UpdatePropertyValue()
 	if (pGenObj)
 	{
 		CString wrmStyle = pGenObj->GetWrmStyleClass();
-		//se ho un oggetto singolo e wrmStyle � vuoto, allora lo valorizzo a "Default"
+		//se ho un oggetto singolo e wrmStyle e' vuoto, allora lo valorizzo a "Default"
 		if(m_pOwner->GetRuntimeClass() != RUNTIME_CLASS(SelectionRect))
 			if (wrmStyle &&  wrmStyle.IsEmpty())
 				wrmStyle = L"<Default>";
-		//in caso contrario, il metodo GetWrmStyleClass() della multiselezione lo fa gi� al suo interno e in caso
-		//restituisca stringa vuota vuol dire che non � uno stile comune e lascio stringa vuota
+		//in caso contrario, il metodo GetWrmStyleClass() della multiselezione lo fa gia al suo interno e in caso
+		//restituisca stringa vuota vuol dire che non e' uno stile comune e lascio stringa vuota
 
 		SetValue((_variant_t)wrmStyle);
 	}
@@ -11779,7 +11776,7 @@ void CRSStyleProp::AddOptions()
 
 		if (i == pMulSel->GetSize())
 		{
-			//li ho scorsi tutti, quindi sono tutti dello stesso tipo e valorizzo la runtime class a quella comune, altrimenti rimarr� vuota
+			//li ho scorsi tutti, quindi sono tutti dello stesso tipo e valorizzo la runtime class a quella comune, altrimenti rimarra vuota
 			objRuntimeClass = commonClass;
 		}
 
@@ -11818,7 +11815,7 @@ void CRSStyleProp::AddOptions()
 					AddOption(sStyleName, TRUE, (DWORD_PTR)pObj);
 				}
 
-				//pi� complicato: ho selezionato una colonna e sto cercando un oggetto di tipo table per frugare fra le sue colonne
+				//piu complicato: ho selezionato una colonna e sto cercando un oggetto di tipo table per frugare fra le sue colonne
 				else if (objRuntimeClass == RUNTIME_CLASS(TableColumn) && iterationObjclass == RUNTIME_CLASS(Table))
 				{
 					Table* pT = (Table*)pObj;
@@ -12460,7 +12457,7 @@ void CRSAnchorToProp::AddTables()
 void CRSAnchorToProp::SelectCurrentTable()
 {
 	int index;
-	//ho gi� caricato le tabelle nella combo quindi ora cerco quella gi� settata se � presente
+	//ho gia' caricato le tabelle nella combo quindi ora cerco quella gia' settata se e' presente
 	if (m_pBaseRect)
 	{
 		if (m_pBaseRect->m_AnchorLeftColumnID == 0)
@@ -12577,7 +12574,7 @@ BOOL CRSAnchorToProp::OnUpdateValue()
 	m_pRightColumn->RemoveAllOptions();
 	m_pRightColumn->SetVisible(false);
 	GetPropertyGrid()->AdjustLayout();
-	//se � stata selezionata una tabella carico le colonne relative
+	//se e' stata selezionata una tabella carico le colonne relative
 	if (index != 0)
 	{
 		Table* pTable = (Table*)GetOptionData(index);
@@ -12660,7 +12657,7 @@ void CRSAnchorToProp::AddColumns(Table* pTable)
 
 		CPoint p = m_pBaseRect->m_BaseRect.TopLeft();
 		p.y = pTable->m_BaseRect.CenterPoint().y;
-		// correggo perche in posizione 'ancorata' il border del campo risulta in realt� nello spazio della colonna a fianco
+		// correggo perche in posizione 'ancorata' il border del campo risulta in realta' nello spazio della colonna a fianco
 		p.x = p.x + m_pBaseRect->GetBorderPen().GetWidth();
 		int idxColLeft = pTable->GetColumnIdxByPoint(p);
 		if (idxColLeft != -1 && idxColLeft < pTable->m_Columns.GetSize())
@@ -12668,7 +12665,7 @@ void CRSAnchorToProp::AddColumns(Table* pTable)
 		
 		int idRight = idLeft;
 		p.x = m_pBaseRect->m_BaseRect.BottomRight().x -1; 
-		// correggo di un pixel perch� un punto con coordinate BR, rispetto ad un rect, altrimenti,
+		// correggo di un pixel perche' un punto con coordinate BR, rispetto ad un rect, altrimenti,
 		// risulterebbe fuori dallo spazio rect della colonna a cui invece appartiene
 		int idxColRight = pTable->GetColumnIdxByPoint(p);
 		if (idxColRight > idxColLeft)
@@ -12948,7 +12945,7 @@ void CRSExpressionProp::OnClickButton(CPoint point)
 
 	if (GetPropertyView() && GetPropertyView()->m_pTreeNode->m_pItemData->IsKindOf(RUNTIME_CLASS(Table)))
 	{
-		//aggiornamento icona visibilit�
+		//aggiornamento icona visibilita'
 		GetDocument()->UpdateRSTreeNode(ERefreshEditor::Layouts, GetPropertyView()->m_pTreeNode);
 	}
 }
@@ -13225,7 +13222,7 @@ BOOL CRSColumnWidthWithExprProp::OnUpdateValue()
 		}
 		}
 
-		//solo se il valore statico della larghezza � cambiato
+		//solo se il valore statico della larghezza e' cambiato
 		ASSERT_VALID(m_pTable);
 		ASSERT_VALID(m_pCol);
 		if (!m_pCol->IsHidden())
@@ -13609,7 +13606,7 @@ void CRSDialogProp::UpdatePropertyValue()
 */
 
 //================================CRSBarCodeGroupProp==================================
-// Classe per la gestione del gruppo di propriet� relative al Barcode
+// Classe per la gestione del gruppo di proprieta relative al Barcode
 //-----------------------------------------------------------------------------
 CRSBarCodeGroupProp::CRSBarCodeGroupProp()
 	:
@@ -13637,7 +13634,7 @@ void CRSBarCodeGroupProp::UpdateDependantProp(CRSBarCodeProp* fromProp)
 		{
 			if (prop == fromProp)
 				foundStartPoint = TRUE;
-			//la property 'from' � sempre esclusa
+			//la property 'from' e' sempre esclusa
 			continue;
 		}
 
@@ -13652,7 +13649,7 @@ void CRSBarCodeGroupProp::UpdateDependantProp(CRSBarCodeProp* fromProp)
 
 
 //================================CRSBarCodeProp==================================
-// Classe da cui derivano le propriet� per i barcode
+// Classe da cui derivano le proprieta per i barcode
 //-----------------------------------------------------------------------------
 CRSBarCodeProp::CRSBarCodeProp(CObject* pOwner, const CString& strName, CBarCode* pBarCode, CRS_ObjectPropertyView* propertyView, const CString& description)
 	:
@@ -13685,7 +13682,7 @@ BOOL CRSBarCodeProp::OnUpdateValue()
 
 
 //================================CRSBarCodeComboProp==================================
-// classe per le propriet� di tipo comboBox dei barcode  che permettono la scelta fra 'prendi da variabile/prendi da valore')
+// classe per le proprieta di tipo comboBox dei barcode  che permettono la scelta fra 'prendi da variabile/prendi da valore')
 //-----------------------------------------------------------------------------
 CRSBarCodeComboProp::CRSBarCodeComboProp(CObject* pOwner, const CString& strName, CBarCode* pBarCode, const CString& description, CRS_ObjectPropertyView* propertyView, CRSBarCodeProp::PropertyType propType)
 	: CRSBarCodeProp(pOwner, strName, pBarCode, propertyView, description),
@@ -13746,7 +13743,7 @@ void CRSBarCodeComboProp::UpdatePropertyLayout(BOOL defaultValue)
 	}
 	else
 	{
-		//il refresh � guidato da 'barcode type da campo/valore' 
+		//il refresh e' guidato da 'barcode type da campo/valore' 
 		//barcode type da field
 		CRSBarCodeComboProp* typeFrom = (CRSBarCodeComboProp*)bcPropGroup->m_lstDependentProp->GetHead();
 		if (typeFrom == NULL) return;
@@ -14210,7 +14207,7 @@ CRSBarCodeErrCorrLevelComboProp::CRSBarCodeErrCorrLevelComboProp(CObject* pOwner
 			AddOption(_T("M"), TRUE, 1);
 			AddOption(_T("Q"), TRUE, 2);
 			AddOption(_T("H"), TRUE, 3);
-			SetDescription(_TB("QR-Code error correction: L = Level Low � up to 7% damage can be restored; M = Level Medium � up to 15% damage can be restored , Q = Level Quartile � up to 25% damage can be restored; H = Level High � up to 30% damage can be restored. The higher the error correction level, the less storage capacity"));
+			SetDescription(_TB("QR-Code error correction: L = Level Low - up to 7% damage can be restored; M = Level Medium - up to 15% damage can be restored , Q = Level Quartile - up to 25% damage can be restored; H = Level High - up to 30% damage can be restored. The higher the error correction level, the less storage capacity"));
 			break;
 		}
 		case BC_MicroQR:
@@ -14219,7 +14216,7 @@ CRSBarCodeErrCorrLevelComboProp::CRSBarCodeErrCorrLevelComboProp(CObject* pOwner
 			AddOption(_T("L"), TRUE, 0);
 			AddOption(_T("M"), TRUE, 1);
 			AddOption(_T("Q"), TRUE, 2);
-			SetDescription(_TB("Micro QR-Code error correction: L = Level Low � up to 7% damage can be restored; M = Level Medium � up to 15% damage can be restored , Q = Level Quartile � up to 25% damage can be restored. The higher the error correction level, the less storage capacity"));
+			SetDescription(_TB("Micro QR-Code error correction: L = Level Low - up to 7% damage can be restored; M = Level Medium - up to 15% damage can be restored , Q = Level Quartile - up to 25% damage can be restored. The higher the error correction level, the less storage capacity"));
 			break;
 		}
 		case BC_PDF417:
@@ -14541,7 +14538,7 @@ void CRSBarCodeShowTextProp::UpdatePropertyLayout(BOOL defaultValue)
 	}
 	else
 	{ 
-		//il refresh � guidato da 'barcode type da campo/valore' 
+		//il refresh e' guidato da 'barcode type da campo/valore' 
 		//barcode type da field
 		CRSBarCodeComboProp* typeFrom = (CRSBarCodeComboProp*)bcPropGroup->m_lstDependentProp->GetHead();
 		if (typeFrom == NULL) return;
@@ -14621,7 +14618,7 @@ void CRSBarCodeSizeProp::UpdatePropertyLayout(BOOL defaultValue)
 	}
 	else
 	{ 
-		//il refresh � guidato da 'barcode type da campo/valore' 
+		//il refresh e' guidato da 'barcode type da campo/valore' 
 		//barcode type da field
 		CRSBarCodeComboProp* typeFrom = (CRSBarCodeComboProp*)bcPropGroup->m_lstDependentProp->GetHead();
 		if (typeFrom == NULL) return;
@@ -15010,7 +15007,7 @@ CRSChartTypeComboProp::CRSChartTypeComboProp(Chart* pChart, CRS_ObjectPropertyVi
 	{
 		if (m_pChart->m_eChartType != EnumChartType::Chart_None)
 		{
-			//non permetto di deassegnare il tipo ad un chart gi� valorizzato
+			//non permetto di deassegnare il tipo ad un chart gia' valorizzato
 			if (nChartTypeIdx == 0)
 				continue;
 
@@ -15135,7 +15132,7 @@ void CRSChartTypeComboProp::DrawProperties()
 	}
 	else
 	{ 
-		//aggiunge la propriet� colored all'intero chart
+		//aggiunge la proprieta colored all'intero chart
 		/*if (!m_pDSProp) return;
 		if (m_pColorChartProp && m_pDSProp->FindSubItemByID(m_pColorChartProp->GetID()))
 		{			
@@ -15162,7 +15159,7 @@ CRSChartFieldComboProp::CRSChartFieldComboProp(CObject* pOwner, Chart* pChart, C
 	m_eObjType(eObjType)
 {
 	m_strName = eObjType != EnumChartObject::COLOR ? _TB("Field for data") : _TB("Field for color");
-	m_strDescr = eObjType != EnumChartObject::COLOR ?  _TB("Field (array or column) witch contains data to be drawn in the chart") : _TB("Field (array or column) witch contains color to be used for series");
+	m_strDescr = eObjType != EnumChartObject::COLOR ?  _TB("Field (array or column) which contains data to be drawn in the chart") : _TB("Field (array or column) which contains colors to be used for series");
 	AllowEdit(FALSE);
 
 	if (!m_pSymTable)
@@ -15429,7 +15426,7 @@ CRSChartLineStyleComboProp::CRSChartLineStyleComboProp(CObject* pOwner)
 	CRSChartProp(pOwner, ((Chart::CLegend*)pOwner ? ((Chart::CSeries*)pOwner)->m_pParent : NULL))
 {
 	m_strName = _TB("Line Style");
-	m_strDescr = _TB("Style of line.");
+	m_strDescr = _TB("Style of line");
 	AllowEdit(FALSE);
 
 	//fill property values
@@ -16040,9 +16037,9 @@ void CRSTableAllColumnsColorWithExprProp::OnRightButtonClick()
 
 	SymTable* m_psymTable = wrmDocMng->GetSymTable();
 
-	//se ve ne � una presente, recupero l'espressione comune a tutti gli oggetti selezionati
+	//se ve ne e' una presente, recupero l'espressione comune a tutti gli oggetti selezionati
 	Expression* commonExpr = GetCommonExpression();
-	//altrimenti non ne creo una nuova perch�  se ne preoccupa l'editor che cos� capisce di essere l'owner dell'espression
+	//altrimenti non ne creo una nuova perche'  se ne preoccupa l'editor che cosi capisce di essere l'owner dell'espression
 	/*if (commonExpr == NULL)
 		commonExpr = new Expression(m_psymTable);*/
 
@@ -16064,7 +16061,7 @@ void CRSTableAllColumnsColorWithExprProp::OnRightButtonClick()
 	delete commonExpr;
 
 	//update the multiselection
-	m_pTable->Redraw();		//---------------------------------> una volta sola per tutti gli switch, quindi codice pi� pulito
+	m_pTable->Redraw();		//---------------------------------> una volta sola per tutti gli switch, quindi codice piu pulito
 								//ridisegno lo state (quindi l'immagine se ci deve essere)
 	RedrawState();
 }
@@ -16529,7 +16526,7 @@ BOOL CRSTableMultiColumnsColorProp::OnEndEdit()
 	}
 	
 	//update the multiselection
-	m_pColumns->Redraw();		//---------------------------------> una volta sola per tutti gli switch, quindi codice pi� pulito
+	m_pColumns->Redraw();		//---------------------------------> una volta sola per tutti gli switch, quindi codice piu pulito
 
 	return baseOnEndEdit;
 }
@@ -16685,7 +16682,7 @@ BOOL CRSTableMultiColumnsColorWithExprProp::OnEndEdit()
 	}
 
 	//update the multiselection
-	m_pColumns->Redraw();		//---------------------------------> una volta sola per tutti gli switch, quindi codice pi� pulito
+	m_pColumns->Redraw();		//---------------------------------> una volta sola per tutti gli switch, quindi codice piu pulito
 
 	return baseOnEndEdit;
 }
@@ -16817,7 +16814,7 @@ void CRSTableMultiColumnsColorWithExprProp::OnRightButtonClick()
 
 	SymTable* m_psymTable = wrmDocMng->GetSymTable();
 
-	//se ve ne � una presente, recupero l'espressione comune a tutti gli oggetti selezionati
+	//se ve ne e' una presente, recupero l'espressione comune a tutti gli oggetti selezionati
 	Expression* commonExpr = GetCommonExpression();
 
 	CRSEditView* pEditView = m_pPropertyView->CreateEditView();
@@ -16838,7 +16835,7 @@ void CRSTableMultiColumnsColorWithExprProp::OnRightButtonClick()
 	delete commonExpr;
 
 	//update the multiselection
-	m_pColumns->Redraw();		//---------------------------------> una volta sola per tutti gli switch, quindi codice pi� pulito
+	m_pColumns->Redraw();		//--> una volta sola per tutti gli switch, quindi codice piu pulito
 								//ridisegno lo state (quindi l'immagine se ci deve essere)
 	RedrawState();
 }
@@ -17308,7 +17305,7 @@ BOOL CRSTableMultiColumnsBoolProp::OnUpdateValue()
 	GetDocument()->UpdateRSTreeNode(ERefreshEditor::Layouts, m_pColumns);
 
 	//update the multiselection
-	m_pColumns->Redraw();		//una volta sola per tutti gli switch, quindi codice pi� efficente
+	m_pColumns->Redraw();		//una volta sola per tutti gli switch, quindi codice piu efficente
 
 	return baseOnUpdate;
 }
@@ -17493,7 +17490,7 @@ void CRSMultiColumnsHiddenProp::OnRightButtonClick()
 
 	SymTable* m_psymTable = wrmDocMng->GetSymTable();
 
-	//se ve ne � una presente, recupero l'espressione comune a tutti gli oggetti selezionati
+	//se e' una presente, recupero l'espressione comune a tutti gli oggetti selezionati
 	Expression* commonExpr = GetCommonExpression();
 
 	CRSEditView* pEditView = m_pPropertyView->CreateEditView();
@@ -17514,7 +17511,7 @@ void CRSMultiColumnsHiddenProp::OnRightButtonClick()
 	delete commonExpr;
 
 	//update the multiselection
-	m_pColumns->Redraw();		//---------------------------------> una volta sola per tutti gli switch, quindi codice pi� pulito
+	m_pColumns->Redraw();		//--> una volta sola per tutti gli switch, quindi codice piu pulito
 								//ridisegno lo state (quindi l'immagine se ci deve essere)
 	RedrawState();
 
@@ -17542,9 +17539,9 @@ BOOL CRSMultiColumnsHiddenProp::OnUpdateValue()
 
 	CString strNewValue = this->GetValue();
 
-	if (strOldValue != strNewValue) //solo se il valore della property � effettivamente cambiato
+	if (strOldValue != strNewValue) //solo se il valore della property e' effettivamente cambiato
 	{
-		if (HasExpression())//era presente almeno un espressione, mi devo sincerare l'utente voglia cancellarla per settare una visibilit� non dinamica
+		if (HasExpression())//era presente almeno un espressione, mi devo sincerare l'utente voglia cancellarla per settare una visibilita' non dinamica
 		{
 			if (AfxTBMessageBox(_TB("This change will erase the dynamic expression currently set. Are you sure you want to proceed?"), MB_ICONWARNING | MB_YESNO) == IDNO)
 			{
@@ -17553,7 +17550,7 @@ BOOL CRSMultiColumnsHiddenProp::OnUpdateValue()
 				return baseUpdate;
 			}
 
-			//se l'utente � sicuro, cancello tutte le eventuali espressioni settate
+			//se l'utente e' sicuro, cancello tutte le eventuali espressioni settate
 			for (int i = 0; i < m_pColumns->GetSize(); i++)
 			{
 				TableColumn* pCol = m_pColumns->GetAt(i);
@@ -17758,7 +17755,7 @@ void CRSTableMultiColumnsSizeProp::UpdateIntValue(int prevValue)
 	}
 
 	//-------------------------------------------------------------------------------
-	//ottimizzazione per evitare di ridisegnare l'oggetto se il valore in realt� non � cambiato
+	//ottimizzazione per evitare di ridisegnare l'oggetto se il valore in realta' non e' cambiato
 	if (value == prevValue && value != m_nDefaultSize)
 		return;
 
@@ -17780,7 +17777,7 @@ void CRSTableMultiColumnsSizeProp::UpdateIntValue(int prevValue)
 	}
 
 	//update the multiselection
-	m_pColumns->BuildBaseRect();		//---------------------------------> una volta sola per tutti gli switch, quindi codice pi� pulito
+	m_pColumns->BuildBaseRect();		//--> una volta sola per tutti gli switch, quindi codice piu pulito
 }
 
 //================================CRSMMProp==================================
@@ -17914,7 +17911,7 @@ BOOL CRSTableMultiColumnsBorderSizeProp::OnUpdateValue()
 	}
 
 	//update the multiselection
-	m_pColumns->Redraw();		//---------------------------------> una volta sola per tutti gli switch, quindi codice pi� pulito
+	m_pColumns->Redraw();		//--> una volta sola per tutti gli switch, quindi codice piu pulito
 
 	return baseUpdate;
 }
@@ -18367,7 +18364,7 @@ void CRSMulBoolProp::UpdateValue()
 		{
 			BaseObj* obj = m_pMulSel->GetObjAt(i);
 			obj->m_bTransparent = index;
-			//obj->Redraw();	//---------------------------------> pi� efficiente perch� ciclo una volta sola
+			//obj->Redraw();	//--> piu efficiente perche' ciclo una volta sola
 		}
 
 		//m_pMulSel->GetObjAt(0)->UpdateWindow(); ----------------->capire se serviva
@@ -18456,7 +18453,7 @@ BOOL CRSMulBoolProp::OnUpdateValue()
 	UpdateValue();
 
 	//update the multiselection
-	m_pMulSel->Redraw();		//---------------------------------> una volta sola per tutti gli switch, quindi pi� pulito
+	m_pMulSel->Redraw();		//--> una volta sola per tutti gli switch, quindi piu pulito
 
 	return baseUpdate;
 }
@@ -18639,7 +18636,7 @@ BOOL CRSMulIntProp::OnUpdateValue()
 
 			int* shadowSize = obj->GetShadowSize();
 			if (shadowSize != NULL) *shadowSize = this->GetValue();
-			//obj->Redraw();	//---------------------------------> pi� efficiente perch� ciclo una volta sola
+			//obj->Redraw();	//--> piu efficiente perche' ciclo una volta sola
 		}
 
 		break;
@@ -18653,7 +18650,7 @@ BOOL CRSMulIntProp::OnUpdateValue()
 
 			int* borderSize = obj->GetBorderSize();
 			if (borderSize != NULL) *borderSize = this->GetValue();
-			//obj->Redraw();	//---------------------------------> pi� efficiente perch� ciclo una volta sola
+			//obj->Redraw();	//--> piu efficiente perche' ciclo una volta sola
 		}
 
 		break;
@@ -18700,7 +18697,7 @@ BOOL CRSMulIntProp::OnUpdateValue()
 	}
 
 	//update the multiselection
-	m_pMulSel->Redraw();		//---------------------------------> una volta sola per tutti gli switch, quindi pi� pulito
+	m_pMulSel->Redraw();		//--> una volta sola per tutti gli switch, quindi piu pulito
 
 	return baseUpdate;
 }
@@ -18834,7 +18831,7 @@ CRSMulColorProp::CRSMulColorProp(SelectionRect* pMulSel, const CString& strName,
 	ASSERT_VALID(m_pMulSel);
 	EnableOtherButton(_TB("Other..."));
 	//EnableAutomaticButton(_TB("Default"), ::GetSysColor(COLOR_3DFACE)); //disabilitato il bottone "Default"
-	//nella popup della palette dei colori, perch� settava il colore nero anche se era stato spcificato un colore di default diverso
+	//nella popup della palette dei colori, perche' settava il colore nero anche se era stato spcificato un colore di default diverso
 
 	UpdatePropertyValue();
 }
@@ -18843,7 +18840,7 @@ CRSMulColorProp::CRSMulColorProp(SelectionRect* pMulSel, const CString& strName,
 BOOL CRSMulColorProp::OnEndEdit()
 {
 	/*if (!IsValueChanged())
-		return __super::OnEndEdit();*/ //ottimizzazione scartata perch� non setta il colore nero
+		return __super::OnEndEdit();*/ //ottimizzazione scartata perche' non setta il colore nero
 
 	BOOL baseOnEndEdit = __super::OnEndEdit();
 
@@ -18880,7 +18877,7 @@ BOOL CRSMulColorProp::OnEndEdit()
 	}
 
 	//update the multiselection
-	m_pMulSel->Redraw();		//---------------------------------> una volta sola per tutti gli switch, quindi codice pi� pulito
+	m_pMulSel->Redraw();		//--> una volta sola per tutti gli switch, quindi codice piu pulito
 
 	return baseOnEndEdit;
 }
@@ -19082,7 +19079,7 @@ BOOL CRSMulColorWithExprProp::OnEndEdit()
 	}
 
 	//update the multiselection
-	m_pMulSel->Redraw();		//---------------------------------> una volta sola per tutti gli switch, quindi codice pi� pulito
+	m_pMulSel->Redraw();		//--> una volta sola per tutti gli switch, quindi codice piu pulito
 
 	return baseOnEndEdit;
 }
@@ -19392,7 +19389,7 @@ void CRSMulColorWithExprProp::OnRightButtonClick()
 
 	SymTable* m_psymTable = wrmDocMng->GetSymTable();
 
-	//se ve ne � una presente, recupero l'espressione comune a tutti gli oggetti selezionati
+	//se ve ne e' una presente, recupero l'espressione comune a tutti gli oggetti selezionati
 	Expression* commonExpr = GetCommonExpression();
 
 	CRSEditView* pEditView = m_pPropertyView->CreateEditView();
@@ -19605,7 +19602,7 @@ void CRSMulHiddenProp::OnRightButtonClick()
 
 	SymTable* m_psymTable = wrmDocMng->GetSymTable();
 
-	//se ve ne � una presente, recupero l'espressione comune a tutti gli oggetti selezionati
+	//se ve ne e' una presente, recupero l'espressione comune a tutti gli oggetti selezionati
 	Expression* commonExpr = GetCommonExpression();
 
 	CRSEditView* pEditView = m_pPropertyView->CreateEditView();
@@ -19630,7 +19627,7 @@ void CRSMulHiddenProp::OnRightButtonClick()
 	//ridisegno lo state (quindi l'immagine se ci deve essere)
 	RedrawState();
 
-	//aggiorno icona per la visibilit� sul tree
+	//aggiorno icona per la visibilita' sul tree
 	GetDocument()->UpdateRSTreeNode(ERefreshEditor::Layouts, m_pMulSel);
 }
 
@@ -19651,9 +19648,9 @@ BOOL CRSMulHiddenProp::OnUpdateValue()
 	if (index <0 || index > 1)
 		return baseUpdate;
 
-	if (strOldValue != strNewValue) //solo se il valore della property � effettivamente cambiato
+	if (strOldValue != strNewValue) //solo se il valore della property e' effettivamente cambiato
 	{
-		if (HasExpression())//era presente almeno un espressione, mi devo sincerare l'utente voglia cancellarla per settare una visibilit� non dinamica
+		if (HasExpression())//era presente almeno un espressione, mi devo sincerare l'utente voglia cancellarla per settare una visibilita' non dinamica
 		{
 			if (AfxTBMessageBox(_TB("This change will erase the dynamic expression currently set. Are you sure you want to proceed?"), MB_ICONWARNING | MB_YESNO) == IDNO)
 			{
@@ -20113,7 +20110,7 @@ void CRSMulRectProp::UpdateObjectValue(LONG previousValue/* = 0*/)
 	}
 
 	//update the multiselection
-	m_pMulSel->Redraw();		//---------------------------------> una volta sola per tutti gli switch, quindi pi� pulito
+	m_pMulSel->Redraw();		//--> una volta sola per tutti gli switch, quindi piu pulito
 }
 
 //-----------------------------------------------------------------------------
@@ -20257,7 +20254,7 @@ void CRSMulFontStyleProp::OnClickButton(CPoint point)
 	}
 
 	m_pMulSel->Redraw();
-	UpdatePropertyValue();//settare direttamente al valore appena impostato?-> sarebbe pi� efficiente perch� non deve ciclare nuovamente
+	UpdatePropertyValue();//settare direttamente al valore appena impostato?-> sarebbe piu efficiente perche' non deve ciclare nuovamente
 }
 
 //================================CRSMultiColumnFontStyleProp==================================
@@ -20382,7 +20379,7 @@ void CRSMultiColumnFontStyleProp::OnClickButton(CPoint point)
 	}
 
 	m_pColumns->Redraw();
-	UpdatePropertyValue();//settare direttamente al valore appena impostato?-> sarebbe pi� efficiente perch� non deve ciclare nuovamente
+	UpdatePropertyValue();//settare direttamente al valore appena impostato?-> sarebbe piu efficiente perche' non deve ciclare nuovamente
 }
 
 //================================CRSMulAlignmentStyleProp==================================
@@ -20539,7 +20536,7 @@ void CRSMulAlignmentStyleProp::OnClickButton(CPoint point)
 
 	m_pMulSel->Redraw();
 
-	UpdatePropertyValue();//settare direttamente al valore appena impostato?-> sarebbe pi� efficiente perch� non deve ciclare nuovamente
+	UpdatePropertyValue();//settare direttamente al valore appena impostato?-> sarebbe piu efficiente perche' non deve ciclare nuovamente
 }
 
 //================================CRSMulAlignmentStyleBitWiseProp==================================
@@ -20917,7 +20914,7 @@ void CRSMultiColumnsAlignmentStyleBitWiseProp::UpdateSelectedObject()
 	}
 
 	//update the multiselection
-	m_pColumns->Redraw();		//---------------------------------> una volta sola per tutti gli switch, quindi codice pi� pulito
+	m_pColumns->Redraw();		//--> una volta sola per tutti gli switch, quindi codice piu pulito
 }
 
 //================================CRSAlignBitwiseProp==================================
@@ -21139,11 +21136,11 @@ CString CRSAlignBitwiseProp::GetOrientationString()
 	switch (m_eOrientation)
 	{
 	case BitOrientation::Orientation_0:
-		return _T("0�");
+		return ::cwsprintf(_T("0%c"), CHAR_DEGREE);
 	case BitOrientation::Orientation_90:
-		return _T("90�");
+		return ::cwsprintf(_T("90%c"), CHAR_DEGREE);
 	case BitOrientation::Orientation_270:
-		return _T("270�");
+		return ::cwsprintf(_T("270%c"), CHAR_DEGREE);
 	default:
 		ASSERT(FALSE);
 		return _TB("Error retrieving Orientation");
@@ -21244,7 +21241,7 @@ void CRSAlignBitwiseProp::UpdateAlignType()
 		BitVerticalALign verticalAlign = (BitVerticalALign)option;
 
 		m_eVerticalAlign = verticalAlign;
-		//TODO ANDREA: vedere se si pu� semplificare il codice come negli altri casi mettendo  
+		//TODO ANDREA: vedere se si puo semplificare il codice come negli altri casi mettendo  
 		//if (horizontalAlign != 0) *m_pAlignType |= verticalAlign; 
 		//e poi vedere se fare *m_pAlignType |= CenteredVerticalRel;
 		if (verticalAlign == BitVerticalALign::CenteredVertical)
@@ -21300,7 +21297,7 @@ void CRSAlignBitwiseProp::UpdateSelectedObject()
 }
 
 //-----------------------------------------------------------------------------
-//metodo richiamato ad ogni modifica sulle propriet� figlie (tante volte, quindi,
+//metodo richiamato ad ogni modifica sulle proprieta figlie (tante volte, quindi,
 //in modo da aggiornare il valore della property parent
 CString CRSAlignBitwiseProp::FormatProperty()
 {
@@ -21471,7 +21468,7 @@ void CRSBitSingleLineProp::DrawProperties()
 
 	BOOL bError = FALSE;
 
-	//"messaggio di errore se la riga � gi� "Distribute over multiline if too long" e voglio settare il multiline
+	//"messaggio di errore se la riga e' gia "Distribute over multiline if too long" e voglio settare il multiline
 	CRSColumnAlignBitwiseProp* pColumnParent = dynamic_cast<CRSColumnAlignBitwiseProp*>(m_pParent);
 	if (pColumnParent)
 	{
@@ -21481,7 +21478,7 @@ void CRSBitSingleLineProp::DrawProperties()
 			bError = TRUE;
 	}
 
-	//"messaggio di errore se la riga � gi� "Distribute over multiline if too long" e voglio settare il multiline
+	//"messaggio di errore se la riga e' gia "Distribute over multiline if too long" e voglio settare il multiline
 	CRSMultiColumnsAlignmentStyleBitWiseProp* pMulColumnParent = dynamic_cast<CRSMultiColumnsAlignmentStyleBitWiseProp*>(m_pParent);
 	if (pMulColumnParent)
 	{
@@ -22269,7 +22266,7 @@ BOOL CRSPageProp::OnUpdateValue(){
 		
 		m_propertyView->wrmWidth->SetValue((LPCTSTR)width);
 		m_propertyView->wrmLength->SetValue((LPCTSTR)length); 
-		//devo ridisegnare tutto perch� abbia effetto lo swap
+		//devo ridisegnare tutto perche' abbia effetto lo swap
 		CWoormDocMng* doc = m_propertyView->GetDocument();
 		if (doc)
 			doc->Invalidate(TRUE);
@@ -22398,7 +22395,7 @@ BOOL CRSPageProp::OnUpdateValue(){
 			break;
 		m_pageInfo->dmOrientation = (short)option;
 		SwapOrientation();
-		//devo ridisegnare tutto perch� abbia effetto lo swap
+		//devo ridisegnare tutto perche' abbia effetto lo swap
 		CWoormDocMng* doc = m_propertyView->GetDocument();
 		if (doc)
 			doc->Invalidate(TRUE);
@@ -22836,7 +22833,7 @@ void CRS_ObjectPropertyView::LoadTableModules(CBCGPProp* prop, CString filter)
 	Array arModules, arTitles;
 	arModules.SetOwns(FALSE);
 	arTitles.SetCompareFunction(CompareDataStr);
-	arTitles.AddAlignArray(&arModules);	//ordiner� anche questo array
+	arTitles.AddAlignArray(&arModules);	//ordinera' anche questo array
 
 	filter.Trim();
 	if (!filter.IsEmpty())
@@ -22898,7 +22895,7 @@ void CRS_ObjectPropertyView::LoadHotlinkModules(CBCGPProp* prop, DataType retVal
 	Array arModules, arTitles;
 	arModules.SetOwns(FALSE);
 	arTitles.SetCompareFunction(CompareDataStr);
-	arTitles.AddAlignArray(&arModules);	//ordiner� anche questo array
+	arTitles.AddAlignArray(&arModules);	//ordinera' anche questo array
 
 	for (int a = 0; a <= AfxGetAddOnAppsTable()->GetUpperBound(); a++)
 	{
@@ -22940,7 +22937,7 @@ void CRS_ObjectPropertyView::LoadHotlinks(CBCGPProp* prop, AddOnModule* pAddOnMo
 	Array arHotlinks, arTitles;
 	arHotlinks.SetOwns(FALSE);
 	arTitles.SetCompareFunction(CompareDataStr);
-	arTitles.AddAlignArray(&arHotlinks);	//ordiner� anche questo array
+	arTitles.AddAlignArray(&arHotlinks);	//ordinera' anche questo array
 										
 	//Load hotlink names
 	const CBaseDescriptionArray& aObjects = pAddOnMod->m_XmlDescription.GetReferencesInfo().GetHotLinks();
@@ -24080,14 +24077,14 @@ void CRS_ObjectPropertyView::CreateNewCalcColumn()
 
 	WoormField* pRepField = new WoormField(m_NewName);
 		pRepField->SetDataType(m_NewType);
-		pRepField->SetHidden(TRUE);	//per ora � hidden
+		pRepField->SetHidden(TRUE);	//per ora e' hidden
 		pRepField->SetNativeColumnExpr(TRUE);
 		pRepField->SetTableRuleField(TRUE);
 		pRepField->SetLen(AfxGetFormatStyleTable()->GetInputCharLen(m_NewType, &GetDocument()->GetNamespace()));
 	pSymTable->Add(pRepField);
-	//per ora � hidden quindi non serve GetDocument()->SyncronizeViewSymbolTable(pSymTable);
+	//per ora e' hidden quindi non serve GetDocument()->SyncronizeViewSymbolTable(pSymTable);
 
-	//creo una espressione SQL minimale: sar� poi modificata tramite il tree
+	//creo una espressione SQL minimale: sara' poi modificata tramite il tree
 	CString sVal = m_NewType.FormatDefaultValue();
 	ASSERT(!sVal.IsEmpty());
 	if (sVal[0] == '"') 
@@ -24188,7 +24185,7 @@ void CRS_ObjectPropertyView::LoadJoinTablePropertyGrid(CNodeTree* pNode)
 	ASSERT(pos >= 0);
 
 	if (pos == 0)
-		return; //La prima tabella non pu� avere join
+		return; //La prima tabella non puo' avere join
 
 	SqlTableJoinInfoArray::EJoinType jt = pTblRule->m_arSqlTableJoinInfoArray.m_arJoinType[pos];
 

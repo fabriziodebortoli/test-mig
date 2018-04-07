@@ -120,7 +120,7 @@ public:
 						/*	eredita da BasicTextStyle:
 								COLORREF	m_rgbTextColor;	*3
 								COLORREF	m_rgbBkgColor;	*4
-								AlignType	m_nAlign;		ATTENZIONE non � esposto!
+								AlignType	m_nAlign;		ATTENZIONE non esposto!
 								FontIdx		m_nFontIdx;
 						*/
 
@@ -643,7 +643,7 @@ class TB_EXPORT ActiveColumn : public CObject, public IDisposingSourceImpl
 {
 public:
 	TDisposablePtr<TableColumn>	m_pColumn;
-	ActiveRect*	m_pActive;	//� owner
+	ActiveRect*	m_pActive;	//e owner
 
 public:
 	ActiveColumn(TableColumn* pCol, CWoormDocMng* pDocument);
