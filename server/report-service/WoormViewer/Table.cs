@@ -2944,8 +2944,8 @@ namespace Microarea.RSWeb.Objects
                 {
                     borders = new Borders
                                     (
-                                        false,
-                                        first,
+                                        this.Borders.Total.Top,
+                                        first && this.Borders.Total.Left,
                                         this.Borders.Total.Bottom,
                                         this.Borders.Total.Right
                                     );
