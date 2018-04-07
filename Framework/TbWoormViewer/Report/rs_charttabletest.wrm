@@ -2,36 +2,30 @@
 // Woorm code behind
 //==============================================================================
 
-Release 7 Rect (49,1922,1038,3838) 
-
-Properties
+Release 7 Rect (49,2,1038,1918) 
+FontStyles 
 	Begin
-		Title "Report test per chart" 
-		Subject "" 
-		Author "" 
-		ReportProducer "" 
-		Comments "" 
-		DefaultSecurityRoles "" 
+		"CellNumber"  Facename "Calibri"  Size 11 Style (0,0,0,400,0,0,0,0,3,2,1,34,TextColor (0,0,0) ) ;
+		"CellText"  Facename "Calibri"  Size 12 Style (0,0,0,700,0,0,0,0,3,2,1,34,TextColor (0,0,0) ) ;
+		"ColumnTitle"  Facename "Calibri"  Size 10 Style (0,0,0,700,0,0,0,0,3,2,1,34,TextColor (0,0,0) ) ;
+		"TotalNumber"  Facename "Calibri"  Size 12 Style (0,0,0,700,0,0,0,0,3,2,1,34,TextColor (0,0,0) ) ;
+		"TotalText"  Facename "Calibri"  Size 14 Style (0,0,0,700,0,0,0,0,3,2,1,34,TextColor (0,0,0) ) ;
+		"CellaStringaColonne"  Facename "Calibri"  Size 12 Style (0,0,0,400,0,0,0,0,3,2,1,34,TextColor (0,0,0) ) ;
+		"TitoloReport"  Facename "Calibri"  Size 21 Style (0,0,0,700,0,0,0,0,3,2,1,34,TextColor (0,0,0) ) ;
 	End
 
 PageLayout "default" 
 	Begin
-		Table (13,4) "Table_3" Alias 3  /* Table_3 */ Origin (33,10) Heights (26,18,14,14) 
-		HideTitle
+		Field (5,5,60,789) Alias 17  /* e_Titolo */ 
 			Begin
-				"Month" Alias 5  /* w_month */ Width 121 ;
-				"e_DeliveryNote" Alias 12  /* e_DeliveryNote */ Width 133 FormatStyle "Money" Total ;
-				"Amount" Alias 2  /* MA_SaleDocDetail_TotalAmount */ Width 118 FormatStyle "Money" Total ;
-				"e_Color" Alias 14  /* e_Color */ Width 100 FormatStyle "Long" Total ;
+				FontStyle "TitoloReport" ;
 			End
-
-
 		Chart Chart_8
 			Begin
 				Alias 8
 				Title "Amount for month" 
 				Type 4
-				Rect (260,21,608,775) 
+				Rect (69,5,440,789) 
 					Begin
 						Transparent
 					End
@@ -42,19 +36,24 @@ PageLayout "default"
 					End
 				ChartSeries
 					Begin
-						Title "Amount" 
-						Type 7
-						DataSource MA_SaleDocDetail_TotalAmount
-						Color (255,20,147) 
-						Style 1
-						Label False
+						Title "Total Amount Del Note" 
+						Type 4
+						DataSource e_DeliveryNote
+						Color (192,192,192) 
+						Label True
 					End
 				ChartSeries
 					Begin
-						Title "Total Amount Del Note" 
-						Type 7
-						DataSource e_DeliveryNote
-						Label True
+						Title "Ammontare Complessivo" 
+						Type 4
+						DataSource MA_SaleDocDetail_TotalAmount
+						Color (0,139,139) 
+						Style 1
+						Label False
+					End
+				ChartLegend
+					Begin
+						Align 2 ;
 					End
 			End
 		Chart Chart_9
@@ -62,7 +61,7 @@ PageLayout "default"
 				Alias 9
 				Title "Mio grafico" 
 				Type 12
-				Rect (738,20,1107,775) 
+				Rect (446,429,711,727) 
 					Begin
 						Transparent
 					End
@@ -75,33 +74,86 @@ PageLayout "default"
 					Begin
 						Title "serie amount" 
 						DataSource MA_SaleDocDetail_TotalAmount
-						Color e_Color
 						Label True
 					End
 				ChartLegend
 					Begin
-						Align 4 ;
+						Align 2 ;
 					End
 			End
+		Table (17,4) "Table_3" Alias 3  /* Table_3 */ Origin (10,522) Heights (26,38,29,23) 
+		HideTitle
+		EasyView Dynamic Color (233,255,233) 
+		Title
+			Begin
+				BkgColor (192,192,192) ;
+				Pen (0,0,0) Size 0;
+			End
+		Borders 
+			Begin
+				NoTitleTop
+				NoTitleLeft
+				NoTitleRight
+				ColTitleBottom
+				NoColSep
+				NoBodyTop
+				NoBodyBottom
+				NoBodyLeft
+				NoBodyRight
+				TotalTop
+				NoTotalBottom
+				NoTotalLeft
+				NoTotalRight
+			End
+			Begin
+				"2018" Alias 5  /* w_month */ BkgColor = rgb ( 245 , 245 , 245 ) Width 121 Total ;
+				"Ammontare per Ddt" Alias 12  /* e_DeliveryNote */ Width 133 FormatStyle "Money" Total ;
+				"Ammontare Complessivo" Alias 2  /* MA_SaleDocDetail_TotalAmount */ Width 118 FormatStyle "Money" Total ;
+				"e_Colore" Alias 10  /* e_Colore */ Width 0 Total Hidden Width 121 ;
+				Title
+					Begin
+						Column (0,1)  TextColor (255,255,255) BkgColor (169,169,169) Pen (255,255,255) Size 2 ;
+						Column (2)  TextColor (255,255,255) BkgColor (169,169,169) Pen (255,255,255) Size 2 Align 2117 ;
+						Column (3)  TextColor (255,255,255) BkgColor (169,169,169) Pen (255,255,255) Size 2 ;
+					End
+				ColTotal
+					Begin
+						Column (0)  BkgColor (245,245,245) FontStyle "CellText"  Align 2120 ;
+						Column (1,2)  Align 2122 ;
+						Column (3)  TextColor (255,255,255) FontStyle "CellaStringaColonne"  Align 2120 ;
+					End
+
+				Body
+					Begin
+						Rect (0,0,16,0) BkgColor (245,245,245) ;
+						Cell (0,0,16,0)  FontStyle "CellaStringaColonne"  ;
+						Cell (0,3,16,3)  FontStyle "CellaStringaColonne"  ;
+					End
+
+			End
+
+
 	End
 
 
 Report 
 	Begin NoName
 		Tables
-			Table_3 [13] Alias 3 ;
+			Table_3 [17] Alias 3 ;
 		End
 
 		Variables
 			Date         MA_SaleDocDetail_DocumentDate [10] Alias 1  Hidden ;
 			Money        MA_SaleDocDetail_TotalAmount [23] Alias 2  Column ;
 			Money        TotMA_SaleDocDetail_TotalAmount = Csum (MA_SaleDocDetail_TotalAmount ) Alias 4  ColTotal ;
-			String       w_month [23] Alias 5  Column ;
+			String       w_month [19] Alias 5  Column ;
+			String       e_Colore [19] Alias 10  Column ;
 			Enum[52]      /* Document Type */ MA_SaleDocDetail_DocumentType [15] Alias 11  Hidden ;
 			Money        e_DeliveryNote [23] Alias 12  Column ;
 			Money        Tote_DeliveryNote = Csum (e_DeliveryNote ) Alias 13  ColTotal ;
-			Long         e_Color [12] Alias 14  Column ;
-			Long         Tote_Color = Csum (e_Color ) Alias 15  ColTotal ;
+			String       Totw_month [19] = "Totale" Alias 14  ColTotal of w_month ;
+			String       Tote_Colore_16 [19] = "Totale" Alias 16  ColTotal of e_Colore ;
+			String       e_Titolo [15] Alias 17 ;
 		End
 
 		Rules
@@ -114,21 +166,13 @@ Report
 
 			w_month = MonthName ( month ( MA_SaleDocDetail_DocumentDate ) ) ;
 
+			e_Colore = format ( rgb ( 0 + month ( MA_SaleDocDetail_DocumentDate ) , 0 , 0 ) ) ;
+
 			If MA_SaleDocDetail_DocumentType = { 52 : 1 }
 				Then e_DeliveryNote = MA_SaleDocDetail_TotalAmount 
 				Else e_DeliveryNote = 0 ;
 
-			e_Color = month ( MA_SaleDocDetail_DocumentDate ) == 1 ? rgb ( 255 , 0 , 0 ) : 
-			month ( MA_SaleDocDetail_DocumentDate ) == 2 ? rgb ( 255 , 100 , 0 ) : 
-			month ( MA_SaleDocDetail_DocumentDate ) == 3 ? rgb ( 255 , 165 , 0 ) : 
-			month ( MA_SaleDocDetail_DocumentDate ) == 4 ? rgb ( 255 , 200 , 0 ) : 
-			month ( MA_SaleDocDetail_DocumentDate ) == 5 ? rgb ( 255 , 255 , 0 ) : 
-			month ( MA_SaleDocDetail_DocumentDate ) == 6 ? rgb ( 165 , 255 , 0 ) : 
-			month ( MA_SaleDocDetail_DocumentDate ) == 7 ? rgb ( 0 , 255 , 0 ) : 
-			month ( MA_SaleDocDetail_DocumentDate ) == 8 ? rgb ( 0 , 165 , 255 ) : 
-			month ( MA_SaleDocDetail_DocumentDate ) == 9 ? rgb ( 0 , 0 , 255 ) : 
-			month ( MA_SaleDocDetail_DocumentDate ) == 10 ? rgb ( 20 , 0 , 180 ) : 
-			month ( MA_SaleDocDetail_DocumentDate ) == 11 ? rgb ( 75 , 0 , 130 ) : rgb ( 143 , 0 , 255 ) ;
+			e_Titolo = "Statistiche ordinato e venduto nel 2018" ;
 		End
 
 		Group By format ( month ( MA_SaleDocDetail_DocumentDate ) ) Do 
@@ -146,8 +190,10 @@ Report
 						Reset TotMA_SaleDocDetail_TotalAmount ;
 						Display Tote_DeliveryNote ;
 						Reset Tote_DeliveryNote ;
-						Display Tote_Color ;
-						Reset Tote_Color ;
+						Display Totw_month ;
+						Reset Totw_month ;
+						Display Tote_Colore_16 ;
+						Reset Tote_Colore_16 ;
 					End
 				After 
 					Begin
@@ -158,7 +204,8 @@ Report
 					Begin
 						Eval TotMA_SaleDocDetail_TotalAmount ;
 						Eval Tote_DeliveryNote ;
-						Eval Tote_Color ;
+						Eval Totw_month ;
+						Eval Tote_Colore_16 ;
 					End
 				Before 
 					Begin
@@ -167,7 +214,8 @@ Report
 					Begin
 						Display TotMA_SaleDocDetail_TotalAmount ;
 						Display Tote_DeliveryNote ;
-						Display Tote_Color ;
+						Display Totw_month ;
+						Display Tote_Colore_16 ;
 					End
 				Finalize 
 					Begin

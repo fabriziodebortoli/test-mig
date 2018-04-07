@@ -3,8 +3,11 @@
     .k-grid-header {
         padding: 0px !important;
         border-style: hidden;
-        border-right: 1px solid !important;
-        background-color: #C0C0C0;
+        /* (07/04/2018) Il border-right ed il bkg-color erano stati inseriti per problemi di bordi della tabella AddressBook.
+        Sono stati commentati perchè creano problemi su altre tabelle. Controllando AddressBook non ci sono più problemi*/
+        //border-right: 1px solid !important;
+        //background-color: #C0C0C0;
+        display: initial !important
     }
     .k-grid-content{
         overflow-y: unset;
