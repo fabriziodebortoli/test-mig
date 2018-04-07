@@ -104,7 +104,7 @@ export class ReportTableComponent {
       'text-decoration': column.title.font.underline ? 'underline' : 'none',
       'color': column.title.textcolor,
       'border-left': column.title.borders.left ? column.title.pen.width + 'px' : '0px',
-      'border-right': borderRight+ 'px',
+      'border-right': borderRight + 'px',
       'border-bottom': column.title.borders.bottom ? column.title.pen.width + 1 + 'px' : '0px',
       'border-top': column.title.borders.top ? column.title.pen.width + 'px' : '0px',
       'border-color': column.title.pen.color,
@@ -129,7 +129,7 @@ export class ReportTableComponent {
       'font-style': column.title.font.italic ? 'italic' : 'normal',
       'font-weight': column.title.font.bold ? 'bold' : 'normal',
       'white-space': 'pre-line',
-      'text-align': column.title.text_align
+      'text-align': column.title.text_align,
     };
     return obj;
   }
@@ -137,8 +137,8 @@ export class ReportTableComponent {
   // -----------------------------------------------------
   getCellsStyle(column: column): any {
     let obj = {
-      'padding': '0px',
-      'border': '0px',
+      //'padding': '0px',
+      //'border': '0px',
       'height': this.table.row_height + 'px',
     };
     return obj;
@@ -175,7 +175,9 @@ export class ReportTableComponent {
         :
         specStyle !== undefined ? specStyle.textcolor : 'unset',
       'text-decoration': specStyle === undefined || specStyle.font === undefined ? (defStyle.font.underline ? 'underline' : 'none') : (specStyle.font.underline ? 'underline' : 'none'),
-      'padding': '0px',
+      //'padding': '0px',
+      'padding-left': '1px !important',
+      'padding-rigth': '1px !important',
       'box-sizing': 'border-box',
     };
 

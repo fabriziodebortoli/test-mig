@@ -48,7 +48,7 @@ export class ReportFieldrectComponent implements AfterViewInit {
   applyValueStyle(): any {
     let borderSize = (this.rect.borders.left ? this.rect.pen.width : 0) + (this.rect.borders.right ? this.rect.pen.width : 0) ;
     let obj = {
-      'width': this.rect.rect.right - this.rect.rect.left - borderSize + 'px',
+      //'width': this.rect.rect.right - this.rect.rect.left - borderSize + 'px',
       'height': this.rect.rect.bottom - this.rect.rect.top - borderSize + 'px',  
       'font-family': this.rect.font.face,
       'font-size': this.rect.font.size + 'px',

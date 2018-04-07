@@ -51,7 +51,7 @@ export class ReportTextrectComponent implements AfterViewInit {
 
   applyValueStyle(): any {
     let obj = {
-      'width': this.rect.rect.right - this.rect.rect.left + 'px',
+      //'width': this.rect.rect.right - this.rect.rect.left + 'px',
       'height': this.rect.rect.bottom - this.rect.rect.top + 'px',
       'color': this.rect.font.fontcolor !== undefined ? this.rect.font.fontcolor : this.rect.textcolor,
       'font-family': this.rect.font.face,
