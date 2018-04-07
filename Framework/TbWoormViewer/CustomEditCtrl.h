@@ -9,13 +9,13 @@
 // only under terms and conditions 
 // of the accompanying license agreement.
 //*******************************************************************************
-//
 
 #pragma once
 #include <map>
 #include "XmlOutlineParser.h"
 
 #include "beginh.dex"
+
 /////////////////////////////////////////////////////////////////////////////
 // CCustomEditCtrl window
 
@@ -29,7 +29,7 @@ class TB_EXPORT IntellisenseWndExtended : public CBCGPIntelliSenseWnd
 {
 	DECLARE_MESSAGE_MAP()
 public:
-	IntellisenseWndExtended() :CBCGPIntelliSenseWnd() {};
+	IntellisenseWndExtended() :CBCGPIntelliSenseWnd() {}
 	~IntellisenseWndExtended();
 	CBCGPBaseIntelliSenseLB* GetIntelliList() { return m_pLstBoxData;}
 	virtual BOOL DestroyWindow();
@@ -46,7 +46,6 @@ public:
 
 	IntellisenseData & operator= (const IntellisenseData & other)
 	{
-		
 		m_dwData=other.m_dwData;
 		m_nImageListIndex  = other.m_nImageListIndex;
 		m_strAdditionalInfo = other.m_strAdditionalInfo;
@@ -57,13 +56,13 @@ public:
 	}
 };
 
+//-----------------------------------------------------------------------------
 // IntellisenseMap is based on TRIE data structure 
 class TB_EXPORT IntellisenseMap {
 
 private:
 	static const int alphabetSizeExtended = 93;
 	
-
 public:
 	class TB_EXPORT IntellisenseNode {
 	public:
@@ -72,12 +71,12 @@ public:
 		bool isEndOfWord = false;
 		IntellisenseData* data = NULL;
 	};
-
 	
 	IntellisenseMap();
 	IntellisenseNode* createNode();
 	IntellisenseNode* insert(CString key);
 	IntellisenseNode* search(CString key, IntellisenseNode* fromHere = NULL);
+
 	void matchPrefix(CObList& lstIntelliSenseData, CString prefix);
 	void empty();
 
@@ -184,10 +183,12 @@ public:
 	void SetIntellisenseMode(BOOL mode);
 	BOOL IsIntellisenseActive() { return m_pIntelliSenseWnd ? TRUE : FALSE;}
 	void ForceIntellisense();
-
 	BOOL m_bForceIntellisense = FALSE;
 
-   // intellisense
+	// old intellisense
+	std::multimap <CString, IntellisenseData*> m_mIntelliString;
+    // new intellisense
+	BOOL				m_bUseOldIntellisense = TRUE;
 	IntellisenseMap*	m_mIntelliMap = NULL;
 
 	// Generated message map functions
@@ -204,7 +205,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 private:
-	BOOL	m_bEnableBreakpoints = FALSE;
+	BOOL				m_bEnableBreakpoints = FALSE;
 	CMapStringToString	m_mTipString;
 
 	CBCGPToolBarImages	m_ImageBreak;
@@ -218,8 +219,13 @@ private:
 		void FindAndReplaceEnums();		
 		void SetWindowText(CString text);
 		void ChangeSelectedText(CString str);
-		void AddIntellisenseWord(CString key, CString intelliItem, CString intelliValue, CString additionalInfo, CString help);
+
+		void AddIntellisenseWord(CString key, CString intelliItem, CString intelliValue, CString additionalInfo = L"", CString help = L"");
+		void AddIntellisenseWord2(CString key, CString intelliItem_Value, CString intelliValue = L"", CString additionalInfo = L"", CString help = L"");
+		void AddIntellisenseWord3(CString key_all);
+
 		void EmptyIntellisense();
+		CString GetKeyFromWordForIntellisense(CString word);
 	
 	private:
 		CString FormatEnum(WORD nTag, WORD nItem);

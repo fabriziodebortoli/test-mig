@@ -44,13 +44,9 @@ using namespace std;
 static char THIS_FILE[] = __FILE__;
 #endif
 
-
-
 static const CString g_strEOL = _T("\n");
 static const TCHAR g_chEOL = _T('\n');
 static const CString g_strEOLExport = _T("\r\n");
-
-
 
 struct StringIndex
 {
@@ -59,9 +55,8 @@ struct StringIndex
 };
 
 /////////////////////////////////////////////////////////////////////////////
-// IntellisenseWndExtended
 
-CStringList CCustomEditCtrl::m_lstFind;
+CStringList CCustomEditCtrl::m_lstFind;	// IntellisenseWndExtended
 
 CCustomEditCtrl::CCustomEditCtrl()
 {
@@ -92,7 +87,6 @@ CCustomEditCtrl::CCustomEditCtrl()
 	EnableIntelliSense();
 	m_bIntelliSenseMode = TRUE;
 	m_pIntelliSenseWnd = NULL;
-	m_mIntelliMap = NULL;
 }
 
 //------------------------------------------------------------------
@@ -101,39 +95,97 @@ void CCustomEditCtrl::EmptyIntellisense()
 	if (!IsIntelliSenseEnabled())
 		return;
 
-	/*if (m_mIntelliMap)
-		SAFE_DELETE(m_mIntelliMap);	 */
-
-	m_mIntelliMap = new IntellisenseMap();
+	if (m_bUseOldIntellisense)
+	{
+		if (!m_mIntelliString.empty())
+		{
+			for (std::multimap<CString, IntellisenseData*>::iterator it = m_mIntelliString.begin(); it != m_mIntelliString.end(); ++it)
+			{
+				SAFE_DELETE(it->second);
+			}
+			m_mIntelliString.clear();
+		}
+	}
+	else
+	{
+		/*if (m_mIntelliMap)
+			SAFE_DELETE(m_mIntelliMap);	 */
+		m_mIntelliMap = new IntellisenseMap();
+	}
 }
 
 //------------------------------------------------------------------
+void CCustomEditCtrl::AddIntellisenseWord2(CString key, CString intelliItem_Value, CString intelliValue/* = L""*/, CString additionalInfo/* = L""*/, CString help/* = L""*/)
+{
+	AddIntellisenseWord(key + intelliItem_Value, intelliItem_Value, intelliValue.IsEmpty() ? intelliItem_Value : intelliValue, additionalInfo, help);
+}
+
+void CCustomEditCtrl::AddIntellisenseWord3(CString key)
+{
+	AddIntellisenseWord(key, key, key);
+}
+
 void CCustomEditCtrl::AddIntellisenseWord(CString key, CString intelliItem, CString intelliValue, CString additionalInfo, CString help)
 {
 	if (intelliItem.IsEmpty())
 		return;
 	if (!IsIntelliSenseEnabled())
 		return;
-	if (!m_mIntelliMap)
-		return;
 
-	key.Replace((CString)" ", (CString)"_");
+	if (m_bUseOldIntellisense)
+	{
+		if (key.IsEmpty())
+			return;
+		pair <std::multimap<CString, IntellisenseData*>::const_iterator, std::multimap<CString, IntellisenseData*>::const_iterator> range;
+		range = m_mIntelliString.equal_range(key);
+		typedef multimap<CString, IntellisenseData*>::const_iterator it;
+	
+		for (it p = range.first; p != range.second; ++p)
+			if (p->second->m_strItemName.Compare(intelliItem)==0)
+				return;
+		IntellisenseData* data=new IntellisenseData();
+		data->m_strItemName = intelliItem;
+		data->m_strItemValue = intelliValue;
+		data->m_strAdditionalInfo = additionalInfo;
+		data->m_strItemHelp = help;
+		//m_arGarbage.Add(data);
+	
+		m_mIntelliString.insert(pair<CString, IntellisenseData*>(key, data));
+	}
+	else
+	{
+		if (!m_mIntelliMap)
+			return;
 
-	IntellisenseMap::IntellisenseNode* lastNode = m_mIntelliMap->insert(key.MakeUpper());
-	if (!lastNode)
-		return;
+		key.Replace(' ', '_');
 
-	//the word already exist
-	if (lastNode->data)
-		return;
+		IntellisenseMap::IntellisenseNode* lastNode = m_mIntelliMap->insert(key.MakeUpper());
+		if (!lastNode)
+			return;
 
-	IntellisenseData* data = new IntellisenseData();
-	data->m_strItemName = intelliItem;
-	data->m_strItemValue = intelliValue;
-	data->m_strAdditionalInfo = additionalInfo;
-	data->m_strItemHelp = help;
+		//the word already exist
+		if (lastNode->data)
+			return;
 
-	lastNode->data = data;
+		IntellisenseData* data = new IntellisenseData();
+			data->m_strItemName = intelliItem;
+			data->m_strItemValue = intelliValue;
+			data->m_strAdditionalInfo = additionalInfo;
+			data->m_strItemHelp = help;
+
+		lastNode->data = data;
+	}
+}
+
+//------------------------------------------------------------------
+CString CCustomEditCtrl::GetKeyFromWordForIntellisense(CString word)
+{
+	if (word.IsEmpty() || word.GetLength() < 2)
+		return L"";
+
+	word.Left(2).MakeUpper();
+
+	return word.Left(2).MakeUpper();
 }
 
 void CCustomEditCtrl::AddToolTipItem(LPCTSTR word, LPCTSTR toolTip)
@@ -143,7 +195,6 @@ void CCustomEditCtrl::AddToolTipItem(LPCTSTR word, LPCTSTR toolTip)
 	m_mTipString.SetAt(word, toolTip);
 }
 
-//Color variables
 void CCustomEditCtrl::ColorVariables(CWoormDocMng* doc, BOOL viewMode)
 {
 	if (!doc || !doc->m_pEditorManager || !doc->m_pEditorManager->GetPrgData())
@@ -353,11 +404,33 @@ BOOL CCustomEditCtrl::FillIntelliSenseList(CObList& lstIntelliSenseData,
 		return FALSE;
 	}
 
-	// here substitute with trie
-	//IntellisenseData* pData;
-	ReleaseIntelliSenseList(lstIntelliSenseData);	//lstIntelliSenseData.RemoveAll();
-
-	m_mIntelliMap->matchPrefix(lstIntelliSenseData, lpszIntelliSense);
+	if (m_bUseOldIntellisense)
+	{
+		IntellisenseData* pData = NULL;
+		ReleaseIntelliSenseList(lstIntelliSenseData);	//lstIntelliSenseData.RemoveAll();
+		
+		pair <std::multimap<CString, IntellisenseData*>::const_iterator, std::multimap<CString, IntellisenseData*>::const_iterator> range;
+		range = m_mIntelliString.equal_range(((CString)lpszIntelliSense).MakeUpper());
+	
+	
+		for (std::multimap<CString, IntellisenseData*>::const_iterator it = range.first; it != range.second; ++it)
+		{
+			pData = new IntellisenseData;
+			pData->m_strItemName = it->second->m_strItemName;
+			pData->m_strItemValue = it->second->m_strItemValue;
+			pData->m_strItemHelp = it->second->m_strItemHelp;
+			pData->m_strAdditionalInfo = it->second->m_strAdditionalInfo;
+			//const_cast<CCustomEditCtrl*>(this)->m_arGarbage.Add(pData);
+	
+			lstIntelliSenseData.AddTail (pData);
+		}
+	}
+	else
+	{
+		ReleaseIntelliSenseList(lstIntelliSenseData);	//lstIntelliSenseData.RemoveAll();
+	
+		m_mIntelliMap->matchPrefix(lstIntelliSenseData, lpszIntelliSense);
+	}
 
 	return TRUE;
 }
@@ -368,11 +441,11 @@ BOOL CCustomEditCtrl::OnIntelliSenseComplete(int nIdx, CBCGPIntelliSenseData* pD
 	HideCaret();
 
 	int offset = GetCurOffset();
-	if (GetCharAt(offset) == '\n' && !isblank(GetCharAt(offset - 2))) {
-	
-		offset--;
-	}
-		
+	if (!m_bUseOldIntellisense)
+	{
+		if (GetCharAt(offset) == '\n' && !isblank(GetCharAt(offset - 2))) 
+			offset--;
+	}	
 	int i = 0;
 	for (i = offset; i >= 0; i--)
 	{
@@ -382,17 +455,16 @@ BOOL CCustomEditCtrl::OnIntelliSenseComplete(int nIdx, CBCGPIntelliSenseData* pD
 	}
 
 	if (i != offset)
-		SetSel(i + 1, offset+1);
+		SetSel(i + 1, m_bUseOldIntellisense ? offset : offset + 1);
+
 	ReplaceSel(((IntellisenseData*)pData)->m_strItemValue);
 
 	m_nCurrOffset = m_nSavedOffset = GetCurOffset();
 
 	ShowCaret();
 	return FALSE;
-
 }
 
-// here i need to search for the word in trie 
 BOOL CCustomEditCtrl::IsIntelliSenceWord(CString strWord) const
 {
 	if (!IsIntelliSenseEnabled())
@@ -400,12 +472,17 @@ BOOL CCustomEditCtrl::IsIntelliSenceWord(CString strWord) const
 		return FALSE;
 	}
 
-	IntellisenseMap::IntellisenseNode* node = m_mIntelliMap->search(strWord.MakeUpper());
-	if (node && node->isEndOfWord)
+	if (m_bUseOldIntellisense)
 	{
-		return TRUE;
+		if (m_mIntelliString.count(strWord.MakeUpper()) > 0)
+			return TRUE;
 	}
-
+	else
+	{
+		IntellisenseMap::IntellisenseNode* node = m_mIntelliMap->search(strWord.MakeUpper());
+		if (node && node->isEndOfWord)
+			return TRUE;
+	}
 	return FALSE;
 }
 
@@ -446,11 +523,8 @@ BOOL CCustomEditCtrl::IntelliSenseCharUpdate(const CString& strBuffer, int nCurr
 	m_strIntelliSenseChars = L"._abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	m_strNonSelectableChars = L"";
 
-
-
 	return FALSE;
 }
-
 
 int CCustomEditCtrl::GetNextPos(const CString& strBuffer, const CString& strSkipChars, int& nPos, BOOL bForward)
 {
@@ -500,7 +574,8 @@ BOOL CCustomEditCtrl::FillIntelliSenceWord(const CString& strBuffer, int nOffset
 			}
 
 			strWordSuffix.Empty();
-		} while (GetNextPos(strBuffer, m_strNonSelectableChars, nOffset, FALSE) >= 0 &&
+		} 
+		while (GetNextPos(strBuffer, m_strNonSelectableChars, nOffset, FALSE) >= 0 &&
 			CheckIntelliMark(strBuffer, nOffset, strWordSuffix) &&
 			nOffset >= 0);
 	}
@@ -1037,8 +1112,6 @@ LRESULT CCustomEditCtrl::PostInvokeIntelliSense(WPARAM, LPARAM)
 	return 0;
 }
 
-
-
 //-----------------------------------------------------------------------------
 BOOL CCustomEditCtrl::EnableBreakpoints(BOOL bFl /* = TRUE */)
 {
@@ -1114,7 +1187,6 @@ IntellisenseWndExtended::~IntellisenseWndExtended()
 
 }
 
-
 //-----------------------------------------------------------------------------
 
 BOOL IntellisenseWndExtended::DestroyWindow()
@@ -1124,19 +1196,16 @@ BOOL IntellisenseWndExtended::DestroyWindow()
 	return __super::DestroyWindow();
 }
 
+///////////////////////////////////////////////////////////////////////////////
+// IntellisenseMap
 
-
-/////////////////////////////////////////////////////////////
-//////////////////IntellisenseMap////////////////////
-/////////////////////////////////////////////////////////////
-
-
-IntellisenseMap::IntellisenseMap() {
+IntellisenseMap::IntellisenseMap()
+{
 	root = this->createNode();
 }
 
-IntellisenseMap::IntellisenseNode* IntellisenseMap::createNode() {
-
+IntellisenseMap::IntellisenseNode* IntellisenseMap::createNode() 
+{
 	IntellisenseNode *pNode = new IntellisenseNode;
 
 	pNode->isEndOfWord = false;
@@ -1147,7 +1216,8 @@ IntellisenseMap::IntellisenseNode* IntellisenseMap::createNode() {
 	return pNode;
 }
 
-IntellisenseMap::IntellisenseNode* IntellisenseMap::insert(CString key) {
+IntellisenseMap::IntellisenseNode* IntellisenseMap::insert(CString key)
+ {
 	IntellisenseNode *pCrawl = root;
 
 	for (int i = 0; i < key.GetLength(); i++)
@@ -1164,7 +1234,8 @@ IntellisenseMap::IntellisenseNode* IntellisenseMap::insert(CString key) {
 	return pCrawl;
 }
 
-IntellisenseMap::IntellisenseNode* IntellisenseMap::search(CString key, IntellisenseNode* fromHere) {
+IntellisenseMap::IntellisenseNode* IntellisenseMap::search(CString key, IntellisenseNode* fromHere) 
+{
 	//TODO crash su intellisense
 	/*IntellisenseNode *pCrawl = NULL;
 	if (fromHere)
@@ -1186,16 +1257,14 @@ IntellisenseMap::IntellisenseNode* IntellisenseMap::search(CString key, Intellis
 	else*/ return NULL;
 }
 
-
-
-
-void IntellisenseMap::empty() {
+void IntellisenseMap::empty() 
+{
 	if (root)
 		delete[]root;
 }
 
-void IntellisenseMap::matchPrefix(CObList& lstIntelliSenseData, CString prefix) {
-
+void IntellisenseMap::matchPrefix(CObList& lstIntelliSenseData, CString prefix)
+ {
 	//serach prefix and then recursivly match the prefix
 	IntellisenseNode* lastNode = search(prefix.MakeUpper());
 	if (!lastNode)
@@ -1210,11 +1279,10 @@ void IntellisenseMap::matchPrefix(CObList& lstIntelliSenseData, CString prefix) 
 		containsPoint = true;
 
 	matchAllRec(lstIntelliSenseData, lastNode, containsPoint);
-
 }
 
-void IntellisenseMap::matchAllRec(CObList& lstIntelliSenseData, IntellisenseMap::IntellisenseNode * node, BOOL hasPoint) {
-
+void IntellisenseMap::matchAllRec(CObList& lstIntelliSenseData, IntellisenseMap::IntellisenseNode * node, BOOL hasPoint)
+ {
 	if (!node)
 		return;
 	if (node->isEndOfWord) {
@@ -1224,15 +1292,16 @@ void IntellisenseMap::matchAllRec(CObList& lstIntelliSenseData, IntellisenseMap:
 
 	int index = '.' - (char)33;
 
-	for (int i = 0; i < IntellisenseMap::alphabetSizeExtended; i++) {
+	for (int i = 0; i < IntellisenseMap::alphabetSizeExtended; i++) 
+	{
 		if (i == index && !hasPoint)
 			continue;
 		matchAllRec(lstIntelliSenseData, node->children[i], hasPoint);
 	}
-
 }
 
-IntellisenseData* IntellisenseMap::createDataCopy(IntellisenseData* data) {
+IntellisenseData* IntellisenseMap::createDataCopy(IntellisenseData* data) 
+{
 	IntellisenseData* newData = new IntellisenseData();
 
 	newData->m_nImageListIndex = data->m_nImageListIndex;

@@ -2400,10 +2400,8 @@ BOOL CRSTreeCtrl::FillAllVariables(BOOL bSort, BOOL bViewMode, BOOL bSkipSpecial
 		//Fill Intellisense
 		if (this->IsKindOf(RUNTIME_CLASS(CRSEditViewTreeCtrl)) && editView)
 		{
-
-			editView->GetEditCtrl()->AddIntellisenseWord(pF->GetName(), pF->GetName(), pF->GetName(), L"", L"");
+			editView->GetEditCtrl()->AddIntellisenseWord3(pF->GetName());
 		}
-		//
 
 		FillEnumsValue(ht, pF->GetDataType(), editView);
 
@@ -2498,21 +2496,24 @@ BOOL CRSTreeCtrl::FillVariablesGroupingRules(CRSEditView* editView)
 		{
 			if (!pF->IsExprRuleField() && !pF->IsTableRuleField())
 			{
-				/*std::pair <std::multimap<CString, IntellisenseData*>::iterator, std::multimap<CString, IntellisenseData>::iterator> ret;
-
-				for (std::multimap<CString, IntellisenseData*>::iterator it = editView->GetEditCtrl()->m_mIntelliString.begin(); it != editView->GetEditCtrl()->m_mIntelliString.end(); ++it)
+				if (editView->GetEditCtrl()->m_bUseOldIntellisense)
 				{
-					if (it->second->m_strItemName.CompareNoCase(pF->GetName()) == 0)
+					std::pair <std::multimap<CString, IntellisenseData*>::iterator, std::multimap<CString, IntellisenseData>::iterator> ret;
+	
+					for (std::multimap<CString, IntellisenseData*>::iterator it = editView->GetEditCtrl()->m_mIntelliString.begin(); it != editView->GetEditCtrl()->m_mIntelliString.end(); ++it)
 					{
-						editView->GetEditCtrl()->m_mIntelliString.erase(it);
-						break;
+						if (it->second->m_strItemName.CompareNoCase(pF->GetName()) == 0)
+						{
+							editView->GetEditCtrl()->m_mIntelliString.erase(it);
+							break;
+						}
 					}
+					continue;					
 				}
-				continue;	*/
 			}
 			else
 			{
-				editView->GetEditCtrl()->AddIntellisenseWord(pF->GetName(), pF->GetName(), pF->GetName(), L"", L"");
+				editView->GetEditCtrl()->AddIntellisenseWord3(pF->GetName());
 			}
 		}
 
@@ -3542,8 +3543,11 @@ BOOL CRSTreeCtrl::FillEnumsValue(HTREEITEM htParent, EnumTag* pTag, CRSEditView*
 			CString key = pTag->GetTagTitle();
 			key.Replace(L" ", L"_");
 			key.Replace(L"/", L"_");
-			//editView->GetEditCtrl()->AddIntellisenseWord(key,L"key",L"",L"");
-			editView->GetEditCtrl()->AddIntellisenseWord(L"enum." + key, key, de.ToString() + L"/*" + pTag->GetTagTitle() + L" : " + pItem->GetTitle() + L"*/", L"enum", L"");
+
+			if (editView->GetEditCtrl()->m_bUseOldIntellisense)
+				editView->GetEditCtrl()->AddIntellisenseWord(key.MakeUpper()+ L".", title,  de.ToString()+ L"/*"+ pTag->GetTagTitle()+ L" : " + pItem->GetTitle() + L"*/", L"enum");
+			else
+				editView->GetEditCtrl()->AddIntellisenseWord(L"enum." + key, key, de.ToString() + L"/*" + pTag->GetTagTitle() + L" : " + pItem->GetTitle() + L"*/", L"enum");
 		}
 	}
 	return TRUE;
@@ -3557,7 +3561,8 @@ BOOL CRSTreeCtrl::FillEnums(CRSEditView* editView)
 
 	const EnumTagArray* pTags = m_pWDoc->m_pEditorManager->GetEnumsArray();
 
-	editView->GetEditCtrl()->AddIntellisenseWord(L"enum", L"enum", L"enum", L"", L"");
+	if (!editView->GetEditCtrl()->m_bUseOldIntellisense)
+		editView->GetEditCtrl()->AddIntellisenseWord3(L"enum");
 
 	for (int j = 0; j < pTags->GetSize(); j++)
 	{
@@ -3568,14 +3573,14 @@ BOOL CRSTreeCtrl::FillEnums(CRSEditView* editView)
 		{
 			htTag = AddNode(pTag->GetTagTitle(), CNodeTree::ENodeType::NT_LIST_ENUM_TYPE, m_htEnums, pTag);
 		}
-		/*else if (editView)
+		else if (editView && editView->GetEditCtrl()->m_bUseOldIntellisense)
 		{
 			CString replacedValue = pTag->GetTagTitle();
-			replacedValue.Replace(L" ", L"_");
+			replacedValue.Replace(L" ", L"_");	 
 			replacedValue.Replace(L"/", L"_");
 
-			editView->GetEditCtrl()->AddIntellisenseWord(L"enum." + replacedValue, replacedValue, replacedValue, L"", L"");
-		}  */
+			editView->GetEditCtrl()->AddIntellisenseWord(L"ENUM.", replacedValue, replacedValue);
+		}  
 
 		FillEnumsValue(htTag, pTag, editView, FALSE, delayed);
 	}
@@ -3621,37 +3626,39 @@ BOOL CRSTreeCtrl::FillCommands(CRSEditView* editView, BOOL bRaiseEvents /*=TRUE*
 
 	if (delayed && editView)
 	{
-		editView->GetEditCtrl()->AddIntellisenseWord(L"cmd", L"cmd", L"cmd", L"", L"");
+		if (!editView->GetEditCtrl()->m_bUseOldIntellisense)
+			editView->GetEditCtrl()->AddIntellisenseWord3(L"cmd");
+
 		if (bRaiseEvents)
 		{
-			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_EVAL), cwsprintf(T_EVAL), cwsprintf(T_EVAL), L"", L"");
-			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_RESET), cwsprintf(T_RESET), cwsprintf(T_RESET), L"", L"");
-			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_DISPLAY), cwsprintf(T_DISPLAY), cwsprintf(T_DISPLAY), L"", L"");
-			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_DISPLAY_TABLE_ROW), cwsprintf(T_DISPLAY_TABLE_ROW), cwsprintf(T_DISPLAY_TABLE_ROW), L"", L"");
-			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_DISPLAY_FREE_FIELDS), cwsprintf(T_DISPLAY_FREE_FIELDS), cwsprintf(T_DISPLAY_FREE_FIELDS), L"", L"");
-			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_INTERLINE), cwsprintf(T_INTERLINE), cwsprintf(T_INTERLINE), L"", L"");
-			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_NEXTLINE), cwsprintf(T_NEXTLINE), cwsprintf(T_NEXTLINE), L"", L"");
-			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_SPACELINE), cwsprintf(T_SPACELINE), cwsprintf(T_SPACELINE), L"", L"");
-			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_TITLELINE), cwsprintf(T_TITLELINE), cwsprintf(T_TITLELINE), L"", L"");
-			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_SUBTITLELINE), cwsprintf(T_SUBTITLELINE), cwsprintf(T_SUBTITLELINE), L"", L"");
-			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_FORMFEED), cwsprintf(T_FORMFEED), cwsprintf(T_FORMFEED), L"", L"");
-			editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_ASK), cwsprintf(T_ASK), cwsprintf(T_ASK), L"", L"");
+			editView->GetEditCtrl()->AddIntellisenseWord2(L"CMD.", cwsprintf(T_EVAL));
+			editView->GetEditCtrl()->AddIntellisenseWord2(L"CMD.", cwsprintf(T_RESET));
+			editView->GetEditCtrl()->AddIntellisenseWord2(L"CMD.", cwsprintf(T_DISPLAY));
+			editView->GetEditCtrl()->AddIntellisenseWord2(L"CMD.", cwsprintf(T_DISPLAY_TABLE_ROW));
+			editView->GetEditCtrl()->AddIntellisenseWord2(L"CMD.", cwsprintf(T_DISPLAY_FREE_FIELDS));
+			editView->GetEditCtrl()->AddIntellisenseWord2(L"CMD.", cwsprintf(T_INTERLINE));
+			editView->GetEditCtrl()->AddIntellisenseWord2(L"CMD.", cwsprintf(T_NEXTLINE));
+			editView->GetEditCtrl()->AddIntellisenseWord2(L"CMD.", cwsprintf(T_SPACELINE));
+			editView->GetEditCtrl()->AddIntellisenseWord2(L"CMD.", cwsprintf(T_TITLELINE));
+			editView->GetEditCtrl()->AddIntellisenseWord2(L"CMD.", cwsprintf(T_SUBTITLELINE));
+			editView->GetEditCtrl()->AddIntellisenseWord2(L"CMD.", cwsprintf(T_FORMFEED));
+			editView->GetEditCtrl()->AddIntellisenseWord2(L"CMD.", cwsprintf(T_ASK));
 		}
 
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_CALL), cwsprintf(T_CALL), cwsprintf(T_CALL), L"", L"");
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_MESSAGE_BOX), cwsprintf(T_MESSAGE_BOX), cwsprintf(T_MESSAGE_BOX), L"", L"");
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_ABORT), cwsprintf(T_ABORT), cwsprintf(T_ABORT), L"", L"");
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_BEGIN), cwsprintf(T_BEGIN), cwsprintf(T_BEGIN), L"", L"");
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_END), cwsprintf(T_END), cwsprintf(T_END), L"", L"");
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_IF), cwsprintf(T_IF), cwsprintf(T_IF), L"", L"");
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_THEN), cwsprintf(T_THEN), cwsprintf(T_THEN), L"", L"");
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_ELSE), cwsprintf(T_ELSE), cwsprintf(T_ELSE), L"", L"");
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_WHILE), cwsprintf(T_WHILE), cwsprintf(T_WHILE), L"", L"");
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_DO), cwsprintf(T_DO), cwsprintf(T_DO), L"", L"");
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_BREAK), cwsprintf(T_BREAK), cwsprintf(T_BREAK), L"", L"");
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_CONTINUE), cwsprintf(T_CONTINUE), cwsprintf(T_CONTINUE), L"", L"");
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_RETURN), cwsprintf(T_RETURN), cwsprintf(T_RETURN), L"", L"");
-		editView->GetEditCtrl()->AddIntellisenseWord(L"CMD." + cwsprintf(T_QUIT), cwsprintf(T_QUIT), cwsprintf(T_QUIT), L"", L"");
+		editView->GetEditCtrl()->AddIntellisenseWord2(L"CMD.", cwsprintf(T_CALL));
+		editView->GetEditCtrl()->AddIntellisenseWord2(L"CMD.", cwsprintf(T_MESSAGE_BOX));
+		editView->GetEditCtrl()->AddIntellisenseWord2(L"CMD.", cwsprintf(T_ABORT));
+		editView->GetEditCtrl()->AddIntellisenseWord2(L"CMD.", cwsprintf(T_BEGIN));
+		editView->GetEditCtrl()->AddIntellisenseWord2(L"CMD.", cwsprintf(T_END));
+		editView->GetEditCtrl()->AddIntellisenseWord2(L"CMD.", cwsprintf(T_IF));
+		editView->GetEditCtrl()->AddIntellisenseWord2(L"CMD.", cwsprintf(T_THEN));
+		editView->GetEditCtrl()->AddIntellisenseWord2(L"CMD.", cwsprintf(T_ELSE));
+		editView->GetEditCtrl()->AddIntellisenseWord2(L"CMD.", cwsprintf(T_WHILE));
+		editView->GetEditCtrl()->AddIntellisenseWord2(L"CMD.", cwsprintf(T_DO));
+		editView->GetEditCtrl()->AddIntellisenseWord2(L"CMD.", cwsprintf(T_BREAK));
+		editView->GetEditCtrl()->AddIntellisenseWord2(L"CMD.", cwsprintf(T_CONTINUE));
+		editView->GetEditCtrl()->AddIntellisenseWord2(L"CMD.", cwsprintf(T_RETURN));
+		editView->GetEditCtrl()->AddIntellisenseWord2(L"CMD.", cwsprintf(T_QUIT));
 	}
 
 	return TRUE;
@@ -3866,12 +3873,13 @@ BOOL CRSTreeCtrl::FillFunctions(CRSEditView* editView)
 					sDescrName = sDescrName.Mid(sDescrName.Find('_') + 1);
 				}
 
-				//editView->GetEditCtrl()->AddIntellisenseWord(key.MakeUpper(), key, L"", L"");
-				editView->GetEditCtrl()->AddIntellisenseWord(key.MakeUpper() + '.' + sDescrName, sDescrName, pFunDesc->GetName() + L" ( )", L"", L"");
+				if (editView->GetEditCtrl()->m_bUseOldIntellisense)
+					editView->GetEditCtrl()->AddIntellisenseWord(key.MakeUpper() + '.', sDescrName,  pFunDesc->GetName() + L" ( )");
+				else
+					editView->GetEditCtrl()->AddIntellisenseWord(key.MakeUpper() + '.' + sDescrName, sDescrName, pFunDesc->GetName() + L" ( )");
 			}
 		}
 	}
-
 	SelectItem(m_htFunctions);
 	return TRUE;
 }
@@ -3899,7 +3907,8 @@ BOOL CRSTreeCtrl::FillHtmlTags(CRSEditView* editView, BOOL bExpand)
 	HTREEITEM hTreeItem;
 	HTREEITEM hTreeAttributeItem;
 
-	editView->GetEditCtrl()->AddIntellisenseWord(L"html", L"html", L"html", L"", L"");
+	if (!editView->GetEditCtrl()->m_bUseOldIntellisense)
+		editView->GetEditCtrl()->AddIntellisenseWord3(L"html");
 
 	for (int i = CHtmlTag::EHtmlTag::HTML_TAG_NEWLINE; i < CHtmlTag::EHtmlTag::HTML_TAG_LAST; i++)
 	{
@@ -3917,7 +3926,7 @@ BOOL CRSTreeCtrl::FillHtmlTags(CRSEditView* editView, BOOL bExpand)
 				hTreeItem = AddNode(myNodeItem->GetHtmlName(), CNodeTree::NT_LIST_HTML_TAGS, m_htHTMLTags, myNodeItem);
 		}
 		if (editView)
-			editView->GetEditCtrl()->AddIntellisenseWord(L"HTML." + CHtmlTag::GetHtmlName(myTag), CHtmlTag::GetHtmlName(myTag), CHtmlTag::GetHtmlFragment(myTag), L"", CHtmlTag::GetExample(myTag));
+			editView->GetEditCtrl()->AddIntellisenseWord2(L"HTML.", CHtmlTag::GetHtmlName(myTag), CHtmlTag::GetHtmlFragment(myTag), L"", CHtmlTag::GetExample(myTag));
 	}
 
 	SelectItem(m_htHTMLTags);
@@ -3944,9 +3953,12 @@ BOOL CRSTreeCtrl::FillQueriesTags(CRSEditView* editView, BOOL bExpand)
 	else
 		delayed = AddDelayedNode(m_htQueriesTags, _T("Queries tags"), CNodeTree::ENodeType::NT_ROOT_QUERY_TAGS, NULL);
 
-	HTREEITEM hTreeItem;
-	HTREEITEM hTreeAttributeItem;
-	editView->GetEditCtrl()->AddIntellisenseWord(L"query", L"query", L"query", L"", L"");
+	HTREEITEM hTreeItem = NULL;
+	HTREEITEM hTreeAttributeItem = NULL;
+
+	if (!editView->GetEditCtrl()->m_bUseOldIntellisense)
+		editView->GetEditCtrl()->AddIntellisenseWord3(L"query");
+
 	for (int i = CQueryTag::EQueryTag::QUERY_TAG_COL; i != CQueryTag::EQueryTag::QUERY_TAG_LAST; i++)
 	{
 		CQueryTag::EQueryTag myTag = static_cast<CQueryTag::EQueryTag>(i);
@@ -3964,7 +3976,7 @@ BOOL CRSTreeCtrl::FillQueriesTags(CRSEditView* editView, BOOL bExpand)
 		}
 		if (editView)
 		{
-			editView->GetEditCtrl()->AddIntellisenseWord(L"query." + CQueryTag::GetName(myTag), CQueryTag::GetName(myTag), CQueryTag::GetFragment(myTag), L"", CQueryTag::GetExample(myTag));
+			editView->GetEditCtrl()->AddIntellisenseWord2(L"query.", CQueryTag::GetName(myTag), CQueryTag::GetFragment(myTag), L"", CQueryTag::GetExample(myTag));
 		}
 	}
 
@@ -4001,7 +4013,7 @@ BOOL CRSTreeCtrl::FillWebMethods(CRSEditView* editView)
 			htApp = AddNode(pAddOnApplication->m_strAddOnAppName, CNodeTree::ENodeType::NT_ROOT_MODULE, m_htWebMethods, pAddOnApplication);
 		if (delayed && editView)
 		{
-			editView->GetEditCtrl()->AddIntellisenseWord(pAddOnApplication->m_strAddOnAppName, pAddOnApplication->m_strAddOnAppName, pAddOnApplication->m_strAddOnAppName, L"", L"");
+			editView->GetEditCtrl()->AddIntellisenseWord3(pAddOnApplication->m_strAddOnAppName);
 		}
 
 		for (int m = 0; m < pAddOnApplication->m_pAddOnModules->GetSize(); m++)
@@ -4037,17 +4049,19 @@ BOOL CRSTreeCtrl::FillWebMethods(CRSEditView* editView)
 
 					iValue = fullFuncionName = pAddOnApplication->m_strAddOnAppName + L".";
 
-					editView->GetEditCtrl()->AddIntellisenseWord(pAddOnApplication->m_strAddOnAppName, pAddOnApplication->m_strAddOnAppName, pAddOnApplication->m_strAddOnAppName, L"", L"");
+					if (!editView->GetEditCtrl()->m_bUseOldIntellisense)
+						editView->GetEditCtrl()->AddIntellisenseWord3(pAddOnApplication->m_strAddOnAppName);
 
 					for (int j = 2; j < ns.GetTokenArray()->GetCount(); j++)
 					{
-						if (j == ns.GetTokenArray()->GetUpperBound())
-							editView->GetEditCtrl()->AddIntellisenseWord(fullFuncionName + ns.GetTokenArray()->GetAt(j), ns.GetTokenArray()->GetAt(j), iValue + ns.GetTokenArray()->GetAt(j) + L" ( )", L"", L"");
-						else
-							editView->GetEditCtrl()->AddIntellisenseWord(fullFuncionName + ns.GetTokenArray()->GetAt(j), ns.GetTokenArray()->GetAt(j), iValue + ns.GetTokenArray()->GetAt(j), L"", L"");
+						CString s = ns.GetTokenArray()->GetAt(j);
 
-						fullFuncionName += ns.GetTokenArray()->GetAt(j) + L".";
-						iValue += ns.GetTokenArray()->GetAt(j) + L".";
+						editView->GetEditCtrl()->AddIntellisenseWord(
+													(editView->GetEditCtrl()->m_bUseOldIntellisense ? fullFuncionName.MakeUpper() : (fullFuncionName + s)),
+													s, iValue + s +	(j == ns.GetTokenArray()->GetUpperBound() ? L" ( )" : L""));
+
+						fullFuncionName += s + L".";
+						iValue += s + L".";	
 					}
 				}
 
@@ -4286,9 +4300,7 @@ BOOL CRSTreeCtrl::FillTables(CRSEditView* editView)
 
 						CString tableName(pCatalogEntry->m_strTableName);
 
-
-						editView->GetEditCtrl()->AddIntellisenseWord(tableName, tableName, tableName, L"", L"");
-
+						editView->GetEditCtrl()->AddIntellisenseWord3(tableName);
 
 						if (pCatalogEntry->m_pTableInfo)
 						{
@@ -4300,8 +4312,10 @@ BOOL CRSTreeCtrl::FillTables(CRSEditView* editView)
 								ASSERT_VALID(pCol);
 								if (!pCol || pCol->m_bVirtual)
 									continue;
-
-								editView->GetEditCtrl()->AddIntellisenseWord(tableNameKey + pCol->GetColumnName(), pCol->GetColumnName(), tableNameKey + pCol->GetColumnName(), L"", L"");
+								if (editView->GetEditCtrl()->m_bUseOldIntellisense)
+									editView->GetEditCtrl()->AddIntellisenseWord(tableNameKey.MakeUpper(), pCol->GetColumnName(), tableName + L"."+ pCol->GetColumnName());
+								else
+									editView->GetEditCtrl()->AddIntellisenseWord(tableNameKey + pCol->GetColumnName(), pCol->GetColumnName(), tableNameKey + pCol->GetColumnName());
 							}
 						}
 					}

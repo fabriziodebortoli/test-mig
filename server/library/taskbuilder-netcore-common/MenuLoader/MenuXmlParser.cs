@@ -1172,7 +1172,8 @@ namespace Microarea.Common.MenuLoader
             catch (XmlException exception)
             {
                 Debug.Fail("MenuXmlParser LoadMenuFile Error", String.Format("Loading of menu file {0} failed.\n{1}", fileToLoad, exception.Message));
-                throw new MenuXmlParserException(String.Format(MenuManagerLoaderStrings.GenericExceptionRaisedFmtMsg, "MenuXmlParser.LoadMenuFile"), exception);
+                //throw new MenuXmlParserException(String.Format(MenuManagerLoaderStrings.GenericExceptionRaisedFmtMsg, "MenuXmlParser.LoadMenuFile"), exception);
+                return false;   //meglio perdere un singolo menu che tutta l'applicazione
             }
         }
 
