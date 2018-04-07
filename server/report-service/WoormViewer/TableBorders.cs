@@ -16,7 +16,7 @@ namespace Microarea.RSWeb.WoormViewer
         public Borders Body = new Borders();
         public Borders Total = new Borders();
 
-        public bool ColumnTitleSeparator = false;
+        public bool ColumnTitleSeparator = true;
         public BorderPen ColumnTitleSepPen = new BorderPen();
         public bool ColumnSeparator = false;
         public BorderPen ColumnSepPen = new BorderPen();

@@ -12,6 +12,7 @@ export class table extends baseobj {
     row_height: number;
     title: title;
     hide_columns_title: boolean;
+    columns_title_separator: boolean;
     fiscal_end: boolean;
     value: any[] = [];
     columns: column[] = [];
@@ -25,6 +26,7 @@ export class table extends baseobj {
         this.row_height = jsonObj.row_height;
         this.title = jsonObj.title ? new title(jsonObj.title) : undefined;
         this.hide_columns_title = jsonObj.hide_columns_title;
+        this.columns_title_separator = jsonObj.columns_title_separator;
         this.fiscal_end = jsonObj.fiscal_end;
 
         for (let index = 0; index < jsonObj.columns.length; index++) {

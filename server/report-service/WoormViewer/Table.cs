@@ -2659,6 +2659,7 @@ namespace Microarea.RSWeb.Objects
                     +
 
             this.HideColumnsTitle.ToJson("hide_columns_title") + ',' +
+            this.Borders.ColumnTitleSeparator.ToJson("columns_title_separator") + ',' +
             this.FiscalEnd.ToJson("fiscal_end") + ',';
 
             //this.EasyviewColor.ToJson("alternate_color") + ',' +

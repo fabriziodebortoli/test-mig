@@ -21,8 +21,8 @@ export class ReportTableComponent {
   @Input() table: table;
   @ViewChild('rsInnerImg') rsInnerImg: ElementRef;
 
-  constructor(public utils: UtilsService , private httpClient: HttpClient, public infoService: InfoService) { 
-   
+  constructor(public utils: UtilsService, private httpClient: HttpClient, public infoService: InfoService) {
+
   }
 
   // -----------------------------------------------------
@@ -40,10 +40,10 @@ export class ReportTableComponent {
       return {};
 
     let rgbaBkgColor = this.utils.hexToRgba(this.table.title.bkgcolor);
-    let backgroundColor = 'rgba(' + rgbaBkgColor.r + ',' + rgbaBkgColor.g + ',' +rgbaBkgColor.b + ',' + 1 + ')';
+    let backgroundColor = 'rgba(' + rgbaBkgColor.r + ',' + rgbaBkgColor.g + ',' + rgbaBkgColor.b + ',' + 1 + ')';
     let rgbaTextColor = this.utils.hexToRgba(this.table.title.textcolor);
-    let textColor = 'rgba(' + rgbaTextColor.r + ',' + rgbaTextColor.g + ',' +rgbaTextColor.b + ',' + 1 + ')';
-  
+    let textColor = 'rgba(' + rgbaTextColor.r + ',' + rgbaTextColor.g + ',' + rgbaTextColor.b + ',' + 1 + ')';
+
     let obj = {
       'height': this.table.title.rect.bottom - this.table.title.rect.top + 'px',
       'border-left': this.table.title.borders.left ? this.table.title.pen.width + 'px' : '0px',
@@ -59,7 +59,7 @@ export class ReportTableComponent {
       'text-decoration': this.table.title.font.underline ? 'underline' : 'none',
       'text-align': this.table.title.text_align,
       'vertical-align': this.table.title.vertical_align,
-      'transform': 'rotate('+this.table.title.rotateBy+'deg)',
+      'transform': 'rotate(' + this.table.title.rotateBy + 'deg)',
       'background-color': backgroundColor,
       'color': textColor
     };
@@ -78,10 +78,10 @@ export class ReportTableComponent {
     return obj;
   }
 
-  getTableWidth(columns : column[]){
+  getTableWidth(columns: column[]) {
     let widthTotal = 0;
-    for(let index = 0; index < columns.length; index++){
-      if(!columns[index].hidden)
+    for (let index = 0; index < columns.length; index++) {
+      if (!columns[index].hidden)
         widthTotal += columns[index].width;
     }
     return widthTotal;
@@ -90,17 +90,22 @@ export class ReportTableComponent {
   // -----------------------------------------------------
   getColumnHeaderStyle(column: column): any {
     if (column.hidden)
-        return {};
+      return {};
     if (!column.title)
-        return {};
-    let bordersSize = (column.title.borders.bottom ? column.title.pen.width : 0) + 
+      return {};
+
+    let borderRight = 0;
+    if (this.table.columns_title_separator || column.title.borders.right)
+      borderRight = column.title.pen.width;
+
+    let bordersSize = (column.title.borders.bottom ? column.title.pen.width : 0) +
       (column.title.borders.top ? column.title.pen.width : 0);
     let obj = {
       'text-decoration': column.title.font.underline ? 'underline' : 'none',
       'color': column.title.textcolor,
-      'border-left': column.title.borders.left ? column.title.pen.width  + 'px' : '0px',
-      'border-right': column.title.borders.right ? column.title.pen.width + 'px' : '0px',
-      'border-bottom': column.title.borders.bottom ? column.title.pen.width  + 1 + 'px' : '0px',
+      'border-left': column.title.borders.left ? column.title.pen.width + 'px' : '0px',
+      'border-right': borderRight+ 'px',
+      'border-bottom': column.title.borders.bottom ? column.title.pen.width + 1 + 'px' : '0px',
       'border-top': column.title.borders.top ? column.title.pen.width + 'px' : '0px',
       'border-color': column.title.pen.color,
       'background-color': column.title.bkgcolor,
@@ -115,9 +120,9 @@ export class ReportTableComponent {
   // -----------------------------------------------------
   getColumnHeaderFont(column: column): any {
     if (column.hidden)
-        return {};
+      return {};
     if (!column.title)
-        return {};
+      return {};
     let obj = {
       'font-family': column.title.font.face,
       'font-size': column.title.font.size + 'px',
@@ -141,7 +146,7 @@ export class ReportTableComponent {
 
   // -----------------------------------------------------
   private loadImage(url: string): Observable<any> {
-    return this.httpClient.get(url, { responseType: 'blob'})  // load the image as a blob
+    return this.httpClient.get(url, { responseType: 'blob' })  // load the image as a blob
   }
   // -----------------------------------------------------
   getSingleCellStyle(dataItem: any, rowIndex: number, column: column): any {
@@ -164,25 +169,25 @@ export class ReportTableComponent {
       'border-style': 'solid',
       'vertical-align': defStyle.vertical_align,
       'text-align': defStyle.text_align,
-      'transform': 'rotate('+defStyle.rotateBy+'deg)',
-      'color': specStyle !== undefined && specStyle.textcolor === undefined ? 
-                 specStyle.font !== undefined && specStyle.font.fontcolor !== undefined ? specStyle.font.fontcolor : defStyle.textcolor
-               :
-               specStyle !== undefined  ? specStyle.textcolor : 'unset',
+      'transform': 'rotate(' + defStyle.rotateBy + 'deg)',
+      'color': specStyle !== undefined && specStyle.textcolor === undefined ?
+        specStyle.font !== undefined && specStyle.font.fontcolor !== undefined ? specStyle.font.fontcolor : defStyle.textcolor
+        :
+        specStyle !== undefined ? specStyle.textcolor : 'unset',
       'text-decoration': specStyle === undefined || specStyle.font === undefined ? (defStyle.font.underline ? 'underline' : 'none') : (specStyle.font.underline ? 'underline' : 'none'),
       'padding': '0px',
       'box-sizing': 'border-box',
     };
-    
+
     const newSrc = this.infoService.getBaseUrl() + '/rs/image/' + defStyle.value
     if (defStyle.value !== '' && newSrc !== defStyle.src) {
-        defStyle.src = newSrc;
-        this.loadImage(defStyle.src).subscribe(blob => {
-          let reader = new FileReader();
-          reader.readAsDataURL(blob);
-          reader.onloadend = () => {
-              this.rsInnerImg.nativeElement.src = reader.result;
-          };
+      defStyle.src = newSrc;
+      this.loadImage(defStyle.src).subscribe(blob => {
+        let reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = () => {
+          this.rsInnerImg.nativeElement.src = reader.result;
+        };
       });
     }
 
@@ -195,7 +200,7 @@ export class ReportTableComponent {
   }
 
   // -----------------------------------------------------
-  getSingleCellFont(dataItem: any, rowIndex: number, column: column){
+  getSingleCellFont(dataItem: any, rowIndex: number, column: column) {
     const defStyle: cell = this.findDefaultStyle(column.id, rowIndex);
     const specStyle: any = dataItem[column.id];
     let obj = {
@@ -210,7 +215,7 @@ export class ReportTableComponent {
   }
 
   // -----------------------------------------------------
-  getDummyTableStyle(dataItem: any, rowIndex: number, column: column){
+  getDummyTableStyle(dataItem: any, rowIndex: number, column: column) {
     const defStyle: cell = this.findDefaultStyle(column.id, rowIndex);
     let obj = {
       'text-align': defStyle.text_align,
@@ -225,13 +230,13 @@ export class ReportTableComponent {
   }
 
   // -----------------------------------------------------
-  getDummyCellStyle(dataItem: any, rowIndex: number, column: column){
+  getDummyCellStyle(dataItem: any, rowIndex: number, column: column) {
     const defStyle: cell = this.findDefaultStyle(column.id, rowIndex);
     let obj = {
       'width': 'inherit',
       'vertical-align': defStyle.vertical_align,
       'text-align': defStyle.text_align,
-      'overflow':'hidden',
+      'overflow': 'hidden',
     };
     return obj;
   }
@@ -253,7 +258,7 @@ export class ReportTableComponent {
   }
 
   // -----------------------------------------------------
- applyImageStyle(dataItem: any, rowIndex: number, column: column): any {
+  applyImageStyle(dataItem: any, rowIndex: number, column: column): any {
     /* const cellStyle: any = dataItem[column.id];
     let imgIsPortrait;
     let imgRatioWH;
@@ -311,7 +316,7 @@ export class ReportTableComponent {
     return obj;
   }*/
 
-}
+  }
   // -----------------------------------------------------
   /*getImageStyle() {
     let obj = {
