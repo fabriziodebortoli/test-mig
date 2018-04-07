@@ -586,6 +586,8 @@ BOOL WoormField::SplitString(const CString& strData, CWoormDoc *pWoormDocument)
 }
 
 //----------------------------------------------------------------------------
+#define CHAR_EURO 0x20AC
+
 BOOL WoormField::SplitStringOptimized(CWoormDoc *pWoormDocument)
 {
 	m_Substrings.RemoveAll();

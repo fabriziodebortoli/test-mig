@@ -63,6 +63,8 @@
 //
 #define PROP_HAS_LIST 0x0001
 
+#define CHAR_DEGREE '\0xB0'	//°
+
 void GetPrinters(CStringArray& szaPrinterArray){
 	DWORD dwNeeded = 0, dwItems = 0;
 	LPBYTE lpPrinterInfo = NULL;
@@ -21068,9 +21070,9 @@ void CRSAlignBitwiseProp::Rebuild()
 	if (m_bAllowVertical)
 	{
 		m_OrientationProp = new CRSBitProp(this, _TB("Rotate by"), (_variant_t)GetOrientationString());
-			m_OrientationProp->AddOption(_T("0�"), TRUE, 0);									//deafult 0
-			m_OrientationProp->AddOption(_T("90�"), TRUE, DT_EX_ORIENTATION_90);				//DT_EX_ORIENTATION_90		ma devo impostare m_nAlign = (m_nAlign | DT_EX_ORIENTATION_90) &  ~DT_EX_VCENTER_LABEL
-			m_OrientationProp->AddOption(_T("270�"), TRUE, DT_EX_ORIENTATION_270);				//DT_EX_ORIENTATION_270		ma devo impostare m_nAlign = (m_nAlign | DT_EX_ORIENTATION_270) &  ~DT_EX_VCENTER_LABEL
+			m_OrientationProp->AddOption(::cwsprintf(_T("0%c"), CHAR_DEGREE), TRUE, 0);									//deafult 0
+			m_OrientationProp->AddOption(::cwsprintf(_T("90%c"), CHAR_DEGREE), TRUE, DT_EX_ORIENTATION_90);				//DT_EX_ORIENTATION_90		ma devo impostare m_nAlign = (m_nAlign | DT_EX_ORIENTATION_90) &  ~DT_EX_VCENTER_LABEL
+			m_OrientationProp->AddOption(::cwsprintf(_T("270%c"), CHAR_DEGREE), TRUE, DT_EX_ORIENTATION_270);				//DT_EX_ORIENTATION_270		ma devo impostare m_nAlign = (m_nAlign | DT_EX_ORIENTATION_270) &  ~DT_EX_VCENTER_LABEL
 		AddSubItem(m_OrientationProp);
 	}
 
