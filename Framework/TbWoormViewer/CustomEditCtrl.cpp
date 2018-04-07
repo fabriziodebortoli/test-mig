@@ -117,12 +117,21 @@ void CCustomEditCtrl::EmptyIntellisense()
 //------------------------------------------------------------------
 void CCustomEditCtrl::AddIntellisenseWord2(CString key, CString intelliItem_Value, CString intelliValue/* = L""*/, CString additionalInfo/* = L""*/, CString help/* = L""*/)
 {
-	AddIntellisenseWord(key + intelliItem_Value, intelliItem_Value, intelliValue.IsEmpty() ? intelliItem_Value : intelliValue, additionalInfo, help);
+	AddIntellisenseWord(
+		m_bUseOldIntellisense ? key : key + intelliItem_Value, 
+		intelliItem_Value, intelliValue.IsEmpty() ? intelliItem_Value : intelliValue, additionalInfo, help);
 }
 
 void CCustomEditCtrl::AddIntellisenseWord3(CString key)
 {
-	AddIntellisenseWord(key, key, key);
+	if (m_bUseOldIntellisense)
+	{
+		CString keyStr = GetKeyFromWordForIntellisense(key);
+		if (!keyStr.IsEmpty())
+			AddIntellisenseWord(keyStr, key, key);
+	}
+	else
+		AddIntellisenseWord(key, key, key);
 }
 
 void CCustomEditCtrl::AddIntellisenseWord(CString key, CString intelliItem, CString intelliValue, CString additionalInfo, CString help)
