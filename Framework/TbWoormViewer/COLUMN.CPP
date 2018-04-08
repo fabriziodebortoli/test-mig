@@ -1286,7 +1286,7 @@ void TableColumn::HResizeColumn(int width)
 //---------------------------------------------------------------------------
 void TableColumn::HMoveColumn(int width)
 {
-	LONG oldRight = m_ColumnTitleRect.right;
+	LONG oldRight = m_ColumnRect.right;
 
 	m_ColumnTitleRect.	OffsetRect	(width,0);
 	m_ColumnCellsRect.	OffsetRect	(width,0);
@@ -1301,7 +1301,8 @@ void TableColumn::HMoveColumn(int width)
 
 	if (m_bSplitterColumn)
 		UpdateSplitterInfo(oldRight);
-	if ( m_arAnchoredFields.GetSize() > 0 )
+
+	if (m_arAnchoredFields.GetSize() > 0)
 		MoveAnchoredFields(width);
 }
 
@@ -1324,7 +1325,7 @@ void TableColumn::VExpandRow (int, int height)
 	// move total
 	m_pTotalCell->VMoveCell(height * r);
 
-	if ( m_arAnchoredFields.GetSize() > 0 )
+	if (m_arAnchoredFields.GetSize() > 0)
 		MoveAnchoredFields(0, nGlobalHeight, TRUE);
 }
 
@@ -1350,7 +1351,7 @@ void TableColumn::RemoveCells (int nr_cells)
 	// move total
 	m_pTotalCell->VMoveCell(-nTotalHeight);
 
-	if ( m_arAnchoredFields.GetSize() > 0 )
+	if (m_arAnchoredFields.GetSize() > 0)
 		MoveAnchoredFields(0, -nTotalHeight, TRUE);
 }
 
@@ -1377,7 +1378,7 @@ void TableColumn::AddCells (int nr_cells)
 	// move total
 	m_pTotalCell->VMoveCell(nTotalHeight);
 
-	if ( m_arAnchoredFields.GetSize() > 0 )
+	if (m_arAnchoredFields.GetSize() > 0)
 		MoveAnchoredFields(0, nTotalHeight, TRUE);
 }
 
@@ -1440,13 +1441,10 @@ void TableColumn::HExpandAnchoredFields(int increment)
 {
 	for (int i = 0; i < m_arAnchoredFields.GetSize(); i++)
 	{
-		BaseObj* pObj = m_arAnchoredFields.GetAt(i);
-		if (pObj->IsKindOf(RUNTIME_CLASS(BaseRect)))
-		{
-			BaseRect* pBaseRect = (BaseRect*) pObj;
-			CRect baseRect = pBaseRect->GetBaseRect();
-			pBaseRect->MoveBaseRect(baseRect.left, baseRect.top, baseRect.left + baseRect.Width() + increment, baseRect.bottom, TRUE, TRUE);
-		}
+		BaseRect* pBaseRect = m_arAnchoredFields.GetAt(i);
+		ASSERT_VALID(pBaseRect);
+		CRect baseRect = pBaseRect->GetBaseRect();
+		pBaseRect->MoveBaseRect(baseRect.left, baseRect.top, baseRect.left + baseRect.Width() + increment, baseRect.bottom, TRUE, TRUE);
 	}
 }
 
@@ -1480,34 +1478,11 @@ void TableColumn::SetColumnAlign (AlignType nAlign)
 	if (IsMultiRow())
 		nAlign = SET_ALIGN_FOR_MULTI_ROW(nAlign);
 
-	//if (m_bMixedColumnAlign)
-	//{
-	//	for (int nRow = 0; nRow <= m_Cells.GetUpperBound(); nRow++)
-	//	{
-	//		AlignType nA = m_Cells[nRow]->GetCellAlign();
-	//		if (nA == m_nAlignType)
-	//			SetCellAlign (nAlign, nRow);
-	//	}
-	//}
-	//else
-	{
-		for (int nRow = 0; nRow <= m_Cells.GetUpperBound(); nRow++)
-			SetCellAlign (nAlign, nRow);
-	}
+	for (int nRow = 0; nRow <= m_Cells.GetUpperBound(); nRow++)
+		SetCellAlign (nAlign, nRow);
 
 	m_nAlignType = nAlign;
 }
-
-//void TableColumn::SetColumnAlignFromProp(AlignType /*nAlignOld*/)
-//{
-//	m_pTotalCell->SetCellAlign(m_nAlignType);
-//
-//	if (IsMultiRow())
-//		m_nAlignType = SET_ALIGN_FOR_MULTI_ROW(m_nAlignType);
-//
-//	for (int nRow = 0; nRow <= m_Cells.GetUpperBound(); nRow++)
-//		SetCellAlign(m_nAlignType, nRow);
-//}
 
 //------------------------------------------------------------------------------
 void TableColumn::SetColumnFontIdx (FontIdx nIdx)
@@ -1542,7 +1517,6 @@ void TableColumn::SetColumnTitleColor (COLORREF* pColors)
 	SetColumnTitleBkgColor			(pColors[CColumnTitleColorsDlg::BACKGROUND]);
 	SetColumnTitleBorderColor		(pColors[CColumnTitleColorsDlg::BORDER]);
 }
-
 
 //---------------------------------------------------------------------------
 void TableColumn::GetColumnTitleColor (COLORREF* pColors) const

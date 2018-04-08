@@ -1349,7 +1349,6 @@ void Table::ModifyRowsNumber (int nNrRows)
 	}
 }
 
-
 //------------------------------------------------------------------------------
 void Table::BeforeAction ()
 {
@@ -1384,35 +1383,6 @@ void Table::AfterAction ()
 		// try to add or remove rows if needed
 		ModifyRowsNumber (nRequiredRow - RowsNumber());
 	}
-}
-
-//------------------------------------------------------------------------------
-BOOL Table::CheckColumnsHiddenStatus ()
-{
-	BOOL bLayoutChanged = FALSE;
-	for (int i = 0; i < m_Columns.GetSize(); i++)
-	{
-		TableColumn* pCol = m_Columns[i];
-
-		BOOL bHidden = pCol->IsHidden();
-		if (pCol->m_pHideExpr && !pCol->m_pHideExpr->IsEmpty())
-			bLayoutChanged = (bHidden = CheckHiddenStatus(i)) || bLayoutChanged;
-
-		if (!bHidden && pCol->m_pDynamicWidthExpr && !pCol->m_pDynamicWidthExpr->IsEmpty())
-		{
-			bLayoutChanged = CheckDynamicWidth(i) || bLayoutChanged;
-		}
-
-		if (bLayoutChanged && pCol->m_arAnchoredFields.GetSize() > 0)
-		{
-			for (int i = 0; i < pCol->m_arAnchoredFields.GetSize(); i++)
-			{
-				BaseObj* pObj = pCol->m_arAnchoredFields.GetAt(i);
-				m_pDocument->InvalidateRect(pObj->GetBaseRect(),TRUE);
-			}
-		}
-	}
-	return bLayoutChanged;
 }
 
 //------------------------------------------------------------------------------
@@ -1481,7 +1451,6 @@ void Table::SetObjCursor(ActionType nAction)
 	static const  HCURSOR* NEAR rghCursors = LoadCursors();
 	SetCursor(rghCursors[nAction]);
 }
-
 
 //------------------------------------------------------------------------------
 BOOL Table::EditorManagerCreateField(int nIDM, CWordArray& ids, TblRuleData* /*pTblRule=NULL*/)

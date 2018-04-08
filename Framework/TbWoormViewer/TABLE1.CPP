@@ -883,14 +883,13 @@ void Table::ColumnToggleHidden(int nCol)
 {
 	CString labelColumn = m_Columns[nCol]->m_Title.GetText();
 	if ( labelColumn.IsEmpty())
-		{
-			SymField* rp =  m_pDocument->m_pEditorManager->GetSymTable()->GetFieldByID (m_Columns[nCol]->GetInternalID());
+	{
+		SymField* rp =  m_pDocument->m_pEditorManager->GetSymTable()->GetFieldByID (m_Columns[nCol]->GetInternalID());
 			
-			labelColumn = _T("(");
-			labelColumn.Append(rp->GetName()); 
-			labelColumn.Append(_T(")"));
-		}
-	
+		labelColumn = _T("(");
+		labelColumn.Append(rp->GetName()); 
+		labelColumn.Append(_T(")"));
+	}
 	
 	CHiddenWhenDlg   dialog (m_Columns[nCol]->m_pHideExpr, m_Columns[nCol]->IsHidden(), labelColumn, m_pDocument->m_pEditorManager->GetSymTable());
  
@@ -912,21 +911,49 @@ void Table::ColumnToggleHidden(int nCol)
 }
 
 //------------------------------------------------------------------------------
-//From Paint
+BOOL Table::CheckColumnsHiddenStatus()
+{
+	BOOL bLayoutChanged = FALSE;
+	for (int i = 0; i < m_Columns.GetSize(); i++)
+	{
+		TableColumn* pCol = m_Columns[i];
+
+		if (pCol->m_pHideExpr && !pCol->m_pHideExpr->IsEmpty())
+			bLayoutChanged = CheckHiddenStatus(i) || bLayoutChanged;
+
+		if (!pCol->IsHidden() && pCol->m_pDynamicWidthExpr && !pCol->m_pDynamicWidthExpr->IsEmpty())
+		{
+			bLayoutChanged = CheckDynamicWidth(i) || bLayoutChanged;
+		}
+
+		if (bLayoutChanged && pCol->m_arAnchoredFields.GetSize() > 0)
+		{
+			for (int i = 0; i < pCol->m_arAnchoredFields.GetSize(); i++)
+			{
+				BaseObj* pObj = pCol->m_arAnchoredFields.GetAt(i);
+				m_pDocument->InvalidateRect(pObj->GetBaseRect(), TRUE);
+			}
+		}
+	}
+	return bLayoutChanged;
+}
+
+//------------------------------------------------------------------------------
 BOOL Table::CheckHiddenStatus(int nCol)
 {
-	ASSERT(m_Columns[nCol]->m_pHideExpr != NULL);
+	TableColumn* pCol = m_Columns[nCol];
+	ASSERT_VALID(pCol->m_pHideExpr);
 
-	BOOL bSaveHidden = m_Columns[nCol]->IsHidden();
+	BOOL bSaveHidden = pCol->IsHidden();
 
 	DataBool bHidden(bSaveHidden);
-	if (!m_Columns[nCol]->m_pHideExpr->Eval(bHidden))
+	if (!pCol->m_pHideExpr->Eval(bHidden))
 	{
-		TRACE(_TB("Valutation error in control expression for column visualization:") + m_Columns[nCol]->m_Title.GetText());
+		TRACE(_TB("Valutation error in control expression for column visualization:") + pCol->m_Title.GetText());
 		return FALSE;
 	}
 
-	if  (bSaveHidden == bHidden)
+	if (bSaveHidden == bHidden)
 		return FALSE;
 
 	SetColumnHiddenStatus(nCol, bHidden);
@@ -939,10 +966,11 @@ void Table::SetColumnHiddenStatus(int nCol, BOOL bHidden)
 	TableColumn* pCol = m_Columns[nCol];
 	int width = bHidden ? pCol->Width() : pCol->m_nSavedWidth;
 
-	pCol->SetHidden(bHidden);	//resize right columns/anchored fields too
+	pCol->SetHidden(bHidden);	//resize column rect and owned anchored fields
 
 	if (nCol <= m_Columns.GetUpperBound())
 	{
+		ASSERT(width);
 		if (bHidden)
 		{
 			LeftShiftColumn (nCol + 1, width);
@@ -960,7 +988,7 @@ BOOL Table::CheckDynamicWidth(int nCol)
 	TableColumn* pCol = m_Columns[nCol];
 
 	ASSERT_VALID(pCol->m_pDynamicWidthExpr);
-	if (!pCol->m_pDynamicWidthExpr)
+	if (!pCol->m_pDynamicWidthExpr || pCol->m_pDynamicWidthExpr->IsEmpty())
 		return FALSE;
 
 	DataInt width = pCol->Width();
@@ -977,66 +1005,6 @@ BOOL Table::CheckDynamicWidth(int nCol)
 	return TRUE;
 }
 
-/*
-//------------------------------------------------------------------------------
-void Table::OnShowAllHiddenColumn()
-{
-	CColumnArray arHiddenColumns;
-
-	for (int nCol= 0; nCol <= m_Columns.GetUpperBound(); nCol++)
-	{
-		if 	( m_Columns[nCol]->IsHidden() || m_Columns[nCol]->m_pHideExpr ) 
-		{
-			arHiddenColumns.Add( m_Columns[nCol] );
-		}
-	}
- 
-	if (arHiddenColumns.GetCount() == 0)
-		return;
-	
-	CListHiddenColsDlg   dialog ( &arHiddenColumns, &m_Columns, m_pDocument, this);
-	if (dialog.DoModal() != IDOK) return;
-}
-
-//------------------------------------------------------------------------------
-void Table::OnColumnToggleLink()	
-{
-	OnColumnManageLink(m_nActiveColumn);
-}
-
-//---------------------------------------------------------------------------
-
-void Table::OnColumnManageLink (int nCol)
-{
-	WORD columnInternalID = m_Columns[nCol]->GetInternalID();
-	CString labelColumn = m_Columns[nCol]->m_Title.GetText();
-	
-	CManageLinkDlg dialog (labelColumn, m_pDocument, columnInternalID);
-	
-	dialog.DoModal();
-}
-
-//------------------------------------------------------------------------------
-void Table::OnShowAllLinks()
-{
-	//TODO show dialog con elenco totale delle colone nascoste
-	CColumnArray arLinkColumns;   //colonne che hanno almeno un link associato
-
-	for (int nCol= 0; nCol <= m_Columns.GetUpperBound(); nCol++)
-	{
-		for (int i = 0; i < m_pDocument->m_arWoormLinks.GetSize(); i++)
-		{
-			if ( m_Columns[nCol]->GetInternalID() == m_pDocument->m_arWoormLinks.GetAt(i)->m_nAlias)
-			{
-				arLinkColumns.Add( m_Columns[nCol] );
-				break;
-			}
-		}	
-	}
-	CAllLinksColsDlg   dialog ( &arLinkColumns, m_pDocument, this);
-	if (dialog.DoModal() != IDOK) return;
-}
-*/
 //------------------------------------------------------------------------------
 void Table::OnTotalColors()
 {
