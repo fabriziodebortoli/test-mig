@@ -1389,21 +1389,20 @@ void Table::AfterAction ()
 //------------------------------------------------------------------------------
 BOOL Table::CheckColumnsHiddenStatus ()
 {
-	BOOL bHiddenColumnChanged = FALSE;
-	BOOL bUpdate = FALSE;
+	BOOL bLayoutChanged = FALSE;
 	for (int i = 0; i < m_Columns.GetSize(); i++)
 	{
 		TableColumn* pCol = m_Columns[i];
 
 		if (pCol->m_pHideExpr && !pCol->m_pHideExpr->IsEmpty())
-			bHiddenColumnChanged = CheckHiddenStatus(i) || bHiddenColumnChanged;
+			bLayoutChanged = CheckHiddenStatus(i) || bLayoutChanged;
 
 		if (pCol->m_pDynamicWidthExpr)
 		{
-			bHiddenColumnChanged = CheckDynamicWidth(i) || bHiddenColumnChanged;
+			bLayoutChanged = CheckDynamicWidth(i) || bLayoutChanged;
 		}
 
-		if (bHiddenColumnChanged && pCol->m_arAnchoredFields.GetSize() > 0)
+		if (bLayoutChanged && pCol->m_arAnchoredFields.GetSize() > 0)
 		{
 			for (int i = 0; i < pCol->m_arAnchoredFields.GetSize(); i++)
 			{
@@ -1412,7 +1411,7 @@ BOOL Table::CheckColumnsHiddenStatus ()
 			}
 		}
 	}
-	return bHiddenColumnChanged;
+	return bLayoutChanged;
 }
 
 //------------------------------------------------------------------------------

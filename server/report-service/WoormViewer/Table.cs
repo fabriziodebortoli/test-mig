@@ -644,16 +644,13 @@ namespace Microarea.RSWeb.Objects
         {
             string s = "{\"id" + this.column.InternalID.ToString() + "\":{";
 
-            //if (column.ShowTotal)
-            {
-                s +=
-                    this.TemplateTotalTextColor.ToJson("textcolor") + ',' +
-                    this.TemplateTotalBkgColor.ToJson("bkgcolor") + ',' +
+            s +=
+                this.TemplateTotalTextColor.ToJson("textcolor") + ',' +
+                this.TemplateTotalBkgColor.ToJson("bkgcolor") + ',' +
 
-                    this.Align.ToHtml_align() + ',' +
-                    this.FontData.ToJson() + ',';
-            }
-
+                this.Align.ToHtml_align() + ',' +
+                this.FontData.ToJson() + ',';
+  
             s += border.ToJson() + ',' + pen.ToJson() + "}}";
             return s;
         }
@@ -680,7 +677,6 @@ namespace Microarea.RSWeb.Objects
 
                 s += this.Value.FormattedData.ToJson("value", false, true) + ',';
             }
-
 
             if (column.Table.HasDynamicHiddenColumns())
                 s += border.ToJson() + ',' + pen.ToJson();
@@ -716,6 +712,7 @@ namespace Microarea.RSWeb.Objects
         //const string ISHIDDEN			= "IsHidden";
 
         public ushort InternalID = 0;
+        public short Index = -1;
 
         public BasicText Title;
         public BorderPen ColumnTitlePen = new BorderPen();
@@ -804,6 +801,8 @@ namespace Microarea.RSWeb.Objects
         // che non ha ancora parsato la zona di report (variables)
         private const int HIDDEN_DEFAULT_WIDTH = 100;
         public bool TemplateOverridden = false;
+
+        public List<BaseRect> AnchoredRectList = null;
 
         //------------------------------------------------------------------------------
         public Column()
@@ -975,11 +974,11 @@ namespace Microarea.RSWeb.Objects
 
             string s = "{" +
 
-                this.InternalID.ToJson("id", "id") + ',' +
+            this.InternalID.ToJson("id", "id") + ',' +
 
                (DynamicIsHidden ? this.IsHidden.ToJson("hidden") + ',' : "") +
 
-                //this.ColumnRect.ToJson("rect") + ',' +
+              // this.DynamicWidth.ToJson("width");
                 this.Width.ToJson("width");
 
             if (!this.Table.HideColumnsTitle)
@@ -3213,7 +3212,6 @@ namespace Microarea.RSWeb.Objects
             return true;
         }
 
-
         //------------------------------------------------------------------------------
         private bool ParseAllColumns(WoormParser lex)
         {
@@ -5256,6 +5254,43 @@ namespace Microarea.RSWeb.Objects
             //cambio colore di sfondo dell'easyview
             if (!existsCellTail)
                 UseEasyviewColor = !UseEasyviewColor;
+        }
+
+        //---------------------------------------------------------------------------
+        public void CheckDynamicColumns()    //TODO RSWEB  dynamic width column/anchored fields
+        {
+            //TODO hidden columns
+            //TODO dynamic width columns
+            //TODO move/resize/hide-show anchored fields
+
+            /*
+* C:\dev\Standard\TaskBuilder\Framework\TbWoormViewer\TABLE2.CPP
+* 1390 - BOOL Table::CheckColumnsHiddenStatus ()
+
+              	bool bLayoutChanged = false;
+                foreach (Colum pCol in Columns)
+                {
+                    TableColumn* pCol = m_Columns[i];
+
+                    if (pCol.HideExpr != null && !pCol.HideExpr.IsEmpty())
+                        bLayoutChanged = CheckHiddenStatus(i) || bLayoutChanged;
+
+                    if (pCol.DynamicWidthExpr != null)
+                    {
+                        bLayoutChanged = CheckDynamicWidth(i) || bLayoutChanged;
+                    }
+
+                    if (bLayoutChanged && pCol->m_arAnchoredFields.GetSize() > 0)
+                    {
+                        foreach (BaseRect pRect in pCol.AnchoredFields)
+                        {
+                            if (pRect.RightColumAnchorID == pCol->GetId)
+                                ;//TODO update rectangle/hidden state
+                        }
+                    }
+                }
+
+             * */
         }
 
         //---------------------------------------------------------------------------

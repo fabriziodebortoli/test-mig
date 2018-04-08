@@ -961,9 +961,12 @@ void Table::SetColumnHiddenStatus(int nCol, BOOL bHidden)
 BOOL Table::CheckDynamicWidth(int nCol)
 {
 	TableColumn* pCol = m_Columns[nCol];
-	ASSERT(pCol->m_pDynamicWidthExpr != NULL);
 
-	DataInt width;
+	ASSERT_VALID(pCol->m_pDynamicWidthExpr);
+	if (!pCol->m_pDynamicWidthExpr)
+		return FALSE;
+
+	DataInt width = pCol->Width();
 	if (!pCol->m_pDynamicWidthExpr->Eval(width))
 	{
 		TRACE(_TB("Valutation error in dynamic expression for column width:") + pCol->m_Title.GetText());

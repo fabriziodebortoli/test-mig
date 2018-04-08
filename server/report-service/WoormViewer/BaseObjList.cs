@@ -7,6 +7,7 @@ using Microarea.Common.Generic;
 using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.Objects;
 using Microarea.Common.CoreTypes;
+using System.Drawing;
 
 namespace Microarea.RSWeb.WoormViewer
 {
@@ -77,6 +78,18 @@ namespace Microarea.RSWeb.WoormViewer
                 return t.Columns[pos];
             }
             return null;
+        }
+        public short FindColumnIndex(ushort id)
+        {
+            foreach (BaseObj obj in this)
+            {
+                if (!(obj is Table)) continue;
+                Table t = obj as Table;
+                short pos = (short)t.ColumnIndexFromID(id);
+                if (pos == -1) continue;
+                return pos;
+            }
+            return -1;
         }
 
         //------------------------------------------------------------------------------
@@ -231,7 +244,7 @@ namespace Microarea.RSWeb.WoormViewer
                 AddSpecialStatusFieldRect(woorm);
                 AddSpecialPrintOnLetterHeadFieldRect(woorm);
             }
-         }
+        }
 
         /// ---------------------------------------------------------------------------------
         /// <summary>
@@ -297,7 +310,112 @@ namespace Microarea.RSWeb.WoormViewer
             Add(f);
         }
 
-        //---------------------------------------------------------------------------------
+        //---------------------------------------------------------------------
+        internal void AddIDToDynamicStaticObjects()
+        {
+            foreach (BaseObj obj in this)
+            {
+                if (obj.InternalID <= 0 && obj.IsDynamic())
+                {
+                    obj.InternalID = document.SymbolTable.GetNewID();
+                }
+
+                if (obj is Repeater)
+                    ((Repeater)obj).AddIDToDynamicStaticObjects();
+            }
+        }
+
+        //---------------------------------------------------------------------
+        internal void AnchorFieldToColumn(BaseRect baseRect)
+        {
+            if (baseRect.AnchorLeftColumnID == 0)
+                return;
+
+            if (baseRect.AnchorLeftColumnID == baseRect.AnchorRightColumnID)
+                baseRect.AnchorRightColumnID = 0;
+
+            Column leftCol = FindColumn(baseRect.AnchorLeftColumnID);
+            Column rightCol = baseRect.AnchorRightColumnID > 0 ? FindColumn(baseRect.AnchorRightColumnID) : leftCol;
+            if (leftCol == null)
+            {
+                if (rightCol == null)
+                {
+                    baseRect.AnchorLeftColumnID = baseRect.AnchorRightColumnID = 0;
+                    return;
+                }
+                leftCol = rightCol;
+            }
+
+            Rectangle colLeftRect = leftCol.ColumnRect;
+            if (leftCol != rightCol && rightCol.ColumnRect.Left < leftCol.ColumnRect.Left)
+                rightCol = leftCol;
+
+            if (leftCol.AnchoredRectList == null)
+                leftCol.AnchoredRectList = new List<BaseRect>();
+            leftCol.AnchoredRectList.Add(baseRect);
+            baseRect.AnchorLeftColumnIndex = FindColumnIndex(baseRect.AnchorLeftColumnID);
+
+            if (leftCol != rightCol)
+            {
+                if (rightCol.AnchoredRectList == null)
+                    rightCol.AnchoredRectList = new List<BaseRect>();
+                rightCol.AnchoredRectList.Add(baseRect);
+                baseRect.AnchorRightColumnIndex = FindColumnIndex(baseRect.AnchorRightColumnID);
+            }
+            else baseRect.AnchorRightColumnIndex = baseRect.AnchorLeftColumnIndex;
+
+            bool isFirstVisibleLeftCol = false; //TODO
+
+            int left = leftCol.ColumnRect.Left;
+            if (baseRect.Borders.Left && !isFirstVisibleLeftCol)   //bIgnoreBorder
+                left -= baseRect.BorderPen.Width;
+
+            baseRect.Rect = new Rectangle(  left, 
+                                            baseRect.Rect.Top,
+                                            rightCol.ColumnRect.Right - leftCol.ColumnRect.Left,
+                                            baseRect.Rect.Height
+                                         );
+        }
+
+        internal void AnchorFieldToColumn()
+        {
+            foreach (BaseObj obj in this)
+            {
+                if (obj is BaseRect)
+                {
+                    BaseRect pBaseRect = obj as BaseRect;
+                    if (pBaseRect.AnchorLeftColumnID > 0)
+                    {
+                        AnchorFieldToColumn(pBaseRect);
+                    }
+                }
+
+            }
+        }
+
+        //---------------------------------------------------------------------
+        internal void CheckDynamicColumns()
+        {
+            foreach (BaseObj obj in this)
+            {
+                if (obj is Table)
+                {
+                    Table t = obj as Table;
+                    t.CheckDynamicColumns();
+                }
+            }
+        }
+
+        //---------------------------------------------------------------------
+        internal void SortLayoutObjectsOnPosition() //RSWEB TODO
+        {
+            foreach (BaseObj obj in this)
+            {
+
+            }
+        }
+
+        //---------------------------------------------------------------------
         internal void Unparse(Unparser unparser, bool isSavingTemplate, ref bool thereIsTemplate)
         {
             // write all elements CBaseObjArray* pObjects
@@ -341,6 +459,8 @@ namespace Microarea.RSWeb.WoormViewer
         //---------------------------------------------------------------------
         override public string ToJson(bool template, string name, bool bracket = false, bool array = true)
         {
+            this.CheckDynamicColumns();  //RSWEB TODO dynamic width column/anchored fields
+
             string s = string.Empty;
             if (!name.IsNullOrEmpty())
                 s = '\"' + name + "\":";
@@ -356,20 +476,5 @@ namespace Microarea.RSWeb.WoormViewer
             return s;
         }
 
-        //---------------------------------------------------------------------
-        internal void AddIDToDynamicStaticObjects()
-        {
-            foreach (BaseObj obj in this)
-            {
-                if (obj.InternalID <= 0 && obj.IsDynamic())
-                {
-                    obj.InternalID = document.SymbolTable.GetNewID();
-                }
-
-                if (obj is Repeater)
-                    ((Repeater)obj).AddIDToDynamicStaticObjects();
-            }
-        }
-    }
-
+     }
 }

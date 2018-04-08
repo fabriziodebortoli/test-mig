@@ -630,6 +630,21 @@ namespace Microarea.RSWeb.WoormViewer
             }
         }
 
+        internal void AnchorFieldToColumn()
+        {
+            foreach (Layout layout in this.Values)
+            {
+                layout.AnchorFieldToColumn();
+            }
+        }
+        internal void SortLayoutObjectsOnPosition()
+        {
+            foreach (Layout layout in this.Values)
+            {
+                layout.SortLayoutObjectsOnPosition();
+            }
+        }
+
     }
 
     /// <summary>
@@ -907,7 +922,8 @@ namespace Microarea.RSWeb.WoormViewer
 
             layouts.ApplyRepeater();
             layouts.AddIDToDynamicStaticObjects();
- 
+            layouts.AnchorFieldToColumn();
+            layouts.SortLayoutObjectsOnPosition();  //RSWEB TODO
             return true;
 		}
 

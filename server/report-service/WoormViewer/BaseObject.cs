@@ -523,16 +523,14 @@ namespace Microarea.RSWeb.Objects
         //[IgnoreDataMember]
         public WoormViewerExpression BkgColorExpr = null; // dynamic UI
 
-        //[IgnoreDataMember]
         public bool IsAnchorPageLeft = false;
-        //[IgnoreDataMember]
         public bool IsAnchorPageRight = false;
-        //[IgnoreDataMember]
+  
         public ushort AnchorLeftColumnID = 0;
-        //[IgnoreDataMember]
         public ushort AnchorRightColumnID = 0;
+        public short AnchorLeftColumnIndex = -1;
+        public short AnchorRightColumnIndex = -1;
 
-        //[IgnoreDataMember]
         public bool TemplateOverridden = false;
 
         //attributes not used in Easylook, used only for Z-print in woorm c++. Here they are only parsed
