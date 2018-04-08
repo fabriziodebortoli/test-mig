@@ -1244,13 +1244,15 @@ BOOL BaseRect::DeleteEditorEntry ()
 void BaseRect::MoveBaseRect(int x1, int y1, int x2, int y2, BOOL bRepaint/* = TRUE*/, BOOL bIgnoreBorder/* = FALSE*/)
 {	
 	m_pDocument->InvalidateRect(m_BaseRect);  //old area
+
 	//Se il campo che sto ancorando ha il bordo sinistro adeguo la x in modo che il contenuto 
 	//sia allineato alla x della colonna, e non li bordo
 	//(Comportamento uniforme a quello del titolo della colonna)
 	if (m_Borders.left && !bIgnoreBorder)
 		x1 -= m_BorderPen.GetWidth();
 
-	m_BaseRect.SetRect( x1 , y1, x2, y2);	
+	m_BaseRect.SetRect(x1, y1, x2, y2);	
+	m_pDocument->InvalidateRect(m_BaseRect);  //new area
 
 	if (bRepaint)
 		UpdateDocument ();

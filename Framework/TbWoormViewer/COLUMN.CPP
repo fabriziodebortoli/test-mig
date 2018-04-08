@@ -533,10 +533,6 @@ TableColumn::~TableColumn()
 //------------------------------------------------------------------------------
 BOOL TableColumn::IsHidden () const 
 {
-	if (m_pHideExpr && !m_pHideExpr->IsEmpty())
-	{
-		//TODO aggiungere la valutazione dell'espressione
-	}
 	return m_bIsHidden; 
 }
 
@@ -546,7 +542,7 @@ void TableColumn::SetHidden (BOOL bIsHidden)
 	m_bIsHidden = bIsHidden;
 	if (bIsHidden)
 	{
-		int w = GetColumnTitleRect().Width();
+		int w = Width();
 		if (w)
 		{
 			if (m_nSavedWidth == 0)
@@ -558,8 +554,10 @@ void TableColumn::SetHidden (BOOL bIsHidden)
 	else
 	{
 		ASSERT(m_nSavedWidth);
+		if (m_nSavedWidth == 0) 
+			m_nSavedWidth = HIDDEN_DEFAULT_WIDTH;
 		if (m_nWidth <= 0) 
-			m_nWidth = (m_nSavedWidth ? m_nSavedWidth : HIDDEN_DEFAULT_WIDTH);
+			m_nWidth = m_nSavedWidth;
 
 		HResizeColumn(m_nWidth);
 	}
@@ -1266,7 +1264,7 @@ void TableColumn::HExpandColumn(int width)
 //---------------------------------------------------------------------------
 void TableColumn::HResizeColumn(int width)
 {
-	LONG oldRight = m_ColumnTitleRect.right;
+	LONG oldRight = m_ColumnRect.right;
 
 	m_ColumnTitleRect.right	= m_ColumnTitleRect.left + width;
 	m_ColumnCellsRect.right	= m_ColumnCellsRect.left + width;
@@ -1282,7 +1280,7 @@ void TableColumn::HResizeColumn(int width)
 	if (m_bSplitterColumn)
 		UpdateSplitterInfo(oldRight);
 	if (m_arAnchoredFields.GetSize() > 0)
-		HResizeAnchoredFields(width - (oldRight - m_ColumnCellsRect.left));
+		HResizeAnchoredFields(width - (oldRight - m_ColumnRect.left));
 }
 
 //---------------------------------------------------------------------------
@@ -1389,43 +1387,37 @@ void TableColumn::MoveAnchoredFields(int xOffset, int yOffset /* = 0*/, BOOL bSk
 	for (int i = 0; i < m_arAnchoredFields.GetSize(); i++)
 	{
 		int yOff = yOffset;
-		BaseObj* pObj = m_arAnchoredFields.GetAt(i);
-		BaseRect* pBaseRect = NULL;
-		if (pObj->IsKindOf(RUNTIME_CLASS(BaseRect)))
-		{
-			pBaseRect = (BaseRect*) pObj;
 
-			if (pBaseRect->m_AnchorLeftColumnID != this->m_wInternalID)
-				continue;
-		}
+		BaseRect* pBaseRect = m_arAnchoredFields.GetAt(i);
+		ASSERT_VALID(pBaseRect);
 
-		SelectionRect*	pSelRect = GetDocument()->m_pMultipleSelObj;
+		if (pBaseRect->m_AnchorLeftColumnID != this->m_wInternalID)
+			continue;
+
 		BOOL bIsSelected = FALSE;
+		SelectionRect*	pSelRect = GetDocument()->m_pMultipleSelObj;
 		if (pSelRect != NULL)
-			bIsSelected = pSelRect->ObjectInSelection(pObj); 
+			bIsSelected = pSelRect->ObjectInSelection(pBaseRect);
 		
-		if (pBaseRect)
-		{
-			CRect baseRect = pBaseRect->GetBaseRect();
-			GetDocument()->InvalidateRect(baseRect, TRUE);
+		CRect baseRect = pBaseRect->GetBaseRect();
+		GetDocument()->InvalidateRect(baseRect, TRUE);
 
-			//se e' selezionato insieme alla tabella, gli consento di seguire solo 
-			//il movimento sulla x, quello sulla y viene gia' effettuato per il fatto che e' selezionato
-			//Gli oggetti ancorati infatti hanno libero solo il movimento sull'asse y ma non sull'asse x
-			if (bIsSelected)
-				yOff = 0;
+		//se e' selezionato insieme alla tabella, gli consento di seguire solo 
+		//il movimento sulla x, quello sulla y viene gia' effettuato per il fatto che e' selezionato
+		//Gli oggetti ancorati infatti hanno libero solo il movimento sull'asse y ma non sull'asse x
+		if (bIsSelected)
+			yOff = 0;
 
-			if (bSkipTopField && baseRect.top < this->m_ColumnRect.top)
-				yOff = 0;
+		if (bSkipTopField && baseRect.top < this->m_ColumnRect.top)
+			yOff = 0;
 
-			pBaseRect->MoveBaseRect(baseRect.left + xOffset, baseRect.top + yOff , baseRect.right + xOffset, baseRect.bottom + yOff, TRUE, TRUE);
-		}
-
+		pBaseRect->MoveBaseRect(baseRect.left + xOffset, baseRect.top + yOff , baseRect.right + xOffset, baseRect.bottom + yOff, TRUE, TRUE);
+	
 		if (bIsSelected)
 		{
 			//recupero il selectedObj di questo baseObj e chiamo SetActive su questo per aggiornare il rettangolo rosa(ActiveRect)
-			SelectedObj* pSelectedObj = pSelRect->GetSelectedObjInSelection(pObj);
-			if (pSelectedObj != NULL)
+			SelectedObj* pSelectedObj = pSelRect->GetSelectedObjInSelection(pBaseRect);
+			if (pSelectedObj)
 				pSelectedObj->SetActive(FALSE);
 		}
 	}
@@ -1436,13 +1428,10 @@ void TableColumn::HResizeAnchoredFields(int newWidth)
 {
 	for (int i = 0; i < m_arAnchoredFields.GetSize(); i++)
 	{
-		BaseObj* pObj = m_arAnchoredFields.GetAt(i);
-		if (pObj->IsKindOf(RUNTIME_CLASS(BaseRect)))
-		{
-			BaseRect* pBaseRect = (BaseRect*) pObj;
-			CRect baseRect = pBaseRect->GetBaseRect();
-			pBaseRect->MoveBaseRect(baseRect.left, baseRect.top, baseRect.right + newWidth, baseRect.bottom, TRUE, TRUE);
-		}
+		BaseRect* pBaseRect = m_arAnchoredFields.GetAt(i);
+		ASSERT_VALID (pBaseRect);
+		CRect baseRect = pBaseRect->GetBaseRect();
+		pBaseRect->MoveBaseRect(baseRect.left, baseRect.top, baseRect.right + newWidth, baseRect.bottom, TRUE, TRUE);
 	}
 }
 
@@ -2845,13 +2834,13 @@ void TableColumn::InitializeWidth(int width)
 {
 	// IMPORTANT TRICKS
 	// save width in m_Title coordinate (width is ok)
-	m_ColumnTitleRect.left = 0;
-	m_ColumnTitleRect.right = m_ColumnTitleRect.left + width;
+	m_ColumnRect.left = 0;
+	m_ColumnRect.right = m_ColumnRect.left + width;
 }
 
 int TableColumn::Width() const
 {
-	return m_ColumnTitleRect.Width();
+	return m_ColumnRect.Width();
 }
 
 //---------------------------------------------------------------------------

@@ -12,7 +12,7 @@ PageLayout "default"
 				AnchorColumn Alias 4 , Alias 2 
 				Align 2129 ;
 			End
-		Text (53,690,83,982) "IsGood-ItemType" 
+		Text (53,691,83,982) "IsGood-ItemType" 
 			Begin
 				AnchorColumn Alias 3 , Alias 5 
 				Align 2129 ;
@@ -21,7 +21,7 @@ PageLayout "default"
 		HideTitle
 			Begin
 				"Item Code" Alias 4  /* MA_Items_Item */ Width 121 Hidden Width 121 When askHideItem ;
-				"Description" Alias 2  /* MA_Items_Description */ Width 231 Hidden Width 231 When askHideDescription ;
+				"Description" Alias 2  /* MA_Items_Description */ Width 231 , askWidthDescription Hidden Width 231 When askHideDescription ;
 				"Base Price" Alias 1  /* MA_Items_BasePrice */ Width 177 FormatStyle "Money" Total Hidden Width 177 When askHideBasePrice ;
 				"Base UoM" Alias 12  /* MA_Items_BaseUoM */ Width 121 Hidden Width 121 When askBaseUoM ;
 				"Is Good" Alias 3  /* MA_Items_IsGood */ Width 170 FormatStyle "Bool" Hidden Width 170 When askHideIsGood ;
@@ -29,17 +29,17 @@ PageLayout "default"
 			End
 
 
-		Text (375,690,405,861) "IsGood" 
+		Text (375,691,405,861) "IsGood" 
 			Begin
 				AnchorColumn Alias 3 
 				Align 2137 ;
 			End
-		Text (401,392,451,570) "Base Price" 
+		Text (401,393,451,570) "Base Price" 
 			Begin
 				AnchorColumn Alias 1 
 				Align 2137 ;
 			End
-		Text (407,569,437,861) "BaseUoM-IsGood" 
+		Text (407,570,437,861) "BaseUoM-IsGood" 
 			Begin
 				AnchorColumn Alias 12 , Alias 3 
 				Align 2137 ;
@@ -67,6 +67,7 @@ Report
 			String       MA_Items_BaseUoM [15] Alias 12  Column ;
 			Bool         askBaseUoM [3] Alias 18  Hidden  Input ;
 			Bool         askHideBasePrice [3] Alias 19  Hidden  Input ;
+			Integer      askWidthDescription [6] Alias 20  Hidden  Input Init = 231 ;
 		End
 
 		Rules
@@ -121,6 +122,9 @@ Report
 								askBaseUoM Prompt = "hide Base UoM" ;
 								askHideIsGood Prompt = "hide IsGood" ;
 								askHideItemType Prompt = "hide ItemType" ;
+							End
+							Begin  "Set custom width" 
+								askWidthDescription Prompt = "width description" ;
 							End
 						End
 				End

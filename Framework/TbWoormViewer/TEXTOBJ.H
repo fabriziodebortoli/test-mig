@@ -70,7 +70,7 @@ class TB_EXPORT GenericText : public BasicTextStyle
 friend class CRS_ObjectPropertyView;
 public:
 	struct {
-		AlignType					m_nAlign;
+		AlignType					m_nAlign = 0;
 		CRect						m_rect;
 		CString						m_strText;
 		CStringArray				m_arTextLine;

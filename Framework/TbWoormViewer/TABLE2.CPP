@@ -1394,10 +1394,11 @@ BOOL Table::CheckColumnsHiddenStatus ()
 	{
 		TableColumn* pCol = m_Columns[i];
 
+		BOOL bHidden = pCol->IsHidden();
 		if (pCol->m_pHideExpr && !pCol->m_pHideExpr->IsEmpty())
-			bLayoutChanged = CheckHiddenStatus(i) || bLayoutChanged;
+			bLayoutChanged = (bHidden = CheckHiddenStatus(i)) || bLayoutChanged;
 
-		if (pCol->m_pDynamicWidthExpr)
+		if (!bHidden && pCol->m_pDynamicWidthExpr && !pCol->m_pDynamicWidthExpr->IsEmpty())
 		{
 			bLayoutChanged = CheckDynamicWidth(i) || bLayoutChanged;
 		}

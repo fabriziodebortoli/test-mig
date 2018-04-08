@@ -919,11 +919,11 @@ BOOL Table::CheckHiddenStatus(int nCol)
 
 	BOOL bSaveHidden = m_Columns[nCol]->IsHidden();
 
-	DataBool bHidden(TRUE);
+	DataBool bHidden(bSaveHidden);
 	if (!m_Columns[nCol]->m_pHideExpr->Eval(bHidden))
 	{
 		TRACE(_TB("Valutation error in control expression for column visualization:") + m_Columns[nCol]->m_Title.GetText());
-		//return FALSE;
+		return FALSE;
 	}
 
 	if  (bSaveHidden == bHidden)
@@ -936,9 +936,10 @@ BOOL Table::CheckHiddenStatus(int nCol)
 //------------------------------------------------------------------------------
 void Table::SetColumnHiddenStatus(int nCol, BOOL bHidden)
 {	
-	int width = bHidden ? m_Columns[nCol]->Width() : m_Columns[nCol]->m_nSavedWidth;
+	TableColumn* pCol = m_Columns[nCol];
+	int width = bHidden ? pCol->Width() : pCol->m_nSavedWidth;
 
-	m_Columns[nCol]->SetHidden(bHidden);
+	pCol->SetHidden(bHidden);	//resize right columns/anchored fields too
 
 	if (nCol <= m_Columns.GetUpperBound())
 	{
@@ -950,10 +951,6 @@ void Table::SetColumnHiddenStatus(int nCol, BOOL bHidden)
 		}
 		else
 			RightShiftColumn (nCol, width);
-	}
-	if (bHidden)
-	{
-
 	}
 }
 
@@ -970,7 +967,7 @@ BOOL Table::CheckDynamicWidth(int nCol)
 	if (!pCol->m_pDynamicWidthExpr->Eval(width))
 	{
 		TRACE(_TB("Valutation error in dynamic expression for column width:") + pCol->m_Title.GetText());
-		//return FALSE;
+		return FALSE;
 	}
 
 	if (width == pCol->Width())
