@@ -8789,7 +8789,7 @@ void CParsedCtrl::UpdateViewModel(BOOL bParentIsVisible)
 	CWnd* pWnd = GetCtrlCWnd();
 	if (!pWnd || !pWnd->m_hWnd)
 		return;
-	ReadPropertiesFromJson();
+	ReadDynamicPropertiesFromJson();
 
 	// Is present State controls
 	if (GetStateCtrlsArray().GetCount() > 0 && bParentIsVisible)
@@ -8823,7 +8823,7 @@ CJsonContextObj* CParsedCtrl::GetJsonContext()
 	return pForm ? pForm->GetJsonContext() : NULL;
 }
 //-----------------------------------------------------------------------------
-void CParsedCtrl::ReadPropertiesFromJson()
+void CParsedCtrl::ReadDynamicPropertiesFromJson()
 {
 	if (!m_pOwnerWndDescription)
 		return;

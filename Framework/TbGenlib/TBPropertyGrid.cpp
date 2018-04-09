@@ -417,7 +417,7 @@ BOOL CTBProperty::OnUpdateValue()
 void CTBProperty::UpdateStatus()
 {
 	if (m_pParsedCtrl)
-		m_pParsedCtrl->ReadPropertiesFromJson();
+		m_pParsedCtrl->ReadDynamicPropertiesFromJson();
 	if (IsGroup())
 		__super::Enable(TRUE);
 	else

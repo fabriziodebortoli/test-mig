@@ -1352,6 +1352,25 @@ CNamespaceEdit::CNamespaceEdit(UINT nBtnIDBmp, DataStr* pData /* = NULL */)
 }
 
 //-----------------------------------------------------------------------------
+void CNamespaceEdit::ReadStaticPropertiesFromJson()
+{
+	if (!m_pOwnerWndDescription)
+		return;
+	__super::ReadStaticPropertiesFromJson();
+	CString s;
+	if (m_pOwnerWndDescription->GetValue(szJsonDefaultNamespace, s))
+	{
+		CTBNamespace tbns(s);
+		ASSERT(tbns.IsValid());
+		SetNamespace(tbns);
+	}
+	CTBNamespace::NSObjectType nsType = CTBNamespace::NSObjectType::NOT_VALID;
+	if (m_pOwnerWndDescription->GetValue(szJsonNamespaceType, nsType))
+	{
+		SetNamespaceType(nsType);
+	}
+}
+//-----------------------------------------------------------------------------
 CString CNamespaceEdit::GetMenuButtonImageNS()
 {
 	return TBIcon(szIconFolderFind, CONTROL);

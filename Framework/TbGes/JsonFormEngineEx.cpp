@@ -2250,7 +2250,7 @@ template <class T> void TBJsonBodyEditWrapper<T>::Customize()
 				if (pValidator)
 					m_pContext->AttachValidator(pValidator, pParsedCtrl);
 			}
-			//pParsedCtrl->ReadPropertiesFromJson();
+			pParsedCtrl->ReadStaticPropertiesFromJson();
 			if (pColDesc->m_pControlBehaviourDescription)
 				m_pContext->AttachControlBehaviour(pColDesc->m_pControlBehaviourDescription, pParsedCtrl);
 
@@ -2412,7 +2412,8 @@ void CJsonPropertyGrid::Customize(CWndObjDescriptionContainer& children, CTBProp
 		if (pCtrl)
 		{
 			pCtrl->m_pOwnerWndDescription = pWndDesc;
-			pCtrl->ReadPropertiesFromJson();
+			pCtrl->ReadStaticPropertiesFromJson();
+			pCtrl->ReadDynamicPropertiesFromJson();
 
 			AssignProps(pCtrl, pDataObj, pWndDesc);
 			if (pWndDesc->m_pItemSourceDescri)
@@ -3021,8 +3022,8 @@ BOOL CJsonFormEngine::AddLink(CWndObjDescription* pWndDesc, CWnd* pParentWnd, CJ
 		else if (pWndDesc->IsKindOf(RUNTIME_CLASS(CListDescription)) && ((CListDescription*)pWndDesc)->m_pItemSourceDescri)
 			pContext->AttachItemSource(((CListDescription*)pWndDesc)->m_pItemSourceDescri, pParsedCtrl);
 
-		pParsedCtrl->ReadPropertiesFromJson();
-
+		pParsedCtrl->ReadDynamicPropertiesFromJson();
+		pParsedCtrl->ReadStaticPropertiesFromJson();
 		if (pWndDesc->m_pControlBehaviourDescription)
 			pContext->AttachControlBehaviour(pWndDesc->m_pControlBehaviourDescription, pParsedCtrl);
 

@@ -469,6 +469,7 @@ public:
 		}
 	virtual CString GetMenuButtonImageNS();
 
+	virtual void	ReadStaticPropertiesFromJson();
 protected:
 	BOOL			IsValidNamespace	(CString& strNS);
 

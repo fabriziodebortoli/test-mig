@@ -7214,7 +7214,7 @@ void CBodyEdit::UpdateBodyStatus()
 			CParsedCtrl* pCtrl = pCol->GetParsedCtrl();
 			if (pCtrl)
 			{
-				pCtrl->ReadPropertiesFromJson();
+				pCtrl->ReadDynamicPropertiesFromJson();
 				if
 					(
 						m_pDBT->GetDocument()->GetFormMode() == CBaseDocument::NEW &&

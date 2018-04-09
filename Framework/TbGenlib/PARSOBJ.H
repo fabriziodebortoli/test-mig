@@ -1104,7 +1104,8 @@ public:
 	virtual	void	SetRange	(double nMin, double nMax, int nDec = 0)	{ ASSERT(FALSE); }
 
 	virtual void	UpdateViewModel(BOOL bParentIsVisible);
-	virtual void	ReadPropertiesFromJson();
+	virtual void	ReadDynamicPropertiesFromJson();
+	virtual void	ReadStaticPropertiesFromJson() {}
 protected:
 	virtual int		GetMenuButtonImage			();
 	virtual CString GetMenuButtonImageNS		();
