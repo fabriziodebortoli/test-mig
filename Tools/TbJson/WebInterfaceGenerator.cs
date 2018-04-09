@@ -896,15 +896,6 @@ namespace Microarea.TbJson
                             WriteActivatedAttribute(jObj);
                             WriteColumnAttributes(jObj, wCol, true);
 
-
-                            WriteAttribute(jObj, Constants.rows, Constants.rows);
-                            WriteAttribute(jObj, Constants.chars, Constants.chars);
-                            WriteAttribute(jObj, Constants.width, Constants.width);
-
-                            WriteAttribute(jObj, Constants.hidden, Constants.hidden);
-                            WriteAttribute(jObj, Constants.grayed, Constants.grayed);
-                            WriteAttribute(jObj, Constants.noChangeGrayed, Constants.noChangeGrayed);
-
                             w.CloseBeginTag();
 
                             using (var w2 = new OpenCloseTagWriter(Constants.ngTemplate, this, false))
@@ -1613,6 +1604,14 @@ namespace Microarea.TbJson
             string title = jObj.GetLocalizableString(Constants.text);
             if (!string.IsNullOrEmpty(title))
                 htmlWriter.WriteAttribute(Square(Constants.title), title);
+
+            WriteAttribute(jObj, Constants.rows, Constants.rows);
+            WriteAttribute(jObj, Constants.chars, Constants.chars);
+            WriteAttribute(jObj, Constants.width, Constants.width);
+
+            WriteAttribute(jObj, Constants.hidden, Constants.hidden);
+            WriteAttribute(jObj, Constants.grayed, Constants.grayed);
+            WriteAttribute(jObj, Constants.noChangeGrayed, Constants.noChangeGrayed);
         }
 
         //-----------------------------------------------------------------------------------------
