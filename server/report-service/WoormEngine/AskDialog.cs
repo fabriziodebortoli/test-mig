@@ -711,22 +711,24 @@ namespace Microarea.RSWeb.WoormEngine
                     if (field == null)
                         continue;
 
-                    if (!UserChanged.Contains(field.Name) && field.InitExpression != null)
+                    if (!UserChanged.Contains(field.Name))
                     {
-                        if (check && initializedFields != null)
-                            if (initializedFields.Contains(field))
-                                continue;
-
-                        Value v = field.InitExpression.Eval();
-
-                        if (!field.InitExpression.Error)
+                        if (field.InitExpression != null)
                         {
-                            field.SetAllData(v.Data, v.Valid);
-                        }
-                    }
+                            if (check && initializedFields != null)
+                                if (initializedFields.Contains(field))
+                                    continue;
 
-                    if (initializedFields != null)
-                        initializedFields.Add(field);
+                            Value v = field.InitExpression.Eval();
+                            if (v != null && v.Valid)
+                            {
+                                field.SetAllData(v.Data, true);
+
+                                if (initializedFields != null)
+                                    initializedFields.Add(field);
+                           }
+                        }
+                     }
                 }
         }
 
@@ -1486,8 +1488,7 @@ namespace Microarea.RSWeb.WoormEngine
                     if (!ObjectHelper.IsEquals(current, field.AskData) && !UserChanged.Contains(field.Name))
                         UserChanged.Add(field.Name);
 
-                    field.AskData = current;
-                    field.GroupByData = current;
+                    field.SetAllData(current, true);
                 }
                 else
                 {

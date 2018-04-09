@@ -431,8 +431,7 @@ namespace Microarea.RSWeb.Render
 
                             this.Report.SymTable.SaveAskDialogFieldsState();
 
-                            Report.SaveInfo();
-
+                            Report.SaveInfo();  // State.ExecuteInizialize
                             if (!reRun && (!Woorm.LoadDocument() || !Woorm.ParseDocument()))
                             {
                                 BuildErrors(Woorm.Diagnostic);
@@ -519,6 +518,9 @@ namespace Microarea.RSWeb.Render
 
                     case State.ExecuteExtraction:
                         {
+                            Report.SaveInfo();  //State.ExecuteExtraction
+                            Woorm.RdeReader.LoadInfo();
+
                             Report.Engine.Status = ReportEngine.ReportStatus.FirstRow;
                             {
                                 Field f = Report.Engine.RepSymTable.Fields.Find(SpecialReportField.NAME.IS_FIRST_TUPLE);
@@ -546,8 +548,8 @@ namespace Microarea.RSWeb.Render
                                 RSSocketHandler.SendMessage(this.reportSession.WebSocket, MessageBuilder.CommandType.ENDREPORT, tot); //.Wait();
 
                                 Woorm.LoadPage(1);
+
                                 RSSocketHandler.SendMessage(this.reportSession.WebSocket, MessageBuilder.CommandType.TEMPLATE, Woorm.ToJson(true)); //.Wait();
-                                
                                 return false;
                             }
                             else
@@ -873,6 +875,9 @@ namespace Microarea.RSWeb.Render
                             {
                                 TbSession.TbAssignWoormParameters(this.reportSession);
                             }
+
+                            Report.SaveInfo(); //   InternalState.ExecuteLastStep:
+                            Woorm.RdeReader.LoadInfo();
 
                             if (Report.ExitStatus == RuleReturn.Backtrack)
                             {
