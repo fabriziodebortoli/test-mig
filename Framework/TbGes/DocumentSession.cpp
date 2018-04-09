@@ -632,8 +632,8 @@ void CDocumentSession::PushButtonsStateToClients(HWND hwnd)
 					int checkedState = ui.GetCheck();
 
 					// If all items voice of menu is disable the button is disable
-					if (bAllDisable)
-						isEnabled = FALSE;
+					/*if (bAllDisable)
+						isEnabled = FALSE;*/
 
 					resp.WriteBool(_T("enabled"), isEnabled == TRUE);
 					resp.WriteInt(_T("checkStatus"), checkedState);
