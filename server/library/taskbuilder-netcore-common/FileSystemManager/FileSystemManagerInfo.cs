@@ -1,6 +1,8 @@
 ﻿using Microarea.Common.NameSolver;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -98,12 +100,25 @@ namespace Microarea.Common.FileSystemManager
         //----------------------------------------------------------------------------
         public string GetFileName()
         {
+
+            XmlDocument xml = new XmlDocument();
+            XmlElement el = xml.CreateElement(AppDomain.CurrentDomain.BaseDirectory.Replace('\\', '-'));
+            //      el.Value = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FileSystemManager.config");
+            xml.AppendChild(el);
+            xml.Save(Path.Combine(Path.GetTempPath(),"prova.xml"));
             return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FileSystemManager.config");
         }
 
         //----------------------------------------------------------------------------
         public bool LoadFile()
         {
+
+            //var builder = new ConfigurationBuilder()
+
+            //    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+
+            //  var appSettings = Configuration.GetSection("AppSettings");
+
             if (!File.Exists(GetFileName()))
                 return false;
 
@@ -112,20 +127,23 @@ namespace Microarea.Common.FileSystemManager
                 reader.Read();
                 reader.ReadStartElement(FileSystemManagerStrings.szXmlRoot);//< FileSystemManager >
                 reader.ReadToFollowing(FileSystemManagerStrings.szXmlDriverTag);//<Driver value="0" autodetect="true"/>
-                SetDriver(reader.GetAttribute(FileSystemManagerStrings.szXmlValue));
-
-                if (GetDriver() == DriverType.Database)
-                {
+             //   m_Driver =  (DriverType)Convert.ToInt32(System.Configuration.ConfigurationManager.AppSettings["Driver"]);
+                  SetDriver(reader.GetAttribute(FileSystemManagerStrings.szXmlValue));
+            if (GetDriver() == DriverType.Database)
+            {
                     reader.ReadToFollowing(FileSystemManagerStrings.szXmlDBDriverTag);//  <DatabaseDriver 
                     m_strStandardConnectionString = reader.GetAttribute(FileSystemManagerStrings.szXmlStandardConnectionString);//standardconnectionstring
                     customConnectionString = reader.GetAttribute(FileSystemManagerStrings.testCustomConnectionString);
-                }
+            //        m_strStandardConnectionString = System.Configuration.ConfigurationManager.AppSettings["standardconnectionstring"];
+            //    customConnectionString = System.Configuration.ConfigurationManager.AppSettings["testCustomConnectionString"];
+            }
                 reader.ReadToFollowing(FileSystemManagerStrings.szXmCompanyNameTag);
                 companyName = reader.GetAttribute(FileSystemManagerStrings.szXmlName);
                 reader.ReadToFollowing(FileSystemManagerStrings.szXmCompanyNameTag);
                 userName = reader.GetAttribute(FileSystemManagerStrings.szXmlUserNameTag);
             }
-
+            //companyName = System.Configuration.ConfigurationManager.AppSettings["CompanyName"];
+            //userName = System.Configuration.ConfigurationManager.AppSettings["UserName"];
             return true;
         }
     }
