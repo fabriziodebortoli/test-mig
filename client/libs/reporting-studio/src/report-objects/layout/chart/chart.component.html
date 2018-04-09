@@ -1,11 +1,3 @@
-<!--<div [ngSwitch]="chart.type">
-  <rs-chart-bar *ngSwitchCase="1">
-  </rs-chart-bar>
-  <rs-chart-bar *ngSwitchCase="2">
-  </rs-chart-bar>
-  <rs-chart-bar *ngSwitchCase="3">
-  </rs-chart-bar>
-</div> -->
 <div [ngStyle]="applyStyle()" [ngSwitch]="chart.type">
 
     <rs-chart-bar [chart]="chart" *ngSwitchCase="CT.Bar">

@@ -798,7 +798,7 @@ void Chart::SyncChart()
 	}
 	//se il grafico avesse attiva la proprietà del colore
 	//if(!m_bColored || *GetColor() == 0)
-		pChart->SetColors(CBCGPChartTheme::ChartTheme::CT_GREEN);
+		//pChart->SetColors(CBCGPChartTheme::ChartTheme::CT_GREEN);
 	
 	pChart->SetChartType(GetBCGPChartCategory(m_eChartType), GetBCGPChartType(m_eChartType));
 

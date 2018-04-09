@@ -1,4 +1,4 @@
-<kendo-chart>
+<kendo-chart style="width:inherit; height:100%">
     <kendo-chart-title [text]="chart?.title"></kendo-chart-title>
     <kendo-chart-legend *ngIf="chart.legend" [position]="chart.legend.position" [orientation]="chart.legend.orientation" ></kendo-chart-legend>
     <kendo-chart-category-axis>
@@ -16,7 +16,11 @@
             [line]="{style:item.style}"
             [color]="item.color" 
             [opacity]="item.opacity">
-            <kendo-chart-series-item-labels [content]="labelContent" [position]="'outsideEnd'" [visible]="item.label" color="item.color" background="none">
+            <kendo-chart-series-item-labels [content]="labelContent" 
+            [position]="'outsideEnd'" 
+            [visible]="item.label" 
+            [color]="item.color"  
+            background="none">
             </kendo-chart-series-item-labels>
         </kendo-chart-series-item>
     </kendo-chart-series>

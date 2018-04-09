@@ -26,9 +26,9 @@ export class legend {
     orientation: string='';
     position: string;
 
-    constructor(jsonObj) {
-       // this.orientation = jsonObj.oreintation ? jsonObj.oreintation : 'horizontal';
+    constructor(jsonObj) {      
         this.position = jsonObj.position ? jsonObj.position : 'bottom';
+        this.orientation = this.position  !== 'top' && this.position  !== 'bottom' ? 'vertical' :'horizontal';
     }
 }
 
