@@ -336,7 +336,6 @@ namespace Microarea.RSWeb.Controllers
         public string ExtractSnapshot(UserInfo ui, string nameSpace)
         {
             TbReportSession session = new TbReportSession(ui, nameSpace);
-            session.TbBaseAddress = "http://localhost:5000/";
             string customPath = session.PathFinder.GetCustomReportPathFromWoormFile(session.FilePath, ui.Company, session.UserInfo.User);
             string destinationPath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(session.FilePath), true);
 
