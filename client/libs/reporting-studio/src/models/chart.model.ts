@@ -49,6 +49,8 @@ export class series {
         this.style = jsonObj.style;
         this.color = jsonObj.color ? jsonObj.color : '';
         this.group = jsonObj.group ? jsonObj.group : '';
+        this.label = jsonObj.label;
         this.opacity = jsonObj.transparent ? jsonObj.transparent : 1;
+        
     }
 }

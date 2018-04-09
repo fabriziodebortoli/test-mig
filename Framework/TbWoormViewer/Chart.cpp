@@ -755,7 +755,7 @@ BOOL Chart::DoSelectChart(EnumChartType ct)
 
 		pChart->SetChartType(GetBCGPChartCategory(m_eChartType), GetBCGPChartType(m_eChartType));
 
-		pChart->ShowDataLabels(TRUE);
+		//pChart->ShowDataLabels(TRUE);
 
 
 		SyncChart();	//carica i dati della tabella nel chart
@@ -787,6 +787,7 @@ void Chart::SyncChart()
 	pChart->CleanUpChartData();
 	pChart->SetChartTitle(m_sTitle);
 	pChart->ShowDataLabels(TRUE);
+
 
 	if (*GetBkgColor() != 0)
 	{
@@ -894,6 +895,16 @@ BOOL Chart::SyncSeries(CSeries* pSeries)
 	}
 
 	pBCGSeries->ShowDataLabel(pSeries->m_bShowLabels);
+	if (m_eChartType == EnumChartType::Chart_Doughnut ||
+		m_eChartType == EnumChartType::Chart_Pie ||
+		m_eChartType == EnumChartType::Chart_DoughnutNested)
+	{
+		BCGPChartDataLabelOptions dataLabelOptions = pChart->GetDataLabelOptions();
+		dataLabelOptions.m_position = BCGPChartDataLabelOptions::LabelPosition::LP_DEFAULT_POS;
+		dataLabelOptions.m_bUnderlineDataLabel = TRUE;
+		dataLabelOptions.m_bDrawDataLabelBorder = dataLabelOptions.m_position != BCGPChartDataLabelOptions::LP_DEFAULT_POS && dataLabelOptions.m_position != BCGPChartDataLabelOptions::LP_OUTSIDE_END;
+		pChart->SetDataLabelsOptions(dataLabelOptions);
+	}
 	BCGPChartFormatSeries style = pBCGSeries->GetSeriesFormat();
 	style.SetSeriesFillOpacity(1 - pSeries->m_dTrasparency);
 	pBCGSeries->SetSeriesFormat(style);

@@ -1176,7 +1176,7 @@ namespace Microarea.Common.Lexan
             return ok;
         }
 
-        // parse chart series color that an be also an ID
+        // parse chart series color that can be also an ID
         public bool ParseColorWithID(Token token, out Color aColor, out string colorId)
         {
 
@@ -1184,11 +1184,9 @@ namespace Microarea.Common.Lexan
             byte nGreen = 0;
             byte nBlue = 0;
 
-            bool ok1 = token == Token.NULL ? true : ParseTag(token);
+            bool ok = token == Token.NULL ? true : ParseTag(token);
 
-            bool ok = ok1 &&
-                //ParseTag	(token)		&&
-                ParseOpen();
+            ok = ok && ParseOpen();
             if (!ok)
             {
                 if (currentToken == Token.ID)

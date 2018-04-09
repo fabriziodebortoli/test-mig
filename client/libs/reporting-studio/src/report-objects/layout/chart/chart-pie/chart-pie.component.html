@@ -4,8 +4,7 @@
     <kendo-chart-series>
         <kendo-chart-series-item *ngFor="let item of chart.series" field="value" colorField="customColor" categoryField="category" [type]="getType(item)"
             [name]="item.name" [data]="item.data" [style]="item.style" [color]="item.color" [opacity]="item.opacity">
-
-            <kendo-chart-series-item-labels [content]="labelContent" [position]="'outsideEnd'" [visible]="item.label" color="#000" background="none">
+            <kendo-chart-series-item-labels [content]="labelContent" [position]="'outsideEnd'" [visible]="item.label" color="item.color" background="none">
             </kendo-chart-series-item-labels>
         </kendo-chart-series-item>
     </kendo-chart-series>

@@ -280,8 +280,8 @@ namespace Microarea.RSWeb.Objects
             if (!lex.ParseBegin())
                 return false;
 
-
             bool ok;
+            //può avere un titolo
             if (lex.Matched(Token.TITLE))
             {
                 ok = lex.ParseString(out pSeries.Title);
@@ -289,6 +289,7 @@ namespace Microarea.RSWeb.Objects
                     return false;
             }
 
+            //può avere un tipo (per differenziarla dal grafico)
             if (lex.Matched(Token.TYPE))
             {
                 int n = 0;
@@ -311,7 +312,7 @@ namespace Microarea.RSWeb.Objects
                 Variable pF = Document.SymbolTable.Find(sVarName);
                 if (pF == null)
                 {
-                    lex.SetError("TODO - il campo associato alla serie non esiste");
+                    lex.SetError("Field associated to series doesn't exist");
                     return false;
                 }
                 pSeries.BindedFields.Add(pF);
@@ -740,7 +741,19 @@ namespace Microarea.RSWeb.Objects
                     string customColor = "";
                     if (colors != null)
                     {
-                        Color c = Color.FromArgb((int)colors.GetAt(i));
+                        Color c;
+                        if (colors.GetAt(i) is Int64)
+                        {
+                            Int64 lColor = (Int64)colors.GetAt(i);
+                            c = Color.FromArgb((Int32)lColor);
+                        }
+                        else
+                        {
+                            Int32 iColor = (Int32)colors.GetAt(i);
+                            c = Color.FromArgb(iColor);
+                        }
+
+
 
                         customColor = ',' + ('#' + c.Name).ToJson("customColor");
                     }
@@ -940,7 +953,17 @@ namespace Microarea.RSWeb.Objects
                     string customColor = "";
                     if (colors != null)
                     {
-                        Color c = Color.FromArgb((int)colors.GetAt(i));
+                        Color c;
+                        if (colors.GetAt(i) is Int64)
+                        {
+                            Int64 lColor = (Int64)colors.GetAt(i);
+                            c = Color.FromArgb((Int32)lColor);
+                        }
+                        else
+                        {
+                            Int32 iColor = (Int32)colors.GetAt(i);
+                            c = Color.FromArgb(iColor);
+                        }
 
                         customColor = ',' + ('#' + c.Name).ToJson("customColor");
                     }

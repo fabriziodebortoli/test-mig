@@ -37,6 +37,6 @@ export class ReportChartPieComponent implements AfterViewInit {
     }
 
     public labelContent(e: any): string {
-        return e.value;
+        return e.category + ", " + (Math.round(e.percentage * 1000)* 0.1 ).toPrecision(3) + '%';
     }
 }

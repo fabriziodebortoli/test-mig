@@ -63,4 +63,7 @@ export class ReportChartBarComponent implements AfterViewInit {
                 return 'line';
         }
     }
+    public labelContent(e: any): string {
+        return e.value;
+    }
 }
