@@ -45,7 +45,7 @@ namespace Microarea.Common.Applications
     {
         public UserInfo UserInfo = null;
 
-        private string tbBaseAddress;
+        private string tbBaseAddress = "http://localhost:5000/";
         public string TbBaseAddress { get => tbBaseAddress; set => tbBaseAddress = value; }
 
         public const string TbBaseRoute = "tbloader/api/";
