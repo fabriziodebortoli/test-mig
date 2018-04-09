@@ -119,7 +119,17 @@ class TB_EXPORT CJsonFormParser : public CJsonParser
 {
 public:
 	bool m_bForAppend = false;
-	CString m_sActivation;//per propagare l'attivazione ad ogni child di un elemento referenziato tramite href
+	//per propagare l'attivazione ad ogni child di un elemento referenziato tramite href
+	CString m_sActivation;
+	
+	//tengo traccia dei livelli di nesting dei child che sto ricorsivamente parsando; 
+	//quando trovo il primo livello che non ha attivazione
+	//e la dovrebbe ereditare, mi segno il valore nella m_FirstChildLevelThatNeedActivation
+	//quindi assegno il tag solo agli item di quel livello
+	int m_ChildLevel = 0;
+	
+	//numero arbitrariamente grande, che alla prima occasione di assegnazione collassa nel livello giusto, i livelli maggiori non verranno assegnati
+	int m_FirstChildLevelThatNeedsActivation = 1000;
 	CJsonContextObj* m_pRootContext = NULL;
 
 	CString ResolveString(LPCTSTR szName, UsedDefines& resolvedDefines);

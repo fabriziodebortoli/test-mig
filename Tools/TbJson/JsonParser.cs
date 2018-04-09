@@ -499,7 +499,7 @@ namespace Microarea.TbJson
                 if (string.IsNullOrEmpty(s))
                     s = activation;
                 else
-                    s = activation + "&(" + s + ")";
+                    s = string.Concat('(',activation, ")&(", s , ')');
                 objExternal[Constants.activation] = s;
             }
         }

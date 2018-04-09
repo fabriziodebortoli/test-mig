@@ -26,6 +26,13 @@ TCHAR* szBase = _T("b");
 TCHAR* szTarget = _T("t");
 
 //-----------------------------------------------------------------------------
+CString ConcatActivations(const CString& act1, const CString& act2)
+{
+	return act1.IsEmpty()
+		? act2
+		: _T('(') + act1 + _T(")&(") + act2 + _T(')');
+}
+//-----------------------------------------------------------------------------
 void ExpressionObject::ActivateDefines(bool bActive)
 {
 	m_Defines.m_bActive = bActive;
@@ -2780,7 +2787,12 @@ void CWndObjDescription::ParseJson(CJsonFormParser& parser)
 	}
 
 	PARSE_STRING(m_strHint, szJsonHint);
-	PARSE_STRING(m_strActivation, szJsonActivation);
+	CString sAct;
+	PARSE_STRING(sAct, szJsonActivation);
+	if (!sAct.IsEmpty())
+	{
+		m_strActivation = ConcatActivations(m_strActivation, sAct);
+	}
 	PARSE_STRING(m_strBeforeId, szJsonBeforeItem);
 	CString sContext;
 	PARSE_STRING(sContext, szJsonContext);
@@ -3579,6 +3591,7 @@ CWndObjDescription* CWndObjDescriptionContainer::GetChild(CString sId, BOOL bRec
 //-----------------------------------------------------------------------------
 void CWndObjDescriptionContainer::ParseJson(CJsonFormParser& parser)
 {
+	parser.m_ChildLevel++;
 	for (int i = 0; i < parser.GetCount(); i++)
 	{
 		if (!parser.BeginReadObject(i))
@@ -3587,6 +3600,7 @@ void CWndObjDescriptionContainer::ParseJson(CJsonFormParser& parser)
 		ParseJsonItem(parser);
 		parser.EndReadObject();
 	}
+	parser.m_ChildLevel--;
 }
 
 //-----------------------------------------------------------------------------
@@ -3641,12 +3655,16 @@ void CWndObjDescriptionContainer::ParseJsonItem(CJsonFormParser& parser)
 		else if (!pObj->GetParent())
 		{
 			//se sono in un href con attivazione, tutti gli elementi referenziati ereditano l'attivazione
-			if (pObj->m_strActivation.IsEmpty() && !parser.m_sActivation.IsEmpty())
-				pObj->m_strActivation = parser.m_sActivation;
+			if (parser.m_bForAppend && !parser.m_sActivation.IsEmpty() && parser.m_ChildLevel <= parser.m_FirstChildLevelThatNeedsActivation)
+			{
+				parser.m_FirstChildLevelThatNeedsActivation = parser.m_ChildLevel;
+				pObj->m_strActivation = ConcatActivations(pObj->m_strActivation, parser.m_sActivation);
+			}
 			AddJsonItem(pObj);
 		}
 	}
 }
+
 
 //-----------------------------------------------------------------------------
 void CWndObjDescriptionContainer::AddJsonItem(CWndObjDescription* pObj)
