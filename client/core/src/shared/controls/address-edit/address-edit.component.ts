@@ -8,9 +8,10 @@ import { InfoService } from './../../../core/services/info.service'
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { Store } from './../../../core/services/store.service';
 import { ControlComponent } from './../../../shared/controls/control.component';
-import { ContextMenuItem, FormMode, createSelector, createSelectorByPaths } from './../../../shared/shared.module';
+import { ContextMenuItem, FormMode, createSelector, createSelectorByPaths, untilDestroy } from './../../../shared/shared.module';
 import { Collision } from '@progress/kendo-angular-popup';
 import { Selector } from './../../../shared/models/store.models';
+import {EventHandler} from './event-handler';
 import 'rxjs';
 
 @Component({
@@ -34,6 +35,7 @@ export class AddressEditComponent extends ControlComponent {
     @ViewChild('popup', { read: ElementRef }) public popup: ElementRef;
 
     @ViewChild(ControlContainerComponent) cc: ControlContainerComponent;
+    @ViewChild('textArea') textArea: ElementRef;
 
     public addresses = [];
     private ctrlEnabled = false;
@@ -44,6 +46,8 @@ export class AddressEditComponent extends ControlComponent {
     menuItemSearch = new ContextMenuItem('Search for address', '', true, false, null, this.searchForAddress.bind(this));
     menuItemMap = new ContextMenuItem('Show map', '', true, false, null, this.showMap.bind(this));
     menuItemSatellite = new ContextMenuItem('Show satellite view', '', true, false, null, this.showSatellite.bind(this));
+    controlClass: string;
+    nestedSelector: any;
 
     @HostListener('document:click', ['$event'])
     public documentClick(event: any): void {
@@ -71,14 +75,16 @@ export class AddressEditComponent extends ControlComponent {
 
     ngOnInit() {
         this.iContextMenu = this.cc.contextMenu.length;
-        this.store.select(
-            createSelector(
-                this.selector.nest('address.value'),
-                s => s.FormMode.value,
-                (_, formMode) => ({ formMode })
-            )
-        ).subscribe(this.onFormModeChanged);
+        this.nestedSelector = createSelector(
+            this.selector.nest('address.value'),
+            this.selector.nest('address.enabled'),
+            s => s.FormMode.value,
+            (value, enabled, formMode) => ({ value, enabled, formMode })
+        );
+        this.store.select(this.nestedSelector).subscribe(this.onFormModeChanged);
     }
+
+    ngAfterContentInit() { EventHandler.Attach(this); }
 
     ngOnChanges(changes) {
         this.buildContextMenu();
