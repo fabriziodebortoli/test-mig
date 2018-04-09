@@ -35,12 +35,13 @@ namespace Microarea.RSWeb.Controllers
     [Route("rs")]
     public class RSWebController : Controller
     {
-        public RSWebController()
+        private string tbBaseAddress = "http://localhost:5000/";
+        public RSWebController(IOptions<TbLoaderGateConfigParameters> parameters, IHostingEnvironment hostingEnvironment)
         {
-        }
-        public RSWebController(IOptions<RSConfigParameters> parameters, IHostingEnvironment hostingEnvironment)
-        {
-           
+            if (!string.IsNullOrWhiteSpace(parameters.Value.TbLoaderGateFullUrl))
+            {
+                tbBaseAddress = parameters.Value.TbLoaderGateFullUrl;
+            }
         }
 
         UserInfo GetLoginInformation()
@@ -74,6 +75,7 @@ namespace Microarea.RSWeb.Controllers
                 return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
+            session.TbBaseAddress = "http://localhost:5000/";
 
             //trucco per parametri
             XmlReportEngine reportParameters = new XmlReportEngine(session);
@@ -106,6 +108,7 @@ namespace Microarea.RSWeb.Controllers
                 return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
+            session.TbBaseAddress = "http://localhost:5000/";
 
             //trucco per parametri
             XmlReportEngine reportParameters = new XmlReportEngine(session);
@@ -249,6 +252,7 @@ namespace Microarea.RSWeb.Controllers
                 return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
+            session.TbBaseAddress = "http://localhost:5000/";
 
             JsonReportEngine report = new JsonReportEngine(session);
             report.Execute();
@@ -268,6 +272,7 @@ namespace Microarea.RSWeb.Controllers
                 return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
+            session.TbBaseAddress = "http://localhost:5000/";
 
             JsonReportEngine report = new JsonReportEngine(session);
             report.Execute();
@@ -298,6 +303,7 @@ namespace Microarea.RSWeb.Controllers
                 return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
+            session.TbBaseAddress = "http://localhost:5000/";
             string customPath = session.PathFinder.GetCustomReportPathFromWoormFile(session.FilePath, ui.Company, session.UserInfo.User);
             string destinationPath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(session.FilePath), true);
 
@@ -330,6 +336,7 @@ namespace Microarea.RSWeb.Controllers
         public string ExtractSnapshot(UserInfo ui, string nameSpace)
         {
             TbReportSession session = new TbReportSession(ui, nameSpace);
+            session.TbBaseAddress = "http://localhost:5000/";
             string customPath = session.PathFinder.GetCustomReportPathFromWoormFile(session.FilePath, ui.Company, session.UserInfo.User);
             string destinationPath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(session.FilePath), true);
 

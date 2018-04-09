@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Microarea.RSWeb
+namespace Microarea.Common
 {
-    public class RSConfigParameters
+    public class TbLoaderGateConfigParameters
     {
         public string TbLoaderGateProtocol { get; set; }
         public string TbLoaderGateHost { get; set; }

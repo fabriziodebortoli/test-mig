@@ -22,8 +22,8 @@ namespace Microarea.RSWeb.Models
     /// </summary>
     public static class RSSocketHandler
     {
-        static RSConfigParameters configParameters;
-        public static RSConfigParameters ConfigParameters { get => configParameters; set => configParameters = value; }
+        static TbLoaderGateConfigParameters configParameters;
+        public static TbLoaderGateConfigParameters ConfigParameters { get => configParameters; set => configParameters = value; }
 
         private static JsonReportEngine CreateEngine(NamespaceMessage nsMsg, WebSocket webSocket, string tbIstanceID = "")
         {

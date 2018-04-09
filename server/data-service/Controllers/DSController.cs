@@ -8,12 +8,24 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Hosting;
 
 namespace DataService.Controllers
 {
     [Route("data-service")]
     public class DSController : Controller
     {
+        private string tbBaseAddress = "http://localhost:5000/";
+        //---------------------------------------------------------------------
+        public DSController(IOptions<TbLoaderGateConfigParameters> parameters, IHostingEnvironment hostingEnvironment)
+        {
+            if (!string.IsNullOrWhiteSpace(parameters.Value.TbLoaderGateFullUrl))
+            {
+                tbBaseAddress = parameters.Value.TbLoaderGateFullUrl;
+            }
+        }
+
         [Route("getinstalleddictionaries")]
         public IActionResult GetInstalledDictionaries()
         {
@@ -55,6 +67,7 @@ namespace DataService.Controllers
                 return GetAuthenticationErrorResponse();
 
             TbSession session = new TbSession(ui, nameSpace);
+            session.TbBaseAddress = tbBaseAddress;
 
             Datasource ds = new Datasource(session);
 
@@ -82,6 +95,7 @@ namespace DataService.Controllers
             }
 
             TbSession session = new TbSession(ui, nameSpace);
+            session.TbBaseAddress = tbBaseAddress;
 
             JObject jObject = JObject.Parse(authHeader);
             string instanceID = jObject == null ? null : jObject.GetValue("tbLoaderName")?.ToString();  //TODO RSWEB  togliere stringa cablata e usare il tostring del datamember del messaggio
@@ -163,6 +177,7 @@ namespace DataService.Controllers
             }
 
             TbSession session = new TbSession(ui, null);
+            session.TbBaseAddress = tbBaseAddress;
 
             JObject jObject = JObject.Parse(authHeader);
             string instanceID = jObject.GetValue("tbLoaderName")?.ToString();  //TODO RSWEB  togliere stringa cablata e usare il tostring del datamember del messaggio
