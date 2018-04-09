@@ -141,7 +141,7 @@ public:
 	// static members
 	static CString		GetNotSupportedChars();
 	static CString		GetSeparator		();
-
+	static NSObjectType FromString(LPCTSTR szName);
 public:
 	// not static members
 	const CString& 		ToString			() const;

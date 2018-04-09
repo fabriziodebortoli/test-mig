@@ -1572,24 +1572,7 @@ namespace Microarea.TbJson
 
             //RegisterModelField(owner, field);
 
-            foreach (var arg in wc.Args)
-            {
-                if (string.IsNullOrEmpty(arg.Value))
-                {
-                    htmlWriter.Write(' ');
-                    htmlWriter.Write(arg.Key);
-                }
-                else
-                {
-                    String value = arg.Value;
-                    if (value.StartsWith("[", StringComparison.CurrentCulture) && value.EndsWith("]", StringComparison.CurrentCulture))
-                    {
-                        value = jObj.GetFlatString(value.Substring(1, value.Length - 2));
-                    }
-
-                    htmlWriter.WriteAttribute(arg.Key, value);
-                }
-            }
+            WriteArgs(jObj, wc);
 
             string caption = jObj.GetLocalizableString(Constants.controlCaption);
             if (!string.IsNullOrEmpty(caption))
@@ -1612,6 +1595,31 @@ namespace Microarea.TbJson
             WriteAttribute(jObj, Constants.hidden, Constants.hidden);
             WriteAttribute(jObj, Constants.grayed, Constants.grayed);
             WriteAttribute(jObj, Constants.noChangeGrayed, Constants.noChangeGrayed);
+        }
+
+        private void WriteArgs(JObject jObj, WebControl wc)
+        {
+            foreach (var arg in wc.Args)
+            {
+                if (string.IsNullOrEmpty(arg.Value))
+                {
+                    htmlWriter.Write(' ');
+                    htmlWriter.Write(arg.Key);
+                }
+                else
+                {
+                    string value = arg.Value;
+                    if (value.StartsWith("[", StringComparison.CurrentCulture) && value.EndsWith("]", StringComparison.CurrentCulture))
+                    {
+                        value = value.Substring(1, value.Length - 2);
+                        WriteAttribute(jObj, value, arg.Key);
+                    }
+                    else
+                    {
+                        htmlWriter.WriteAttribute(arg.Key, value);
+                    }
+                }
+            }
         }
 
         //-----------------------------------------------------------------------------------------
@@ -1877,24 +1885,7 @@ namespace Microarea.TbJson
                 }
             }
 
-            foreach (var arg in wc.Args)
-            {
-                if (string.IsNullOrEmpty(arg.Value))
-                {
-                    htmlWriter.Write(' ');
-                    htmlWriter.Write(arg.Key);
-                }
-                else
-                {
-                    String value = arg.Value;
-                    if (value.StartsWith("[", StringComparison.CurrentCulture) && value.EndsWith("]", StringComparison.CurrentCulture))
-                    {
-                        value = jObj.GetFlatString(value.Substring(1, value.Length - 2));
-                    }
-
-                    htmlWriter.WriteAttribute(arg.Key, value);
-                }
-            }
+            WriteArgs(jObj, wc);
 
             WriteSelector(jObj, wc, cmpId);
 
@@ -1915,12 +1906,8 @@ namespace Microarea.TbJson
             WriteAttribute(jObj, Constants.maxValue, Constants.maxValue);
             WriteAttribute(jObj, Constants.minValue, Constants.minValue);
 
-            if (wc.Name == Constants.tbText)
-            {
-                WriteAttribute(jObj, Constants.rows, Constants.rows);
-                WriteAttribute(jObj, Constants.multiline, Constants.multiline);
-                WriteAttribute(jObj, Constants.textlimit, Constants.textlimit);
-            }
+            foreach (var prop in wc.Properties)
+                WriteAttribute(jObj, prop.Key, prop.Value);
 
             WriteBindingAttributes(jObj, true, insideRowView);
 

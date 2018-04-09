@@ -30,6 +30,9 @@ export class NamespaceComponent extends ControlComponent implements OnChanges, O
   @Input('objType') objType: string = "Report";
   @Input('textLimit') textlimit: number = 0;
   @Input('maxLength') maxLength: number = 524288;
+  
+  @Input('namespaceType') namespaceType: string = "";
+  @Input('defaultNs') defaultNs: string = "";
   @Input() slice: any;
   @Input() selector: Selector<any, any>;
 

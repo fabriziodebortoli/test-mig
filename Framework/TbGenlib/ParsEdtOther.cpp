@@ -1364,9 +1364,9 @@ void CNamespaceEdit::ReadStaticPropertiesFromJson()
 		ASSERT(tbns.IsValid());
 		SetNamespace(tbns);
 	}
-	CTBNamespace::NSObjectType nsType = CTBNamespace::NSObjectType::NOT_VALID;
-	if (m_pOwnerWndDescription->GetValue(szJsonNamespaceType, nsType))
+	if (m_pOwnerWndDescription->GetValue(szJsonNamespaceType, s))
 	{
+		CTBNamespace::NSObjectType nsType = CTBNamespace::FromString(s);
 		SetNamespaceType(nsType);
 	}
 }

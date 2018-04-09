@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Xml;
 using SharedCode;
@@ -30,8 +31,8 @@ namespace ClientFormsProvider
             }
         }
 
-       //-----------------------------------------------------------------------------
-       public Dictionary<string, string> IconsMatchMap
+        //-----------------------------------------------------------------------------
+        public Dictionary<string, string> IconsMatchMap
         {
             get
             {
@@ -85,7 +86,7 @@ namespace ClientFormsProvider
             {
                 var doc = new XmlDocument();
                 doc.Load(file);
-                foreach (XmlElement node in doc.SelectNodes("WebControls/WebControl"))
+                foreach (XmlElement node in doc.SelectNodes("WebControls/Associations/WebControl"))
                 {
                     string name = node.GetAttribute("control");
                     if (string.IsNullOrEmpty(name))
@@ -97,6 +98,25 @@ namespace ClientFormsProvider
 
                     string columnControlName = node.GetAttribute("columnControl");
                     var ctrl = new WebControl(name, columnControlName);
+
+                    string query = string.Concat("WebControls/Properties/WebControl[@name='", name, "']");
+                    XmlElement propNode = doc.SelectSingleNode(query) as XmlElement;
+                    if (propNode != null)
+                        foreach (XmlElement prop in propNode.GetElementsByTagName("Property"))
+                        {
+                            string jsonProp = prop.GetAttribute("jsonName");
+                            if (string.IsNullOrEmpty(jsonProp))
+                            {
+                                Debug.Fail("Property name not specified for WebControl " + name);
+                                continue;
+                            }
+                            string tsProp = prop.GetAttribute("tsName");
+                            if (string.IsNullOrEmpty(tsProp))
+                            {
+                                tsProp = jsonProp;
+                            }
+                            ctrl.Properties[jsonProp] = tsProp;
+                        }
                     foreach (XmlElement arg in node.GetElementsByTagName("arg"))
                     {
                         name = arg.GetAttribute("name");
@@ -113,6 +133,8 @@ namespace ClientFormsProvider
                             continue;
                         ctrl.Selector = (name, selector.GetAttribute("value"));
                     }
+
+                   
                     ControlClasses[controlClass] = ctrl;
                 }
             }

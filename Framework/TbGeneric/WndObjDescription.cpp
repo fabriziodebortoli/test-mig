@@ -24,7 +24,11 @@
 
 TCHAR* szBase = _T("b");
 TCHAR* szTarget = _T("t");
-
+void GetDynamicPropertyNames(CStringArray& ar)
+{
+	ar.Add(szJsonDefaultNamespace);
+	ar.Add(szJsonNamespaceType);
+}
 //-----------------------------------------------------------------------------
 CString ConcatActivations(const CString& act1, const CString& act2)
 {
@@ -614,11 +618,11 @@ void BindingInfo::ParseHotLink(CJsonFormParser& parser)
 	if (!m_pHotLink)
 		m_pHotLink = new HotLinkInfo;
 	m_pHotLink->ParseJson(parser);
-	
+
 	if (m_pHotLink->IsEmpty())
 	{
-		delete(m_pHotLink); 
-		m_pHotLink= NULL;
+		delete(m_pHotLink);
+		m_pHotLink = NULL;
 	}
 }
 //-----------------------------------------------------------------------------
@@ -2290,7 +2294,7 @@ void CWndObjDescription::Assign(CWndObjDescription* pDesc)
 		LONG_PTR pFieldInThisObject = (LONG_PTR)this + pOtherFieldOffset;//indirizzo del campo modificato corrispondente in questo oggetto (this)
 		m_arUpdated.Add((void*)pFieldInThisObject);
 	}
-
+	m_DynamicProperties = pDesc->m_DynamicProperties;
 	ExpressionObject::Assign(pDesc);
 }
 //-----------------------------------------------------------------------------
@@ -2683,6 +2687,10 @@ void CWndObjDescription::SerializeJson(CJsonSerializer& strJson)
 		m_pNumbererDescription->SerializeJson(strJson, szJsonNumberer);
 	}
 
+	for (Json::ValueIterator it = m_DynamicProperties.begin(); it != m_DynamicProperties.end(); ++it)
+	{
+		strJson.WriteValue(it.memberName(), *it);
+	}
 	if (m_Children.GetCount() > 0)
 	{
 		m_Children.SerializeJson(strJson);
@@ -2706,7 +2714,7 @@ void CWndObjDescription::ParseJson(CJsonFormParser& parser)
 	PARSE_INT(m_nTextLimit, szJsonTextLimit);
 
 
-		//se sto 'parsando sopra' una definizione esistente, il tipo non deve essere cambiato
+	//se sto 'parsando sopra' una definizione esistente, il tipo non deve essere cambiato
 	if (m_Type != Undefined)
 	{
 		PARSE_ENUM(m_Type, szJsonType, WndObjType);
@@ -2883,6 +2891,14 @@ void CWndObjDescription::ParseJson(CJsonFormParser& parser)
 			m_pNumbererDescription = new CNumbererDescription();
 		m_pNumbererDescription->ParseJson(parser, szJsonNumberer);
 	}
+	CStringArray ar;
+	GetDynamicPropertyNames(ar);
+	for (int i = 0; i < ar.GetCount(); i++)
+	{
+		CString s = ar[i];
+		if (parser.Has(s))
+			m_DynamicProperties[s] = parser.ReadValue(s);
+	}
 	if (parser.BeginReadArray(szJsonItems))
 	{
 		m_Children.ParseJson(parser);
@@ -2890,6 +2906,15 @@ void CWndObjDescription::ParseJson(CJsonFormParser& parser)
 	}
 }
 
+//-----------------------------------------------------------------------------
+bool CWndObjDescription::GetValue(LPCTSTR szName, CString& val)
+{
+	Json::Value jVal = m_DynamicProperties[szName];
+	if (!jVal.isString())
+		return false;
+	val = jVal.asCString();
+	return true;
+}
 //-----------------------------------------------------------------------------
 void CWndObjDescription::SerializeBinary(CStreamSerializer& serializer)
 {
@@ -2959,7 +2984,7 @@ CWndObjDescription* CWndObjDescription::ParseHref(CJsonFormParser& parser, const
 	CString sOldContext;
 
 	if (parser.m_pRootContext->m_bIsJsonDesigner) {
-		CHRefDescription* hrefDescr =  new CHRefDescription(nullptr);
+		CHRefDescription* hrefDescr = new CHRefDescription(nullptr);
 		hrefDescr->m_sHRef = sHref;
 		return hrefDescr;
 	}
@@ -3019,7 +3044,7 @@ CWndObjDescription* CWndObjDescription::ParseJsonObject(CJsonFormParser& parser,
 
 	WndObjType type = Undefined;
 	PARSE_ENUM(type, szJsonType, WndObjType);
-	if (expectedType != Undefined) 
+	if (expectedType != Undefined)
 	{
 		if (type != Undefined && type != expectedType)
 		{

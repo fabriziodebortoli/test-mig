@@ -707,6 +707,7 @@ private:
 	WndDescriptionState m_descState = REMOVED;
 	RuntimeState m_Runtime = UNDEFINED;
 	DECLARE_DYNCREATE(CWndObjDescription);
+	Json::Value m_DynamicProperties;
 public:
 	CParsedCtrl* m_pAssociatedControl = NULL;
 	HWND		m_hAssociatedWnd = NULL;
@@ -878,7 +879,7 @@ public:
 	CWndObjDescription* GetRootOfFile();
 	CJsonResource GetResource();
 	static CWndObjDescription* GetFrom(HWND hwnd);
-
+	bool GetValue(LPCTSTR szName, CString& val);
 	//trasforma le proprietà nei corrispondenti stili per le finestre Windows
 	virtual void ApplyStyleFromProperties(DWORD& dwStyle, DWORD& dwExStyle);
 	//travasa gli stili Windows nelle corrispondenti proprietà

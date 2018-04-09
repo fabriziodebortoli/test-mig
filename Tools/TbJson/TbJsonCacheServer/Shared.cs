@@ -47,11 +47,14 @@ namespace SharedCode
     public class ArgMap : Dictionary<string, string>
     {
     }
-
+    public class PropertyMap : Dictionary<string, string>
+    {
+    }
     public class WebControl
     {
         public string Name { get; set; } = "";
         public ArgMap Args { get; set; } = new ArgMap();
+        public PropertyMap Properties { get; set; } = new PropertyMap();
         public (string name, string value) Selector { get; set; } = ("", "");
         public string ColumnName { get; set; } = "";
         public WebControl(string name, string columnName = "")
