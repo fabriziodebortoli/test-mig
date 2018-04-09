@@ -1608,16 +1608,13 @@ namespace Microarea.TbJson
                 }
                 else
                 {
-                    string value = arg.Value;
+                    String value = arg.Value;
                     if (value.StartsWith("[", StringComparison.CurrentCulture) && value.EndsWith("]", StringComparison.CurrentCulture))
                     {
-                        value = value.Substring(1, value.Length - 2);
-                        WriteAttribute(jObj, value, arg.Key);
+                        value = jObj.GetFlatString(value.Substring(1, value.Length - 2));
                     }
-                    else
-                    {
-                        htmlWriter.WriteAttribute(arg.Key, value);
-                    }
+
+                    htmlWriter.WriteAttribute(arg.Key, value);
                 }
             }
         }
