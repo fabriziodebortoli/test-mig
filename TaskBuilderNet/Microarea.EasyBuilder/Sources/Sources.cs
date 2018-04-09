@@ -32,8 +32,6 @@ namespace Microarea.EasyBuilder
 
         // Dictionary<string, ICompilationUnit> compilationUnitCache = new Dictionary<string, ICompilationUnit>();
 
-        private SourcesSerializer sourcesSerializer;
-
         private NewCustomizationInfos newCustomizationInfos;
 
         private ApplicationType applicationType;
@@ -53,15 +51,6 @@ namespace Microarea.EasyBuilder
 
         /// <remarks />
         public IProjectContent ProjectContent { get { return projectContent; } set { projectContent = value; } }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        //--------------------------------------------------------------------------------
-        public SourcesSerializer SourcesSerializer
-        {
-            get { return sourcesSerializer; }
-        }
 
         /// <summary>
         /// Internal use: stuff for localization.
@@ -197,13 +186,11 @@ namespace Microarea.EasyBuilder
         /// Creates a new instance of the reference manager
         /// </summary>
         protected Sources(
-            SourcesSerializer sourcesSerializer,
             string applicationName,
             string moduleName,
             ApplicationType applicationType
             )
         {
-            this.sourcesSerializer = sourcesSerializer;
             this.applicationName = applicationName;
             this.applicationType = applicationType;
             this.moduleName = moduleName;

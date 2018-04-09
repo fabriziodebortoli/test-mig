@@ -51,8 +51,6 @@ namespace Microarea.EasyBuilder
 		ITBComponentChangeService compChangeSvc = new TBComponentChangeService();
 		ISelectionService selectionService = new EasyBuilderSelectionService();
 
-		SourcesSerializer sourcesSerializer = new SourcesSerializer();
-
 		ComponentDeclarator componentDeclarator;
 
 		private LocalizationManager localizationManager;
@@ -127,12 +125,6 @@ namespace Microarea.EasyBuilder
 		internal ITBComponentChangeService ComponentChangeService
 		{
 			get { return compChangeSvc; }
-		}
-
-		//-----------------------------------------------------------------------------
-		internal SourcesSerializer SourcesSerializer
-		{
-			get { return sourcesSerializer; }
 		}
 
 		///<remarks />

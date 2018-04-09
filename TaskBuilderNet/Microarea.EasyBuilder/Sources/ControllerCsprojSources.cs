@@ -49,11 +49,10 @@ namespace Microarea.EasyBuilder
 
         //--------------------------------------------------------------------------------
         public ControllerCsprojSources(
-            SourcesSerializer sourcesSerializer,
             string applicationName,
             string moduleName,
             ApplicationType applicationType)
-			: base(sourcesSerializer, applicationName, moduleName, applicationType)
+			: base(applicationName, moduleName, applicationType)
         {
             ebSourcesRegex = new Regex(ebSourcesPattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
             ebResxRegex = new Regex(ebResxPattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);

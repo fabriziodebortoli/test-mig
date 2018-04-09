@@ -36,22 +36,11 @@ namespace Microarea.EasyBuilder
         /// </summary>
         //--------------------------------------------------------------------------------
 		public ControllerSources(
-			SourcesSerializer sourcesSerializer,
 			string applicationName,
 			string moduleName,
 			ApplicationType applicationType)
-			: base(sourcesSerializer, applicationName, moduleName, applicationType)
-        {
-			string path = BasePathFinder.BasePathFinderInstance.GetEBModuleDllPath(applicationName, moduleName);
-			//TODOLUCA
-			//Assembly asm = ModuleEditor.LoadModuleDll(applicationName, moduleName);
-
-			//if (asm != null)
-			//{
-			//	//inserisco nel project content l'assembly che ho appena aggiunto
-			//	GlobalReferences.AddReference(asm, path);
-			//}
-		}
+			: base(applicationName, moduleName, applicationType)
+        {}
 
 		/// <summary>
 		/// Initializes the instance.

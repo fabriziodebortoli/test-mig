@@ -17,7 +17,7 @@ namespace Microarea.EasyBuilder
 {
 	//=========================================================================
 	/// <remarks/>
-	public class SourcesSerializer
+	public static class SourcesSerializer
 	{
 		/// <remarks/>
 		public const string ClearComponentsMethodName = "ClearComponents";
@@ -92,7 +92,7 @@ namespace Microarea.EasyBuilder
 
 		//-----------------------------------------------------------------------------
 		/// <remarks/>
-		internal static void GenerateCreateComponents(EasyBuilderSerializer parentSerializer, IComponent component, TypeDeclaration aClass, IList<string> memberDeclaration)
+		internal static void GenerateCreateComponents(EasyBuilderSerializer parentSerializer, IComponent component, TypeDeclaration aClass, IList<string> memberDeclaration, IDesignerSerializationManager mng)
 		{
 			MethodDeclaration createComponentsMethod = EasyBuilderSerializer.FindMember<MethodDeclaration>(aClass, EasyBuilderSerializer.CreateComponentsMethodName);
 			if (createComponentsMethod != null)
@@ -106,23 +106,24 @@ namespace Microarea.EasyBuilder
 				//rigenero i field della classe
 				parentSerializer.GenerateFields(currentContainer, aClass);
 
-				foreach (EasyBuilderComponent current in GetOrderComponents(component))
-				{
-					List<Statement> statement = SerializeCreateComponents(current);
-					if (statement != null && statement.Count != 0)
-					{
-						memberDeclaration.Add(current.SerializedName);
 
-						//Faccio il ciclo perchè invocando la Addchild mi imposta il parent correttamente
-						foreach (var stm in statement)
-						{
-							Statement copy = stm.Clone();
-							createComponentsMethod.Body.Statements.Add(copy);
-						}
-					}
-				}
+                foreach (EasyBuilderComponent current in GetOrderComponents(component))
+                {
+                    List<Statement> statement = SerializeCreateComponents(current, mng);
+                    if (statement != null && statement.Count != 0)
+                    {
+                        memberDeclaration.Add(current.SerializedName);
 
-				IContainer container = component as IContainer;
+                        //Faccio il ciclo perchè invocando la Addchild mi imposta il parent correttamente
+                        foreach (var stm in statement)
+                        {
+                            Statement copy = stm.Clone();
+                            createComponentsMethod.Body.Statements.Add(copy);
+                        }
+                    }
+                }
+
+                IContainer container = component as IContainer;
 				if (container != null)
 				{
 					IList<Statement> additionalColl = parentSerializer.GetAdditionalCreateComponentsStatements(container, memberDeclaration);
@@ -139,8 +140,8 @@ namespace Microarea.EasyBuilder
                 IModelRoot modelRoot = component as IModelRoot;
                 if (modelRoot != null)
                 {
-                    var mng = new DesignerSerializationManager();
-                    using (var session = mng.CreateSession())
+                    var localMng = new DesignerSerializationManager();
+                    using (var session = localMng.CreateSession())
                     {
                         var modelRootStatements = parentSerializer.Serialize(mng, modelRoot) as IList<Statement>;
                         if (modelRootStatements != null && modelRootStatements.Count != 0)
@@ -158,7 +159,7 @@ namespace Microarea.EasyBuilder
 				EasyBuilderSerializer.GenerateField(aClass, ebComp);
 				//in questo caso, non è un IEasyBuilderContainer, mi limito a serializzare l'oggetto stesso
 
-				List<Statement> statement = SerializeCreateComponents(component);
+				List<Statement> statement = SerializeCreateComponents(component, mng);
 				if (statement != null && statement.Count != 0)
 				{
 					memberDeclaration.Add(ebComp.SerializedName);
@@ -188,18 +189,11 @@ namespace Microarea.EasyBuilder
 		}
 
 		//--------------------------------------------------------------------------------
-		private static List<Statement> SerializeCreateComponents(IComponent component)
+		private static List<Statement> SerializeCreateComponents(IComponent component, IDesignerSerializationManager mng)
 		{
-			DesignerSerializationManager mng = new DesignerSerializationManager();
-			List<Statement> coll = new List<Statement>();
-			using (IDisposable session = mng.CreateSession())
-			{
-				EasyBuilderSerializer componentSerializer = (EasyBuilderSerializer)mng.GetSerializer(component.GetType(), typeof(CodeDomSerializer));
+			var componentSerializer = (EasyBuilderSerializer)mng.GetSerializer(component.GetType(), typeof(CodeDomSerializer));
 
-				coll = componentSerializer.Serialize(mng, component) as List<Statement>;
-			}
-
-			return coll;
+			return componentSerializer.Serialize(mng, component) as List<Statement>;
 		}
 
 
@@ -213,31 +207,6 @@ namespace Microarea.EasyBuilder
 
 			createComponentsMethod.Body = new BlockStatement();
 			return createComponentsMethod;
-		}
-
-		//-----------------------------------------------------------------------------
-		private static EasyBuilderSerializer GetSerializer(DesignerSerializationManager mng, Type ebComponentType)
-		{
-			Type serializerType = typeof(CodeDomSerializer);
-			if (mHotLinkType.IsAssignableFrom(ebComponentType) && IsModuleShared(ebComponentType))
-			{
-				serializerType = typeof(HotLinkSerializerForModuleController);
-			}
-			else if (mDataManagerType.IsAssignableFrom(ebComponentType) && IsModuleShared(ebComponentType))
-			{
-				serializerType = typeof(DataManagerSerializerForModuleController);
-			}
-
-			return mng.GetSerializer(ebComponentType, serializerType) as EasyBuilderSerializer;
-		}
-
-		//-----------------------------------------------------------------------------
-		private static bool IsModuleShared(Type ebComponentType)
-		{
-			string path = AssembliesLoader.GetAssemblyPath(ebComponentType.Assembly);
-			IEasyBuilderApp app = BaseCustomizationContext.CustomizationContextInstance.CurrentEasyBuilderApp;
-			string modulePath = BasePathFinder.BasePathFinderInstance.GetEBModuleDllPath(app.ApplicationName,app.ModuleName);
-			return path.CompareNoCase(modulePath);
 		}
 
 		//--------------------------------------------------------------------------------
@@ -279,7 +248,7 @@ namespace Microarea.EasyBuilder
 
                 List<string> fields = new List<string>();
 				//Aggiunge il metodo personalizzato per la creazione dei control customizzati
-				GenerateCreateComponents(ebSerializer, component, aClass, fields);
+				GenerateCreateComponents(ebSerializer, component, aClass, fields, mng);
 
 				//Aggiunge il metodo personalizzato per la localizzazione dei control customizzati
 				GenerateApplyResources(component, aClass);

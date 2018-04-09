@@ -747,8 +747,8 @@ namespace Microarea.EasyBuilder
 					if (!runAsEasyStudioDesigner)
 					{
 						var sources = EBLicenseManager.GenerateCsproj
-							? new ControllerCsprojSources(SourcesSerializer, currentEasyBuilderApp.ApplicationName, currentEasyBuilderApp.ModuleName, currentEasyBuilderApp.ApplicationType)
-							: new ControllerSources(SourcesSerializer, currentEasyBuilderApp.ApplicationName, currentEasyBuilderApp.ModuleName, currentEasyBuilderApp.ApplicationType);
+							? new ControllerCsprojSources(currentEasyBuilderApp.ApplicationName, currentEasyBuilderApp.ModuleName, currentEasyBuilderApp.ApplicationType)
+							: new ControllerSources(currentEasyBuilderApp.ApplicationName, currentEasyBuilderApp.ModuleName, currentEasyBuilderApp.ApplicationType);
 						InitSources(sources);
 
 						InitReferencedComponents();
