@@ -5298,78 +5298,21 @@ namespace Microarea.RSWeb.Objects
 
         bool CheckDynamicWidth(Column pCol)
         {
+            int bSaveWidth = pCol.Width;
+
+            Value valWidth = pCol.WidthExpr.Eval();
+            if (valWidth != null && valWidth.Valid)
+            {
+                int w = (int)valWidth.Data;
+                if (bSaveWidth == w)
+                    return false;
+
+                pCol.Width = w;
+                return true;
+            }
             return false;
         }
 
-        /*
-         * //------------------------------------------------------------------------------
-        BOOL Table::CheckHiddenStatus(int nCol)
-        {
-            TableColumn* pCol = m_Columns[nCol];
-            ASSERT_VALID(pCol->m_pHideExpr);
-
-            BOOL bSaveHidden = pCol->IsHidden();
-
-            DataBool bHidden(bSaveHidden);
-            if (!pCol->m_pHideExpr->Eval(bHidden))
-            {
-                TRACE(_TB("Valutation error in control expression for column visualization:") + pCol->m_Title.GetText());
-                return FALSE;
-            }
-
-            if (bSaveHidden == bHidden)
-                return FALSE;
-
-            SetColumnHiddenStatus(nCol, bHidden);
-            return TRUE;
-        }
-
-        //------------------------------------------------------------------------------
-        void Table::SetColumnHiddenStatus(int nCol, BOOL bHidden)
-        {	
-            TableColumn* pCol = m_Columns[nCol];
-            int width = bHidden ? pCol->Width() : pCol->m_nSavedWidth;
-
-            pCol->SetHidden(bHidden);	//resize column rect and owned anchored fields
-
-            if (nCol <= m_Columns.GetUpperBound())
-            {
-                ASSERT(width);
-                if (bHidden)
-                {
-                    LeftShiftColumn (nCol + 1, width);
-
-                    m_nActiveColumn = NO_ACTIVE_COLUMN;
-                }
-                else
-                    RightShiftColumn (nCol, width);
-            }
-        }
-
-        //------------------------------------------------------------------------------
-        BOOL Table::CheckDynamicWidth(int nCol)
-        {
-            TableColumn* pCol = m_Columns[nCol];
-
-            ASSERT_VALID(pCol->m_pDynamicWidthExpr);
-            if (!pCol->m_pDynamicWidthExpr || pCol->m_pDynamicWidthExpr->IsEmpty())
-                return FALSE;
-
-            DataInt width = pCol->Width();
-            if (!pCol->m_pDynamicWidthExpr->Eval(width))
-            {
-                TRACE(_TB("Valutation error in dynamic expression for column width:") + pCol->m_Title.GetText());
-                return FALSE;
-            }
-
-            if (width == pCol->Width())
-                return FALSE;
-
-            OnColumnSetWidth(pCol, width, FALSE);
-            return TRUE;
-        }
-
-         * */
         //---------------------------------------------------------------------------
         internal void MarkTemplateOverridden()
         {
