@@ -1316,10 +1316,10 @@ void BaseObj::UpdateRepeater()
 	if (this->IsKindOf(RUNTIME_CLASS(Repeater)))
 		return;
 
-	CLayout layout = m_pDocument->GetObjects();
-	for (int i = 0; i < layout.GetSize(); i++)
+	CLayout* layout = &m_pDocument->GetObjects();
+	for (int i = 0; i < layout->GetSize(); i++)
 	{
-		BaseObj* pO = layout[i];
+		BaseObj* pO = (*layout)[i];
 		if (pO->IsKindOf(RUNTIME_CLASS(Repeater)))
 		{
 			Repeater* pRep = (Repeater*)pO;
