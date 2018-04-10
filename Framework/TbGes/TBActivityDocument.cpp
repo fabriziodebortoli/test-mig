@@ -331,7 +331,7 @@ CTBActivityDocument::~CTBActivityDocument()
 BOOL CTBActivityDocument::CanDoBatchExecute()
 {
 	if (IsEditingParamsFromExternalController() || IsRunningFromExternalController())
-		return FALSE;
+		return TRUE;
 
 	if (m_eResultsType == E_ACTIVITYTYPE::ACTIVITY_GRID && (!GetDBT() || GetDBT()->GetUpperBound() < 0))
 		return FALSE;
@@ -1151,7 +1151,7 @@ void CTBActivityDocument::OnUpdateBatchStartStop(CCmdUI* pCmdUI)
 {
 	if (IsEditingParamsFromExternalController() || IsRunningFromExternalController())
 	{
-		pCmdUI->Enable(FALSE);
+		pCmdUI->Enable(TRUE);
 		return;
 	}
 
