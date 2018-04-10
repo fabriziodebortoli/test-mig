@@ -62,8 +62,8 @@ public:
 	CAbstractFormView* GetOwnerView();
 	void GetBindingInfo(CString sId, CString sName, BindingInfo* pBindingInfo, DBTObject*& pDBT, SqlRecord*& pRecord, DataObj*& pDataObj, CString& sBindingName);
 
-private:
-	CString GetSafeActivationString(CString strActivation);
+	UINT GetRowFormViewId(CWndBodyDescription* pWndDesc);
+
 };
 class CHotFilterJsonContext : public CJsonContext {
 private:

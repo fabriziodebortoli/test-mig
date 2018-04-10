@@ -191,6 +191,19 @@ void CJsonContext::Assign(CJsonContextObj* pOther)
 	m_pDoc = ((CJsonContext*)pOther)->m_pDoc;
 	m_pForm = ((CJsonContext*)pOther)->m_pForm;
 }
+
+//-----------------------------------------------------------------------------
+UINT CJsonContext::GetRowFormViewId(CWndBodyDescription* pWndDesc)
+{
+	CString sRowView = pWndDesc->m_strRowView;
+	if (sRowView.IsEmpty())
+		return 0;
+	CString sResourceName, sContext;
+	CJsonResource::SplitNamespace(sRowView, sResourceName, sContext);
+	if (sContext.IsEmpty())
+		sContext = m_JsonResource.m_strContext;
+	return AfxGetTBResourcesMap()->GetTbResourceID(sResourceName, TbResources, 1, sContext);
+}
 //-----------------------------------------------------------------------------
 void CJsonContext::BuildDataControlLinks()
 {
@@ -712,28 +725,28 @@ void CJsonContext::GetActivationExpressions(CWndObjDescription* pDesc, CStringAr
 			arActivated.Add(CheckActivationExpression(pDesc->m_strActivation));
 		}
 	}
+
+	if (pDesc->m_Type == CWndObjDescription::BodyEdit)
+	{
+		CWndBodyDescription* pBodyDesc = (CWndBodyDescription*)pDesc;
+
+		UINT nID = GetRowFormViewId(pBodyDesc);
+		if (nID)
+		{
+			CJsonResource res = AfxGetTBResourcesMap()->DecodeID(TbResources, nID);
+			//è stata mappata come risorsa dinamica: si tratta di risorsa in file tbjson
+			if (!res.IsEmpty())
+			{
+				CJsonContext* pRowViewContext = (CJsonContext*)CJsonFormEngineObj::GetInstance()->CreateContext(res);
+				GetActivationExpressions(pRowViewContext->m_pDescription, arIds, arActivated);
+				delete pRowViewContext;
+			}
+		}
+	}
 	for (int i = 0; i < pDesc->m_Children.GetCount(); i++)
 	{
 		GetActivationExpressions(pDesc->m_Children.GetAt(i), arIds, arActivated);
 	}
-}
-
-//---------------------------------------------------------------------------
-CString CJsonContext::GetSafeActivationString(CString strActivation)
-{
-	if (strActivation == L"ERP.QualityInspection")
-		ASSERT(FALSE);
-	strActivation.Replace(_T("&&"), _T("And"));
-	strActivation.Replace(_T(">"), _T("_"));
-	strActivation.Replace(_T("'"), _T("_"));
-	strActivation.Replace(_T("("), _T("_"));
-	strActivation.Replace(_T(")"), _T("_"));
-	strActivation.Replace(_T("\""), _T("_"));
-	strActivation.Replace(_T("!"), _T("Not"));
-	strActivation.Replace(_T("||"), _T("Or"));
-	strActivation.Replace(_T(" "), _T(""));
-	strActivation.Replace(_T("."), _T("_"));
-	return _T("_") + strActivation;
 }
 
 //---------------------------------------------------------------------------
@@ -1827,14 +1840,7 @@ template <class T> CRuntimeClass* TBJsonBodyEditWrapper<T>::GetRowViewClass()
 //-----------------------------------------------------------------------------
 template <class T> UINT TBJsonBodyEditWrapper<T>::GetRowFormViewId()
 {
-	CString sRowView = ((CWndBodyDescription*)m_pWndDesc)->m_strRowView;
-	if (sRowView.IsEmpty())
-		return 0;
-	CString sResourceName, sContext;
-	CJsonResource::SplitNamespace(sRowView, sResourceName, sContext);
-	if (sContext.IsEmpty())
-		sContext = m_pContext->m_JsonResource.m_strContext;
-	return AfxGetTBResourcesMap()->GetTbResourceID(sResourceName, TbResources, 1, sContext);
+	return m_pContext->GetRowFormViewId((CWndBodyDescription*)m_pWndDesc);
 }
 //-----------------------------------------------------------------------------
 template <class T> void TBJsonBodyEditWrapper<T>::FindHotLink()
@@ -3129,7 +3135,9 @@ void CJsonFormEngine::BuildWebControlLinks(CParsedForm* pParsedForm, CJsonContex
 		if (pChild->m_Type == CWndObjDescription::HotFilter)
 		{
 			pContext->CreateHotFilter(nIDC, pChild);
+			continue;
 		}
+		
 		//solo i parsed controls
 		if (!pChild->m_strControlClass.IsEmpty())
 		{
