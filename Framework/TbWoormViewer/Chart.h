@@ -143,7 +143,7 @@ public:
 		double				m_dTrasparency = 0;
 		CString				m_sTrasparency;
 		Chart*				m_pParent = NULL;
-		BOOL				m_bShowLabels = TRUE;
+		BOOL				m_bShowLabels = FALSE;
 
 	private:		
 		int					m_nIndex = 0;

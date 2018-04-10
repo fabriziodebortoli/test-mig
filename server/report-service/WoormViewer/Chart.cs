@@ -755,7 +755,7 @@ namespace Microarea.RSWeb.Objects
 
 
 
-                        customColor = ',' + ('#' + c.Name).ToJson("customColor");
+                        customColor = ',' + c.ToJson("customColor");/*('#' + c.Name).ToJson("customColor")*/;
                     }
                     series += '{' + categoriesStr + ',' + val + customColor + '}';
 
