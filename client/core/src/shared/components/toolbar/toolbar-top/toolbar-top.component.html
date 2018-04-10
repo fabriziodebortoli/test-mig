@@ -2,12 +2,12 @@
     <div class="toolbar-top-item icon">
         <ng-content select=".toolbar-icon"></ng-content>
     </div>
-    
+
     <div class="menu">
         <ng-content select=".toolbar-menu"></ng-content>
     </div>
-    
-    <div class="title">
+
+    <div class="title" title="{{eventData?.model?.HeaderStripTitle?.value || eventData?.model?.Title?.value || caption}}">
         <span class="truncate">{{eventData?.model?.HeaderStripTitle?.value || eventData?.model?.Title?.value || caption}}</span>
     </div>
 

@@ -1,53 +1,56 @@
-@import '../../../../style/vars.scss';
+@import "../../../../style/vars.scss";
 .toolbar-top {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-content: flex-start;
-    background: $bkg-light;
-    border-bottom: 1px solid #cfe0e8;
-    align-items: center;
-    height: 40px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  // justify-content: space-around;
+  align-content: flex-start;
+  background: $bkg-light;
+  border-bottom: 1px solid #cfe0e8;
+  align-items: center;
+  height: 40px;
 }
 
 .history {
-    width: 42px;
-    line-height: 44px;
-    text-align: center;
-    font-size: 18px;
-    margin-left: 5px;
-    cursor: pointer;
-    &:hover {
-        background: #ccc;
-    }
+  width: 42px;
+  line-height: 44px;
+  text-align: center;
+  font-size: 18px;
+  margin-left: 5px;
+  cursor: pointer;
+  &:hover {
+    background: #ccc;
+  }
 }
 
-::ng-deep .title {
-    display: flex;
-    flex: 1 1 auto;
-    &>span {
-        line-height: 40px;
-        margin: 0 10px;
-        font-weight: 500;
-        font-size: 16px;
-        color: $darkblue;
-    }
+.title {
+  display: flex;
+  flex: 1 1 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  & > span {
+    line-height: 40px;
+    margin: 0 10px;
+    font-weight: 500;
+    font-size: 16px;
+    color: $darkblue;
+  }
 }
 
 .menu {
-    display: flex;
-    flex: 0 1 auto;
-    flex-direction: row;
-    padding: 0px 0 0 3px;
-    height: 40px;
-    align-items: center;
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: row;
+  padding: 0px 0 0 3px;
+  height: 40px;
+  align-items: center;
 }
 
 .right {
-    display: flex;
-    flex: 0 1 auto;
-    padding: 0px 0 0 3px;
-    height: 40px;
-    align-items: center;
+  display: flex;
+  flex: 0 1 auto;
+  padding: 0px 0 0 3px;
+  height: 40px;
+  align-items: center;
 }
