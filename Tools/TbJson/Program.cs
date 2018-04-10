@@ -27,7 +27,7 @@ namespace Microarea.TbJson
                         new WebInterfaceGenerator(verboseOutput).Generate(args[1], args.Length >= 3 ? args[2] : "", true, false);
                         break;
                     case "/force":
-                        new WebInterfaceGenerator(verboseOutput).Generate(args[1], args.Length >= 3 ? args[2] : "", true, true);
+                        new WebInterfaceGenerator(verboseOutput).Generate(args[1], args.Length >= 3 ? args[2] : "", false, true);
                         break;
                 }
             }
