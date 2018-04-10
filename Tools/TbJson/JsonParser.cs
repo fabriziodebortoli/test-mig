@@ -78,12 +78,28 @@ namespace Microarea.TbJson
                 if (!File.Exists(file))
                     throw new Exception(string.Concat("Invalid href: ", href, " - File not found!"));
                 JObject jHref = (JObject)Parse(standardFolder, file, false);
+                TrimNoWebSections(jHref);
                 JToken jBody = jRW.Parent.Parent;
                 foreach (JObject row in jBody.GetItems())
                     if (row.GetWndObjType() == WndObjType.ColTitle)
                         FillMissingColumnProps(jHref, row);
                 jRW.Parent.Parent[Constants.rowViewForm] = jHref;
                 jRW.Parent.Remove();
+            }
+        }
+
+        //-----------------------------------------------------------------------------
+        internal void TrimNoWebSections(JToken jRoot)
+        {
+            List<JToken> toRemove = new List<JToken>();
+            foreach (JToken t in jRoot.SelectTokens("..environment"))
+            {
+                if (t.ToString() == "desktop")
+                    toRemove.Add(t.Parent.Parent);
+            }
+            foreach (JToken t in toRemove)
+            {
+                t.Remove();
             }
         }
         //-----------------------------------------------------------------------------
