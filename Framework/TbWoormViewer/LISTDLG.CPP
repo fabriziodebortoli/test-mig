@@ -3213,6 +3213,37 @@ void CSetNameDlg::OnOK ()
 }
 
 //==============================================================================
+//          Class CSetNameDlg implementation
+//==============================================================================
+
+IMPLEMENT_DYNAMIC(CSetPassKeyDlg, CParsedDialog)
+
+CSetPassKeyDlg::CSetPassKeyDlg(CWnd* aParent /*=NULL*/)
+	:
+	CParsedDialog(IDD_SET_PASSKEY, aParent),
+	m_pDocument(NULL)
+{
+}
+
+//------------------------------------------------------------------------------
+BOOL CSetPassKeyDlg::OnInitDialog()
+{
+	__super::OnInitDialog();
+
+	return TRUE;  // return TRUE  unless you set the focus to a control
+}
+
+//------------------------------------------------------------------------------
+void CSetPassKeyDlg::OnOK()
+{
+	GetDlgItem(IDC_SET_PASSKEY)->GetWindowText(m_sPassKey);
+	m_sPassKey.Trim();
+
+	if (m_sPassKey.CompareNoCase(L"Microarea.") == 0)
+		EndDialog(IDOK);
+}
+
+//==============================================================================
 //          Class CListStyleDlg implementation
 //==============================================================================
 BEGIN_MESSAGE_MAP(CListStyleDlg, CParsedDialog)

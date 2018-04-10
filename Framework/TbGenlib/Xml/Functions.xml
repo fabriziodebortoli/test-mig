@@ -472,39 +472,68 @@ elapsedTime({D "11/11/2009"}, {D "12/12/2009"}) => 744:00
       <Param name="Number" type="double" localize="the number to be checked" />
       <Example localizable="true">Sign(3.14) => 1;Sign(-3.14) => -1 </Example>
     </Function>
-
   </Group>
   
- <Group name="Miscellaneous" pagename="RefGuide-Framework-TBWoormEngine-BaseFunctions-Miscellaneous" localize="Miscellaneous Functions">
-    <Function name="Ccat" type="string" localize="Concatenates all the text of a set of values." >
+ <Group name="Aggregate" pagename="RefGuide-Framework-TBWoormEngine-BaseFunctions-Miscellaneous" localize="Aggregate Functions">
+    <Function name="CCat" type="string" localize="Concatenates all the text of a set of values." >
       <Remarks localizable="true">Allowed only in the Woorm groupings feature.</Remarks>
-      <Prototype>string Ccat(string_FieldToConcatenate)</Prototype>
+      <Prototype>string CCat(string_FieldToConcatenate)</Prototype>
       <Param name="FieldToConcatenate" type="string" localize="archive or expression field to be concatenated" />
-      <Example localizable="true">Ccat(Item + Description) => omissis </Example>
+      <Example localizable="true">CCat(Item + Description) => omissis </Example>
     </Function>
-    <Function name="Cmax" type="variant" localize="Returns the largest value between a range of values." >
+    <Function name="CMax" type="variant" localize="Returns the largest value between a range of values." >
       <Remarks localizable="true">Allowed only in the Woorm groupings feature. </Remarks>
       <Result localizable="true">It depends of the field type.</Result>
-      <Prototype>any Cmax(any_Field)</Prototype>
+      <Prototype>any CMax(any_Field)</Prototype>
       <Param name="Field" type="variant" localize="archive or expression field representing the range" />
       <Example localizable="true">Cmax(BasePrice) => omissis </Example>
     </Function>
-    <Function name="Cmin" type="variant" localize="Returns the smallest value between a range of values." >
+    <Function name="CMin" type="variant" localize="Returns the smallest value between a range of values." >
       <Remarks localizable="true">Allowed only in the Woorm groupings feature. </Remarks>
       <Result localizable="true">It depends of the field type</Result>
-      <Prototype>any Cmin(any_Field)</Prototype>
+      <Prototype>any CMin(any_Field)</Prototype>
       <Param name="Field" type="variant" localize="archive or expression field representing the range" />
       <Example localizable="true">Cmin(BasePrice) => omissis </Example>
     </Function>
-    <Function name="Csum" type="variant" localize="Adds all the value of a range of values." >
+    <Function name="CSum" type="variant" localize="Adds all the value of a range of values." >
       <Remarks localizable="true">Allowed only in the Woorm groupings feature. </Remarks>
       <Result localizable="true">It depends of the field type.</Result>
-      <Prototype>any Csum(any_Field)</Prototype>
+      <Prototype>any CSum(any_Field)</Prototype>
       <Param name="Field" type="variant" localize="archive or expression field representing the range" />
-      <Example localizable="true">Csum(BasePrice) => omissis</Example>
+      <Example localizable="true">CSum(BasePrice) => omissis</Example>
     </Function>
+   <Function name="CAvg" type="variant" localize="Calculate average of all the value of a range of values." >
+     <Remarks localizable="true">Allowed only in the Woorm groupings feature. </Remarks>
+     <Result localizable="true">It depends of the field type.</Result>
+     <Prototype>any CAvg(any_Field)</Prototype>
+     <Param name="Field" type="variant" localize="archive or expression field representing the range" />
+     <Example localizable="true">CAvg(BasePrice) => omissis</Example>
+   </Function>
+   <Function name="CFirst" type="variant" localize="Returns the first value between a range of values." >
+     <Remarks localizable="true">Allowed only in the Woorm groupings feature. </Remarks>
+     <Result localizable="true">It depends of the field type.</Result>
+     <Prototype>any CFirst(any_Field)</Prototype>
+     <Param name="Field" type="variant" localize="archive or expression field representing the range" />
+     <Example localizable="true">CFirst(BasePrice) => omissis </Example>
+   </Function>
+   <Function name="CLast" type="variant" localize="Returns the last value between a range of values." >
+     <Remarks localizable="true">Allowed only in the Woorm groupings feature. </Remarks>
+     <Result localizable="true">It depends of the field type</Result>
+     <Prototype>any CLast(any_Field)</Prototype>
+     <Param name="Field" type="variant" localize="archive or expression field representing the range" />
+     <Example localizable="true">CLast(BasePrice) => omissis </Example>
+   </Function>
+   <Function name="CCount" type="variant" localize="Count the number of a range of values." >
+     <Remarks localizable="true">Allowed only in the Woorm groupings feature. </Remarks>
+     <Result localizable="true">It depends of the field type.</Result>
+     <Prototype>any CCount(myCounter_Field)</Prototype>
+     <Param name="Field" type="long" localize="archive or expression field representing the counter" />
+     <Example localizable="true">CCount(myCounter_Field) => omissis</Example>
+   </Function>
+ </Group>
 
-   <Function name="ContentOf" type="string" localize="Returns a conditional string."  >
+   <Group name="Miscellaneous" pagename="RefGuide-Framework-TBWoormEngine-BaseFunctions-Miscellaneous" localize="Miscellaneous Functions">
+     <Function name="ContentOf" type="string" localize="Returns a conditional string."  >
      <Remarks localizable="true">Allowed only in the "Order by" and "Where" clause. </Remarks>
      <Result localizable="true">It depends of the field type.</Result>
      <Prototype>string ContentOf(string_ConditionalExpression)</Prototype>

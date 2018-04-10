@@ -1453,6 +1453,22 @@ protected:
 	DECLARE_DYNAMIC(CSetNameDlg);
 
 };
+//===========================================================================
+class TB_EXPORT CSetPassKeyDlg : public CParsedDialog
+{
+protected:
+	CWoormDocMng * m_pDocument;
+public:
+	CString		m_sPassKey;
+
+	CSetPassKeyDlg(CWnd* aParent = NULL);
+
+protected:
+	virtual void OnOK();
+	virtual BOOL OnInitDialog();
+
+	DECLARE_DYNAMIC(CSetPassKeyDlg);
+};
 
 //===========================================================================
 class TB_EXPORT CListStyleDlg : public CParsedDialog

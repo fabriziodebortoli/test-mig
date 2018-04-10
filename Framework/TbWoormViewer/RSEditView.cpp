@@ -3016,7 +3016,7 @@ void CRSEditorBreakpointViewDebug::CreateGrid()
 	m_pPropGrid->EnableSearchBox(TRUE, _TB("Search"));
 	m_pPropGrid->EnableToolBar();		  // abilita la toolbar per ordine alfabetico delle properties oppure categorizzato a tree
 	m_pPropGrid->EnableHeaderCtrl(FALSE); // Property e Value in testa alla property Grid (eliminati perchè mi sembrano inutili)
-	m_pPropGrid->EnableDescriptionArea(); // area sottostante la property grid per la descrizione delle properties
+	//m_pPropGrid->EnableDescriptionArea(); // area sottostante la property grid per la descrizione delle properties
 	m_pPropGrid->SetVSDotNetLook();
 	m_pPropGrid->MarkModifiedProperties(TRUE);
 	m_pPropGrid->SetNameAlign(DT_LEFT);

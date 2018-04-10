@@ -2932,7 +2932,7 @@ BOOL CRSTreeCtrl::FillEventsForDebug(Block* pCurrent)
 		&pOnFormFeedEvents->m_pAfterBlock, TRUE);
 	//if (pOnFormFeedActions->m_pAfterBlock->m_bHasBreakpoint) nt2.SetItemColor(RS_COLOR_BREAKPOINT);
 	m_htFormFeedAfterEvent = nt2;
-
+/*
 	for (int i = 0; i < pEngine->m_SymTable.GetDisplayTablesNum(); i++)
 	{
 		ASSERT_VALID(pEngine->m_SymTable.GetDisplayTables());
@@ -2947,7 +2947,7 @@ BOOL CRSTreeCtrl::FillEventsForDebug(Block* pCurrent)
 			&pDisplayTable->TableActions()->m_pAfterBlock, TRUE);
 		//if (pDisplayTable->TableActions()->m_pAfterBlock->m_bHasBreakpoint) nt3.SetItemColor(RS_COLOR_BREAKPOINT);
 	}
-
+*/
 	for (int i = 0; i < pEngine->m_TriggeredEvents.GetSize(); i++)
 	{
 		TriggeredEvent* pBreakingEvent = dynamic_cast<TriggeredEvent*>(pEngine->m_TriggeredEvents.GetAt(i));
@@ -2981,7 +2981,7 @@ BOOL CRSTreeCtrl::FillEventsForDebug(Block* pCurrent)
 			&pBreakingEvent->m_pBeforeBlock, TRUE);
 		//if (pBreakingEvent->m_pBeforeBlock->m_bHasBreakpoint) nt6.SetItemColor(RS_COLOR_BREAKPOINT);
 	}
-
+/*
 	for (int i = 0; i < pEngine->m_SymTable.GetDisplayTablesNum(); i++)
 	{
 		DisplayTableEntryEngine* pDisplayTable = dynamic_cast<DisplayTableEntryEngine*>(pEngine->m_SymTable.GetDisplayTables()->GetAt(i));
@@ -2994,7 +2994,7 @@ BOOL CRSTreeCtrl::FillEventsForDebug(Block* pCurrent)
 			&pDisplayTable->TableActions()->m_pBeforeBlock, TRUE);
 		//if (pDisplayTable->TableActions()->m_pBeforeBlock->m_bHasBreakpoint) nt7.SetItemColor(RS_COLOR_BREAKPOINT);
 	}
-
+*/
 	CNodeTree& nt8 = AddNode(
 		pOnFormFeedEvents->m_pBeforeBlock == pCurrent ? CRSTreeCtrlImgIdx::BreakPointCurrent : CRSTreeCtrlImgIdx::NoGLyph,
 		pOnFormFeedEvents->m_pBeforeBlock->m_strOwnerName, m_htEvents, &pEngine->m_SymTable,

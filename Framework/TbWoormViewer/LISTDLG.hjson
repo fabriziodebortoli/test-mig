@@ -27,6 +27,7 @@
 #include	<TbWoormViewer\JsonForms\LISTDLG\IDD_TABLE_ALIGN.hjson>
 #include	<TbWoormViewer\JsonForms\LISTDLG\IDD_TABLE_BORDERS.hjson>
 #include	<TbWoormViewer\JsonForms\LISTDLG\IDD_TABLE_HEIGHTS.hjson>
+#include	<TbWoormViewer\JsonForms\LISTDLG\IDD_SET_PASSKEY.hjson>
 
 //-----------------------------------------------------------------------------------------------------
 //Type:	IDC
