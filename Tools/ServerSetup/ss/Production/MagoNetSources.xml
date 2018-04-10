@@ -40,7 +40,10 @@
             <IncludeFile name="*.h|*.config*|Main.Brand.xml|*.Solution.xml"/>
             <ExcludeFile name="*.2003|*.vssscc|*.vspscc"	/>
           </IncludeFolder>
-          <IncludeFolder name="*"	fragment="yes">
+          <IncludeFolder name="packages" recursive="yes">
+			<IncludeFile name ="*.dll"/>
+		  </IncludeFolder>
+		  <IncludeFolder name="*"	fragment="yes">
             <IncludeFolder name="DataManager">
               <IncludeFolder name="Default"	recursive="yes">
                 <IncludeFile name	="*"/>

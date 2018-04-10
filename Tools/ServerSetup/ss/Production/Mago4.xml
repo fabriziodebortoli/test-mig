@@ -171,7 +171,7 @@
             <IncludeFile name="*" />
           </IncludeFolder>
           <ExcludeFolder name="erppchstub"/>
-          <IncludeFile name="application.config" />
+          <IncludeFile name="application.config|Changes.xml" />
         </IncludeFolder>
         <IncludeFolder name="MDC">
           <IncludeFolder name="*" fragment="yes">
