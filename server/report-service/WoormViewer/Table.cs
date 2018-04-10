@@ -5259,10 +5259,8 @@ namespace Microarea.RSWeb.Objects
         //---------------------------------------------------------------------------
         // C:\dev\Standard\TaskBuilder\Framework\TbWoormViewer\TABLE1.CPP
         // BOOL Table::CheckColumnsHiddenStatus ()
-        public void CheckDynamicColumns()    //TODO RSWEB  dynamic width column/anchored fields
+        public bool CheckDynamicColumns()    //TODO RSWEB  dynamic width column/anchored fields
         {
-            //TODO hidden columns
-            //TODO dynamic width columns
             //TODO move/resize/hide-show anchored fields
             Document.SynchronizeSymbolTable();
 
@@ -5277,6 +5275,9 @@ namespace Microarea.RSWeb.Objects
                     bLayoutChanged = CheckDynamicWidth(pCol) || bLayoutChanged;
                 }
             }
+            if (bLayoutChanged)
+                ResizeAnchoredFields();
+            return bLayoutChanged;
         }
 
         bool CheckHiddenStatus(Column pCol)
@@ -5312,6 +5313,53 @@ namespace Microarea.RSWeb.Objects
             }
             return false;
         }
+
+        public void ResizeAnchoredFields()    //TODO RSWEB  dynamic width column/anchored fields
+        {
+            int width = 0;
+            for (int c = 0; c < this.Columns.Count; c++)
+            {
+                Column pCol = this.Columns[c];
+
+                if (pCol.AnchoredRectList != null && pCol.AnchoredRectList.Count > 0)
+                {
+                    for (int r = 0; r < pCol.AnchoredRectList.Count; r++)
+                    {
+                        BaseRect anchored = pCol.AnchoredRectList[r];
+
+                        if (anchored.AnchorLeftColumnID == pCol.InternalID)
+                        {
+                            bool hidden = pCol.IsHidden;
+                            int left = this.BaseCellsRect.Left + width;
+                            int w = (pCol.IsHidden ? 0 : pCol.Width);
+
+                            if (anchored.AnchorRightColumnID > 0)
+                            {
+                                for (int ac = c + 1; ac <= anchored.AnchorRightColumnIndex; ac++)
+                                {
+                                    Column pCol2 = this.Columns[ac];
+
+                                    if (hidden && !pCol2.IsHidden)
+                                    {
+                                        left = this.BaseCellsRect.Left + width + w;
+                                        hidden = false;
+                                    }
+
+                                    w += (pCol2.IsHidden ? 0 : pCol2.Width);
+                                }                               
+                            }
+                          
+                            anchored.IsHidden = hidden;
+                            anchored.Rect.X = left;
+                            anchored.Rect.Width = w;
+                        }
+                    }
+               }
+
+               width += pCol.IsHidden ? 0 : pCol.Width;
+            }
+        }
+
 
         //---------------------------------------------------------------------------
         internal void MarkTemplateOverridden()

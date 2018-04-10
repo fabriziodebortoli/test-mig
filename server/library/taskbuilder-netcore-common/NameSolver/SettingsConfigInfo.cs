@@ -100,20 +100,22 @@ namespace Microarea.Common.NameSolver
 			//Parso il file nella standard
 			filePath = parentModuleInfo.GetStandardSettingsFullFilename(fileName);
 			if (filePath == null || filePath == string.Empty)
-				return false;
-			ParseSingleFile(filePath, SourceOfSettingsConfig.Standard);
+				return false;   //se cerco un settings nella standard deve esserci
+            if (!ParseSingleFile(filePath, SourceOfSettingsConfig.Standard))
+                return false;
 
             ModuleInfo mi = parentModuleInfo as ModuleInfo;
             if (mi == null)
                 return true;
 
-			//Parso il file nella CUSTOM/COMPANIE/ALLUSER
+			//Parso il file nella CUSTOM/COMPANY/ALLUSER
 			filePath = mi.GetCustomCompanyAllUserSettingsPathFullFilename(fileName);
 			if (filePath == null || filePath == string.Empty)
-				return false;
-			ParseSingleFile(filePath, SourceOfSettingsConfig.SpecificiCompanyAllUsers);
-            			
-			return true;
+				return true;    //i settings nella custom sono opzionali
+            if (!ParseSingleFile(filePath, SourceOfSettingsConfig.SpecificiCompanyAllUsers))
+                return true;    //i settings nella custom sono opzionali, e puo' sopravvivere ad un problema
+
+            return true;
 		}
 		//---------------------------------------------------------------------
 		private bool ParseSingleFile(string aFilePath, SourceOfSettingsConfig source)
