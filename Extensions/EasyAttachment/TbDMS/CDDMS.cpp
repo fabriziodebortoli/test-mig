@@ -1215,6 +1215,7 @@ void CDDMS::OnNewAttachmentFromFileSystem()
 
 	CFileDialog fileDialog(TRUE, NULL, NULL, OFN_ALLOWMULTISELECT, NULL, m_pAttachmentPane);
 	fileDialog.m_ofn.lpstrFile = szBuff;
+	fileDialog.m_ofn.nMaxFile = 4096;
 
 	if (fileDialog.DoModal() != IDOK)
 		return;

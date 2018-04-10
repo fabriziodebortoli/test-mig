@@ -1419,7 +1419,7 @@ namespace Microarea.EasyAttachment.BusinessLogic
             archivedDocId = -1;
 
             // click with no selected document
-            if (string.IsNullOrWhiteSpace(docPath))
+            if (string.IsNullOrWhiteSpace(docPath) || !File.Exists(docPath))
             {
                 SetMessage(Strings.ErrorPathIsEmpty, null, "ArchiveDocument");
                 return ArchiveResult.TerminatedWithError;
@@ -2490,8 +2490,8 @@ namespace Microarea.EasyAttachment.BusinessLogic
             }
 
             return ArchiveResult.TerminatedWithError;
-
         }
+
         /// <summary>
 		/// Used to archive and attach a file to the current ERP document
 		/// </summary>
@@ -2500,11 +2500,12 @@ namespace Microarea.EasyAttachment.BusinessLogic
         {
             attachmentID = -1;
             // click with no selected document
-            if (string.IsNullOrWhiteSpace(docPath))
+            if (string.IsNullOrWhiteSpace(docPath) || !File.Exists(docPath))
             {
                 SetMessage(Strings.ErrorPathIsEmpty, null, "AttachDocument");
                 return ArchiveResult.TerminatedWithError;
             }
+
             DocumentToArchive docToArchive = new DocumentToArchive();
             docToArchive.IsAFile = true;
             docToArchive.DocumentPath = docPath;
@@ -2515,7 +2516,6 @@ namespace Microarea.EasyAttachment.BusinessLogic
 
             return AttachDocument(ref docToArchive, out attachmentID);
         }
-
 
         /// <summary>
         /// Used to archive and attach a binary content to the current ERP document

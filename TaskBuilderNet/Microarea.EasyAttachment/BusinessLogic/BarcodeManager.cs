@@ -2106,12 +2106,16 @@ namespace Microarea.EasyAttachment.BusinessLogic
         {
             Dictionary<string, Barcode> files = new Dictionary<string, Barcode>();
             int archivedDocId = 0;
+
             foreach (string path in filesToAttach)
             {
-                //se devo cerco in ogni file il barcode e mi segno la pagina
-                //ogni file pdf e tiff verra'scannato per trovare i barcode presenti e quindi verranno separati in piú file, prendendo come prima pagina quella col barcode
+				if (!File.Exists(path))
+					continue;
 
-                if (splitFileOnBC)
+				// se devo cerco in ogni file il barcode e mi segno la pagina
+				// ogni file pdf e tiff verra'scannato per trovare i barcode presenti e quindi verranno separati in piú file, prendendo come prima pagina quella col barcode
+
+				if (splitFileOnBC)
                     files = SplitFileUsingBarcode(path);
                 else
                     files.Add(path, new Barcode()); //se non devo eseguiro lo split considero il file originario
@@ -2120,44 +2124,45 @@ namespace Microarea.EasyAttachment.BusinessLogic
             List<AttachmentInfoOtherData> aioList = new List<AttachmentInfoOtherData>();
             Dictionary<string, int> existBarcodes = new Dictionary<string, int>();
 
-            foreach (KeyValuePair<string, Barcode> f in files)
-                if (!string.IsNullOrWhiteSpace(f.Key))
-                {
+			foreach (KeyValuePair<string, Barcode> f in files)
+			{
+				if (!string.IsNullOrWhiteSpace(f.Key))
+				{
+					AttachmentInfoOtherData aiod = PrepareAttachment(new AttachmentInfo(--archivedDocId, new FileInfo(f.Key), DMSOrchestrator), f.Value); //vado in negativo per non andare in conflitto con codici esistenti. 
 
-                    AttachmentInfoOtherData aiod = PrepareAttachment(new AttachmentInfo(--archivedDocId, new FileInfo(f.Key), DMSOrchestrator), f.Value); //vado in negativo per non andare in conflitto con codici esistenti. 
-                    if (
-                            (aiod.Attachment.ArchivedDocId < 0 && aioList.Exists(a => string.Compare(a.Attachment.TempPath, aiod.Attachment.TempPath, true) == 0)) ||
-                            (aiod.Attachment.ArchivedDocId > 0 && aioList.Exists(a => a.Attachment.ArchivedDocId == aiod.Attachment.ArchivedDocId))
-                        )
-                    {
-                        aiod.Result = MassiveResult.PreFailed;
-                        aiod.BarCodeStatus = MassiveStatus.ItemDuplicated;
-                    }
+					if (
+							(aiod.Attachment.ArchivedDocId < 0 && aioList.Exists(a => string.Compare(a.Attachment.TempPath, aiod.Attachment.TempPath, true) == 0)) ||
+							(aiod.Attachment.ArchivedDocId > 0 && aioList.Exists(a => a.Attachment.ArchivedDocId == aiod.Attachment.ArchivedDocId))
+						)
+					{
+						aiod.Result = MassiveResult.PreFailed;
+						aiod.BarCodeStatus = MassiveStatus.ItemDuplicated;
+					}
 
-                    if (!string.IsNullOrWhiteSpace(aiod.Attachment.TBarcode.Value) && aioList.Exists(a => string.Compare(a.Attachment.TBarcode.Value, aiod.Attachment.TBarcode.Value, true) == 0))
-                        aiod.BarCodeStatus = MassiveStatus.BCDuplicated;
+					if (!string.IsNullOrWhiteSpace(aiod.Attachment.TBarcode.Value) && aioList.Exists(a => string.Compare(a.Attachment.TBarcode.Value, aiod.Attachment.TBarcode.Value, true) == 0))
+						aiod.BarCodeStatus = MassiveStatus.BCDuplicated;
 
-                    //aiod.PossibleActions.Add(MassiveAction.None);
+					//aiod.PossibleActions.Add(MassiveAction.None);
 
-                    if (aiod.BarCodeStatus == MassiveStatus.BCDuplicated)
-                    {
-                        switch (DMSOrchestrator.SettingsManager.UsersSettingState.Options.BarcodeDetectionOptionsState.BCActionForBatch)
-                        {
-                            case DuplicateDocumentAction.ReplaceExistingDoc:
-                                aiod.ActionToDo = MassiveAction.Substitute; break;//se i setting dicono di sostituire i doc con stesso barcode uso la stessa impostazione anche qua
-                            case DuplicateDocumentAction.ArchiveAndKeepBothDocs:
-                                aiod.ActionToDo = MassiveAction.Archive; break;
-                        }
-                    }
+					if (aiod.BarCodeStatus == MassiveStatus.BCDuplicated)
+					{
+						switch (DMSOrchestrator.SettingsManager.UsersSettingState.Options.BarcodeDetectionOptionsState.BCActionForBatch)
+						{
+							case DuplicateDocumentAction.ReplaceExistingDoc:
+								aiod.ActionToDo = MassiveAction.Substitute; break;//se i setting dicono di sostituire i doc con stesso barcode uso la stessa impostazione anche qua
+							case DuplicateDocumentAction.ArchiveAndKeepBothDocs:
+								aiod.ActionToDo = MassiveAction.Archive; break;
+						}
+					}
 
-                    //if (aiod.ActionToDo != MassiveAction.None && aiod.Result != MassiveResult.PreFailed)//se none o fallito non aggiungo altre opzioni
-                    //    aiod.PossibleActions.Add(aiod.ActionToDo);
-                    
-                    aioList.Add(aiod);
+					//if (aiod.ActionToDo != MassiveAction.None && aiod.Result != MassiveResult.PreFailed)//se none o fallito non aggiungo altre opzioni
+					//    aiod.PossibleActions.Add(aiod.ActionToDo);
 
-                    if (MassiveObjectAdded != null)
-                        MassiveObjectAdded(this, new MassiveEventArgs(aiod));
-                }
+					aioList.Add(aiod);
+
+					MassiveObjectAdded?.Invoke(this, new MassiveEventArgs(aiod));
+				}
+			}
         }
     }   
 }

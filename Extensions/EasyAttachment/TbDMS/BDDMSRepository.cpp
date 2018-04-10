@@ -881,6 +881,7 @@ void BDDMSRepository::OnNewDocumentFromFileSystem()
 
 	CFileDialog fileDialog(TRUE, NULL, NULL, OFN_ALLOWMULTISELECT, NULL);
 	fileDialog.m_ofn.lpstrFile = szBuff;
+	fileDialog.m_ofn.nMaxFile = 4096;
 
 	if (fileDialog.DoModal() != IDOK)
 		return;
