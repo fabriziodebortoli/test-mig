@@ -1,10 +1,12 @@
+import { Injectable } from '@angular/core';
+import { Observable, Subject } from '../../rxjs.imports';
+
 import { Response } from '@angular/http';
+import { ControlComponent } from './../../shared/controls/control.component';
 import { TbComponentService } from './../../core/services/tbcomponent.service';
 import { HttpService } from './../../core/services//http.service';
 import { DocumentService } from './../../core/services/document.service';
 
-import { Injectable } from '@angular/core';
-import { Observable, Subject } from '../../rxjs.imports';
 
 @Injectable()
 export class BodyEditService {
@@ -33,7 +35,7 @@ export class BodyEditService {
   public lastEditedRowIndex: number = -1;
   public lastEditedColumnIndex: number = -1;
 
-
+  public currentActiveControlComponent: ControlComponent;
   public skip = -1;
 
   constructor(

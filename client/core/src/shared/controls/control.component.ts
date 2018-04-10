@@ -1,8 +1,10 @@
-﻿import { EventDataService } from './../../core/services/eventdata.service';
+﻿import { TbInsideBodyEditDirective } from './../directives/tb-inside-bodyedit.directive';
+import { BodyEditService } from './../../core/services/body-edit.service';
+import { EventDataService } from './../../core/services/eventdata.service';
 import { TbComponentService } from './../../core/services/tbcomponent.service';
 import { Subscription } from '../../rxjs.imports';
 import { LayoutService } from './../../core/services/layout.service';
-import { Component, Input, ViewEncapsulation, Output, EventEmitter, OnDestroy, AfterContentInit, OnChanges, ChangeDetectorRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, Input, ViewEncapsulation, Output, EventEmitter, OnDestroy, AfterContentInit, OnChanges, ChangeDetectorRef, ViewChild, ViewContainerRef, AfterViewInit, Optional, Host, ContentChild } from '@angular/core';
 import { TbComponent } from "../components/tb.component";
 import { addControlModelBehaviour, createEmptyModel } from './../../shared/models/control.model';
 import { ContextMenuItem } from './../models/context-menu-item.model';
@@ -19,7 +21,7 @@ export class StateData {
     template: ''
 })
 
-export class ControlComponent extends TbComponent implements OnDestroy/*, OnChanges*/ {
+export class ControlComponent extends TbComponent implements OnDestroy, AfterViewInit/*, OnChanges*/ {
     private _model: any;
     private _width: number;
     private _captionWidth: number;
@@ -48,7 +50,7 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
     @Input()
     public formatter: string;
 
-    @Input('readonly') 
+    @Input('readonly')
     readonly: boolean = false;
 
     public widthFactor: number = 1;
@@ -57,6 +59,8 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
     @Output('blur') blur: EventEmitter<any> = new EventEmitter();
 
     subscriptions: Subscription[] = [];
+    @ContentChild(TbInsideBodyEditDirective) insideBodyEditDirective: TbInsideBodyEditDirective;
+
 
     constructor(
         public layoutService: LayoutService,
@@ -68,8 +72,18 @@ export class ControlComponent extends TbComponent implements OnDestroy/*, OnChan
         this.subscriptions.push(this.layoutService.getHeightFactor().subscribe(hf => { this.heightFactor = hf }));
     }
 
+    ngAfterViewInit() {
+        if (this.insideBodyEditDirective && this.insideBodyEditDirective.bodyEditService) {
+            this.insideBodyEditDirective.bodyEditService.currentActiveControlComponent = this;
+        }
+    }
+
     ngOnDestroy() {
         this.subscriptions.forEach(sub => sub.unsubscribe());
+
+        if (this.insideBodyEditDirective && this.insideBodyEditDirective.bodyEditService) {
+            this.insideBodyEditDirective.bodyEditService.currentActiveControlComponent = undefined;
+        }
     }
     componentClass() {
         return (!this.model || this.model.visible) ? '' : 'hiddenControl';

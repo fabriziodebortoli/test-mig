@@ -206,7 +206,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
   //-----------------------------------------------------------------------------------------------
   removeRow() {
-    if (this.bodyEditService.currentGridIdx < 0)
+    if (this.bodyEditService.currentDbtRowIdx < 0)
       return;
 
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
@@ -285,6 +285,9 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       this.bodyEditService.lastEditedRowIndex++;
       this.bodyEditService.nextRow();
     }
+
+    console.log("currentComponent", this.bodyEditService.currentActiveControlComponent);
+
     this.grid.editCell(this.bodyEditService.lastEditedRowIndex, this.bodyEditService.lastEditedColumnIndex);
     this.focusCell(this.bodyEditService.lastEditedColumnIndex);
   }
@@ -304,6 +307,9 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       this.bodyEditService.lastEditedRowIndex--;
       this.bodyEditService.prevRow();
     }
+
+    
+
     this.grid.editCell(this.bodyEditService.lastEditedRowIndex, this.bodyEditService.lastEditedColumnIndex);
     this.focusCell(this.bodyEditService.lastEditedColumnIndex);
   }

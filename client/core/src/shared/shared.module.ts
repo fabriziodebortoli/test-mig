@@ -1,4 +1,3 @@
-
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -316,6 +315,7 @@ import { TbHotLinkDirective } from './directives/tb-hot-link.directive';
 import { OutSideEventHandlerDirective } from './directives/outSideEventHandler.directive';
 import { ColoredControlDirective } from './directives/colored-control.directive';
 import { TbControlDirective } from './directives/tb-control.directive';
+import { TbInsideBodyEditDirective } from './directives/tb-inside-bodyedit.directive';
 
 export { ContextMenuDirective } from './directives/context-menu.directive';
 export { LayoutTypeVboxDirective, LayoutTypeHboxDirective, LayoutTypeColumnDirective } from './directives/layout-styles';
@@ -325,12 +325,13 @@ export { TbHotLinkDirective } from './directives/tb-hot-link.directive';
 export { OutSideEventHandlerDirective } from './directives/outSideEventHandler.directive';
 export { ColoredControlDirective } from './directives/colored-control.directive';
 export { TbControlDirective } from './directives/tb-control.directive';
+export { TbInsideBodyEditDirective } from './directives/tb-inside-bodyedit.directive';
 
 const TB_DIRECTIVES = [
     TileMicroDirective, TileMiniDirective, TileStandardDirective, TileWideDirective, TileAutofillDirective,
     TdsNormalDirective, TdsFilterDirective, TdsHeaderDirective, TdsFooterDirective, TdsWizardDirective, TdsParametersDirective, TdsBatchDirective,
     LayoutTypeColumnDirective, LayoutTypeHboxDirective, LayoutTypeVboxDirective, ContextMenuDirective,
-    TbHotLinkDirective, OutSideEventHandlerDirective, ColoredControlDirective, TbControlDirective
+    TbHotLinkDirective, OutSideEventHandlerDirective, ColoredControlDirective, TbControlDirective, TbInsideBodyEditDirective
 ];
 
 import { TbColorPipe } from './pipes/tbColor.pipe';

@@ -900,7 +900,7 @@ namespace Microarea.TbJson
                                     var cmpId = getControlId(jObj);
                                     WriteSelector(jObj, wCol, cmpId);
 
-
+                                    htmlWriter.Write(" tbInsideBodyEdit");
                                     var propagateSelectionChange = jObj[Constants.propagateSelectionChange];
                                     if (propagateSelectionChange != null)
                                     {
