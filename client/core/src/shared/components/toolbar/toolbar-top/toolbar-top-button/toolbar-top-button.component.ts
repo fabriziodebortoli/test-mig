@@ -20,7 +20,7 @@ export class ToolbarTopButtonComponent extends TbComponent {
   @Input() caption: string = '';
   @Input() iconType: string = 'M4'; // MD, TB, CLASS, IMG  
   @Input() _icon: string = '';
-
+  
   @Input()
   set icon(icon: any) {
     this._icon = icon instanceof Object ? icon.value : icon;
@@ -79,5 +79,10 @@ export class ToolbarTopButtonComponent extends TbComponent {
       status = this.eventData.buttonsState[this.cmpId].checkStatus;
     }
     return status ? status : CheckStatus.UNDEFINED;
+  }
+
+
+  public getCheckedStatus() {
+    return this._checkStatus != CheckStatus.UNDEFINED ? this._checkStatus === CheckStatus.CHECKED : false;
   }
 }

@@ -28,6 +28,7 @@ export class ToolbarTopButtonDrodownComponent extends TbComponent implements OnD
   public viewProductInfo: string;
   private eventDataServiceSubscription;
   private _disabled = false;
+ 
   private _checkStatus = CheckStatus.UNDEFINED;
   constructor(
     public componentService: ComponentService,
@@ -62,6 +63,7 @@ export class ToolbarTopButtonDrodownComponent extends TbComponent implements OnD
       return !this.eventData.buttonsState[this.cmpId].enabled;
     return false;
   }
+ 
   @Input() public set checkStatus(value: CheckStatus) {
     this._checkStatus = value;
   }

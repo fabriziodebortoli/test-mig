@@ -1,4 +1,8 @@
-<button kendoButton class="top-button" (click)="onCommand()" [disabled]="disabled" title="{{caption}}">
-    <tb-icon [iconType]="iconType" [icon]="icon"></tb-icon>
-    <span>{{caption}}</span>
+<button kendoButton class="top-button" (click)="onCommand()" [disabled]="disabled" title="{{caption}}" 
+[ngClass] = "{'checked':getCheckedStatus()}">
+    <div class="iconContainer">
+        <m4-icon icon="tb-ok" *ngIf="getCheckedStatus()" class="chekmark" ></m4-icon>
+        <tb-icon [iconType]="iconType" [icon]="icon"></tb-icon>
+        <span>{{caption}}</span>
+    </div>
 </button>

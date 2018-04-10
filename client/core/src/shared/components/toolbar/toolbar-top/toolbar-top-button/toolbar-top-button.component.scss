@@ -22,68 +22,102 @@
         cursor: not-allowed;
     }
 
-    .top-button {
+
+    .top-button
+    {
         margin: 0;
         padding: 0;
         height: 30px;
         min-width: 32px;
         border: 0;
         background: none;
-        ::ng-deep tb-icon .div-icon {
-            padding-top:3px;
-        }
-        &>span {
-            font-size: 12px;
-            line-height: 35px;
-            height: 35px;
-            margin: 0;
-            //padding: 0 8px 0 0;
-            text-align: left;
-            /** da riparlarne */
-            display: none;
-        }
-        tb-icon {
-            min-width: 32px;
-            height: 30px;
-            font-size: 20px;
-            padding-top: 0;
-            box-shadow: none;
-            background-color: $color-light;
-            border: 1px solid $border-top-button-active;
-            border-left: none;
-            border-radius: none;
-            color: $darkblue;
-            transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
-            m4-icon {
-                color: $darkblue;
+
+            ::ng-deep tb-icon .div-icon {
+                padding-top:3px;
             }
-            &:hover {
+            .iconContainer {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+                text-align: center;
+            /*nella toolbar top non si deve mai vedere la spunta*/
+            .checkmark{
+                visibility: hidden;
+            }
+                
+            &>span {
+                font-size: 12px;
+                line-height: 35px;
+                height: 35px;
+                margin: 0;
+                //padding: 0 8px 0 0;
+                text-align: left;
+                /** da riparlarne */
+                display: none;
+            }
+            tb-icon {
+                min-width: 32px;
+                height: 30px;
+                font-size: 20px;
+                padding-top: 0;
+                box-shadow: none;
+                background-color: $color-light;
+                //border: 1px solid $border-top-button-active;
+                border-left: none;
+                border-radius: none;
+                color: $darkblue;
                 transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
-                background-color: $darkblue;
-                border-color: $darkblue;
-                color: $color-light;
-                tb-icon,
-                i {
+                m4-icon {
+                    color: $darkblue;
+                }
+                &:hover {
+                    transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+                    background-color: $darkblue;
+                    border-color: $darkblue;
+                    color: $color-light;
+                    tb-icon,
+                    i {
+                        color: $color-light;
+                    }
+                }
+                &:active {
+                    background-color: $blue;
+                    box-shadow: none;
                     color: $color-light;
                 }
             }
-            &:active {
-                background-color: $blue;
-                box-shadow: none;
-                color: $color-light;
+        }
+        &.checked {
+            .iconContainer {
+                tb-icon,
+                m4-icon {
+                    background-color:  $darkblue;
+                    color: $color-light;
+                    border: 1px solid $darkblue;
+                    border-left: none;
+                     &:hover {
+                        background-color:$color-light;
+                        border:1px solid $bkg-light;
+                        border-left: 0px;
+                        color: $darkblue;
+                    }
+                }
             }
         }
-        &.k-state-disabled {
-            opacity: 1;
-            background-color: $bkg-light;
-            //border: 1px solid $bkg-light;
-            transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
-            tb-icon {
-                color: #888;
-                border:1px solid #ecf8ff;
-                background: $bkg-light;
-                
-            }
+            
+    } 
+    .top-button.k-state-disabled,
+   .top-button.checked.k-state-disabled {
+        opacity: 1;
+        background-color: $bkg-light;
+        //border: 1px solid $bkg-light;
+        transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+        
+        .iconContainer tb-icon {
+            color: #888;
+            border:1px solid #ecf8ff;
+            background: $bkg-light;
+            
         }
     }
     tb-icon .div-icon {
@@ -104,7 +138,21 @@ tb-toolbar-top-button.dropDownButton{
 }
 
 :host-context(.dropDownButton) {
+    &:first-child tb-icon {
+        margin-left: 0px;
+    }
+    &:last-child tb-icon {
+        margin-right: 0px;
+    }
+    &:only-child tb-icon {
+        margin-right: 0px;
+        margin-left: 0px;
+        //border-left: 1px solid $border-top-button-active;
+    }
+    .top-button,
+    .top-button.checked,
     .k-button {
+        height: 35px;
         border: 0px;
         width: 100%;
         color: $color-light;
@@ -120,6 +168,7 @@ tb-toolbar-top-button.dropDownButton{
             background: $darkblue;
             border-color: $darkblue;
             color:$color-light;
+            m4-icon,
             tb-icon,
             i {
                 color:$color-light;
@@ -131,19 +180,101 @@ tb-toolbar-top-button.dropDownButton{
             color:$color-light;
             border: 0px;
         }
+        // &.checked {
+        //     .iconContainer {
+        //         tb-icon,
+        //         m4-icon {
+        //             // background-color:  $darkblue;
+        //             // color: $color-light;
+        //             //  &:hover {
+        //             //     background-color:$color-light;
+        //             //     border:1px solid $bkg-light;
+        //             //     border-left: 0px;
+        //             //     color: $darkblue;
+        //             // }
+        //         }
+        //     }
+        // }
+       
 
-        span {
-            width: 100%;
-            text-align: left;
-            display: flex;
-            color:$color-light;
-            flex: 1 0 auto;
+        .iconContainer {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+                text-align: left;
+                .checkmark{
+                    visibility: visible;
+                }
+                span {
+                    width: 100%;
+                    text-align: left;
+                    display: flex;
+                    color:$color-light;
+                    flex: 1 0 auto;
+                }
+                
+                tb-icon
+                    {
+                    width: 35px;
+                    font-size: 20px;
+                    padding-top: 0px;
+                    box-shadow: none;
+                    background-color: transparent;
+                    transition: none;
+                    border: 0px;
+                    color:$color-light;
+                    line-height: 30px;
+                    font-weight: 400;
+                    border-radius: 0px;
+                    text-align: left;
+                    flex: 1 0 auto;
+                    i {
+                        color:$color-light;
+                    }
+                    //padding-left: 5px;
+                    &:hover {
+                        background-color: transparent;
+                        color:$color-light;
+                        tb-icon,
+                        i {
+                            color:$color-light;
+                        }
+                    }
+                    &:active {
+                        color:$color-light;
+                    }
+                }
+                .div-icon {
+                    width: 35px;
+                    height: 35px;
+                    line-height: 35px;
+                    padding-top: 3px;
+                }
+                    .div-icon img {
+                    height: 20px;
+                    margin-top: 4px;
+                }
+            }
         }
-
-       tb-icon
-            {
-            width: 35px;
-            font-size: 20px;
+        .top-button.k-state-disabled,
+        .top-button.checked.k-state-disabled {
+            opacity: 1;
+            background-color: $bkg-light;
+            border: 1px solid $bkg-light;
+            transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
+            .iconContainer {
+                m4-icon,
+                tb-icon, span
+                {
+                    color:$border-top-button-active;
+                    background-color: transparent;
+                    border: none;
+                }
+            }
+        }
+        m4-icon {
+            width: 12px;
+            font-size: 14px;
             padding-top: 0px;
             box-shadow: none;
             background-color: transparent;
@@ -155,51 +286,6 @@ tb-toolbar-top-button.dropDownButton{
             border-radius: 0px;
             text-align: left;
             flex: 1 0 auto;
-            i {
-                color:$color-light;
-            }
-            //padding-left: 5px;
-            &:hover {
-                background-color: transparent;
-                color:$color-light;
-                tb-icon,
-                i {
-                    color:$color-light;
-                }
-            }
-            &:active {
-                color:$color-light;
-            }
-        }
-        .top-button {
-            padding: 0px 18px 0px 18px;
-            height: 35px;
-        }
-        &.k-state-disabled {
-            opacity: 1;
-            background-color: $bkg-light;
-            border: 1px solid $bkg-light;
-            transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
-            tb-icon, span
-            {
-                color:$color-top-button-disabled;
-                border: none;
-            }
-        }
-        m4-icon {
-            font-size: 30px;
-            width: 35px;
-            color:$color-light;
-        }
-        .div-icon {
-            width: 35px;
-            height: 35px;
-            line-height: 35px;
-        }
-            .div-icon img {
-            height: 20px;
-            margin-top: 4px;
         }
     }
-}
 
