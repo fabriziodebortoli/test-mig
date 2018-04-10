@@ -3,7 +3,7 @@ import { untilDestroy } from './../../../shared/shared.module';
 import { AddressEditComponent } from './address-edit.component';
 
 const canAttach: (x: {enabled: boolean, value: any}) => boolean = x => !x.enabled && x.value;
-const canDetach: (x: {enabled: boolean}) => boolean = x => x.enabled;
+const canDetach: (x: {enabled: boolean, value: any}) => boolean = x => x.enabled;
 const toClass: (x: {enabled: boolean}) => string = x => x.enabled ? '' : 'map-disabled';
 const click: (component: AddressEditComponent) => void = (component) => component.showMap();
 const documentClick: () => Observable<MouseEvent> = () => Observable.fromEvent<MouseEvent>(document, 'click', { capture: true });

@@ -4,3 +4,10 @@
   font-size: small;
   padding-left: 10px
 }
+
+.image-link-enabled {
+  pointer-events: all;
+  cursor: pointer;
+  text-decoration: underline;
+  color: blue
+}

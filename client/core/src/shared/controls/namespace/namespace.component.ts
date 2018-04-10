@@ -1,8 +1,11 @@
 import { TbComponentService } from './../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../core/services/layout.service';
 import { ExplorerService } from './../../../core/services/explorer.service';
+import { InfoService } from './../../../core/services/info.service';
+import { MenuService } from '@taskbuilder/menu';
+
 import {
-  Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentRef,
+  Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentRef, ElementRef,
   OnChanges, AfterContentInit, OnInit, Output, HostListener, EventEmitter, ChangeDetectorRef, SimpleChanges
 } from '@angular/core';
 import { Store } from './../../../core/services/store.service';
@@ -15,6 +18,7 @@ import { Subscription } from '../../../rxjs.imports';
 import { ExplorerDialogComponent } from '../../components/explorer/explorer-dialog.component';
 import { FormMode, createSelector, createSelectorByPaths } from './../../../shared/shared.module';
 import { Selector } from './../../../shared/models/store.models';
+import { EventHandler } from './event-handler';
 
 @Component({
   selector: 'tb-namespace',
@@ -22,15 +26,13 @@ import { Selector } from './../../../shared/models/store.models';
   styleUrls: ['./namespace.component.scss']
 })
 export class NamespaceComponent extends ControlComponent implements OnChanges, OnInit {
-
-
   @Input('readonly') readonly: boolean = false;
   @Input('chars') chars: number = 0;
   @Input('rows') rows: number = 0;
   @Input('objType') objType: string = "Report";
   @Input('textLimit') textlimit: number = 0;
   @Input('maxLength') maxLength: number = 524288;
-  
+
   @Input('namespaceType') namespaceType: string = "";
   @Input('defaultNs') defaultNs: string = "";
   @Input() slice: any;
@@ -40,16 +42,20 @@ export class NamespaceComponent extends ControlComponent implements OnChanges, O
   objectType: ObjType = ObjType.Report;
   user: string;
   company: string;
-  culture:string;
+  culture: string;
+  controlClass: string;
 
   @ViewChild(ExplorerDialogComponent) explorer: ExplorerDialogComponent;
+  @ViewChild('textArea') textArea: ElementRef;
 
   constructor(
     public eventData: EventDataService,
     layoutService: LayoutService,
     tbComponentService: TbComponentService,
     changeDetectorRef: ChangeDetectorRef,
+    private infoService: InfoService,
     private explorerService: ExplorerService,
+    private menuService: MenuService,
     private store: Store
   ) {
     super(layoutService, tbComponentService, changeDetectorRef);
@@ -59,14 +65,6 @@ export class NamespaceComponent extends ControlComponent implements OnChanges, O
     this.store.select(_ => this.model && this.model.length).
       subscribe(l => this.onlenghtChanged(l));
 
-    // if (this.selector) {
-    //   this.store.select('objType'
-    //     this.selector.nest('objType.value')
-    //   ).subscribe(o => this.onObjectTypeChanced(o));
-    // } else {
-    //   console.log('Missing Selector in ' + this.cmpId);
-    // }
-
     this.user = localStorage.getItem('_user');
     this.company = localStorage.getItem('_company');
     this.culture = localStorage.getItem('ui_culture');
@@ -75,8 +73,10 @@ export class NamespaceComponent extends ControlComponent implements OnChanges, O
       this.objectType = ObjType[this.objType];
       if (this.objectType === undefined)
         console.log('Wrong objectType in ' + this.cmpId);
-    }    
+    }
   }
+
+  ngAfterContentInit() { EventHandler.Attach(this); }
 
   // onObjectTypeChanced(objtype: string) {
   //   this.objectType = ObjType[objtype];
@@ -118,13 +118,17 @@ export class NamespaceComponent extends ControlComponent implements OnChanges, O
 
   async validate(): Promise<boolean> {
     this.errorMessage = '';
+    // Vuoto va bene !!!
+    if (this.value === '')
+      return Promise.resolve(true);
+
     // Se non ci sono punti, non sono un namespace
-    const elem = this.value.split('.');
+    const elem: string = this.value.split('.');
     if (elem.length < 3)
       return Promise.resolve(false);
 
     // Se il primo token non è nei predefiniti non sono un namespace valido
-    if (ObjType[elem[0]] === undefined)
+    if (ObjType[elem[0]] === undefined || ObjType[elem[0]] != this.objectType)
       return Promise.resolve(false);
 
     // Guardo se trovo il file selezionato tramite le API
@@ -147,4 +151,20 @@ export class NamespaceComponent extends ControlComponent implements OnChanges, O
       this.maxLength = this.textlimit;
     }
   }
+
+  onClick() {
+    switch (this.objectType) {
+      case ObjType.Image:
+        window.open(this.getImageUrl(this.model.value), 'blank');
+        break;
+      default:
+        this.menuService.runObject({ objectType: ObjType[this.objectType], target: this.model.value });
+        break;
+    }
+  }
+
+  getImageUrl(namespace: string) {
+    return this.infoService.getDocumentBaseUrl() + 'getImage/?src=' + namespace;
+  }
+
 }
