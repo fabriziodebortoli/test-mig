@@ -181,6 +181,7 @@ TB_EXPORT BOOL ReverseMapDialog(HWND hDlg, CRect& rect);
 TB_EXPORT BOOL ReverseMapDialog(HWND hDlg, CSize& sz);
 TB_EXPORT BOOL ReverseMapDialog(HWND hDlg, CPoint& pt);
 
+CString TB_EXPORT ConcatActivations(const CString& act1, const CString& act2);
 
 #define szJsonImagePngSessionCache				_T("image/%s.png?session=%s&cacheId=%s")
 #define szJsonImagePngSessionCacheIconSource	_T("image/%s.png?session=%s&cacheId=%s&iconSource=%s")

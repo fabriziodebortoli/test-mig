@@ -769,7 +769,7 @@ CWndObjDescription* CJsonFormEngineObj::ParseDescriptions(CJsonContextObj* pCont
 		if (source.m_bExclude)
 			continue;
 		CArray<CWndObjDescription*>ar;
-		ParseDescription(ar, pContext, source, L"", pDescription, CWndObjDescription::Undefined);
+		ParseDescription(ar, pContext, source, L"", pDescription, CWndObjDescription::Undefined, source.m_bFromClientForm);
 		if (!pDescription && ar.GetCount())
 		{
 			//se pDescription è NULL, sono nella root, e allora troverò solo una descrizione
@@ -796,7 +796,7 @@ CWndObjDescription* CJsonFormEngineObj::ParseDescriptions(CJsonContextObj* pCont
 }
 
 //-----------------------------------------------------------------------------
-void CJsonFormEngineObj::ParseDescription(CArray<CWndObjDescription*>&ar, CJsonContextObj* pContext, CJsonResource source, LPCTSTR sActivation, CWndObjDescription* pDescriptionToMerge, int expectedType)
+void CJsonFormEngineObj::ParseDescription(CArray<CWndObjDescription*>&ar, CJsonContextObj* pContext, CJsonResource source, LPCTSTR sActivation, CWndObjDescription* pDescriptionToMerge, int expectedType, bool forClientDoc)
 {
 	CString sFile;
 	CTBNamespace moduleNamespace;
@@ -806,7 +806,12 @@ void CJsonFormEngineObj::ParseDescription(CArray<CWndObjDescription*>&ar, CJsonC
 		ASSERT(FALSE);
 		return;
 	}
-	ParseDescription(ar, pContext, sFile, sActivation, pDescriptionToMerge, expectedType);
+	CString sAct = sActivation;
+	
+	if (forClientDoc)
+		sAct = ConcatActivations(sAct, moduleNamespace.GetApplicationName() + _T('.') + moduleNamespace.GetModuleName());
+	
+	ParseDescription(ar, pContext, sFile, sAct, pDescriptionToMerge, expectedType);
 	for (int i = 0; i < ar.GetCount(); i++)
 	{
 		CWndObjDescription* pDesc = ar[i];

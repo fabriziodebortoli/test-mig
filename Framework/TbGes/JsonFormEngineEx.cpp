@@ -1045,6 +1045,7 @@ void CJsonFormEngine::GetDeltaJsonFormInfos(const CString& sJsonId, CArray<CJson
 			continue;
 		}
 		sJsonResource.m_bExclude = pClient->m_bExclude;
+		sJsonResource.m_bFromClientForm = true;
 		bool existing = false;
 		for (int j = 0; j < sources.GetCount(); j++)
 		{

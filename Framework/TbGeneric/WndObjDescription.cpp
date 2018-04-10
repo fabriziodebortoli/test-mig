@@ -3010,7 +3010,7 @@ CWndObjDescription* CWndObjDescription::ParseHref(CJsonFormParser& parser, const
 	PARSE_ENUM(expectedType, szJsonType, WndObjType);
 	//carico il file esterno
 	CArray<CWndObjDescription*>ar;
-	CJsonFormEngineObj::GetInstance()->ParseDescription(ar, parser.m_pRootContext, res, sActivation, pDescriptionToMerge, expectedType);
+	CJsonFormEngineObj::GetInstance()->ParseDescription(ar, parser.m_pRootContext, res, sActivation, pDescriptionToMerge, expectedType, res.m_bFromClientForm);
 	if (!sOldContext.IsEmpty())
 		parser.m_pRootContext->m_strCurrentResourceContext = sOldContext;
 	//se parso un href, troverò al più una descrizione

@@ -15,6 +15,7 @@ public:
 	CString m_strJsonContext; //contesto indicato nel file json (supporto per il pregresso, serve per far funzionare il motore di traduzione)
 	DWORD m_dwId = 0;
 	bool m_bExclude = false;//for client forms
+	bool m_bFromClientForm = false;//apported by client forms
 	//in questo puntatore memorizzo il blocco di stringhe associato a questo particolare json, per non doverlo ricercare ogni volta
 	//ogni CWndObjDescription proviene da un file, ma solo il root contiene l'informazione, a meno che l'albero
 	//non provenga dalla concatenazione di più file (json di outline o client forms)
@@ -32,6 +33,7 @@ public:
 		m_strContext = r.m_strContext;
 		m_strJsonContext = r.m_strJsonContext;
 		m_bExclude = r.m_bExclude;
+		m_bFromClientForm = r.m_bFromClientForm;
 		m_dwId = r.m_dwId;
 		m_pTranslationPrivateData = r.m_pTranslationPrivateData;
 		m_sPrivateDataCulture = r.m_sPrivateDataCulture;
