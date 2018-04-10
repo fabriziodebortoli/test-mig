@@ -93,7 +93,7 @@ namespace Microarea.Common.Generic
 
 					serverConnectionInfo = new ServerConnectionInfo();
 
-					if (PathFinder.PathFinderInstance.ExistFile(PathFinder.PathFinderInstance.ServerConnectionFile) &&
+					if (File.Exists(PathFinder.PathFinderInstance.ServerConnectionFile) &&
 						!serverConnectionInfo.Parse(PathFinder.PathFinderInstance.ServerConnectionFile))
 						throw new Exception(string.Format(Messages.ErrorReadingFile, PathFinder.PathFinderInstance.ServerConnectionFile));
 
