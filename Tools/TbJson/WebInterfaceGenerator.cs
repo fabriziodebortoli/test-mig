@@ -14,6 +14,7 @@ using Newtonsoft.Json.Linq;
 using SharedCode;
 using static Microarea.TbJson.Helpers;
 using System.Globalization;
+using System.Reflection;
 
 namespace Microarea.TbJson
 {
@@ -30,19 +31,23 @@ namespace Microarea.TbJson
         private Dictionary<string, JToken> constants = new Dictionary<string, JToken>();
         private Dictionary<string, StringBuilder> contextMenus = new Dictionary<string, StringBuilder>();
         private Regex activationRegEx = CreateActivationRegEx();
-
+        private bool forceCreate = false;
+        DateTime tbjsonExeDate = DateTime.MinValue;
         private bool verboseOutput = false;
 
         //-----------------------------------------------------------------------------------------
         public WebInterfaceGenerator(bool verbose)
         {
             verboseOutput = verbose;
+
+            FileInfo fi = new FileInfo(Assembly.GetExecutingAssembly().Location);
+            tbjsonExeDate = fi.LastWriteTime;
         }
 
-
         //-----------------------------------------------------------------------------------------
-        internal void Generate(string fileOrFolder, string mergedJsonDir, bool onlyMerged)
+        internal void Generate(string fileOrFolder, string mergedJsonDir, bool onlyMerged, bool forceCreate)
         {
+            this.forceCreate = forceCreate;
             if (!verboseOutput)
                 Console.Out.WriteLineAsync("Generate Start");
 
@@ -79,6 +84,8 @@ namespace Microarea.TbJson
             toAppendToDefinition.Clear();
             toAppendToDeclaration.Clear();
             contextMenus.Clear();
+
+            parser.mostRecentFileDate = DateTime.MinValue;
 
             if (!parser.ExtractPathInfo(tbJsonFile, out string standardFolder, out string app, out string mod, out string container, out string name))
             {
@@ -125,105 +132,109 @@ namespace Microarea.TbJson
                 Directory.CreateDirectory(formsPath);
 
             file = Path.Combine(formsPath, name + ".component.html");
-            GenerateLogInfo(appsPath, file);
-            using (StreamWriter sw = new StreamWriter(file, false, Encoding.UTF8))
+            FileInfo ci = new FileInfo(file); 
+            if (!ci.Exists || parser.mostRecentFileDate > ci.LastWriteTime || (tbjsonExeDate> parser.mostRecentFileDate && tbjsonExeDate> ci.LastWriteTime) || forceCreate)
             {
-                using (HtmlTextWriter writer = new HtmlTextWriter(sw))
-                {
-                    this.htmlWriter = writer;
-                    this.indent = 0;
-                    GenerateHtml(jRoot, WndObjType.Undefined, false, slave);
-                }
-            }
-            if (slave)
-            {
-                file = Path.Combine(formsPath, name + ".component.ts");
-
                 GenerateLogInfo(appsPath, file);
                 using (StreamWriter sw = new StreamWriter(file, false, Encoding.UTF8))
                 {
-                    string code = Encoding.UTF8.GetString(Properties.Resources.IDDSlave_ts);
-                    code = Regex.Replace(code, "@@NAME@@", name);
-                    code = Regex.Replace(code, "@@INITCODE@@", GetModelInitCode());
-                    code = code.Replace("/*dichiarazione variabili*/", toAppendToDeclaration.ToString());
-                    code = code.Replace("/*definizione variabili*/", toAppendToDefinition.ToString());
-                    sw.Write(code);
-                }
-            }
-            else
-            {
-                file = Path.Combine(formsPath, name + ".service.ts");
-
-                string serviceFileRelPath = string.Concat(
-                    "./",
-                    name,
-                    ".service"
-                    );
-
-                GenerateLogInfo(appsPath, file);
-                using (StreamWriter sw = new StreamWriter(file, false, Encoding.UTF8))
-                {
-                    string code = Encoding.UTF8.GetString(Properties.Resources.Service_ts);
-                    code = Regex.Replace(code, "@@NAME@@", name);
-
-                    string userPath = Path.GetDirectoryName(file.Replace(Constants.applications, Constants.userCode));
-                    StringBuilder constructorCode = new StringBuilder();
-                    StringBuilder userImport = new StringBuilder();
-                    if (Directory.Exists(userPath))
+                    using (HtmlTextWriter writer = new HtmlTextWriter(sw))
                     {
-                        string[] files = Directory.GetFiles(userPath, "*." + name + ".ts");
-                        foreach (var userFile in files)
-                        {
-                            string boFile = Path.GetFileNameWithoutExtension(userFile);
-                            string boContent = File.ReadAllText(userFile);
-                            //cerco quest ainfo:
-                            //class BOName extends BOClient
-                            Match m = Regex.Match(boContent, "class\\s+(?<BOName>\\w+)\\s+extends\\s+BOClient");
-                            if (!m.Success)
-                                continue;
-                            string boName = m.Groups["BOName"].Value;
-                            string import = string.Concat(
-                                    "import { ",
-                                    boName,
-                                    " } from './../../../../",
-                                    Constants.userCode,
-                                    '/',
-                                    app,
-                                    '/',
-                                    mod,
-                                    '/',
-                                    container,
-                                    '/',
-                                    boFile,
-                                    "';\r\n");
-                            //import { PYMTTERMClientBO } from './../../../../applications.usercode/erp/paymentterms/paymentterms/PYMTTERMClientBO.IDD_TD_PYMTTERM';
+                        this.htmlWriter = writer;
+                        this.indent = 0;
+                        GenerateHtml(jRoot, WndObjType.Undefined, false, slave);
+                    }
+                }
+                if (slave)
+                {
+                    file = Path.Combine(formsPath, name + ".component.ts");
 
-                            userImport.Append(import);
-                            //this.boClients.push(new PYMTTERMClientBO(this));
-                            constructorCode.Append("\t\t\tthis.boClients.push(new ");
-                            constructorCode.Append(boName);
-                            constructorCode.Append("(this));\r\n");
+                    GenerateLogInfo(appsPath, file);
+                    using (StreamWriter sw = new StreamWriter(file, false, Encoding.UTF8))
+                    {
+                        string code = Encoding.UTF8.GetString(Properties.Resources.IDDSlave_ts);
+                        code = Regex.Replace(code, "@@NAME@@", name);
+                        code = Regex.Replace(code, "@@INITCODE@@", GetModelInitCode());
+                        code = code.Replace("/*dichiarazione variabili*/", toAppendToDeclaration.ToString());
+                        code = code.Replace("/*definizione variabili*/", toAppendToDefinition.ToString());
+                        sw.Write(code);
+                    }
+                }
+                else
+                {
+                    file = Path.Combine(formsPath, name + ".service.ts");
+
+                    string serviceFileRelPath = string.Concat(
+                        "./",
+                        name,
+                        ".service"
+                        );
+
+                    GenerateLogInfo(appsPath, file);
+                    using (StreamWriter sw = new StreamWriter(file, false, Encoding.UTF8))
+                    {
+                        string code = Encoding.UTF8.GetString(Properties.Resources.Service_ts);
+                        code = Regex.Replace(code, "@@NAME@@", name);
+
+                        string userPath = Path.GetDirectoryName(file.Replace(Constants.applications, Constants.userCode));
+                        StringBuilder constructorCode = new StringBuilder();
+                        StringBuilder userImport = new StringBuilder();
+                        if (Directory.Exists(userPath))
+                        {
+                            string[] files = Directory.GetFiles(userPath, "*." + name + ".ts");
+                            foreach (var userFile in files)
+                            {
+                                string boFile = Path.GetFileNameWithoutExtension(userFile);
+                                string boContent = File.ReadAllText(userFile);
+                                //cerco quest ainfo:
+                                //class BOName extends BOClient
+                                Match m = Regex.Match(boContent, "class\\s+(?<BOName>\\w+)\\s+extends\\s+BOClient");
+                                if (!m.Success)
+                                    continue;
+                                string boName = m.Groups["BOName"].Value;
+                                string import = string.Concat(
+                                        "import { ",
+                                        boName,
+                                        " } from './../../../../",
+                                        Constants.userCode,
+                                        '/',
+                                        app,
+                                        '/',
+                                        mod,
+                                        '/',
+                                        container,
+                                        '/',
+                                        boFile,
+                                        "';\r\n");
+                                //import { PYMTTERMClientBO } from './../../../../applications.usercode/erp/paymentterms/paymentterms/PYMTTERMClientBO.IDD_TD_PYMTTERM';
+
+                                userImport.Append(import);
+                                //this.boClients.push(new PYMTTERMClientBO(this));
+                                constructorCode.Append("\t\t\tthis.boClients.push(new ");
+                                constructorCode.Append(boName);
+                                constructorCode.Append("(this));\r\n");
+                            }
                         }
+
+                        code = Regex.Replace(code, "@@CONSTRUCTORCODE@@", constructorCode.ToString());
+                        code = userImport + code;
+
+                        sw.Write(code);
                     }
 
-                    code = Regex.Replace(code, "@@CONSTRUCTORCODE@@", constructorCode.ToString());
-                    code = userImport + code;
+                    file = Path.Combine(formsPath, name + ".component.ts");
 
-                    sw.Write(code);
-                }
-
-                file = Path.Combine(formsPath, name + ".component.ts");
-
-                GenerateLogInfo(appsPath, file);
-                using (StreamWriter sw = new StreamWriter(file, false, Encoding.UTF8))
-                {
-                    string code = Encoding.UTF8.GetString(Properties.Resources.IDD_ts);
-                    code = Regex.Replace(code, "@@NAME@@", name);
-                    code = Regex.Replace(code, "@@SERVICEFILE@@", serviceFileRelPath);
-                    code = Regex.Replace(code, "@@INITCODE@@", GetModelInitCode());
-                    code = code.Replace("/*dichiarazione variabili*/", toAppendToDeclaration.ToString());
-                    code = code.Replace("/*definizione variabili*/", toAppendToDefinition.ToString());
-                    sw.Write(code);
+                    GenerateLogInfo(appsPath, file);
+                    using (StreamWriter sw = new StreamWriter(file, false, Encoding.UTF8))
+                    {
+                        string code = Encoding.UTF8.GetString(Properties.Resources.IDD_ts);
+                        code = Regex.Replace(code, "@@NAME@@", name);
+                        code = Regex.Replace(code, "@@SERVICEFILE@@", serviceFileRelPath);
+                        code = Regex.Replace(code, "@@INITCODE@@", GetModelInitCode());
+                        code = code.Replace("/*dichiarazione variabili*/", toAppendToDeclaration.ToString());
+                        code = code.Replace("/*definizione variabili*/", toAppendToDefinition.ToString());
+                        sw.Write(code);
+                    }
                 }
             }
 
@@ -421,8 +432,6 @@ namespace Microarea.TbJson
             jObj[Constants.items] = new JArray();
             return jObj;
         }
-
-
 
         //-----------------------------------------------------------------------------
         private void UpdateModuleFile(string modulePath, string moduleName, string container, string componentName)

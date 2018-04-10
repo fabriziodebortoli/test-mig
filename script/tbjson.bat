@@ -14,13 +14,13 @@ set BuildSorgenti="%VisualStudioPath%devenv.com"
 echo.
 echo TbJson.bat - Building TbJson.sln
 echo.
-%BuildSorgenti% /SafeMode "..\Tools\TbJson\TbJson.sln" /rebuild Release
+%BuildSorgenti% /SafeMode "..\Tools\TbJson\TbJson.sln" /build Release
 
 cd ../../
-echo.
-echo TbJson.bat - Removing applications folder of web-form project
-rd /s /q .\Taskbuilder\client\web-form\src\app\applications
-echo.
+rem echo.
+rem echo TbJson.bat - Removing applications folder of web-form project
+rem rd /s /q .\Taskbuilder\client\web-form\src\app\applications
+rem echo.
 
 echo TbJson.bat - TS Generation...
 .\Taskbuilder\Framework\TbUtility\TbJson\TbJson.exe /ts .

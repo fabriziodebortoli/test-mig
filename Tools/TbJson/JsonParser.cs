@@ -12,15 +12,21 @@ namespace Microarea.TbJson
     {
         Dictionary<string, JToken> jsonList = new Dictionary<string, JToken>(StringComparer.InvariantCultureIgnoreCase);
         private static List<ClientForm> emptyClients = new List<ClientForm>();
-
+        public DateTime mostRecentFileDate = DateTime.MinValue;
         //-----------------------------------------------------------------------------
         internal JToken Parse(string standardFolder, string tbJsonFile, bool root)
         {
             JToken jRoot = null;
             if (jsonList.TryGetValue(tbJsonFile, out jRoot))
                 return jRoot?.DeepClone();
+
+            
             try
             {
+                FileInfo fi = new FileInfo(tbJsonFile);
+                if (fi.LastWriteTime > mostRecentFileDate)
+                    mostRecentFileDate = fi.LastWriteTime;
+
                 using (StreamReader sr = new StreamReader(tbJsonFile))
                 {
                     using (JsonReader reader = new JsonTextReader(sr))
@@ -275,6 +281,10 @@ namespace Microarea.TbJson
             string file = GetFile(standardFolder, resourcePath, href, out resourceName);
             if (!File.Exists(file))
                 throw new Exception(string.Concat("Invalid href: ", href, " - File not found!"));
+            FileInfo fi = new FileInfo(file);
+            if (fi.LastWriteTime > mostRecentFileDate)
+                mostRecentFileDate = fi.LastWriteTime;
+
             string activation = forClientDoc ? ActivationFromFilePath(file) : "";
             JToken jHref = Parse(standardFolder, file, false);
             if (jHref == null)
@@ -515,7 +525,7 @@ namespace Microarea.TbJson
                 if (string.IsNullOrEmpty(s))
                     s = activation;
                 else
-                    s = string.Concat('(',activation, ")&(", s , ')');
+                    s = string.Concat('(', activation, ")&(", s, ')');
                 objExternal[Constants.activation] = s;
             }
         }

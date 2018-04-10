@@ -21,10 +21,13 @@ namespace Microarea.TbJson
                         new WebInterfaceGenerator(verboseOutput).ResetRoutes(args[1]);
                         break;
                     case "/ts":
-                        new WebInterfaceGenerator(verboseOutput).Generate(args[1], args.Length >= 3 ? args[2] : "", false);
+                        new WebInterfaceGenerator(verboseOutput).Generate(args[1], args.Length >= 3 ? args[2] : "", false, false);
                         break;
                     case "/merge":
-                        new WebInterfaceGenerator(verboseOutput).Generate(args[1], args.Length >= 3 ? args[2] : "", true);
+                        new WebInterfaceGenerator(verboseOutput).Generate(args[1], args.Length >= 3 ? args[2] : "", true, false);
+                        break;
+                    case "/force":
+                        new WebInterfaceGenerator(verboseOutput).Generate(args[1], args.Length >= 3 ? args[2] : "", true, true);
                         break;
                 }
             }
