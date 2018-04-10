@@ -11,7 +11,31 @@
 #include <TbWoormViewer\woormvw.h>
 #include <TbWoormViewer\WrmBlockModifier.h>
 
+#include <TbWoormViewer\ListDlg.h>
+
 #include ".\soapfunctions.h"
+
+//----------------------------------------------------------------------------
+///<summary>
+///Pass-Key login
+///</summary>
+//[TBWebMethod(securityhidden=true, woorm_method=false)]
+DataBool PassKeyLogin()
+{
+	if (!IsUserReportsDeveloper())
+	{
+		CSetPassKeyDlg dialog;
+		if (dialog.DoModal() != IDOK)
+		{
+			if (!AfxGetBaseApp()->CanUseReportEditor())
+				AfxMessageBox(_TB("This functionality is not licensed"));
+			else
+				AfxMessageBox(_TB("Warning, this option is available only for Administrators, Easybuilder Developers or specific users authorized by Security Module"));
+			return FALSE;
+		}
+	}
+	return TRUE;
+}
 
 //----------------------------------------------------------------------------
 ///<summary>
@@ -22,11 +46,15 @@ DataBool ExecNewReport (DataLng& docHandle)
 {
 	if (!IsUserReportsDeveloper())
 	{
-		if (!AfxGetBaseApp()->CanUseReportEditor())
-			AfxMessageBox(_TB("This functionality is not licensed"));
-		else
-			AfxMessageBox(_TB("Warning, this option is available only for Administrators, Easybuilder Developers or specific users authorized by Security Module"));
-		return FALSE;
+		CSetPassKeyDlg dialog;
+		if (dialog.DoModal() != IDOK)
+		{
+			if (!AfxGetBaseApp()->CanUseReportEditor())
+				AfxMessageBox(_TB("This functionality is not licensed"));
+			else
+				AfxMessageBox(_TB("Warning, this option is available only for Administrators, Easybuilder Developers or specific users authorized by Security Module"));
+			return FALSE;
+		}
 	}
 
 	CBaseDocument* pDoc = AfxGetTbCmdManager()->RunDocument(szWoormNamespace, szDefaultViewMode, TRUE);
@@ -44,6 +72,20 @@ DataBool ExecNewReport (DataLng& docHandle)
 //[TBWebMethod(securityhidden=true, woorm_method=false)]
 DataBool ExecOpenReport (DataStr/*[ciString]*/ reportNameSpace, DataLng& docHandle)
 {
+	if (!IsUserReportsDeveloper())
+	{
+		CSetPassKeyDlg dialog;
+		if (dialog.DoModal() != IDOK)
+		{
+			if (!AfxGetBaseApp()->CanUseReportEditor())
+				AfxMessageBox(_TB("This functionality is not licensed"));
+			else
+				AfxMessageBox(_TB("Warning, this option is available only for Administrators, Easybuilder Developers or specific users authorized by Security Module"));
+			return FALSE;
+		}
+	}
+	
+	//------------------------------------
 	CWoormDoc* pWDoc = NULL;
 	ITBExplorer* pExplorer = NULL;
 	
@@ -101,10 +143,13 @@ DataBool ExecUpgradeReport ()
 //[TBWebMethod(woorm_method=false)]
 DataBool IsUserReportsDeveloper ()
 {
-	if (!AfxGetBaseApp()->CanUseReportEditor())
+	if (AfxGetLoginContext()->IsLocked())
 		return FALSE;
 
-	if (AfxGetLoginContext()->IsLocked())
+	if (AfxGetApplicationContext()->IsPassKeyActive())
+		return TRUE;
+
+	if (!AfxGetBaseApp()->CanUseReportEditor())
 		return FALSE;
 
 	//if (!AfxIsCalAvailable(_T("Framework"), _NS_ACT("ReportEditor")))

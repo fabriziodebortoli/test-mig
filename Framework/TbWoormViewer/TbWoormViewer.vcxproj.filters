@@ -795,6 +795,9 @@
     <None Include="Settings\Barcode2D.config">
       <Filter>Settings</Filter>
     </None>
+    <None Include="Menu\TbWoormViewer.menu">
+      <Filter>Menu</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="COLORCBX.H">

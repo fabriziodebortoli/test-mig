@@ -85,6 +85,7 @@ class TB_EXPORT CApplicationContext : public CObject, public CGenericContext<CAp
 		friend class CMailConnector;
 		friend class CIMagoMailConnector;
 		friend class CTBApplicationProxy;
+		friend class CSetPassKeyDlg;
 
 public:
 	enum MacroRecorderStatus{IDLE, PLAYING, RECORDING};
@@ -92,47 +93,51 @@ public:
 	MacroRecorderStatus			m_MacroRecorderStatus;
 
 private:
-	HWND						m_hwndAppMainWnd;
+	HWND						m_hwndAppMainWnd = NULL;
 	CString						m_strAppTitle;
-	BOOL						m_bUnattendedMode;
-	BOOL						m_bIISModule;
-	BOOL						m_bEnableReportEditor;
+	BOOL						m_bUnattendedMode = FALSE;
+	BOOL						m_bIISModule = FALSE;
+
+	BOOL						m_bEnableReportEditor = FALSE;
+	BOOL						m_bPassKeyActive = FALSE;
+
 	BOOL						m_bMultiThreadedDocument;
 	BOOL						m_bMultiThreadedLogin;
-	BOOL						m_bRemoteInterface;
 
-	CObject*					m_pStringLoader;
-	CObject*					m_pEnumsTable;		
-	CLockTracer*				m_pLockTracer;
-	CObject*					m_pMailConnector;
-	CObject*					m_pAddOnFieldsTable;
-	CObject*					m_pDeclaredDBReleasesTable;
-	CObject*					m_pDataFilesManager;
-	CObject*					m_pClientDocsTable;
-	CObject*					m_pClientFormsTable;
-	CObject*					m_pCommandManager;
-	CObject*					m_pSoapServer;
-	CObject*					m_pFileSystemManagerWS;
-	CObject*					m_pAddOnApps;
-	CObject*					m_pGlobalSettingsTable;	
-	CObject*					m_pStandardFormatTable;	
-	CObject*					m_pStandardFontsTable;	
-	CObject*					m_pStandardDocumentsTable;	
-	CObject*					m_pRadarFactory;	
-	CObject*					m_pExplorerFactory;	
-	CObject*					m_pHotLinkFactory;	
-	CObject*					m_pParsedControlsRegistry;	
-	CObject*					m_pDatabaseObjectsTable;	
-	CPathFinder*				m_pPathFinder;
-	CObject*					m_pClientObjects;
-	CObject*					m_pBehavioursRegistry;	
-	IFileSystemManager* 		m_pFileSystemManager;
-	IRabbitMQ*					m_pRabbitMQManager;
-	HWND						m_nMenuWindowHandle;
+	BOOL						m_bRemoteInterface = FALSE;
+
+	CObject*					m_pStringLoader = NULL;
+	CObject*					m_pEnumsTable = NULL;
+	CLockTracer*				m_pLockTracer = NULL;
+	CObject*					m_pMailConnector = NULL;
+	CObject*					m_pAddOnFieldsTable = NULL;
+	CObject*					m_pDeclaredDBReleasesTable = NULL;
+	CObject*					m_pDataFilesManager = NULL;
+	CObject*					m_pClientDocsTable = NULL;
+	CObject*					m_pClientFormsTable = NULL;
+	CObject*					m_pCommandManager = NULL;
+	CObject*					m_pSoapServer = NULL;
+	CObject*					m_pFileSystemManagerWS = NULL;
+	CObject*					m_pAddOnApps = NULL;
+	CObject*					m_pGlobalSettingsTable = NULL;
+	CObject*					m_pStandardFormatTable = NULL;
+	CObject*					m_pStandardFontsTable = NULL;
+	CObject*					m_pStandardDocumentsTable = NULL;
+	CObject*					m_pRadarFactory = NULL;
+	CObject*					m_pExplorerFactory = NULL;
+	CObject*					m_pHotLinkFactory = NULL;
+	CObject*					m_pParsedControlsRegistry = NULL;
+	CObject*					m_pDatabaseObjectsTable = NULL;
+	CPathFinder*				m_pPathFinder = NULL;
+	CObject*					m_pClientObjects = NULL;
+	CObject*					m_pBehavioursRegistry = NULL;
+	IFileSystemManager* 		m_pFileSystemManager = NULL;
+	IRabbitMQ*					m_pRabbitMQManager = NULL;
+	HWND						m_nMenuWindowHandle = NULL;
 	CThreadInfoArray			m_arThreadInfo;	
 	CTBResourcesMap				m_TbResourcesMap;//la mappa delle risorse deve essere globale, e non per thread, perché la message map dei documenti è statica
 	CRuntimeClass*				m_pCustomSaveDialogClass = NULL;
-	BOOL						m_bEnumsViewerThreadOpened;
+	BOOL						m_bEnumsViewerThreadOpened = FALSE;
 
 	DECLARE_LOCKABLE(CObArray,						m_arLoginContexts);
 	DECLARE_LOCKABLE(MapCStringToCCompanyContext,	m_CompanyContexts);
@@ -150,7 +155,10 @@ private:
 	void FreeObjects();
 
 	void				SetAppTitle(const CString& strTitle);
-	void				SetCanUseReportEditor(BOOL bSet)		{ m_bEnableReportEditor = bSet; } 
+
+	void				SetCanUseReportEditor	(BOOL bSet)	{ m_bEnableReportEditor = bSet; } 
+	void				SetPassKeyActive		(BOOL bSet) { m_bPassKeyActive = bSet; }
+	
 public:
 	void				SetInUnattendedMode(BOOL bSet)			{ m_bUnattendedMode = bSet; } 
 	
@@ -158,7 +166,10 @@ public:
 	HWND				GetAppMainWnd()							{ return m_hwndAppMainWnd; }
 	void				SetAppMainWnd(HWND hwnd)				{ m_hwndAppMainWnd = hwnd; }
 	const CString&		GetAppTitle();
-	BOOL				CanUseReportEditor()					{ return m_bEnableReportEditor; } 
+
+	BOOL				CanUseReportEditor	()					{ return m_bEnableReportEditor; } 
+	BOOL				IsPassKeyActive		()					{ return m_bPassKeyActive; }
+
 	BOOL				IsInUnattendedMode()					{ return m_bUnattendedMode; } 
 	void				SetIISModule(BOOL bSet)					{ m_bIISModule = bSet; } 
 	BOOL				IsIISModule()							{ return m_bIISModule; } 

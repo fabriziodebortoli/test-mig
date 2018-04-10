@@ -3,6 +3,8 @@
 //#include <TbGeneric\DataObj.h>
 #include <TbGenlib\parsctrl.h>
 #include <TbGenlib\parscbx.h>
+#include <TbGenlib\BaseTileDialog.h>
+
 //per l'editor di expression
 #include <TbWoormEngine\edtcmm.h>
 
@@ -1454,7 +1456,7 @@ protected:
 
 };
 //===========================================================================
-class TB_EXPORT CSetPassKeyDlg : public CParsedDialog
+class TB_EXPORT CSetPassKeyDlg : public CParsedDialogWithTiles
 {
 protected:
 	CWoormDocMng * m_pDocument;
@@ -1466,6 +1468,9 @@ public:
 protected:
 	virtual void OnOK();
 	virtual BOOL OnInitDialog();
+
+	BOOL ValidateKey();
+	BOOL EnableTBS();
 
 	DECLARE_DYNAMIC(CSetPassKeyDlg);
 };

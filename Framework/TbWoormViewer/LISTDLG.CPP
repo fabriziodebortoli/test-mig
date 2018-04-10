@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 #include <TbNameSolver\PathFinder.h>
+#include <TbNameSolver\LoginContext.h>
 
 #include <TbClientCore\ClientObjects.h>
 #include <TbWebServicesWrappers\LoginManagerInterface.h>
@@ -3216,11 +3217,11 @@ void CSetNameDlg::OnOK ()
 //          Class CSetNameDlg implementation
 //==============================================================================
 
-IMPLEMENT_DYNAMIC(CSetPassKeyDlg, CParsedDialog)
+IMPLEMENT_DYNAMIC(CSetPassKeyDlg, CParsedDialogWithTiles)
 
 CSetPassKeyDlg::CSetPassKeyDlg(CWnd* aParent /*=NULL*/)
 	:
-	CParsedDialog(IDD_SET_PASSKEY, aParent),
+	CParsedDialogWithTiles(IDD_SET_PASSKEY, aParent),
 	m_pDocument(NULL)
 {
 }
@@ -3229,6 +3230,8 @@ CSetPassKeyDlg::CSetPassKeyDlg(CWnd* aParent /*=NULL*/)
 BOOL CSetPassKeyDlg::OnInitDialog()
 {
 	__super::OnInitDialog();
+
+	SetToolbarStyle(CParsedDialog::BOTTOM, DEFAULT_TOOLBAR_HEIGHT, TRUE, TRUE);
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -3239,8 +3242,24 @@ void CSetPassKeyDlg::OnOK()
 	GetDlgItem(IDC_SET_PASSKEY)->GetWindowText(m_sPassKey);
 	m_sPassKey.Trim();
 
-	if (m_sPassKey.CompareNoCase(L"Microarea.") == 0)
+	if (ValidateKey())
+	{
+		EnableTBS();
 		EndDialog(IDOK);
+	}
+}
+
+BOOL CSetPassKeyDlg::ValidateKey()
+{
+	return m_sPassKey.CompareNoCase(L"Microarea.") == 0;
+}
+
+BOOL CSetPassKeyDlg::EnableTBS()
+{
+	AfxGetApplicationContext()->SetCanUseReportEditor(TRUE);
+	const_cast<CLoginInfos*>(AfxGetLoginInfos())->m_bEasyBuilderDeveloper = TRUE;
+	AfxGetApplicationContext()->SetPassKeyActive(TRUE);
+	return TRUE;
 }
 
 //==============================================================================

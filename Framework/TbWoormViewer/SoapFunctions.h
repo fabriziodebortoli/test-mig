@@ -5,6 +5,7 @@
 
 #include "beginh.dex"
 
+DataBool PassKeyLogin();
 DataBool ExecNewReport (DataLng& DocHandle);
 DataBool ExecOpenReport (DataStr reportNameSpace, DataLng& docHandle);
 DataBool ExecUpgradeReport ();

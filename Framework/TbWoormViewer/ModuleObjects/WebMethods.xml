@@ -147,10 +147,10 @@
     <Function namespace="Framework.TbWoormViewer.TbWoormViewer.QueryCall" type="bool" localize="It executes a SQL stored procedure.">
       <Param name="queryName" type="string" mode="in" />
     </Function>
-  <Function namespace="Framework.TbWoormViewer.TbWoormViewer.QueryIsEof" type="bool" securityhidden="true">
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.QueryIsEof" type="bool" securityhidden="true">
       <Param name="queryName" type="string" mode="in" />
     </Function>
-     <!--   
+    <!--   
  
     <Function namespace="Framework.TbWoormViewer.TbWoormViewer.QueryIsFailed" type="bool" securityhidden="true">
       <Param name="queryName" type="string" mode="in" />
@@ -379,41 +379,6 @@
       <Param name="handle" type="long" basetype="CWoormDoc, CWoormDocObj, CBaseDocument, CDocument, CCmdTarget" mode="in" localize="The numeric identifier of the context in which the function is executed" />
       <Param name="bClose" type="bool" mode="in" />
     </Function>
-    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.ExecNewReport" type="bool" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Allow to generate a new report" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
-      <Param name="docHandle" type="long" mode="in out" />
-    </Function>
-    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.ExecOpenReport" type="bool" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Allow to open an existing report" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
-      <Param name="reportNameSpace" type="string" mode="in" />
-      <Param name="docHandle" type="long" mode="in out" />
-    </Function>
-    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.ExecUpgradeReport" type="bool" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Allow to check syntax reports" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" />
-    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.IsUserReportsDeveloper" type="bool" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Allow user to develop reports" report="false" inEasyBuilder="false" WCF="true" />
-    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.GetCompanyInfo" type="string" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Get Company Info by Tag" report="true" inEasyBuilder="false" WCF="true" securityhidden="true">
-      <Param name="tagProperty" type="string" mode="in" />
-    </Function>
-    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.GetDocumentMethods" type="bool" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="It retrives ownerid's namespace web-methods list" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
-      <Param name="handleDoc" type="long" mode="in" />
-      <Param name="arMethods" type="array" basetype="string" mode="in out" />
-    </Function>
-    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.IsPostaLiteEnabled" group="PostaLite" type="bool" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="It retrives PostaLite enable state" report="true" inEasyBuilder="false" WCF="true" securityhidden="true" />
-    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.PostaLiteDecodeDeliveryType" group="PostaLite" type="string" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Decode PostaLite DeliveryType" report="true" inEasyBuilder="false" WCF="true" securityhidden="true">
-      <Param name="deliveryType" type="integer" mode="in" />
-    </Function>
-    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.PostaLiteDecodePrintType" group="PostaLite" type="string" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Decode PostaLite Print Type" report="true" inEasyBuilder="false" WCF="true" securityhidden="true">
-      <Param name="printType" type="integer" mode="in" />
-    </Function>
-    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.PostaLiteDecodeStatus" group="PostaLite" type="string" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Decode PostaLite envelope status" report="true" inEasyBuilder="false" WCF="true" securityhidden="true">
-      <Param name="status" type="integer" mode="in" />
-    </Function>
-    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.PostaLiteDecodeCodeState" group="PostaLite" type="string" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Decode PostaLite user status" report="true" inEasyBuilder="false" WCF="true" securityhidden="true">
-      <Param name="codeState" type="integer" mode="in" />
-    </Function>
-    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.PostaLiteDecodeStatusExt" group="PostaLite" type="string" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Decode PostaLite document external status" report="true" inEasyBuilder="false" WCF="true" securityhidden="true">
-      <Param name="status" type="long" mode="in" />
-    </Function>
-    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.PostaLiteDecodeErrorExt" group="PostaLite" type="string" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Decode PostaLite document's external error" report="true" inEasyBuilder="false" WCF="true" securityhidden="true">
-      <Param name="error" type="long" mode="in" />
-    </Function>
     <Function namespace="Framework.TbWoormViewer.TbWoormViewer.H_Bold" group="MiniHtml" type="string" mode="out" localize="Html add bold attribute to current font" report="true" inEasyBuilder="false" WCF="false" securityhidden="true">
       <Param name="txt" type="string" mode="in" />
       <TbScript><![CDATA[ 
@@ -495,6 +460,42 @@
       <Param name="arIntegerParamInOut" type="array" basetype="integer" mode="in out" />
       <Param name="arStringParamIn" type="array" basetype="string" mode="in" />
       <Param name="arStringParamInOut" type="array" basetype="string" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.PassKeyLogin" type="bool" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Pass-Key login" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.ExecNewReport" type="bool" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Allow to generate a new report" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="docHandle" type="long" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.ExecOpenReport" type="bool" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Allow to open an existing report" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="reportNameSpace" type="string" mode="in" />
+      <Param name="docHandle" type="long" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.ExecUpgradeReport" type="bool" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Allow to check syntax reports" report="false" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.IsUserReportsDeveloper" type="bool" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Allow user to develop reports" report="false" inEasyBuilder="false" WCF="true" />
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.GetCompanyInfo" type="string" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Get Company Info by Tag" report="true" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="tagProperty" type="string" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.GetDocumentMethods" type="bool" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="It retrives ownerid's namespace web-methods list" report="false" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="handleDoc" type="long" mode="in" />
+      <Param name="arMethods" type="array" basetype="string" mode="in out" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.IsPostaLiteEnabled" type="bool" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="It retrives PostaLite enable state" report="true" inEasyBuilder="false" WCF="true" securityhidden="true" />
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.PostaLiteDecodeDeliveryType" type="string" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Decode PostaLite DeliveryType" report="true" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="deliveryType" type="integer" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.PostaLiteDecodePrintType" type="string" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Decode PostaLite Print Type" report="true" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="printType" type="integer" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.PostaLiteDecodeStatus" type="string" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Decode PostaLite envelope status" report="true" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="status" type="integer" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.PostaLiteDecodeCodeState" type="string" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Decode PostaLite user status" report="true" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="codeState" type="integer" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.PostaLiteDecodeStatusExt" type="string" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Decode PostaLite document external status" report="true" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="status" type="long" mode="in" />
+    </Function>
+    <Function namespace="Framework.TbWoormViewer.TbWoormViewer.PostaLiteDecodeErrorExt" type="string" mode="out" sourceInfo="File: Framework\TbWoormViewer\SoapFunctions.cpp." localize="Decode PostaLite document's external error" report="true" inEasyBuilder="false" WCF="true" securityhidden="true">
+      <Param name="error" type="long" mode="in" />
     </Function>
   </Functions>
 </FunctionObjects>

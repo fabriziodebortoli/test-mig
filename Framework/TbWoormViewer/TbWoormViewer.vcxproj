@@ -495,6 +495,7 @@
     <None Include="JsonForms\RSEditorUI\IDD_RS_ToolBoxObjectsView.tbjson" />
     <None Include="JsonForms\WOORMDOC\IDR_LISTER.hjson" />
     <None Include="JsonForms\WOORMDOC\IDR_LISTER.tbjson" />
+    <None Include="Menu\TbWoormViewer.menu" />
     <None Include="RECTOBJ.hjson" />
     <None Include="res\anchor.bmp" />
     <None Include="res\anchorleft.bmp" />

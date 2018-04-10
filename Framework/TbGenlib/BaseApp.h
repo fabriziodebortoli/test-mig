@@ -108,6 +108,7 @@ typedef CMap<CString, LPCTSTR, CSingleExtDocTemplate*, CSingleExtDocTemplate*> T
 //=============================================================================
 class TB_EXPORT CBaseApp : public CBCGPWinApp, public CTBLockable
 {   
+	friend class CSetPassKeyDlg;
 	DECLARE_DYNAMIC(CBaseApp)
 protected:		
 	DECLARE_LOCKABLE(TemplateMap,  m_TemplateCache);

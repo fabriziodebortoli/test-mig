@@ -441,6 +441,19 @@ namespace TbWoormViewerTbWoormViewer {
 		returnValueParam = AfxInvokeThreadFunction<DataBool, CWoormDocMng, DataBool>(_hwnd, &obj, &CWoormDocMng::Print, bCloseParam);
 		return returnValueParam.GetSoapValue();
 	}
+
+	//File: Framework\TbWoormViewer\SoapFunctions.cpp. 
+	extern "C" __declspec(dllexport) bool __PassKeyLogin(HWND _hwnd) throw(...)
+	{
+
+		DataBool returnValueParam;
+
+		returnValueParam = AfxInvokeThreadGlobalFunction<DataBool>(_hwnd, &PassKeyLogin);
+
+
+		return returnValueParam.GetSoapValue();
+	}
+
 	//File: Framework\TbWoormViewer\SoapFunctions.cpp.
 	extern "C" __declspec(dllexport) bool __ExecNewReport(HWND _hwnd, long* docHandle) throw(...)
 	{
