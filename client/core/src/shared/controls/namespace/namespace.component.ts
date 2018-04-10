@@ -29,11 +29,10 @@ export class NamespaceComponent extends ControlComponent implements OnChanges, O
   @Input('readonly') readonly: boolean = false;
   @Input('chars') chars: number = 0;
   @Input('rows') rows: number = 0;
-  @Input('objType') objType: string = "Report";
   @Input('textLimit') textlimit: number = 0;
   @Input('maxLength') maxLength: number = 524288;
 
-  @Input('namespaceType') namespaceType: string = "";
+  @Input('namespaceType') namespaceType: string = "Report";
   @Input('defaultNs') defaultNs: string = "";
   @Input() slice: any;
   @Input() selector: Selector<any, any>;
@@ -55,7 +54,7 @@ export class NamespaceComponent extends ControlComponent implements OnChanges, O
     changeDetectorRef: ChangeDetectorRef,
     private infoService: InfoService,
     private explorerService: ExplorerService,
-    private menuService: MenuService,
+    //private menuService: MenuService,
     private store: Store
   ) {
     super(layoutService, tbComponentService, changeDetectorRef);
@@ -69,8 +68,8 @@ export class NamespaceComponent extends ControlComponent implements OnChanges, O
     this.company = localStorage.getItem('_company');
     this.culture = localStorage.getItem('ui_culture');
 
-    if (this.objType != undefined) {
-      this.objectType = ObjType[this.objType];
+    if (this.namespaceType != undefined) {
+      this.objectType = ObjType[this.namespaceType];
       if (this.objectType === undefined)
         console.log('Wrong objectType in ' + this.cmpId);
     }
@@ -158,7 +157,7 @@ export class NamespaceComponent extends ControlComponent implements OnChanges, O
         window.open(this.getImageUrl(this.model.value), 'blank');
         break;
       default:
-        this.menuService.runObject({ objectType: ObjType[this.objectType], target: this.model.value });
+        //this.menuService.runObject({ objectType: ObjType[this.objectType], target: this.model.value });
         break;
     }
   }

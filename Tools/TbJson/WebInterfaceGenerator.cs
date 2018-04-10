@@ -1386,6 +1386,7 @@ namespace Microarea.TbJson
                 case ValueType.NOT_FOUND:
                     return;
                 case ValueType.PLAIN:
+                    break;
                 case ValueType.EXPRESSION:
                     tsPropName = Square(tsPropName);
                     break;
