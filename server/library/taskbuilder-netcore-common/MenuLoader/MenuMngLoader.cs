@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using Microarea.Common.Generic;
@@ -354,9 +355,16 @@ namespace Microarea.Common.MenuLoader
                         return false;
                     }
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
-                    Debug.WriteLine(ex.ToString());
+                    StringBuilder sb = new StringBuilder();
+
+                    sb.Append(e.Message + " ---------");
+
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
+                    sb.Clear();
+
+                    Debug.WriteLine(e.ToString());
                     return true;
                 }
             }
@@ -386,9 +394,16 @@ namespace Microarea.Common.MenuLoader
                         return null;
                     }
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
-                    Debug.Fail(ex.ToString());
+                    StringBuilder sb = new StringBuilder();
+
+                    sb.Append(e.Message + " ---------");
+
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
+                    sb.Clear();
+
+                    Debug.Fail(e.ToString());
                     return null;
                 }
             }
@@ -401,8 +416,14 @@ namespace Microarea.Common.MenuLoader
                 {
                     pathFinder.SaveCachedMenuSerialization(file, this);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    StringBuilder sb = new StringBuilder();
+
+                    sb.Append(e.Message + " ---------");
+
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
+                    sb.Clear();
                 }
             }
 
@@ -420,8 +441,14 @@ namespace Microarea.Common.MenuLoader
                     if (pathFinder.ExistPath(dirName))
                         pathFinder.RemoveFolder(dirName, true, false, false);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    StringBuilder sb = new StringBuilder();
+
+                    sb.Append(e.Message + " ---------");
+
+                    File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
+                    sb.Clear();
                 }
             }
         }
@@ -791,11 +818,19 @@ namespace Microarea.Common.MenuLoader
             try
             {
                 CachedMenuInfos cachedMenuInfos = new CachedMenuInfos(commandsTypeToLoad, configurationHash, menuPathFinder);
+                
                 return cachedMenuInfos.Load(dateTime);
             }
-            catch (Exception exception)
+            catch (Exception e)
             {
-                Debug.WriteLine("Exception thrown in MenuInfo.LoadCachedStandardMenu: " + exception.Message);
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append(e.Message + " ---------");
+
+                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
+                sb.Clear();
+
+                Debug.WriteLine("Exception thrown in MenuInfo.LoadCachedStandardMenu: " + e.Message);
                 return true;
             }
         }

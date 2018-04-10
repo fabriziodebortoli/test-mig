@@ -298,7 +298,12 @@ namespace Microarea.Common.FileSystemManager
 	        }
 	        catch (SqlException e)
 	        {
+                StringBuilder sb = new StringBuilder();
 
+                sb.Append(e.Message + " ---------");
+
+                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
+                sb.Clear();
                 Debug.Fail(e.Message);
 		        return null;
 	        }	
@@ -337,7 +342,14 @@ namespace Microarea.Common.FileSystemManager
 	        }
 	        catch (SqlException e)
 	        {
-		        if (reader != null)
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append(e.Message + " ---------");
+
+                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
+                sb.Clear();
+
+                if (reader != null)
 		        {
                     reader.Close();
                     reader.Dispose();
@@ -394,7 +406,14 @@ namespace Microarea.Common.FileSystemManager
 	        }
 	        catch (SqlException e)
 	        {
-		        if (reader != null)
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append(e.Message + " ---------");
+
+                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
+                sb.Clear();
+
+                if (reader != null)
 		        {
                     reader.Close();
                     reader.Dispose();
@@ -457,12 +476,21 @@ namespace Microarea.Common.FileSystemManager
 	        }
 	        catch (SqlException e)
 	        {
-		        if (connection !=  null)
+
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append(e.Message + " ---------");
+
+                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
+                sb.Clear();
+                
+
+                 if (connection !=  null)
 		        {
                     connection.Close();
 			        connection.Dispose();
 		        }
-		        Debug.Fail(e.Message);
+		        Console.WriteLine(e.Message);
 		        return -1;
 	        }
 
@@ -562,8 +590,14 @@ namespace Microarea.Common.FileSystemManager
 
                 return nResult;
             }
-            catch (SqlException)
+            catch (SqlException e)
             {
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append(e.Message + " ---------");
+
+                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
+                sb.Clear();
 
                 if (command != null)
                     command.Dispose();
@@ -854,7 +888,14 @@ namespace Microarea.Common.FileSystemManager
             }
 	        catch (SqlException e)
 	        {
-		        if (dr != null)
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append(e.Message + " ---------");
+
+                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
+                sb.Clear();
+
+                if (dr != null)
 		        {
 			        dr.Close();
 			         dr.Dispose();
@@ -886,7 +927,13 @@ namespace Microarea.Common.FileSystemManager
 	       }
 	        catch (SqlException e)
 	        {
-		        throw(e);
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append(e.Message + " ---------");
+
+                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
+                sb.Clear();
+                throw (e);
 	        }
 
             return pArray;
@@ -908,7 +955,13 @@ namespace Microarea.Common.FileSystemManager
 	        }
 	        catch (SqlException e)
 	        {
-		        throw(e);
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append(e.Message + " ---------");
+
+                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
+                sb.Clear();
+                throw (e);
 	        }
 
             return pArray;
@@ -1025,6 +1078,13 @@ namespace Microarea.Common.FileSystemManager
             }
             catch (SqlException e)
 	        {
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append(e.Message + " ---------");
+
+                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
+                sb.Clear();
+
                 if (sqlCommand != null)
                     sqlCommand.Dispose();
                 if (sqlConnection != null)
@@ -1121,6 +1181,13 @@ namespace Microarea.Common.FileSystemManager
 	        }
 	        catch (SqlException e)
 	        {
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append(e.Message + " ---------");
+
+                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
+                sb.Clear();
+
                 if (sqlCommand != null)
                     sqlCommand.Dispose();
 
@@ -1154,7 +1221,14 @@ namespace Microarea.Common.FileSystemManager
 	        }
 	        catch (SqlException e)
 	        {
-		        if (ad != null)
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append(e.Message + " ---------");
+
+                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
+                sb.Clear();
+
+                if (ad != null)
 			        ad.Dispose();
                 if (sqlCommand != null)
                     sqlCommand.Dispose();
@@ -1234,6 +1308,13 @@ namespace Microarea.Common.FileSystemManager
 	        }
 	        catch (SqlException e)
 	        {
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append(e.Message + " ---------");
+
+                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
+                sb.Clear();
+
                 if (sqlCommand != null)
                     sqlCommand.Dispose();
 
@@ -1370,7 +1451,14 @@ namespace Microarea.Common.FileSystemManager
 	        }
 	        catch (SqlException e)
 	        {
-		        if (dr != null)
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append(e.Message + " ---------");
+
+                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
+                sb.Clear();
+
+                if (dr != null)
 		        {
 			        dr.Close();
 			        dr.Dispose();
@@ -1434,7 +1522,13 @@ namespace Microarea.Common.FileSystemManager
             }
 	        catch (SqlException e)
 	        {
-		        Debug.Fail(e.Message);
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append(e.Message + " ---------");
+
+                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
+                sb.Clear();
+                Debug.Fail(e.Message);
 		        return null;
 	        }	
 	        
@@ -1508,7 +1602,14 @@ namespace Microarea.Common.FileSystemManager
 	        }
 	        catch (SqlException e)
 	        {
-		        if (dr != null)
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append(e.Message + " ---------");
+
+                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
+                sb.Clear();
+
+                if (dr != null)
 		        {
 			        dr.Close();
 			        dr.Dispose();
@@ -1588,7 +1689,13 @@ namespace Microarea.Common.FileSystemManager
 	        }
 	        catch (SqlException e)
 	        {
-		        if (dr != null)
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append(e.Message + " ---------");
+
+                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
+                sb.Clear();
+                if (dr != null)
 		        {
 			        dr.Close();
 			        dr.Dispose();
