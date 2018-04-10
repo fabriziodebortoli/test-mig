@@ -1,3 +1,18 @@
-<div class="status-tile">
-    <ng-content></ng-content>
-</div>
+<div [ngStyle]="inputStyle()">
+    <div>
+        <div class="row">
+            <ng-content select="[cmpId=IDC_CONTROL_STATIC_UP]"></ng-content>
+        </div>
+        <div>
+            <ng-content select="[cmpId=IDC_CONTROL_IMAGE]"></ng-content>
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <!-- <ng-content select="[cmpId=IDC_CONTROL_STATIC_DOWN_LEFT]"></ng-content> -->
+        </div>
+        <div>
+            <!-- <ng-content select="[cmpId=IDC_CONTROL_STATIC_DOWN_RIGHT]"></ng-content> -->
+        </div>
+    </div>
+</div>l

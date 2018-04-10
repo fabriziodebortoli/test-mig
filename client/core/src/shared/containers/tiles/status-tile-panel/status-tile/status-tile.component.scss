@@ -1,13 +1,32 @@
-.status-tile{
+.status-tile {
     display: flex;
     flex-direction: row;
-    height: 20px;
-    background: lightblue;
+    background: transparent;
+    height: 50px;
+    max-width: 140px;
     overflow: hidden;
 }
-.status-tile tb-image{
-    background:greenyellow
+
+.status-tile tb-image {
+    background: transparent
 }
-.status-tile tb-label-static{
-    background:aquamarine
+
+.status-tile tb-label-static {
+    background: transparent
+}
+
+:host ::ng-deep textarea.tb-textarea {
+    background-color: transparent;
+    max-width: 60px;
+    border: none;
+}
+
+:host ::ng-deep textarea.tb-caption {
+    background-color: transparent;
+    border: none;
+}
+
+:host ::ng-deep textarea.ng-container {
+    background-color: transparent;
+    border: none;
 }

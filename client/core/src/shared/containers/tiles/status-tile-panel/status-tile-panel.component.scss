@@ -1,13 +1,19 @@
-.status-tile-panel{
-    display: flex;
-    flex-direction: row;
-    height: 60px;
-    background: lightblue;
-    overflow: hidden;
-}
-.status-tile-panel tb-image{
-    background:greenyellow
-}
-.status-tile-panel tb-label-static{
-    background:aquamarine
+:host(tb-status-tile-panel) {
+    margin-left: auto;
+    .status-tile-panel {
+        display: flex;
+        flex-direction: row;
+        align-content: flex-end;
+        justify-content: space-between;
+        margin-left: auto;
+        height: 60px;
+        background: transparent;
+        overflow: hidden;
+        border-style: solid;
+        background: transparent;
+        border: none;
+        tb-image {
+            background: transparent;
+        }
+    }
 }
