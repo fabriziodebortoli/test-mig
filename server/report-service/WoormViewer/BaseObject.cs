@@ -2475,18 +2475,35 @@ namespace Microarea.RSWeb.Objects
 
                base.ToJsonTemplate(false) + ',';
 
-            if (this.LabelTextExpr != null || !this.Label.Text.IsNullOrEmpty())
+           AlignType a = this.Value.Align;
+            
+           if (this.LabelTextExpr != null || !this.Label.Text.IsNullOrEmpty())
             {
+                string caption = this.TemplateLabelLocalizedText;
                 s += "\"label\":{" +
-                        this.TemplateLabelLocalizedText.ToJson("caption", false, true) + ',' +
+                        caption.ToJson("caption", false, true) + ',' +
                         this.TemplateLabelTextColor.ToJson("textcolor") + ',' +
                         this.Label.FontData.ToJson() + ',' +
                         this.Label.Align.ToHtml_align() +
                     "},";
+
+                if (((a & AlignType.DT_EX_VCENTER_LABEL) == AlignType.DT_EX_VCENTER_LABEL)  //TODO RSWEB manca gestione style allineamento DT_EX_VCENTER_LABEL
+                     &&
+                     ((this.Label.Align & AlignType.DT_TOP) == AlignType.DT_TOP)
+                     &&
+                     (!caption.IsNullOrEmpty() || this.LabelTextExpr != null) 
+                    &&
+                    ((this.Rect.Height/2) < (this.Label.FontData.Size + this.Value.FontData.Size))
+                    ) 
+                    {
+                        a &= ~(AlignType.DT_EX_VCENTER_LABEL| AlignType.DT_VCENTER); a |= AlignType.DT_BOTTOM;
+                    }
             }
+
+ 
             s +=
                 this.Value.FontData.ToJson() + ',' +
-                this.Value.Align.ToHtml_align() + ',' +
+                a.ToHtml_align() + ',' +
 
                 this.DynamicBkgColor.ToJson("bkgcolor") + ',' +
                 this.DynamicTextColor.ToJson("textcolor") +
