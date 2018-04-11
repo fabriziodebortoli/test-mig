@@ -1280,7 +1280,7 @@ namespace Microarea.TbJson
             if (isSeparator == true)
                 return;
 
-            using (OpenCloseTagWriter w = new OpenCloseTagWriter(jObj.GetToolbarButtonTag(), this, false))
+            using (OpenCloseTagWriter w = new OpenCloseTagWriter(jObj.GetToolbarButtonTag(type), this, false))
             {
                 WriteActivationAttribute(jObj);
                 string icon = jObj.GetFlatString(Constants.icon);

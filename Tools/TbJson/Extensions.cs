@@ -268,8 +268,12 @@ namespace Microarea.TbJson
                 obj.ReplaceEnums();
         }
         //-----------------------------------------------------------------------------
-        internal static string GetToolbarButtonTag(this JObject jObj)
+        internal static string GetToolbarButtonTag(this JObject jObj, WndObjType type)
         {
+            if (type == WndObjType.MenuItem)
+            {
+                return GetTagByCategory(jObj.GetParentItem());
+            }
             JObject obj = jObj?.GetParentItem()?.GetParentItem();
             if (obj != null)
             {
@@ -277,8 +281,21 @@ namespace Microarea.TbJson
                     return Constants.tbBodyEditToolbarButton;
             }
             if (jObj.GetBool(Constants.isDropdown))
-                return Constants.tbToolbarTopButtonDropdown;
+            {
+                switch (jObj.GetCommandCategory())
+                {
+                    case CommandCategory.Print:
+                        return Constants.tbToolbarBottomDropup;
+                    default:
+                        return Constants.tbToolbarTopButtonDropdown;
+                }
 
+            }
+            return GetTagByCategory(jObj);
+        }
+
+        private static string GetTagByCategory(JObject jObj)
+        {
             switch (jObj.GetCommandCategory())
             {
                 case CommandCategory.Search:
