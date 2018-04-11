@@ -1,0 +1,59 @@
+{
+	"folders": [
+		{
+			"name": "web-form",
+			"path": "web-form"
+		},
+		{
+			"name": "core",
+			"path": "core\\src"
+		},
+		{
+			"name": "menu",
+			"path": "libs\\menu\\src"
+		},
+		{
+			"name": "erp",
+			"path": "erp\\src"
+		},
+		{
+			"name": "icons",
+			"path": "libs\\icons\\src"
+		},
+		{
+			"name": "libs",
+			"path": "libs\\libs\\src"
+		},
+		{
+			"name": "reporting-studio",
+			"path": "libs\\reporting-studio\\src"
+		}
+	],
+	"settings": {
+		"editor.formatOnType": false,
+		"editor.roundedSelection": false,
+		"files.exclude": {
+			"**/.git": true,
+			"**/.svn": true,
+			"**/.hg": true,
+			"**/*.cs": true,
+			"**/.DS_Store": true,
+			"**/*.map": {
+				"when": "$(basename).map"
+			},
+			"**/*.js": {
+				"when": "$(basename).ts"
+			},
+			".vs/**": true,
+			".idea/**": true,
+			"bin/**": true,
+			"node_modules/**": true,
+			"obj/**": true,
+			"packages/**": true,
+			"*.sln": true,
+			"*.vssscc": true,
+			"*.csproj*": true,
+			"web.*.config": true
+		}
+	}
+}

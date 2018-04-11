@@ -17,16 +17,12 @@
         ".vs/**": true,
         ".idea/**": true,
         "bin/**": true,
-        "node_modules/**": true,
+        "node_modules/**": false,
         "obj/**": true,
         "packages/**": true,
         "*.sln": true,
         "*.vssscc": true,
         "*.csproj*": true,
         "web.*.config": true
-    },
-    "typescript.tsdk": "./node_modules/typescript/lib",
-    "typescript.check.tscVersion": false,
-    "vsicons.presets.angular": true,
-    "git.ignoreLimitWarning": true
+    }
 }
