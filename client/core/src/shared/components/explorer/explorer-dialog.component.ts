@@ -59,5 +59,5 @@ export class ExplorerDialogComponent extends TbComponent {
         .buffer(this.close$)
 
 
-    close() { this.close$.next(); this.opened = false; }
+    close() { this.close$.next(); this.opened = false; this.changeDetectorRef.detectChanges(); }
 }
