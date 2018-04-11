@@ -1,1 +1,7 @@
 @import '~@taskbuilder/core/style/tb.scss';
+tb-root{
+    display: flex;
+    flex:1;
+    height: 100%;
+}
+tb-login{flex:1}
