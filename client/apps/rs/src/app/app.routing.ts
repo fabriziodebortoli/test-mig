@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { environment } from './../environments/environment';
 
 import { CoreGuard, LoginComponent, PageNotFoundComponent, ProxyRouteComponent, LogoutComponent } from '@taskbuilder/core';
-import { StandaloneReportComponent, ReportingStudioComponent } from '@taskbuilder/reporting-studio';
+import { ReportingStudioComponent } from '@taskbuilder/reporting-studio';
 
 export const routing: ModuleWithProviders = RouterModule.forRoot([
   { path: '', component: RsHomeComponent, canActivate: [CoreGuard] },
