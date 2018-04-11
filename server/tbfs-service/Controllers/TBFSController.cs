@@ -169,12 +169,12 @@ namespace tbfs_service.Controllers
         /// <returns></returns>
         [HttpPost("UploadObject")]
         [RequestSizeLimit(100_000_000)]
-        public IActionResult UploadObject(ICollection<IFormFile> files, string currentNamespace) //applicazione moduleo e tipo ???
+        public IActionResult UploadObject(ICollection<IFormFile> files, string currentNamespace, string company, string user) //applicazione moduleo e tipo ???
         {
             var session = GetLoginInformation();
             if (session == null)
                 throw new AuthenticationException();
-            if (files == null || files.Count < 1)
+            if (files == null || files.Count <1)
                 throw new ArgumentNullException(nameof(files));
             try
             {
