@@ -194,7 +194,7 @@ int GetRelationship(CWnd* pWnd1, CWnd* pWnd2)
 
 	while ((pGrandParentWnd = pGrandParentWnd->GetParent()) != NULL)
 		if (
-				pGrandParentWnd->m_hWnd == pWnd2->m_hWnd ||
+//				pGrandParentWnd->m_hWnd == pWnd2->m_hWnd ||
 				pGrandParentWnd->IsChild(pWnd2) &&
 				(
 					pGrandParentWnd->IsKindOf(RUNTIME_CLASS(CFormView)) ||
@@ -10862,11 +10862,11 @@ bool CParsedForm::SetDefaultFocus()
 	if (!m_pControlLinks)
 		return false;
 
-//	Scommentare nel caso di verificassero ancora impropri Settaggi di fuoco al cambio di stato documento o altro 
-//	Vedi otimizzaznio id UpdateDataView() : germano 23/03/2018
+//	Ancora impropri Settaggi di fuoco al cambio di stato documento o altro 
+//	Vedi otimizzazione id UpdateDataView() : germano 23/03/2018
 //
-//	if (GetDocument() && GetDocument()->m_bNeedsUpdateDataView)
-//		GetDocument()->ExecuteUpdateDataView();
+	if (GetDocument() && GetDocument()->m_bNeedsUpdateDataView)
+		GetDocument()->ExecuteUpdateDataView();
 
 	if (!m_pControlLinks->HasFocusableControl(m_pOwnerWnd))
 		return false;
