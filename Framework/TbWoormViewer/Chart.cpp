@@ -895,7 +895,7 @@ BOOL Chart::SyncSeries(CSeries* pSeries)
 	}
 
 	pBCGSeries->ShowDataLabel(pSeries->m_bShowLabels);
-	if (m_eChartType == EnumChartType::Chart_Doughnut ||
+	/*if (m_eChartType == EnumChartType::Chart_Doughnut ||
 		m_eChartType == EnumChartType::Chart_Pie ||
 		m_eChartType == EnumChartType::Chart_DoughnutNested)
 	{
@@ -904,7 +904,7 @@ BOOL Chart::SyncSeries(CSeries* pSeries)
 		dataLabelOptions.m_bUnderlineDataLabel = TRUE;
 		dataLabelOptions.m_bDrawDataLabelBorder = dataLabelOptions.m_position != BCGPChartDataLabelOptions::LP_DEFAULT_POS && dataLabelOptions.m_position != BCGPChartDataLabelOptions::LP_OUTSIDE_END;
 		pChart->SetDataLabelsOptions(dataLabelOptions);
-	}
+	}*/
 	BCGPChartFormatSeries style = pBCGSeries->GetSeriesFormat();
 	style.SetSeriesFillOpacity(1 - pSeries->m_dTrasparency);
 	pBCGSeries->SetSeriesFormat(style);

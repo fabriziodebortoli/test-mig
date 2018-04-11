@@ -6,26 +6,32 @@
     <kendo-chart-series>
         <kendo-chart-series-item *ngFor="let item of chart.series" 
         [type]="getType(item)" 
-        [data]="item.data" 
-        
+        [data]="item.data"        
         [line]="{style:item.style}"
         fromField="x" 
         toField="y"
         categoryField="category" 
         [color]="item.color" 
         [opacity]="item.opacity">
-          <kendo-chart-series-item-labels-from [content]="labelContentFrom" [visible]="false">
+            <kendo-chart-series-item-labels-from 
+                [content]="labelContentFrom" 
+                [visible]="item.label"
+                color="item.color"  
+                background="none">
             </kendo-chart-series-item-labels-from>
-            <kendo-chart-series-item-labels [content]="labelContent" 
-            [position]="'outsideEnd'" 
-            [visible]="item.label" 
-            [color]="item.color"  
-            background="none">
-            </kendo-chart-series-item-labels>
+            <!-- <kendo-chart-series-item-labels-to 
+                [content]="labelContentTo" 
+                [visible]="item.label" 
+                color="item.color"  
+                background="none">
+            </kendo-chart-series-item-labels-to> -->
         </kendo-chart-series-item>
     </kendo-chart-series>
     <kendo-chart-category-axis>
-        <kendo-chart-category-axis-item [labels]="{ rotation: 'auto' }">
+        <kendo-chart-category-axis-item 
+        [axisCrossingValue]=[0,0]
+        [reverse]='true' 
+        [labels]="{ rotation: 'auto' }">
         </kendo-chart-category-axis-item>
     </kendo-chart-category-axis>
     <kendo-chart-tooltip>

@@ -36,10 +36,12 @@ export class ReportChartRangeBarComponent implements AfterViewInit {
     }
 
     public labelContentFrom(e: any): string {
-        return `${ e.value.from } `;
+        return  e.value.from ;
+        //return `${ e.value.from } `;
     }
   
     public labelContentTo(e: any): string {
-        return `${ e.value.to } `;
+        return  e.value.to ;
+        //return `${ e.value.to } `;
     }
 }
