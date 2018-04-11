@@ -15,12 +15,13 @@ import { TbMenuModule } from '@taskbuilder/menu';
 import { ReportingStudioModule } from '@taskbuilder/reporting-studio';
 
 import { environment } from './../environments/environment';
+import { RsHomeComponent } from './rs-home/rs-home.component';
 export function loadConfig(config) {
   return () => config.load(environment);
 }
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, RsHomeComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
