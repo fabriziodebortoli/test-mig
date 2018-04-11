@@ -41,6 +41,11 @@ PageLayout "default"
 			Begin
 				Align 67653 ;
 			End
+		Text (522,132,566,611) "testo in campo grande" 
+			Begin
+				Align 2133 ;
+				FontStyle "ListTitle" ;
+			End
 	End
 
 

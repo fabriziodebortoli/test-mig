@@ -27,8 +27,8 @@ export class ReportFieldrectComponent implements AfterViewInit {
       'position': 'absolute',
       'top': this.rect.rect.top + 'px',
       'left': this.rect.rect.left + 'px',
-      'height': this.rect.rect.bottom - this.rect.rect.top + 'px',
-      'width': this.rect.rect.right - this.rect.rect.left + 'px',
+      //'height': this.rect.rect.bottom - this.rect.rect.top + 'px',
+      //'width': this.rect.rect.right - this.rect.rect.left + 'px',
       'background-color': backgroundCol,
       'border-left': this.rect.borders.left ? this.rect.pen.width + 'px' : '0px',
       'border-right': this.rect.borders.right ? this.rect.pen.width + 'px' : '0px',
@@ -48,7 +48,7 @@ export class ReportFieldrectComponent implements AfterViewInit {
   applyValueStyle(): any {
     let borderSize = (this.rect.borders.left ? this.rect.pen.width : 0) + (this.rect.borders.right ? this.rect.pen.width : 0) ;
     let obj = {
-      //'width': this.rect.rect.right - this.rect.rect.left - borderSize + 'px',
+      'width': this.rect.rect.right - this.rect.rect.left - borderSize + 'px',
       'height': this.rect.rect.bottom - this.rect.rect.top - borderSize + 'px',  
       'font-family': this.rect.font.face,
       'font-size': this.rect.font.size + 'px',
@@ -82,14 +82,17 @@ export class ReportFieldrectComponent implements AfterViewInit {
       'vertical-align': this.rect.vertical_align,
       'text-align': this.rect.text_align,
       'overflow':'hidden',
+      'padding-right' : this.rect.text_align == 'right'?'2px':'0px',
+      'padding-left' : this.rect.text_align == 'left'?'2px':'0px',
     };
     return obj;
   }
 
   applyLabelStyle(): any {
+    let borderSize = (this.rect.borders.left ? this.rect.pen.width : 0) + (this.rect.borders.right ? this.rect.pen.width : 0) ;
     let obj = {
-      'width': this.rect.rect.right - this.rect.rect.left + 'px',
-      'height': this.rect.rect.bottom - this.rect.rect.top + 'px',
+      'width': this.rect.rect.right - this.rect.rect.left - borderSize + 'px',
+      'height': this.rect.rect.bottom - this.rect.rect.top - borderSize + 'px',
       'font-family': this.rect.label.font.face,
       'font-size': this.rect.label.font.size + 'px',
       'font-style': this.rect.label.font.italic ? 'italic' : 'normal',
@@ -110,8 +113,10 @@ export class ReportFieldrectComponent implements AfterViewInit {
     let obj = {
       'width': 'inherit',
       'vertical-align': this.rect.label.vertical_align,
-      'text-align': this.rect.text_align,
-      'overflow':'hidden',  
+      'text-align': this.rect.label.text_align,
+      'overflow':'hidden', 
+      'padding-right' : this.rect.label.text_align == 'right'?'2px':'0px',
+      'padding-left' : this.rect.label.text_align == 'left'?'2px':'0px',
     };
     return obj;
   }
