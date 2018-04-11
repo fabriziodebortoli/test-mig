@@ -90,7 +90,7 @@ export { ActivationService } from './services/activation.service';
 
 export const TB_SERVICES = [
     TbComponentService, TbComponentServiceParams, BOService, BOServiceParams, ComponentService, DocumentService, DataService,
-    EnumsService, ParameterService,
+    EnumsService, ParameterService, ComponentInfoService,
     FormattersService, EventDataService, ExplorerService, HttpService, InfoService, LayoutService, Logger, AuthService,
     TaskBuilderService, SidenavService, TabberService, UtilsService, WebSocketService, ThemeService,
     LoadingService, DiagnosticService, SettingsService, EventManagerService, Store, BodyEditService, RsSnapshotService,
