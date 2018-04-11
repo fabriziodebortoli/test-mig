@@ -34,6 +34,11 @@ DataBool PassKeyLogin()
 			return FALSE;
 		}
 	}
+	else if (AfxGetApplicationContext()->IsPassKeyActive())
+		AfxMessageBox(_TB("Pass-Key already validated"));
+	else 
+		AfxMessageBox(_TB("Functionality already licensed"));
+
 	return TRUE;
 }
 
