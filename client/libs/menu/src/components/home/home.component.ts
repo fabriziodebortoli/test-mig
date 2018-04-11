@@ -100,8 +100,10 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
 
     this.subscriptions.push(this.componentService.componentInfoRemoved.subscribe(cmp => {
       
-      let idx = this.kendoTabStripInstance.tabs._results.findIndex((t) => t.active);
-      this.kendoTabStripInstance.selectTab(idx===this.kendoTabStripInstance.tabs.length-1 ? --idx : idx);
+      // let idx = this.kendoTabStripInstance.tabs._results.findIndex((t) => t.active);
+      // this.kendoTabStripInstance.selectTab(idx===this.kendoTabStripInstance.tabs.length-1 ? --idx : idx);
+
+      this.kendoTabStripInstance.selectTab(0);
       
     }));
 
