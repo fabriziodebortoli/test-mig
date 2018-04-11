@@ -432,6 +432,7 @@ namespace Microarea.RSWeb.Render
                             this.Report.SymTable.SaveAskDialogFieldsState();
 
                             Report.SaveInfo();  // State.ExecuteInizialize
+
                             if (!reRun && (!Woorm.LoadDocument() || !Woorm.ParseDocument()))
                             {
                                 BuildErrors(Woorm.Diagnostic);
@@ -493,17 +494,7 @@ namespace Microarea.RSWeb.Render
                             {
                                 Report.ExecuteAfterAsk();
 
-                                //Report.SaveInfo();
-
-                                //if (!Woorm.LoadDocument() || !Woorm.ParseDocument())
-                                //{
-                                //	BuildErrors(Woorm.Diagnostic);
-                                //	CurrentState = State.ViewerError;
-                                //	break;
-                                //}
-
                                 CurrentState = State.ExecuteExtraction;
-
                                 break;
                             }
 
@@ -518,8 +509,11 @@ namespace Microarea.RSWeb.Render
 
                     case State.ExecuteExtraction:
                         {
-                            Report.SaveInfo();  //State.ExecuteExtraction
-                            Woorm.RdeReader.LoadInfo();
+                            FieldSymbolTable symTable = (Report.EngineType == EngineType.PDFSharp_OfficePDF) ?
+                                                            Report.SymTable.Fields :
+                                                            Report.SymTable.AskDialogState;
+
+                            Woorm.UpdateSymbolTable(symTable);
 
                             Report.Engine.Status = ReportEngine.ReportStatus.FirstRow;
                             {
@@ -876,8 +870,8 @@ namespace Microarea.RSWeb.Render
                                 TbSession.TbAssignWoormParameters(this.reportSession);
                             }
 
-                            Report.SaveInfo(); //   InternalState.ExecuteLastStep:
-                            Woorm.RdeReader.LoadInfo();
+                            //Report.SaveInfo(); //   InternalState.ExecuteLastStep:
+                            //Woorm.RdeReader.LoadInfo();
 
                             if (Report.ExitStatus == RuleReturn.Backtrack)
                             {

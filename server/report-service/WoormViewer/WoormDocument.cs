@@ -1103,8 +1103,22 @@ namespace Microarea.RSWeb.WoormViewer
 			return true;
 		}
 
-		//------------------------------------------------------------------------------
-		protected bool ParseWoormDocument()
+        //------------------------------------------------------------------------------
+        public void UpdateSymbolTable(FieldSymbolTable symTable)
+        {
+            foreach (Field field in symTable)
+            {
+                if (field.InternalId <= 0 || field.IsSubTotal) continue;
+                if (field.Ask || field.Input)
+                {
+                    Variable v = this.SymbolTable.FindById(field.Id);
+                    v.SetAllData(field.Data, true);
+                }
+            }
+        }
+
+        //------------------------------------------------------------------------------
+        protected bool ParseWoormDocument()
 		{
 			bool ok =	ParseHeadData		(Lex)&&
 						ParseOSLInfo		(Lex)&&

@@ -8,6 +8,7 @@ using Microarea.RSWeb.WoormEngine;
 using Microarea.RSWeb.Objects;
 using Microarea.Common.CoreTypes;
 using System.Drawing;
+using System.Diagnostics;
 
 namespace Microarea.RSWeb.WoormViewer
 {
@@ -459,7 +460,14 @@ namespace Microarea.RSWeb.WoormViewer
         //---------------------------------------------------------------------
         override public string ToJson(bool template, string name, bool bracket = false, bool array = true)
         {
-            this.CheckDynamicColumns();  //RSWEB TODO dynamic width column/anchored fields
+            try
+            {
+                this.CheckDynamicColumns();  //RSWEB TODO dynamic width column/anchored fields
+            }
+            catch (Exception ex)
+            {
+                //
+            }
 
             string s = string.Empty;
             if (!name.IsNullOrEmpty())
