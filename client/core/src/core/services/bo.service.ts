@@ -47,6 +47,7 @@ export class BOService extends DocumentService {
             components.forEach(cmp => {
                 if (cmp.id === cmpId) {
                     this.applyPatch(this.eventData.activation, cmp.activation, '', true);
+                    this.eventData.change.emit();
                     this.eventData.activationChanged.emit();
                 }
             });
