@@ -201,7 +201,6 @@ export class BOService extends DocumentService {
             let commonElNumber = 0;
             if (model.length > patch.length) {//il server ha meno elementi
                 commonElNumber = patch.length; //devo applicare il delta ai primi n elementi
-                model.splice(0, model.length - patch.length);
             } else if (model.length < patch.length) { //il server ha più elementi
                 commonElNumber = model.length; //devo applicare il delta ai primi n elementi
                 //gli altri in più li aggiungo secchi
@@ -219,6 +218,9 @@ export class BOService extends DocumentService {
             //applico il delta agli elementi comuni
             for (let i = 0; i < commonElNumber; i++) {
                 this.applyPatch(model[i], patch[i], this.addPrefix(name, '[' + i.toString() + ']'), addEvents);
+            }
+            if (model.length > patch.length) {//il server ha meno elementi, tolgo quelli in più nel client
+                model.splice(commonElNumber, model.length - patch.length);
             }
         }
         else if (isDataObj(model)) {
@@ -311,12 +313,12 @@ export class BOService extends DocumentService {
         this.webSocketService.checkMessageDialog(cmpId);
         this.webSocketService.getDocumentData(cmpId);
     }
-    public dispose() { 
+    public dispose() {
         super.dispose();
         delete this.serverSideCommandMap;
         this.subscriptions.forEach(sub => sub.unsubscribe());
     }
- 
+
     public close() {
         super.close();
         this.webSocketService.closeServerComponent(this.mainCmpId);
@@ -333,10 +335,10 @@ export class BOService extends DocumentService {
         this.webSocketService.getActivationData(cmpId);
     }
 
-    public activateContainer(id: string, active:boolean, isTileGroup: boolean) {
+    public activateContainer(id: string, active: boolean, isTileGroup: boolean) {
         this.webSocketService.activateContainer(this.mainCmpId, id, active, isTileGroup);
     }
-    public doCommand(componentId: string, commandId: string, controlId:string) {
+    public doCommand(componentId: string, commandId: string, controlId: string) {
         const patch = this.getPatchedData();
         this.webSocketService.doCommand(
             componentId ? componentId : this.mainCmpId,
