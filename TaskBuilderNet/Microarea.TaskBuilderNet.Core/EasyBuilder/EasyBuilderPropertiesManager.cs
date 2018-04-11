@@ -82,6 +82,9 @@ namespace Microarea.TaskBuilderNet.Core.EasyBuilder
     //=======================================================================
     public class EasyBuilderPropertiesManager
     {
+        readonly Type enumTagType = typeof(Applications.EnumTag);
+        readonly Type enumItemType = typeof(Applications.EnumItem);
+
         //-----------------------------------------------------------------------------
         private ICustomTypeDescriptor component;
         private EasyBuilderPropertiesOrderBy orderBy;
@@ -315,9 +318,19 @@ namespace Microarea.TaskBuilderNet.Core.EasyBuilder
 
 
             IList<PropertyDescriptor> newList = new List<PropertyDescriptor>();
-
+            Type componentType = null;
             foreach (PropertyDescriptor des in defaultProperties)
-                newList.Add(new EasyBuilderPropertyDescriptor(des));
+            {
+                componentType = des.ComponentType;
+                if (componentType == enumTagType || componentType == enumItemType)
+                {
+                    newList.Add(new EnumsPropertyDescriptor(des));
+                }
+                else
+                {
+                    newList.Add(new EasyBuilderPropertyDescriptor(des));
+                }
+            }
 
             // aggiungo quelle degli extender
             IEasyBuilderComponentExtendable extendable = component as IEasyBuilderComponentExtendable;
@@ -351,7 +364,15 @@ namespace Microarea.TaskBuilderNet.Core.EasyBuilder
 						PropertyDescriptor prop = extenderDefaultProperties[ext.AccessorPropertyName];
 						if (prop != null)
 						{
-							newList.Add(new EasyBuilderPropertyDescriptor(ext.Name, prop));
+                            componentType = prop.ComponentType;
+                            if (componentType == enumTagType || componentType == enumItemType)
+                            {
+                                newList.Add(new EnumsPropertyDescriptor(ext.Name, prop));
+                            }
+                            else
+                            {
+                                newList.Add(new EasyBuilderPropertyDescriptor(ext.Name, prop));
+                            }
 						}
 					}
 					

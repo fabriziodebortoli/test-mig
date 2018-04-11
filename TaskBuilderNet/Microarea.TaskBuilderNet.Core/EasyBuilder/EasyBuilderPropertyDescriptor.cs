@@ -272,7 +272,33 @@ namespace Microarea.TaskBuilderNet.Core.EasyBuilder
 		}
 	}
 
-	public class DataObjPropertyDescriptor<TRecord> : PropertyDescriptor
+    public class EnumsPropertyDescriptor : EasyBuilderPropertyDescriptor
+    {
+        //--------------------------------------------------------------------------------
+        public EnumsPropertyDescriptor(PropertyDescriptor descriptor)
+            : base(descriptor)
+        {
+            
+        }
+
+        //--------------------------------------------------------------------------------
+        internal EnumsPropertyDescriptor(string name, PropertyDescriptor descriptor)
+            :
+            base(name, descriptor)
+        {
+        }
+
+        //--------------------------------------------------------------------------------
+        public override void SetValue(object component, object value)
+        {
+            var purgedValue = EnumsDeclarator.Purge(value as string);
+
+            base.SetValue(component, purgedValue);
+        }
+    }
+
+
+    public class DataObjPropertyDescriptor<TRecord> : PropertyDescriptor
 	{
 		PropertyInfo pi;
 		private Type propType;
