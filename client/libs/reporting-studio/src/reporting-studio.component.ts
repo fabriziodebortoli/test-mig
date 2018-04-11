@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ElementRef, ViewEncapsulation, ChangeDetectorRef, Input, ChangeDetectionStrategy, NgZone } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 
 import { WebSocketService, InfoService, DocumentComponent, ComponentService, EventDataService, UtilsService, RsSnapshotService, DiagnosticService } from '@taskbuilder/core';
 
@@ -66,6 +66,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     eventData: EventDataService,
     public changeDetectorRef: ChangeDetectorRef,
     public infoService: InfoService,
+    private route: ActivatedRoute,
+    private router: Router,
     public componentService: ComponentService,
     public tbLoaderWebSocketService: WebSocketService/*global ws connection used at login level, to communicatewith tbloader */,
     private ngZone: NgZone) {
@@ -77,6 +79,15 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
   // -----------------------------------------------
   ngOnInit() {
+
+    let ns = this.route.snapshot.paramMap.get('ns');
+    if(ns){
+      this.args = {};
+      this.args.nameSpace = ns;      
+      let params = this.route.snapshot.paramMap.get('params');
+      if(params) this.args.params = params;
+    }
+
     super.ngOnInit();
     this.eventData.model = { 'Title': { 'value': "..." } };
 
@@ -138,7 +149,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
 
     this.rsService.namespace = this.args.nameSpace;
 
-    if (this.args.params.runAtTbLoader) {
+    if (this.args.params && this.args.params.runAtTbLoader) {
       message.componentId = this.cmpId;
     }
 
@@ -264,7 +275,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   getData() {
     let message = {
       commandType: CommandType.DATA,
-      message: this.args.params.xmlArgs,
+      message: this.args && this.args.params ? this.args.params.xmlArgs : '',
       page: 0
     };
     this.ngZone.runOutsideAngular(() => this.rsService.doSend(JSON.stringify(message)));

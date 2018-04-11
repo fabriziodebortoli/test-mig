@@ -8,10 +8,11 @@ import { CoreGuard, LoginComponent, PageNotFoundComponent, ProxyRouteComponent, 
 import { ReportingStudioComponent } from '@taskbuilder/reporting-studio';
 
 export const routing: ModuleWithProviders = RouterModule.forRoot([
-  { path: '', component: RsHomeComponent, canActivate: [CoreGuard] },
+  { path: '', redirectTo: '/home', pathMatch: 'full', canActivate: [CoreGuard] },
+  { path: 'home', component: RsHomeComponent, canActivate: [CoreGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'rs/:ns', component: ReportingStudioComponent, canActivate: [CoreGuard] },
-  { path: 'logout', component: LogoutComponent },
+  { path: 'logout', component: LogoutComponent, canActivate: [CoreGuard] },
   { path: '**', component: PageNotFoundComponent },
 ]);
 
