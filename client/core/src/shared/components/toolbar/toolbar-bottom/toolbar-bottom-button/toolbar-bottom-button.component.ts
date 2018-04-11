@@ -15,8 +15,9 @@ export class ToolbarBottomButtonComponent {
   private _checkStatus = CheckStatus.UNDEFINED;
   @Input() caption: string = '--unknown--';
   @Input() cmpId: string = '';
-  @Input() icon:string = '';
+  @Input() icon: string = '';
 
+  @Input() b = false;
   constructor(public eventData: EventDataService, public ciService: ComponentInfoService) { }
 
 
@@ -24,10 +25,13 @@ export class ToolbarBottomButtonComponent {
     this._disabled = value;
   }
   public get disabled(): boolean {
-    return this._disabled ||
-      (this.eventData.buttonsState &&
-      this.eventData.buttonsState[this.cmpId] &&
-      !this.eventData.buttonsState[this.cmpId].enabled);
+    if (this._disabled) {
+      return true;
+    }
+    if (this.eventData.buttonsState &&
+      this.eventData.buttonsState[this.cmpId])
+      return !this.eventData.buttonsState[this.cmpId].enabled;
+    return false;
   }
   @Input() public set checkStatus(value: CheckStatus) {
     this._checkStatus = value;
