@@ -27,11 +27,17 @@ export class SFMPageComponent extends DocumentComponent implements OnInit {
 
     async ngOnInit() {
         super.ngOnInit();
+        this.eventData.model = { 'Title': { 'value': "Manufacturing Data Collection" } };
 
         await this.FillData();
-
-//        this.processingsList = groupBy(this.processingsList, 'MA_MO_MONo');
         
+        for (let elem of this.processingsList) {
+            if (elem.MA_MOSteps_ProductionQty > 0)
+                elem["SF_LabourAssignment_Percentage"] = elem.MA_MOSteps_ProducedQty * 100 / elem.MA_MOSteps_ProductionQty;
+            else
+                elem["SF_LabourAssignment_Percentage"] = 0;
+        }
+
         for (let elem of this.messagesList) {
 
             if (elem.SF_LabourMessages_MessageType == '2044788736')
@@ -58,6 +64,11 @@ export class SFMPageComponent extends DocumentComponent implements OnInit {
                 elem["SF_LabourMessages_ExpireMessage"] = "";
         }
     }
+
+    getPercentage(elem: any) {
+        let perc: number = 76;
+        return perc;
+     }	
       
     async FillData() {
         let p1 = new URLSearchParams();
@@ -72,21 +83,6 @@ export class SFMPageComponent extends DocumentComponent implements OnInit {
         if (data2 !== undefined)
             this.messagesList.push(...data2.rows);            
     }
-
-
-    // groupBy(list, keyGetter) {
-    //     const map = new Map();
-    //     list.forEach((item) => {
-    //         const key = keyGetter(item);
-    //         const collection = map.get(key);
-    //         if (!collection) {
-    //             map.set(key, [item]);
-    //         } else {
-    //             collection.push(item);
-    //         }
-    //     });
-    //     return map;
-    // }        
 }
 
 @Component({
@@ -97,17 +93,3 @@ export class SFMPageFactoryComponent {
         componentService.createComponent(SFMPageComponent, resolver, { name: 'sfm' });
     }
 } 
-
-// function groupBy(array, f)
-// {
-//     var groups = {};
-//     array.forEach(function(o)
-//     {
-//         var group = JSON.stringify(f(o));
-//         groups[group] = groups[group] || [];
-//         groups[group].push( o );  
-//     });
-//     return Object.keys(groups).map(function(group)
-//     { return groups[group]; })
-// }
-

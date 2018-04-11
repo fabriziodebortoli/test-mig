@@ -1,0 +1,61 @@
+<div class="card text-white bg-dark ml-4 mb-4">
+    <div class="card-header">MO {{rec.MA_MOSteps_MONo}} {{rec.SF_LabourAssignment_RtgStep}} {{rec.SF_LabourAssignment_Alternate}} {{rec.SF_LabourAssignment_AltRtgStep}}
+        <span [ngClass]="statusColor" class="badge float-right m-2">{{status}}</span>
+    </div>
+    <div class="card-body">
+        <h4 class="card-title">{{rec.MA_MOSteps_BOM}} {{rec.MA_Items_BOMDescription}}</h4>
+        <div class="progress mb-3">
+            <div [ngClass]="progressBarColor" class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" [style.width]="rec.SF_LabourAssignment_Percentage + '%'">{{rec.SF_LabourAssignment_Percentage}}%</div>
+        </div>
+        <tr>
+            <td>
+                <div class="card text-white bg-secondary ml-1 mb-1" style="width: 10rem; height: 8rem">
+                    <div class="card-header">Operation</div>
+                    <div class="card-body ScrollableCard">
+                        <h5 class="card-text">{{rec.MA_MOSteps_Operation}}</h5>
+                        <p class="card-text">
+                            <small>{{rec.MA_Operations_Description}}</small>
+                        </p>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="card text-white bg-secondary ml-1 mb-1" style="width: 10rem; height: 8rem">
+                    <div class="card-header">Work Center</div>
+                    <div class="card-body ScrollableCard">
+                        <h5 class="card-text">{{rec.MA_MOSteps_WC}}</h5>
+                        <p class="card-text">
+                            <small>{{rec.MA_WorkCenters_Description}}</small>
+                        </p>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="card text-white bg-secondary ml-1 mb-1" style="width: 10rem; height: 8rem">
+                    <div class="card-header">Production Qty</div>
+                    <div class="card-body">
+                        <h5 class="card-text">{{rec.MA_MOSteps_ProductionQty}}</h5>
+                        <p class="card-text">
+                            <small>{{rec.MA_MOSteps_UoM}}</small>
+                        </p>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div [ngClass]="{
+                        'bg-secondary': rec.MA_MOSteps_ProducedQty == 0,
+                        'bg-warning': rec.MA_MOSteps_ProducedQty < rec.MA_MOSteps_ProductionQty && rec.MA_MOSteps_ProducedQty > 0,
+                        'bg-success': rec.MA_MOSteps_ProducedQty >= rec.MA_MOSteps_ProductionQty}" class="card text-white ml-1 mb-1"
+                    style="width: 10rem; height: 8rem">
+                    <div class="card-header">Produced Qty</div>
+                    <div class="card-body">
+                        <h5 class="card-text">{{rec.MA_MOSteps_ProducedQty}}</h5>
+                        <p class="card-text">
+                            <small>{{rec.MA_MOSteps_UoM}}</small>
+                        </p>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </div>
+</div>

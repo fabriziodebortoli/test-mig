@@ -1,17 +1,32 @@
-<tb-frame>
-    <tb-toolbar-top [title]="'SFM'">
-        <tb-toolbar-top-button icon="tb-find" [caption]="_TB('Search')" cmpId=""></tb-toolbar-top-button>
-    </tb-toolbar-top>
-    <tb-frame-content>
-        <table>
-            <th>Workder ID</th>
-            <th>ManOrd ID</th>
-            <th>RtgStep</th>
-            <tr *ngFor="let elem of prova">
-                <td>{{elem.SF_LabourAssignment_WorkerID}}</td>
-                <td>{{elem.SF_LabourAssignment_ManOrdId}}</td>
-                <td>{{elem.SF_LabourAssignment_RtgStep}}</td>
-            </tr>
-        </table>
-    </tb-frame-content>
-</tb-frame>
+<div>
+    <div>
+        <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-secondary"> -->
+        <nav class="navbar navbar-dark bg-secondary">
+            <a class="navbar-brand" href="#">Customer</a>
+            <a class="navbar-brand" href="#">Job</a>
+            <a class="navbar-brand" href="#">Sale Order</a>
+            <a class="navbar-brand" href="#">Operation</a>
+            <a class="navbar-brand" href="#">Work Center</a>
+            <a class="navbar-brand" href="#">MO</a>
+            <a class="navbar-brand" href="#">MO Routing Step</a>
+        </nav>
+    </div>
+    <br>
+    <div class="d-flex align-content-start flex-wrap main">
+        <div *ngFor="let elem of processingsList">
+            <mostep [rec]="elem"></mostep>
+        </div> 
+    </div>
+</div>
+<footer class="footer">
+    <div class="message-list" class="list-group">
+        <div class="list-group-item list-group-item-action flex-column align-items-start list-group-item-dark" *ngFor="let elem of messagesList">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{elem.SF_LabourMessages_Header}}</h5>
+                <small>{{elem.SF_LabourMessages_To}}</small>
+            </div>
+            <p class="mb-1">{{elem.SF_LabourMessages_MessageText}}</p>
+            <small *ngIf="elem.SF_LabourMessages_ExpireMessage > ''">Expire on {{elem.SF_LabourMessages_ExpireMessage}}</small>
+        </div>
+    </div>
+</footer>

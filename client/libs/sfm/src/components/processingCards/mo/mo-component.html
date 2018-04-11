@@ -1,0 +1,26 @@
+<div class="card text-white bg-dark ml-4 mb-4">
+    <div class="card-header">{{moNumber}}
+        <span class="badge badge-pill badge-secondary float-right m-2">{{allWorkers}}</span>
+        <span [ngClass]="statusColor" class="badge float-right m-2">{{status}}</span>
+    </div>
+    <div class="card-body">
+        <h4 class="card-title">{{item}} {{rec.MA_Items_BOMDescription}}</h4>
+        <div class="progress mb-3">
+            <div [ngClass]="progressBarColor" class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" [style.width]="percentage">{{percentage}}</div>
+        </div>
+        <tr>
+            <td>
+                <elementCard sameHeight="true" header="Dates" [code]="starDate" [description]="endDate"></elementCard>
+            </td>
+            <td>
+                <elementCard sameHeight="true" header="Times" [code]="setupTime" [description]="processingTime"></elementCard>
+            </td>
+            <td>
+                <elementCard header="Production Qty" [code]="rec.MA_MO_ProductionQty" [description]="rec.MA_MO_UoM"></elementCard>
+            </td>
+            <td>
+                <elementCard [backgroundColor]="producedQtyColor" header="Produced Qty" [code]="totalQty" [description]="rec.MA_MO_UoM"></elementCard>
+            </td>
+        </tr>
+    </div>
+</div>

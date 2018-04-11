@@ -14,15 +14,6 @@ export { SFMPageComponent, SFMPageFactoryComponent } from './sfm-page/sfm-page.c
 import { SFMStandaloneComponent } from './sfm-standalone/sfm-standalone.component';
 export { SFMStandaloneComponent } from './sfm-standalone/sfm-standalone.component';
 
-import { elementCardComponent } from './components/elementCard/elementCard-Component';
-export { elementCardComponent } from './components/elementCard/elementCard-Component';
-
-import { moComponent } from './components/processingCards/mo/mo-Component';
-export { moComponent } from './components/processingCards/mo/mo-Component';
-
-import { mostepComponent } from './components/processingCards/mostep/mostep-Component';
-export { mostepComponent } from './components/processingCards/mostep/mostep-Component';
-
 @NgModule({
   imports: [
     CommonModule,
@@ -32,10 +23,8 @@ export { mostepComponent } from './components/processingCards/mostep/mostep-Comp
       { path: 'page', component: SFMPageFactoryComponent }
     ])
   ],
-  declarations: [SFMPageComponent, SFMPageFactoryComponent, SFMStandaloneComponent,
-    elementCardComponent, mostepComponent, moComponent],
-  exports: [SFMPageComponent, SFMPageFactoryComponent, SFMStandaloneComponent, 
-            elementCardComponent, mostepComponent, moComponent],
+  declarations: [SFMPageComponent, SFMPageFactoryComponent, SFMStandaloneComponent],
+  exports: [SFMPageComponent, SFMPageFactoryComponent, SFMStandaloneComponent],
   entryComponents: [SFMPageComponent, SFMPageFactoryComponent, SFMStandaloneComponent]
 })
 export class SFMModule {}
