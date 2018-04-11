@@ -115,7 +115,7 @@ namespace Microarea.TbJson
                 default:
                     return null;
             }
-                       
+
         }
 
         //-----------------------------------------------------------------------------
@@ -246,15 +246,37 @@ namespace Microarea.TbJson
                 return 10;//vista o altri oggetti analoghi
             }));
             jObj[Constants.items] = sorted;
-            foreach (JObject jButton in sorted)
-            {
-                jAr = jButton.GetItems();
-                if (jAr == null)
-                    continue;
-                JArray buttonsSorted = new JArray(jAr.OrderBy(obj => obj.GetButtonOrdinal()));
-                jButton[Constants.items] = buttonsSorted;
-            }
+            foreach (JObject jItem in sorted)
+                if (jItem.GetWndObjType() == WndObjType.Toolbar)
+                    SortToolbar(jItem);
         }
+
+        //-----------------------------------------------------------------------------
+        private static void SortToolbar(JObject jToolbar)
+        {
+            JArray jAr = jToolbar.GetItems();
+            if (jAr?.Count == 0)
+                return;
+
+            JObject sueEllen = (JObject)jAr[0];
+            if (sueEllen.GetWndObjType() == WndObjType.Toolbar)
+            {
+                JArray buttonsSorted = new JArray(jAr.OrderBy(obj => obj.GetToolbarOrdinal()));
+                jToolbar[Constants.items] = buttonsSorted;
+                foreach (JObject jItem in buttonsSorted)
+                    SortToolbar(jItem);
+            }
+            else
+            {
+                JArray buttonsSorted = new JArray(jAr.OrderBy(obj => obj.GetButtonOrdinal()));
+                jToolbar[Constants.items] = buttonsSorted;
+            }
+            
+            
+        }
+
+
+
         //-----------------------------------------------------------------------------
         internal static void ReplaceEnums(this JObject jObj)
         {
@@ -504,7 +526,18 @@ namespace Microarea.TbJson
             return 100;//bottoni residuali
         }
 
+    internal static int GetToolbarOrdinal(this JToken jObj)
+        {
 
+            string ngClass = jObj.GetFlatString(Constants.ngClass);
+            if (string.IsNullOrEmpty(ngClass))
+                return 0;
+            switch (ngClass)
+            {
+                case "menu-category undefined": return 100;
+                default: return 1;
+            }
+        }
         /// <summary>
         /// Appende una stringa allo StringBuilder controllando che non sia già presente
         /// </summary>
