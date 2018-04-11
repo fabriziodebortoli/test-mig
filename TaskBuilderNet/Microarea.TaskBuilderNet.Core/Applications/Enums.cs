@@ -84,6 +84,21 @@ namespace Microarea.TaskBuilderNet.Core.Applications
 			set
 			{
 				OnPropertyChanging(new PropertyChangingEventArgs("Name"));
+
+                if (owner != null)
+                {
+                    foreach (EnumItem item in owner.EnumItems)
+                    {
+                        if (!Object.ReferenceEquals(this, item))
+                        {
+                            if (string.Compare(value, item.name, StringComparison.InvariantCulture) == 0)
+                            {
+                                throw new Exception(string.Format("An EnumItem named '{0}' already exists", value));
+                            }
+                        }
+                    }
+                }
+
 				name = value;
 				OnPropertyChanged(new PropertyChangedEventArgs("Name"));
 
@@ -573,7 +588,7 @@ namespace Microarea.TaskBuilderNet.Core.Applications
 			set
 			{
 				OnPropertyChanging(new PropertyChangingEventArgs("Name"));
-				name = value;
+                name = value;
 				OnPropertyChanged(new PropertyChangedEventArgs("Name"));
 
 				if (this.site != null)
