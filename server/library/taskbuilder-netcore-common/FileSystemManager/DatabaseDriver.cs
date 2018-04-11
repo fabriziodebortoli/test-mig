@@ -300,7 +300,7 @@ namespace Microarea.Common.FileSystemManager
 	        {
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append(e.Message + " ---------");
+                sb.Append(e.Message + " - " + " public TBFile GetTBFile(string strPathFileName)"  + "---------");
 
                 File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                 sb.Clear();
@@ -344,7 +344,7 @@ namespace Microarea.Common.FileSystemManager
 	        {
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append(e.Message + " ---------");
+                sb.Append(e.Message + " - " +  "public List<string> GetAllApplicationInfo(string dir) " + " ---------");
 
                 File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                 sb.Clear();
@@ -408,7 +408,7 @@ namespace Microarea.Common.FileSystemManager
 	        {
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append(e.Message + " ---------");
+                sb.Append(e.Message  + " - " + "        public List<string> GetAllModuleInfo(string strAppName)"  +"---------");
 
                 File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                 sb.Clear();
@@ -479,7 +479,7 @@ namespace Microarea.Common.FileSystemManager
 
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append(e.Message + " ---------");
+                sb.Append(e.Message + " - " + "               public int GetFolder( string strPathName,  bool bCreate)" + " ---------");
 
                 File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                 sb.Clear();
@@ -594,7 +594,7 @@ namespace Microarea.Common.FileSystemManager
             {
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append(e.Message + " ---------");
+                sb.Append(e.Message +" - " + "               public int GetFile( string strPathName,  bool bCreate)" + " ---------");
 
                 File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                 sb.Clear();
@@ -890,7 +890,7 @@ namespace Microarea.Common.FileSystemManager
 	        {
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append(e.Message + " ---------");
+                sb.Append(e.Message + " - " + "  public List<TBFile> GetTBFilesInfo( string strConnectionString,  string strCommandText, bool bFromCustom)" + " ---------");
 
                 File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                 sb.Clear();
@@ -929,7 +929,8 @@ namespace Microarea.Common.FileSystemManager
 	        {
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append(e.Message + " ---------");
+                sb.Append(e.Message + " - " + " public List<TBFile> GetStandardTBFileInfo( string whereClause)" + " ---------");
+
 
                 File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                 sb.Clear();
@@ -956,9 +957,8 @@ namespace Microarea.Common.FileSystemManager
 	        catch (SqlException e)
 	        {
                 StringBuilder sb = new StringBuilder();
-
-                sb.Append(e.Message + " ---------");
-
+                
+                sb.Append(e.Message + " - " + "  public List<TBFile> GetCustomTBFileInfo( string whereClause)" + " ---------");
                 File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                 sb.Clear();
                 throw (e);
@@ -1080,7 +1080,8 @@ namespace Microarea.Common.FileSystemManager
 	        {
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append(e.Message + " ---------");
+
+                sb.Append(e.Message + " - " + "         public bool SaveTBFile(TBFile pTBFile,  bool bOverWrite)" + " ---------");
 
                 File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                 sb.Clear();
@@ -1183,7 +1184,8 @@ namespace Microarea.Common.FileSystemManager
 	        {
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append(e.Message + " ---------");
+                sb.Append(e.Message + " - " + " public bool RemoveParentFolders(SqlConnection sqlConnection, String tableName, Int32 fileID)" + " ---------");
+
 
                 File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                 sb.Clear();
@@ -1223,9 +1225,8 @@ namespace Microarea.Common.FileSystemManager
 	        {
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append(e.Message + " ---------");
-
-                File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
+                 sb.Append(e.Message + " - " + "public bool RemoveRecursiveFolder(SqlConnection sqlConnection, String tableName, Int32 parentID)" + " ---------");
+                 File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                 sb.Clear();
 
                 if (ad != null)
@@ -1310,7 +1311,8 @@ namespace Microarea.Common.FileSystemManager
 	        {
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append(e.Message + " ---------");
+                sb.Append(e.Message + " - " + "       public void RemoveFolder( string strPathName,  bool bRecursive,  bool bRemoveRoot,  bool bAndEmptyParents /*= false*/)" + " ---------");
+
 
                 File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                 sb.Clear();
@@ -1453,7 +1455,9 @@ namespace Microarea.Common.FileSystemManager
 	        {
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append(e.Message + " ---------");
+                sb.Append(e.Message + " - " + "   getsubfolder" + " ---------");
+
+                
 
                 File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                 sb.Clear();
@@ -1524,7 +1528,9 @@ namespace Microarea.Common.FileSystemManager
 	        {
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append(e.Message + " ---------");
+                sb.Append(e.Message + " - " + "      gettbfoldercontent" + "---------");
+
+
 
                 File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                 sb.Clear();
@@ -1604,7 +1610,10 @@ namespace Microarea.Common.FileSystemManager
 	        {
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append(e.Message + " ---------");
+
+                sb.Append(e.Message + " - " + "      getpathcontent" + "---------");
+
+
 
                 File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                 sb.Clear();
@@ -1691,7 +1700,9 @@ namespace Microarea.Common.FileSystemManager
 	        {
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append(e.Message + " ---------");
+                sb.Append(e.Message + " - " + "      GetFiles"  + "---------");
+
+
 
                 File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                 sb.Clear();

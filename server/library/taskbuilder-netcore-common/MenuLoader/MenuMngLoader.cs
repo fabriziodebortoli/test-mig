@@ -359,7 +359,7 @@ namespace Microarea.Common.MenuLoader
                 {
                     StringBuilder sb = new StringBuilder();
 
-                    sb.Append(e.Message + " ---------");
+                    sb.Append(e.Message + " load menumngloader" + " ---------");
 
                     File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                     sb.Clear();
@@ -398,7 +398,7 @@ namespace Microarea.Common.MenuLoader
                 {
                     StringBuilder sb = new StringBuilder();
 
-                    sb.Append(e.Message + " ---------");
+                    sb.Append(e.Message + "load menumanagerloader"  + " ---------");
 
                     File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                     sb.Clear();
@@ -420,7 +420,8 @@ namespace Microarea.Common.MenuLoader
                 {
                     StringBuilder sb = new StringBuilder();
 
-                    sb.Append(e.Message + " ---------");
+                    sb.Append(e.Message + "save menumngloader" + " ---------");
+                    
 
                     File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                     sb.Clear();
@@ -445,7 +446,7 @@ namespace Microarea.Common.MenuLoader
                 {
                     StringBuilder sb = new StringBuilder();
 
-                    sb.Append(e.Message + " ---------");
+                    sb.Append(e.Message + "delete menumngloader"+ " ---------");
 
                     File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                     sb.Clear();
@@ -825,7 +826,7 @@ namespace Microarea.Common.MenuLoader
             {
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append(e.Message + " ---------");
+                sb.Append(e.Message + "LoadCachedStandardMenu" +  "---------");
 
                 File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                 sb.Clear();
