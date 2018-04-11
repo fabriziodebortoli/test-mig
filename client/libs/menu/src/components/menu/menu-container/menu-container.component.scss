@@ -5,6 +5,12 @@ tb-frame-content {
     flex-direction: row;
 }
 
+:host(tb-menu-container){
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
 .collapser {
     cursor: pointer;
     color: $blue;

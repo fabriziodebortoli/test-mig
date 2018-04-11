@@ -27,6 +27,13 @@ mat-sidenav-container,
     overflow: hidden;
 }
 
+:host(tb-home){
+    ::ng-deep .kendoTabContent{
+        display:flex;
+        flex:1;
+    }
+}
+
 .topbar-title-content>img,
 .sidenav-title>img {
     margin-top: 5px;
