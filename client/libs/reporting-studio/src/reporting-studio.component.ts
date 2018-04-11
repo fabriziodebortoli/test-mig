@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ElementRef, ViewEncapsulation, ChangeDetectorRef, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, ComponentFactoryResolver, ElementRef, ViewEncapsulation, ChangeDetectorRef, Input, ChangeDetectionStrategy, NgZone } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { WebSocketService, InfoService, DocumentComponent, ComponentService, EventDataService, UtilsService, RsSnapshotService, DiagnosticService } from '@taskbuilder/core';
@@ -27,6 +27,7 @@ import { ReportingStudioService } from './reporting-studio.service';
   selector: 'tb-reporting-studio',
   templateUrl: './reporting-studio.component.html',
   styleUrls: ['./reporting-studio.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [ReportingStudioService, RsExportService, EventDataService, RsSnapshotService]
 })
 
@@ -65,9 +66,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     eventData: EventDataService,
     public changeDetectorRef: ChangeDetectorRef,
     public infoService: InfoService,
-
     public componentService: ComponentService,
-    public tbLoaderWebSocketService: WebSocketService/*global ws connection used at login level, to communicatewith tbloader */) {
+    public tbLoaderWebSocketService: WebSocketService/*global ws connection used at login level, to communicatewith tbloader */,
+    private ngZone: NgZone) {
     super(rsService, eventData, null, changeDetectorRef);
 
     this.id = this.rsService.generateId();
@@ -79,9 +80,13 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     super.ngOnInit();
     this.eventData.model = { 'Title': { 'value': "..." } };
 
-    this.subMessage = this.rsService.message.subscribe(received => {
-      this.onMessage(received);
-    });
+    this.ngZone.runOutsideAngular(
+      () => {
+        this.subMessage = this.rsService.message.subscribe(received => {
+          this.onMessage(received);
+        });
+      }
+    );
 
     this.rsInitStateMachine();
 
@@ -166,12 +171,15 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.ASK:
           this.askDialogTemplate = message;
           this.rsService.showAsk = true;
+           this.changeDetectorRef.detectChanges();
           break;
         case CommandType.UPDATEASK:
           this.askDialogTemplate = message;
+          this.changeDetectorRef.detectChanges();
           break;
         case CommandType.PREVASK:
           this.askDialogTemplate = message;
+          this.changeDetectorRef.detectChanges();
           break;
         case CommandType.NAMESPACE: break;
         case CommandType.STOP: break;
@@ -180,17 +188,20 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.rsExportService.titleReport = k.page.report_title;
           this.reportTemplate = k;
           this.runReport();
+         this.changeDetectorRef.detectChanges();
           break;
         case CommandType.TEMPLATE:
           this.rsService.showAsk = false;
           this.reportTemplate = k;
           this.getData();
+          this.changeDetectorRef.detectChanges();
           break;
         case CommandType.DATA:
           this.rsService.showAsk = false;
           this.reportData = k;
           this.data = k;
           this.curPageNum = k.page.page_number;
+          this.changeDetectorRef.detectChanges();
           break;
         case CommandType.RUNREPORT:
           const params = { /*xmlArgs: encodeURIComponent(k.arguments),*/ xargs: encodeURIComponent(k.args), runAtTbLoader: false };
@@ -199,6 +210,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.ENDREPORT:
           this.rsExportService.totalPages = k.totalPages;
           this.rsService.runEnabled = true;
+          this.changeDetectorRef.detectChanges();
           break;
         case CommandType.NONE:
           break;
@@ -255,7 +267,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       message: this.args.params.xmlArgs,
       page: 0
     };
-    this.rsService.doSend(JSON.stringify(message));
+    this.ngZone.runOutsideAngular(() => this.rsService.doSend(JSON.stringify(message)));
+    //this.rsService.doSend(JSON.stringify(message));
   }
 
   // -----------------------------------------------
