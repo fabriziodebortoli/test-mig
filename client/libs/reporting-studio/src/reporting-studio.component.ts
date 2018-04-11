@@ -261,6 +261,11 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
   }
 
   // -----------------------------------------------
+  doSend(message: any)  {
+     this.ngZone.runOutsideAngular(() => this.rsService.doSend(JSON.stringify(message)));
+  }
+
+  // -----------------------------------------------
   runReport() {
     this.rsService.runEnabled = false;
     let message = {
@@ -278,7 +283,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       message: this.args && this.args.params ? this.args.params.xmlArgs : '',
       page: 0
     };
-    this.ngZone.runOutsideAngular(() => this.rsService.doSend(JSON.stringify(message)));
+    this.doSend(message);
+    //this.ngZone.runOutsideAngular(() => this.rsService.doSend(JSON.stringify(message)));
     //this.rsService.doSend(JSON.stringify(message));
   }
 
@@ -302,8 +308,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       page: this.rsService.pageNum
     };
 
-    this.rsService.doSend(JSON.stringify(message));
-  }
+    //this.rsService.doSend(JSON.stringify(message));
+    this.doSend(message);
+ }
 
   // -----------------------------------------------
   prevPage() {
@@ -316,7 +323,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       page: this.rsService.pageNum
     };
 
-    this.rsService.doSend(JSON.stringify(message));
+    //this.rsService.doSend(JSON.stringify(message));
+    this.doSend(message);
   }
 
   // -----------------------------------------------
@@ -328,6 +336,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     };
 
     this.rsService.pageNum = message.page;
+
     this.rsService.doSend(JSON.stringify(message));
   }
 
@@ -340,6 +349,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     };
 
     this.rsService.pageNum = message.page;
+
     this.rsService.doSend(JSON.stringify(message));
   }
 
@@ -364,7 +374,8 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
       page: this.curPageNum
     };
 
-    this.rsService.doSend(JSON.stringify(message));
+    //this.rsService.doSend(JSON.stringify(message));
+    this.doSend(message);
   }
 
   // -----------------------------------------------
@@ -376,7 +387,9 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
     };
 
     this.rsService.pageNum = this.rsExportService.firstPageExport;
+
     this.rsService.doSend(JSON.stringify(message));
+
     this.rsExportService.currentPDFCopy++;
   }
 
@@ -396,6 +409,7 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           page: numPag
         };
         this.rsService.pageNum = message.page;
+        
         this.rsService.doSend(JSON.stringify(message));
       }
     }

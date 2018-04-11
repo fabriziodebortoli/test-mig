@@ -343,39 +343,42 @@ namespace Microarea.Common.Applications
             fun.Parameters.Unparse(d.DocumentElement);
             string xargs = d.OuterXml;
 
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, new Uri(session.TbBaseAddress + TbSession.TbBaseRoute + TbSession.TbRunFunctionRoute) );
-            using (var client = new HttpClient())
+            try
             {
-                try
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, new Uri(session.TbBaseAddress + '/' + TbSession.TbBaseRoute + TbSession.TbRunFunctionRoute));
+                using (var client = new HttpClient())
                 {
-                    var content = new FormUrlEncodedContent(new[]
+                    try
                     {
-                        new KeyValuePair<string, string>(UserInfo.AuthenticationTokenKey, session.UserInfo.AuthenticationToken),
-                        new KeyValuePair<string, string>("ns", fun.NameSpace.ToString() ),
-                        new KeyValuePair<string, string>("args", xargs)
-                    });
+                        var content = new FormUrlEncodedContent(new[]
+                        {
+                            new KeyValuePair<string, string>(UserInfo.AuthenticationTokenKey, session.UserInfo.AuthenticationToken),
+                            new KeyValuePair<string, string>("ns", fun.NameSpace.ToString() ),
+                            new KeyValuePair<string, string>("args", xargs)
+                            });
 
-                    request.Content = content;
-                    AddAuthorizationHeader(session, client);
-                    var response = await client.SendAsync(request);
-                    response.EnsureSuccessStatusCode(); // Throw in not success
+                        request.Content = content;
+                        AddAuthorizationHeader(session, client);
+                        var response = await client.SendAsync(request);
+                        response.EnsureSuccessStatusCode(); // Throw in not success
 
-                    var stringResponse = await response.Content.ReadAsStringAsync();
+                        var stringResponse = await response.Content.ReadAsStringAsync();
 
-                    return JsonConvert.DeserializeObject<RunFuctionResultMessage>(stringResponse);
-                }
-                catch (HttpRequestException e)
-                {
-                    Console.WriteLine($"TbRunFunction Request exception: {e.Message}");
-                    return null;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"TbRunFunction Request exception: {e.Message}");
-                    return null;
+                        return JsonConvert.DeserializeObject<RunFuctionResultMessage>(stringResponse);
+                    }
+                    catch (HttpRequestException e)
+                    {
+                        Console.WriteLine($"TbRunFunction Request exception: {e.Message}");
+                        return null;
+                    }
                 }
             }
-        }
+            catch (Exception e)
+            {
+                Console.WriteLine($"TbRunFunction Request exception: {e.Message}");
+                return null;
+            }
+       }
 
 
 
