@@ -186,10 +186,8 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
   }
 
   closeSettings() {
-    this.logger.debug("closeSettings", this.settingsPageComponent);
     if (this.settingsPageComponent != null && this.componentService.components.find(current => current == this.settingsPageComponent)) {
       this.componentService.removeComponent(this.settingsPageComponent);
-      this.logger.debug("remove setting", this.settingsPageComponent);
     }
     this.settingsPageComponent = null;
   }
@@ -207,6 +205,7 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
 
     this.componentService.componentInfoAdded.subscribe((component) => {
       this.settingsPageComponent = component;
+      this.componentService.currentComponent = undefined;
     });
 
     this.componentService.createComponent(SettingsContainerComponent, this.resolver);
