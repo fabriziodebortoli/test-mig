@@ -22,7 +22,6 @@ export class ReportTextrectComponent implements AfterViewInit {
   }
 
   applyStyle(): any {
-
     let rgba = this.utils.hexToRgba(this.rect.bkgcolor);
     rgba.a = this.rect.transparent ? 0 : 1;
     let backgroundCol = 'rgba(' + rgba.r + ',' + rgba.g + ',' + rgba.b + ',' + rgba.a + ')';
@@ -44,14 +43,12 @@ export class ReportTextrectComponent implements AfterViewInit {
       'box-shadow': this.rect.shadow_height + 'px ' + this.rect.shadow_height + 'px ' + this.rect.shadow_height + 'px ' + this.rect.shadow_color,
 
     };
-
     return obj;
   }
 
-
   applyValueStyle(): any {
     let obj = {
-      //'width': this.rect.rect.right - this.rect.rect.left + 'px',
+      'width': this.rect.rect.right - this.rect.rect.left + 'px',
       'height': this.rect.rect.bottom - this.rect.rect.top + 'px',
       'color': this.rect.font.fontcolor !== undefined ? this.rect.font.fontcolor : this.rect.textcolor,
       'font-family': this.rect.font.face,
@@ -82,6 +79,32 @@ export class ReportTextrectComponent implements AfterViewInit {
     return obj;
   }
 
+  applyContainerClass() {
+    let align_items = 'flex-start';
+    if (this.rect.vertical_align == 'top')
+      align_items = 'flex-start';
+    else if (this.rect.vertical_align == 'middle')
+      align_items = 'center';
+    else if (this.rect.vertical_align == 'bottom')
+      align_items = 'flex-end';
+
+    let obj = {
+      'display': 'contents',
+      'flex-direction': 'row',
+      'flex-wrap': 'nowrap',
+      'justify-content': 'flex-start',
+      'align-items': 'flex-start',
+      'align-content': align_items,
+      'height': this.rect.rect.bottom - this.rect.rect.top + 'px',
+      'width': this.rect.rect.right - this.rect.rect.left + 'px',
+      'margin-left': this.rect.text_align == 'left' ? '0px' : 'auto',
+      'margin-right': this.rect.text_align == 'right' ? '0px' : 'auto',
+      'table-layout': 'fixed',
+      'border-spacing': '0px',
+    }
+    return obj;
+  }
+
   applyDummyCellStyle(): any {
     let obj = {
       'width': 'inherit',
@@ -91,4 +114,21 @@ export class ReportTextrectComponent implements AfterViewInit {
     };
     return obj;
   }
+
+  
+
+
+  applyItemClass() {
+    let obj = {
+       'flex': '0 1 auto',
+       'align-self': 'flex-start',
+       //'height': '100%',
+       'width': 'inherit',
+       'overflow': 'hidden',
+       'line-height': 'initial',
+       'text-align': this.rect.text_align,
+       'vertical-align': this.rect.vertical_align
+     }
+     return obj;
+   }
 }

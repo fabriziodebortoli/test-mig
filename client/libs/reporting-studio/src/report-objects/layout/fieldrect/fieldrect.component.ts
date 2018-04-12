@@ -88,6 +88,52 @@ export class ReportFieldrectComponent implements AfterViewInit {
     return obj;
   }
 
+  applyContainerClass() {
+    let align_items = 'flex-start';
+    if (this.rect.vertical_align == 'top')
+      align_items = 'flex-start';
+    else if (this.rect.vertical_align == 'center')
+      align_items = 'center';
+    else if (this.rect.vertical_align == 'bottom')
+      align_items = 'flex-end';
+
+    let obj = {
+      'display': 'contents',
+      'flex-direction': 'row',
+      'flex-wrap': 'nowrap',
+      'justify-content': 'flex-start',
+      'align-items': align_items,
+      'align-content': align_items,
+      'height': this.rect.rect.bottom - this.rect.rect.top + 'px',
+      'width': this.rect.rect.right - this.rect.rect.left + 'px',
+      'margin-left': this.rect.text_align == 'left' ? '0px' : 'auto',
+      'margin-right': this.rect.text_align == 'right' ? '0px' : 'auto',
+    }
+    return obj;
+  }
+
+  applyItemClass() {
+    let align_self = 'auto';
+    if (this.rect.vertical_align == 'top')
+      align_self = 'flex-start';
+    else if (this.rect.vertical_align == 'middle')
+      align_self = 'center';
+    else if (this.rect.vertical_align == 'bottom')
+      align_self = 'flex-end';
+
+   let obj = {
+      'flex': '0 1 auto',
+      'align-self': align_self,
+      //'height': 'inherit',
+      'width': 'inherit',
+      'overflow': 'hidden',
+      'line-height': 'initial',
+      'text-align': this.rect.text_align,
+      'vertical-align': this.rect.vertical_align
+    }
+    return obj;
+  }
+
   applyLabelStyle(): any {
     let borderSize = (this.rect.borders.left ? this.rect.pen.width : 0) + (this.rect.borders.right ? this.rect.pen.width : 0) ;
     let obj = {
@@ -131,5 +177,103 @@ export class ReportFieldrectComponent implements AfterViewInit {
     };
     return obj;
   }
+
+
+
+  applyLabelContainerClass() {
+    let align_items = 'flex-start';
+    if (this.rect.vertical_align == 'top')
+      align_items = 'flex-start';
+    else if (this.rect.vertical_align == 'center')
+      align_items = 'center';
+    else if (this.rect.vertical_align == 'bottom')
+      align_items = 'flex-end';
+
+    let obj = {
+      'display': 'contents',
+      'flex-direction': 'row',
+      'flex-wrap': 'nowrap',
+      'justify-content': 'flex-start',
+      'align-items': align_items,
+      'align-content': align_items,
+      'height': this.rect.rect.bottom - this.rect.rect.top + 'px',
+      'width': this.rect.rect.right - this.rect.rect.left + 'px',
+      'margin-left': this.rect.label.text_align == 'left' ? '0px' : 'auto',
+      'margin-right': this.rect.label.text_align == 'right' ? '0px' : 'auto',
+    }
+    return obj;
+  }
+
+  applyLabelItemClass() {
+    let align_self = 'auto';
+    if (this.rect.label.vertical_align == 'top')
+      align_self = 'flex-start';
+    else if (this.rect.label.vertical_align == 'middle')
+      align_self = 'center';
+    else if (this.rect.label.vertical_align == 'bottom')
+      align_self = 'flex-end';
+
+    let obj = {
+      'flex': '0 1 auto',
+      'align-self': align_self,
+      //'height': 'inherit',
+      'width': 'inherit',
+      'overflow': 'hidden',
+      'line-height': 'initial',
+      'text-align': this.rect.label.text_align,
+      'vertical-align': this.rect.label.vertical_align
+    }
+    return obj;
+  }
+
+  applyLinkContainerClass() {
+    let align_items = 'flex-start';
+    if (this.rect.vertical_align == 'top')
+      align_items = 'flex-start';
+    else if (this.rect.vertical_align == 'center')
+      align_items = 'center';
+    else if (this.rect.vertical_align == 'bottom')
+      align_items = 'flex-end';
+
+    let obj = {
+      'display': 'inline-grid',
+      'flex-direction': 'row',
+      'flex-wrap': 'nowrap',
+      'justify-content': 'flex-start',
+      'align-items': align_items,
+      'align-content': align_items,
+      'height': this.rect.rect.bottom - this.rect.rect.top + 'px',
+      'width': this.rect.rect.right - this.rect.rect.left + 'px',
+      'margin-left': this.rect.text_align == 'left' ? '0px' : 'auto',
+      'margin-right': this.rect.text_align == 'right' ? '0px' : 'auto',
+    }
+    return obj;
+  }
+
+  applyLinkItemClass() {
+    let align_self = 'auto';
+    if (this.rect.vertical_align == 'top')
+      align_self = 'flex-start';
+    else if (this.rect.vertical_align == 'middle')
+      align_self = 'center';
+    else if (this.rect.vertical_align == 'bottom')
+      align_self = 'flex-end';
+
+   let obj = {
+      'flex': '0 1 auto',
+      'align-self': align_self,
+      //'height': 'inherit',
+      'width': 'inherit',
+      'overflow': 'hidden',
+      'line-height': 'initial',
+      'text-align': this.rect.text_align,
+      'vertical-align': this.rect.vertical_align
+    }
+    return obj;
+  }
+
+
+
+
 
 }

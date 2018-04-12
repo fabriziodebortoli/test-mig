@@ -500,8 +500,8 @@ namespace Microarea.Common.Applications
 				return false;
 
 			// Make conversion from Tipographic point to logical inch point (sett pag 664 of Petzold book)
-			//size = ((size * 100) / 72);
-            size = (int) Math.Round(size * 1.3333, 0);
+			size = ((size * 100) / 72);
+            //size = (int) Math.Round(size * 1.3333, 0);
             
 
             FontStyle fontStyle = FontStyle.Regular;         

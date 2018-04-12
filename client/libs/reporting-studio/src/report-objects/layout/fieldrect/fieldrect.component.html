@@ -36,3 +36,37 @@
   </div>
   <rs-barcode *ngIf="rect.value_is_barcode" [barcode]="rect.barcode" [rect]="rect" [value]="rect.value"></rs-barcode>
 </div>
+
+
+
+<!-- <div *ngIf="!rect.hidden" [ngStyle]="applyStyle()">
+  <div *ngIf="!rect.value_is_barcode">
+    <div *ngIf="rect.label" [ngStyle]="applyLabelStyle()" matTooltip="{{rect.tooltip}}" matTooltipPosition="after">
+      <div [ngStyle]="applyLabelContainerClass()">
+        <div [ngStyle]="applyLabelItemClass()">{{rect.label.caption}}</div>
+      </div>
+    </div>
+
+    <div *ngIf="!rect.value_is_html && !rect.link" [ngStyle]="applyValueStyle()">
+      <div [ngStyle]="applyContainerClass()">
+        <div [ngStyle]="applyItemClass()">{{rect.value}}</div>
+      </div>
+    </div>
+
+    <div *ngIf="!rect.link && rect.value_is_html" [ngStyle]="applyValueStyle()" [innerHTML]="rect.value"></div>
+
+    <div *ngIf="rect.link && rect.value_is_html" [ngStyle]="applyValueStyle()" [innerHTML]="rect.value">
+      <rs-link [link]="rect.link">
+      </rs-link>
+    </div>
+
+
+    <div [ngStyle]="applyLinkContainerClass()">
+      <div [ngStyle]="applyItemClass()">
+        <rs-link *ngIf="!rect.value_is_html && rect.link" [link]="rect.link" [ngStyle]="applyValueStyle()">{{rect.value}} </rs-link>
+      </div>
+    </div>
+
+  </div>
+  <rs-barcode *ngIf="rect.value_is_barcode" [barcode]="rect.barcode" [rect]="rect" [value]="rect.value"></rs-barcode>
+</div> -->

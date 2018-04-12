@@ -224,7 +224,7 @@ export class ReportTableComponent {
       'margin-left': defStyle.text_align == 'left' ? '0px' : 'auto',
       'margin-right': defStyle.text_align == 'right' ? '0px' : 'auto',
       'height': 'inherit',
-      'width': 'inherit',
+      //'width': 'inherit',
       'table-layout': 'fixed',
       'border-spacing': '0px',
     };
@@ -237,7 +237,7 @@ export class ReportTableComponent {
     let obj = {
       'width': 'inherit',
       'vertical-align': defStyle.vertical_align,
-      'text-align': defStyle.text_align,
+      'text-align': defStyle.text_align,   //PROBLEMA??
       'overflow': 'hidden',
     };
     return obj;
