@@ -500,8 +500,8 @@ void CTileGroup::OnBeforeCustomize()
 void CTileGroup::OnAfterCustomize()
 { 
 	CAbstractFormDoc* pDoc = dynamic_cast<CAbstractFormDoc*>(GetDocument());
-	// batch documents are excluded
-	if (!pDoc || pDoc->IsABatchDocument())
+	
+	if (!pDoc)
 		return;
 	
 	for (int i = 0; i < GetTileDialogs()->GetSize(); i++)
@@ -521,22 +521,24 @@ void CTileGroup::OnAfterCustomize()
 			pDoc->m_pFormManager->SetDialogsCollapsedState(pTileDialog->GetNamespace(), pTileDialog->IsCollapsed());
 	}
 
-	for (int i = 0; i < GetTilePanels()->GetSize(); i++)
+	if (!pDoc->IsABatchDocument())
 	{
-		CTilePanel* pTilePanel = GetTilePanels()->GetAt(i);
-		BOOL bPinned = FALSE;
-		if (!pTilePanel->GetTileStyle()->Collapsible())
-			continue;
+		for (int i = 0; i < GetTilePanels()->GetSize(); i++)
+		{
+			CTilePanel* pTilePanel = GetTilePanels()->GetAt(i);
+			BOOL bPinned = FALSE;
+			if (!pTilePanel->GetTileStyle()->Collapsible())
+				continue;
 
-		BOOL bDummy = FALSE, bCollapsed = FALSE;
-		if (pDoc->m_pFormManager->HasDialogCustomized(pTilePanel->GetNamespace(), bDummy, bCollapsed))
-			pTilePanel->SetCollapsed(bCollapsed);
-		else
-			// questo codice serve per allineare lo stato del form manager sulla base delle eventuali modifiche
-			// gestionali fatti durante il codice di Customize
-			pDoc->m_pFormManager->SetDialogsCollapsedState(pTilePanel->GetNamespace(), pTilePanel->IsCollapsed());
+			BOOL bDummy = FALSE, bCollapsed = FALSE;
+			if (pDoc->m_pFormManager->HasDialogCustomized(pTilePanel->GetNamespace(), bDummy, bCollapsed))
+				pTilePanel->SetCollapsed(bCollapsed);
+			else
+				// questo codice serve per allineare lo stato del form manager sulla base delle eventuali modifiche
+				// gestionali fatti durante il codice di Customize
+				pDoc->m_pFormManager->SetDialogsCollapsedState(pTilePanel->GetNamespace(), pTilePanel->IsCollapsed());
+		}
 	}
-
 	pDoc->m_pFormManager->EnableDialogStateSave(TRUE);
 }
 
