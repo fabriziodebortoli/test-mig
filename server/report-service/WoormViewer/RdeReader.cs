@@ -632,6 +632,9 @@ namespace Microarea.RSWeb.WoormViewer
         //------------------------------------------------------------------------------
         public void LoadPage(int pageNumber)
         {
+            if (CurrentPage == pageNumber && pageNumber > 1)
+                return;
+
             CurrentPage = pageNumber;
 
             LoadPage();
