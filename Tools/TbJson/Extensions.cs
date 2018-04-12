@@ -166,7 +166,7 @@ namespace Microarea.TbJson
         /// Prepara una stringa alla localizzazione con _TB()
         /// </summary>
         //-----------------------------------------------------------------------------
-        internal static string GetLocalizableString(this JToken jObj, string name)
+        internal static string GetLocalizableString(this JToken jObj, string name, bool bindToValue = false)
         {
             if (string.IsNullOrEmpty(jObj.GetFlatString(name)))
                 return null;
@@ -181,7 +181,7 @@ namespace Microarea.TbJson
             string text = result.Value<string>();
             if (text == null)
                 return null;
-            if (Helpers.AdjustExpression(ref text))
+            if (Helpers.AdjustExpression(ref text, bindToValue))
             {
                 return text;
             }

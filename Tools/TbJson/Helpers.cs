@@ -15,11 +15,11 @@ namespace Microarea.TbJson
         /// Racchiude un tag tra parentesi quadre
         /// </summary>
         public static string Square(string tag) => $"[{tag}]";
-        public static bool AdjustExpression(ref string text)
+        public static bool AdjustExpression(ref string text, bool bindToValue = false)
         {
             if (text == null)
                 return false;
-            string s = exp.Replace(text, "eventData?.model?.$1");
+            string s = exp.Replace(text, "eventData?.model?.$1" + (bindToValue ? ".value": ""));
             if (s == text)
                 return false;
             text = s;

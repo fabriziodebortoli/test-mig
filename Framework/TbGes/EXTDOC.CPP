@@ -3063,6 +3063,8 @@ CView* CAbstractFormDoc::CreateSlaveView
 			//l'ho tolto perch� causava sovrapposizioni nel disegno, sostituito con una UpdateWindow
 			//nel momento di visualizzazione della view embedded
 		}
+		if (AfxIsRemoteInterface())
+			UpdateDataView();
 		//se sono modale, ciclo finch� la finestra non viene chiusa
 		if (bModal)
 		{
@@ -3156,7 +3158,8 @@ void CAbstractFormDoc::UpdateDataView(BOOL bForce /*= FALSE*/)
 	//ottimizzazione: se sono in un contesto che effettua più refresh nidificati, 
 	//effettuo la UpdateDataView solo all'ultima chiamata
 	//se sto aspettando il timer per effettuare l'update e non devo forzare il refresh, esco
-	if (!bForce && (m_nUpdateDataViewLevel > 0 || m_bWaitingForUpdateDataView))
+	if (!bForce && (/*m_nUpdateDataViewLevel > 0 || PERASSO: non dovrebbe essere più necessario, adesso c'è il timer */
+		m_bWaitingForUpdateDataView))
 	{
 		m_bNeedsUpdateDataView = true;
 		return;

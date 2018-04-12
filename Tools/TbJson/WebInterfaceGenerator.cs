@@ -1295,7 +1295,7 @@ namespace Microarea.TbJson
                 AddIconAttribute(jObj, icon);
                 WriteButtonInfo(jObj);
 
-                string caption = jObj.GetLocalizableString(Constants.text);
+                string caption = jObj.GetLocalizableString(Constants.text, slave);
                 if (!string.IsNullOrEmpty(caption))
                     htmlWriter.WriteAttribute(Square(Constants.caption), caption);
                 string cmpId = jObj.GetId();
