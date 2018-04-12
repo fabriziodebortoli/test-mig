@@ -69,6 +69,7 @@ namespace Microarea.TbJson
 			switch (cat)
 			{
 				case CommandCategory.Advanced:
+				case CommandCategory.Undefined:
 					return Constants.dropDownButton;
 				case CommandCategory.Print:
 					return Constants.dropUpButton;
