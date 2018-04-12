@@ -19,7 +19,7 @@ namespace Microarea.TbJson
             this.mostRecentFileDate = mostRecentFileDate;
         }
 
-        public JToken JRoot { get => jRoot; set => jRoot = value; }
+        public JToken JRoot { get => jRoot.DeepClone(); set => jRoot = value; }
         public DateTime MostRecentFileDate { get => mostRecentFileDate; set => mostRecentFileDate = value; }
     }
 
