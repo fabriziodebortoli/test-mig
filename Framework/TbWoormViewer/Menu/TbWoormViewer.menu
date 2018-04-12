@@ -12,10 +12,6 @@
             <Title localizable="true">Barcode Settings</Title>
             <Object>Framework.TbWoormViewer.TbWoormViewer.BarcodeSettings</Object>
           </Document>
-          <Function insert_after="all"  noweb="true">
-            <Title localizable="true">Validate Pass-Key</Title>
-            <Object>Framework.TbWoormViewer.TbWoormViewer.PassKeyLogin</Object>
-          </Function>
         </Menu>
       </Menu>
     </Group>

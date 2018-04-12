@@ -45,6 +45,22 @@
           </Function>
         </Menu>
       </Menu>
+	  
+     <Menu name="FrameWork.Administration.Tools.ReportingStudio" search_command_image="true" environment="desktop">
+        <Title localizable="true">Reporting Studio</Title>
+         <Function   noweb="true">
+          <Title localizable="true">Validate Pass-Key</Title>
+          <Object>Framework.TbWoormViewer.TbWoormViewer.PassKeyLogin</Object>
+        </Function>
+       <Function insert_after="all" activation="Framework.ReportEditor" noweb="true">
+          <Title localizable="true">New Report</Title>
+          <Object>Framework.TbWoormViewer.TbWoormViewer.ExecNewReport</Object>
+        </Function>
+        <Function insert_after="all" noweb="true">
+          <Title localizable="true">Open an existing Report</Title>
+          <Object>Framework.TbWoormViewer.TbWoormViewer.ExecOpenReport</Object>
+        </Function>
+      </Menu>
       
 		</Group>
 	</Application>
