@@ -8,19 +8,35 @@ using System.IO;
 
 namespace Microarea.TbJson
 {
+    class JsonParserInfo
+    {
+        private JToken jRoot;
+        private DateTime mostRecentFileDate;
+
+        public JsonParserInfo(JToken jRoot, DateTime mostRecentFileDate)
+        {
+            this.jRoot = jRoot;
+            this.mostRecentFileDate = mostRecentFileDate;
+        }
+
+        public JToken JRoot { get => jRoot; set => jRoot = value; }
+        public DateTime MostRecentFileDate { get => mostRecentFileDate; set => mostRecentFileDate = value; }
+    }
+
+
     class JsonParser
     {
-        Dictionary<string, JToken> jsonList = new Dictionary<string, JToken>(StringComparer.InvariantCultureIgnoreCase);
+        Dictionary<string, JsonParserInfo> jsonList = new Dictionary<string, JsonParserInfo>(StringComparer.InvariantCultureIgnoreCase);
         private static List<ClientForm> emptyClients = new List<ClientForm>();
         public DateTime mostRecentFileDate = DateTime.MinValue;
         //-----------------------------------------------------------------------------
-        internal JToken Parse(string standardFolder, string tbJsonFile, bool root)
+        internal JsonParserInfo Parse(string standardFolder, string tbJsonFile, bool root)
         {
+            JsonParserInfo jsonParserInfo = null;
             JToken jRoot = null;
-            if (jsonList.TryGetValue(tbJsonFile, out jRoot))
-                return jRoot?.DeepClone();
+            if (jsonList.TryGetValue(tbJsonFile, out jsonParserInfo))
+                return jsonParserInfo;
 
-            
             try
             {
                 FileInfo fi = new FileInfo(tbJsonFile);
@@ -65,8 +81,11 @@ namespace Microarea.TbJson
                 jsonList[tbJsonFile] = null;
                 return null;
             }
-            jsonList[tbJsonFile] = jRoot;
-            return jRoot.DeepClone();
+
+
+            JsonParserInfo info = new JsonParserInfo(jRoot, mostRecentFileDate);
+            jsonList[tbJsonFile] = info;
+            return info;
         }
 
         //-----------------------------------------------------------------------------
@@ -83,7 +102,9 @@ namespace Microarea.TbJson
                 string file = GetFile(standardFolder, resourcePath, href, out resourceName);
                 if (!File.Exists(file))
                     throw new Exception(string.Concat("Invalid href: ", href, " - File not found!"));
-                JObject jHref = (JObject)Parse(standardFolder, file, false);
+                //JObject jHref = (JObject)Parse(standardFolder, file, false);
+                JsonParserInfo jsonParse = Parse(standardFolder, file, false);
+                JObject jHref = (JObject)jsonParse.JRoot.DeepClone();
                 TrimNoWebSections(jHref);
                 JToken jBody = jRW.Parent.Parent;
                 foreach (JObject row in jBody.GetItems())
@@ -281,12 +302,16 @@ namespace Microarea.TbJson
             string file = GetFile(standardFolder, resourcePath, href, out resourceName);
             if (!File.Exists(file))
                 throw new Exception(string.Concat("Invalid href: ", href, " - File not found!"));
-            FileInfo fi = new FileInfo(file);
-            if (fi.LastWriteTime > mostRecentFileDate)
-                mostRecentFileDate = fi.LastWriteTime;
 
             string activation = forClientDoc ? ActivationFromFilePath(file) : "";
-            JToken jHref = Parse(standardFolder, file, false);
+            //JToken jHref = Parse(standardFolder, file, false);
+
+            JsonParserInfo jsonParse = Parse(standardFolder, file, false);
+            JObject jHref = (JObject)jsonParse.JRoot.DeepClone();
+
+            if (jsonParse.MostRecentFileDate > mostRecentFileDate)
+                mostRecentFileDate = jsonParse.MostRecentFileDate;
+
             if (jHref == null)
                 throw new Exception(string.Concat("Invalid href: ", href));
 

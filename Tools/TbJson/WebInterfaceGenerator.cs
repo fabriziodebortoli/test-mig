@@ -76,7 +76,7 @@ namespace Microarea.TbJson
             if (!verboseOutput)
                 Console.Out.WriteLineAsync("Generate End");
         }
-  
+
         //-----------------------------------------------------------------------------
         private void GenerateFromFile(string tbJsonFile, string mergedJsonDir, bool onlyMerged)
         {
@@ -85,7 +85,6 @@ namespace Microarea.TbJson
             toAppendToDeclaration.Clear();
             contextMenus.Clear();
 
-            parser.mostRecentFileDate = DateTime.MinValue;
 
             if (!parser.ExtractPathInfo(tbJsonFile, out string standardFolder, out string app, out string mod, out string container, out string name))
             {
@@ -93,7 +92,12 @@ namespace Microarea.TbJson
                 return;
             }
 
-            JToken jToken = parser.Parse(standardFolder, tbJsonFile, true);
+            //JToken jToken = parser.Parse(standardFolder, tbJsonFile, true);
+            JsonParserInfo jsonParse = parser.Parse(standardFolder, tbJsonFile, false);
+            JObject jToken = (JObject)jsonParse.JRoot.DeepClone();
+
+            parser.mostRecentFileDate = jsonParse.MostRecentFileDate;
+
             if (jToken == null)
             {
                 Console.Out.WriteLineAsync("Invalid json file: " + tbJsonFile);
@@ -132,8 +136,8 @@ namespace Microarea.TbJson
                 Directory.CreateDirectory(formsPath);
 
             file = Path.Combine(formsPath, name + ".component.html");
-            FileInfo ci = new FileInfo(file); 
-            if (!ci.Exists || parser.mostRecentFileDate > ci.LastWriteTime || (tbjsonExeDate> parser.mostRecentFileDate && tbjsonExeDate> ci.LastWriteTime) || forceCreate)
+            FileInfo ci = new FileInfo(file);
+            if (!ci.Exists || parser.mostRecentFileDate > ci.LastWriteTime || (tbjsonExeDate > parser.mostRecentFileDate && tbjsonExeDate > ci.LastWriteTime) || forceCreate)
             {
                 GenerateLogInfo(appsPath, file);
                 using (StreamWriter sw = new StreamWriter(file, false, Encoding.UTF8))
