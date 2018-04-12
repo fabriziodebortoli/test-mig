@@ -1302,6 +1302,10 @@ namespace Microarea.RSWeb.WoormEngine
             currentAskDialogNo = -1;
             OutChannel.PageNumber = 1;
 
+            Field f = RepSymTable.Fields.Find(SpecialReportField.NAME.LAYOUT);
+            if (f != null)
+                f.SetAllData(Layout.DefaultName, true);
+
             CopyStaticField();
         }
 
