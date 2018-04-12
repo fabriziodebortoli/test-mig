@@ -363,7 +363,7 @@ CString FromDataTypeToScriptType(const DataType& aDataType)
 			? _T("Time")
 			: _T("DateTime")
 			);
-	case DATA_BOOL_TYPE:	return _TB("Bool");
+	case DATA_BOOL_TYPE:	return _T("Bool");
 
 	case DATA_ENUM_TYPE:
 	{
