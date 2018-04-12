@@ -109,7 +109,7 @@
           "name": "Query",
           "text": "Query",
           "type": 15 /*ToolbarButton*/,
-          "category": 5 /*Advanced*/
+          "category": 6 /*Advanced*/
         },
         {
           "id": "ID_SEPARATOR",
@@ -219,7 +219,7 @@
           "name": "RefreshRowset",
           "text": "Refresh data",
           "type": 15 /*ToolbarButton*/,
-          "category": 5 /*Tools*/
+          "category": 6 /*Advanced*/
         },
         {
           "hint": "Customize the document",
