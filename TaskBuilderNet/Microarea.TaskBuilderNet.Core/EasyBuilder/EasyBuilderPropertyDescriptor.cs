@@ -291,7 +291,12 @@ namespace Microarea.TaskBuilderNet.Core.EasyBuilder
         //--------------------------------------------------------------------------------
         public override void SetValue(object component, object value)
         {
-            var purgedValue = EnumsDeclarator.Purge(value as string);
+            var purgedValue = value;
+
+            if (string.Compare(this.Name, nameof(Name), StringComparison.InvariantCulture) == 0)
+            {
+                purgedValue = EnumsDeclarator.Purge(value as string);
+            }
 
             base.SetValue(component, purgedValue);
         }

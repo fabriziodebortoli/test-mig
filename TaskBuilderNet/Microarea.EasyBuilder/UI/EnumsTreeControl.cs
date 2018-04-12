@@ -375,7 +375,10 @@ namespace Microarea.EasyBuilder.UI
 				if (workingTag == null)
 					workingTag = enumTagsForCurrentEasyBuilderApp.GetTag(selectedEnumTag.Name);
 
-				workingTag.EnumItems.Add(newEnumItem);
+                if (!Object.ReferenceEquals(selectedEnumTag, workingTag))
+                {
+                    workingTag.EnumItems.Add(newEnumItem);
+                }
 			}
 
 			SetDirty(true);
@@ -573,12 +576,15 @@ namespace Microarea.EasyBuilder.UI
 			if (e.PropertyName == "Name")
 			{
 				TreeNode tagNode = FindNode(rootNode, item.Owner);
-				TreeNode itemNode = FindNode(tagNode, item);
-				if (tagNode != null || itemNode != null)
-				{
-					itemNode.Text = item.Name;
-					itemNode.ToolTipText = item.Name;
-				}
+                if (tagNode != null)
+                {
+                    TreeNode itemNode = FindNode(tagNode, item);
+                    if (itemNode != null)
+                    {
+                        itemNode.Text = item.Name;
+                        itemNode.ToolTipText = item.Name;
+                    }
+                }
 			}
 
 			if (oldEnumItem != null)
