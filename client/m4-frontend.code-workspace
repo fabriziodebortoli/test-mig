@@ -30,6 +30,7 @@
 		}
 	],
 	"settings": {
+		"javascript.implicitProjectConfig.experimentalDecorators": true,
 		"editor.formatOnType": false,
 		"editor.roundedSelection": false,
 		"files.exclude": {
