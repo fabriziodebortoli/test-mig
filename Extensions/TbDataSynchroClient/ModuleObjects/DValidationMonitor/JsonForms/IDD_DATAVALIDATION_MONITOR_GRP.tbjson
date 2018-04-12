@@ -33,7 +33,7 @@
       "showFooterToolbar": true,      
       "showHeaderToolbar" : true,
       "name": "SynchronizationInfoMonitor",
-      "rowView": "IDD_RW_DATASYNCHRO_MONITOR_DETAIL",
+      "rowView": "IDD_RW_DATAVALIDATION_MONITOR_DETAIL",
       "binding": { "datasource": "SynchronizationInfoMonitor" },
       "items": [
         {
