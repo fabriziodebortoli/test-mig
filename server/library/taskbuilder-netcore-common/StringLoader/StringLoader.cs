@@ -87,7 +87,7 @@ namespace Microarea.Common.StringLoader
 					}
 					catch (DictionarySerializerException e)
 					{
-						Debug.Fail(string.Format("Failed GetDictionary for path {0} error : {1}", dictionaryPath, e.Message));
+						Debug.WriteLine(string.Format("Failed GetDictionary for path {0} error : {1}", dictionaryPath, e.Message));
 						Container.failedDictionaries[key] = true;
 						return null;
 					}
@@ -224,7 +224,7 @@ namespace Microarea.Common.StringLoader
 			}
 			catch(Exception ex)
 			{
-				Debug.Fail("Error saving dictionary cache!", ex.Message);
+				Debug.WriteLine("Error saving dictionary cache!", ex.Message);
 			}
 			finally
 			{

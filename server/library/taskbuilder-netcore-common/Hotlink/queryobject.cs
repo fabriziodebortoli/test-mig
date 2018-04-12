@@ -934,7 +934,7 @@ namespace Microarea.Common.Hotlink
 			}
 			catch (Exception e)
 			{
-				Debug.Fail(e.Message + Environment.NewLine + e.Source + Environment.NewLine + e.StackTrace);
+				Debug.WriteLine(e.Message + Environment.NewLine + e.Source + Environment.NewLine + e.StackTrace);
 				//TODO far manifestare il messaggio
 				//throw(new TBException(e.Message, e));
 				Close();
@@ -1029,7 +1029,7 @@ namespace Microarea.Common.Hotlink
 				Variable field = symbolTable.Find(tagLink.name) as Variable;
                 if (field == null)
                 {
-                    Debug.Fail("Unknown column: " + tagLink.name);
+                    Debug.WriteLine("Unknown column: " + tagLink.name);
                     continue;
                 }
                 object o;
@@ -1121,7 +1121,7 @@ namespace Microarea.Common.Hotlink
 			}
 			catch (Exception e)
 			{
-				Debug.Fail(e.Message + Environment.NewLine + e.Source + Environment.NewLine + e.StackTrace);
+				Debug.WriteLine(e.Message + Environment.NewLine + e.Source + Environment.NewLine + e.StackTrace);
 				//TODO far manifestare il messaggio
 				//throw(new TBException(e.Message, e));
 				Close();
@@ -1146,7 +1146,7 @@ namespace Microarea.Common.Hotlink
 			}
 			catch (Exception e)
 			{
-				Debug.Fail(e.Message + Environment.NewLine + e.Source + Environment.NewLine + e.StackTrace);
+				Debug.WriteLine(e.Message + Environment.NewLine + e.Source + Environment.NewLine + e.StackTrace);
 				//TODO far manifestare il messaggio 
 				//throw(new TBException(e.Message, e));
 			}
@@ -1214,7 +1214,7 @@ namespace Microarea.Common.Hotlink
             }
             catch (Exception e)
             {
-                Debug.Fail(e.Message + Environment.NewLine + e.Source + Environment.NewLine + e.StackTrace);
+                Debug.WriteLine(e.Message + Environment.NewLine + e.Source + Environment.NewLine + e.StackTrace);
                 //TODO far manifestare il messaggio 
                 //throw(new TBException(e.Message, e));
             }

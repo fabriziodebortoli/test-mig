@@ -1289,7 +1289,7 @@ namespace Microarea.Common.NameSolver
             if (ApplicationInfo.MatchType(applicationType, ApplicationType.Customization))
                 return NameSolverStrings.TaskBuilderApplications;
 
-            Debug.Fail("Tipo applicazione non gestito");
+            Debug.WriteLine("Tipo applicazione non gestito");
 
             return string.Empty;
         }
@@ -1351,7 +1351,7 @@ namespace Microarea.Common.NameSolver
             }
             catch (Exception err)
             {
-                Debug.Fail(err.Message);
+                Debug.WriteLine(err.Message);
             }
             if (aApplicationInfo == null)
                 return null;
@@ -1419,7 +1419,7 @@ namespace Microarea.Common.NameSolver
                     AddDirectoryBrandFiles(solPath, ht);
                 }
             else
-                Debug.Fail(NameSolverStrings.TaskBuilderApplications + " folder is missing.");
+                Debug.WriteLine(NameSolverStrings.TaskBuilderApplications + " folder is missing.");
 
             List<TBFile> l = new List<TBFile>(ht.Keys.Count);
             foreach (TBFile file in ht.Values)

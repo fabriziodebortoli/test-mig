@@ -692,7 +692,7 @@ namespace Microarea.Common.Applications
                     }
                     catch (Exception ex)
                     {
-                        Debug.Fail(ex.Message);
+                        Debug.WriteLine(ex.Message);
                     }
                 }
                 if (XmlReport)

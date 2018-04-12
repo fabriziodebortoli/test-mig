@@ -403,7 +403,7 @@ namespace Microarea.Common.MenuLoader
                     File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                     sb.Clear();
 
-                    Debug.Fail(e.ToString());
+                    Debug.WriteLine(e.ToString());
                     return null;
                 }
             }
@@ -865,7 +865,7 @@ namespace Microarea.Common.MenuLoader
             List<string> activatedModules = session.GetModules();
             if (activatedModules == null || activatedModules.Count <= 0)
             {
-               Debug.Fail("No activated modules found");
+               Debug.WriteLine("No activated modules found");
                return;
             }
 

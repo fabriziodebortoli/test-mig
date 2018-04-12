@@ -1017,7 +1017,7 @@ namespace Microarea.Common.MenuLoader
 				}
 				catch(FormatException exception)
 				{
-					Debug.Fail("FormatException raised setting MenuXmlNode.MenuGuid property: " + exception.Message);
+					Debug.WriteLine("FormatException raised setting MenuXmlNode.MenuGuid property: " + exception.Message);
 					guid = Guid.Empty;
 				}
 			}
@@ -1051,11 +1051,11 @@ namespace Microarea.Common.MenuLoader
 				}
 				catch(FormatException formatException)
 				{
-					Debug.Fail("FormatException raised getting MenuXmlNode.UserReportsGroup property: " + formatException.Message);
+					Debug.WriteLine("FormatException raised getting MenuXmlNode.UserReportsGroup property: " + formatException.Message);
 				}
 				catch(OverflowException overflowException)
 				{
-					Debug.Fail("OverflowException raised getting MenuXmlNode.UserReportsGroup property: " + overflowException.Message);
+					Debug.WriteLine("OverflowException raised getting MenuXmlNode.UserReportsGroup property: " + overflowException.Message);
 				}
 				return userReportsGroup;
 			}
@@ -1063,7 +1063,7 @@ namespace Microarea.Common.MenuLoader
 			{
 				if (node == null || node.NodeType != XmlNodeType.Element || !IsGroup)
 				{
-					Debug.Fail("Error during MenuXmlNode.UserReportsGroup property setting: invalid node.");
+					Debug.WriteLine("Error during MenuXmlNode.UserReportsGroup property setting: invalid node.");
 					return;
 				}
 				((XmlElement)node).SetAttribute(XML_ATTRIBUTE_USER_REPORTS_GROUP, value.ToString());
@@ -1089,7 +1089,7 @@ namespace Microarea.Common.MenuLoader
 			{
 				if (node == null || node.NodeType != XmlNodeType.Element || !(IsCommand || IsShortcut))
 				{
-					Debug.Fail("Error during MenuXmlNode.ExternalDescription property setting: invalid node.");
+					Debug.WriteLine("Error during MenuXmlNode.ExternalDescription property setting: invalid node.");
 					return;
 				}
 
@@ -1746,7 +1746,7 @@ namespace Microarea.Common.MenuLoader
 	
 			if (appNode.NodeType != XmlNodeType.Element)
 			{
-				Debug.Fail("MenuXmlNode.GetActionApplicationName Error.");
+				Debug.WriteLine("MenuXmlNode.GetActionApplicationName Error.");
 				return String.Empty;
 			}
 
@@ -1788,7 +1788,7 @@ namespace Microarea.Common.MenuLoader
 
 			if (appNode.NodeType != XmlNodeType.Element)
 			{
-				Debug.Fail("MenuXmlNode.GetActionApplicationImageLink Error.");
+				Debug.WriteLine("MenuXmlNode.GetActionApplicationImageLink Error.");
 				return String.Empty;
 			}
 
@@ -1812,7 +1812,7 @@ namespace Microarea.Common.MenuLoader
 		
 			if (groupNode.NodeType != XmlNodeType.Element)
 			{
-				Debug.Fail("MenuXmlNode.GetActionGroupName Error.");
+				Debug.WriteLine("MenuXmlNode.GetActionGroupName Error.");
 				return String.Empty;
 			}
 
@@ -1850,7 +1850,7 @@ namespace Microarea.Common.MenuLoader
 
 			if (groupNode.NodeType != XmlNodeType.Element)
 			{
-				Debug.Fail("MenuXmlNode.GetActionGroupImageLink Error.");
+				Debug.WriteLine("MenuXmlNode.GetActionGroupImageLink Error.");
 				return String.Empty;
 			}
 
@@ -2006,7 +2006,7 @@ namespace Microarea.Common.MenuLoader
 
 			if (node.OwnerDocument.DocumentElement.Name != XML_TAG_MENU_ROOT)
 			{
-				Debug.Fail("MenuXmlNode.GetMenuRoot Error: Wrong root tag.");
+				Debug.WriteLine("MenuXmlNode.GetMenuRoot Error: Wrong root tag.");
 				return null;
 			}
 			return new MenuXmlNode(node.OwnerDocument.DocumentElement);
@@ -2029,14 +2029,14 @@ namespace Microarea.Common.MenuLoader
 
 			if (node.OwnerDocument == null)
 			{
-				Debug.Fail("MenuXmlNode.CreateTitleChild Error: void document owner.");
+				Debug.WriteLine("MenuXmlNode.CreateTitleChild Error: void document owner.");
 				return false;
 			}
 
 			XmlElement titleElement = node.OwnerDocument.CreateElement(XML_TAG_TITLE);
 			if (titleElement == null)
 			{
-				Debug.Fail("MenuXmlNode.CreateTitleChild Error: title element creation failed.");
+				Debug.WriteLine("MenuXmlNode.CreateTitleChild Error: title element creation failed.");
 				return false;
 			}
 
@@ -2061,14 +2061,14 @@ namespace Microarea.Common.MenuLoader
 
 			if (node.OwnerDocument == null)
 			{
-				Debug.Fail("MenuXmlNode.CreateDescriptionChild Error: void document owner.");
+				Debug.WriteLine("MenuXmlNode.CreateDescriptionChild Error: void document owner.");
 				return false;
 			}
 
 			XmlElement descriptionElement = node.OwnerDocument.CreateElement(XML_TAG_DESCRIPTION);
 			if (descriptionElement == null)
 			{
-				Debug.Fail("MenuXmlNode.CreateDescriptionChild Error: description element creation failed.");
+				Debug.WriteLine("MenuXmlNode.CreateDescriptionChild Error: description element creation failed.");
 				return false;
 			}
 
@@ -2089,14 +2089,14 @@ namespace Microarea.Common.MenuLoader
 				
 			if (node.OwnerDocument == null)
 			{
-				Debug.Fail("MenuXmlNode.CreateGuidChild Error: void document owner.");
+				Debug.WriteLine("MenuXmlNode.CreateGuidChild Error: void document owner.");
 				return false;
 			}
 
 			XmlElement guidElement = node.OwnerDocument.CreateElement(XML_TAG_GUID);
 			if (guidElement == null)
 			{
-				Debug.Fail("MenuXmlNode.CreateGuidChild Error: guid element creation failed.");
+				Debug.WriteLine("MenuXmlNode.CreateGuidChild Error: guid element creation failed.");
 				return false;
 			}
 
@@ -2115,14 +2115,14 @@ namespace Microarea.Common.MenuLoader
 
 			if (node.OwnerDocument == null)
 			{
-				Debug.Fail("MenuXmlNode.CreateObjectChild Error: void document owner.");
+				Debug.WriteLine("MenuXmlNode.CreateObjectChild Error: void document owner.");
 				return false;
 			}
 
 			XmlElement cmdElement = node.OwnerDocument.CreateElement(XML_TAG_OBJECT);
 			if (cmdElement == null)
 			{
-				Debug.Fail("MenuXmlNode.CreateObjectChild Error: object element creation failed.");
+				Debug.WriteLine("MenuXmlNode.CreateObjectChild Error: object element creation failed.");
 				return false;
 			}
 
@@ -2143,7 +2143,7 @@ namespace Microarea.Common.MenuLoader
 
 			if (node.OwnerDocument == null)
 			{
-				Debug.Fail("MenuXmlNode.CreateArgumentsChild Error: void document owner.");
+				Debug.WriteLine("MenuXmlNode.CreateArgumentsChild Error: void document owner.");
 				return false;
 			}
 			MenuXmlNode argsNode = CreateArgumentsNodeFromOuterXml(aArgumentsOuterXml, node.OwnerDocument);
@@ -2302,7 +2302,7 @@ namespace Microarea.Common.MenuLoader
 			}
 			catch(Exception exception)
 			{
-				Debug.Fail("Exception raised in MenuXmlNode.ReplaceTitle: " + exception.Message);
+				Debug.WriteLine("Exception raised in MenuXmlNode.ReplaceTitle: " + exception.Message);
                 throw new MenuXmlNodeException(this, String.Format(MenuManagerLoaderStrings.GenericExceptionRaisedFmtMsg, "MenuXmlNode.ReplaceTitle"), exception);
 			}
 		}
@@ -2327,7 +2327,7 @@ namespace Microarea.Common.MenuLoader
 			}
 			catch(Exception exception)
 			{
-				Debug.Fail("Exception raised in MenuXmlNode.ReplaceDescription: " + exception.Message);
+				Debug.WriteLine("Exception raised in MenuXmlNode.ReplaceDescription: " + exception.Message);
                 throw new MenuXmlNodeException(this, String.Format(MenuManagerLoaderStrings.GenericExceptionRaisedFmtMsg, "MenuXmlNode.ReplaceDescription"), exception);
 			}
 		}
@@ -2662,7 +2662,7 @@ namespace Microarea.Common.MenuLoader
 			}
 			catch(MenuXmlNodeException exception)
 			{
-				Debug.Fail(exception.ExtendedMessage);
+				Debug.WriteLine(exception.ExtendedMessage);
 			}
 
 			return menuNodesFound;
@@ -2677,7 +2677,7 @@ namespace Microarea.Common.MenuLoader
 			XmlElement anotherTitleElement = node.OwnerDocument.CreateElement(XML_TAG_OTHER_TITLE);
 			if (anotherTitleElement == null)
 			{
-				Debug.Fail("MenuXmlNode.SetOtherTitle Error: title element creation failed.");
+				Debug.WriteLine("MenuXmlNode.SetOtherTitle Error: title element creation failed.");
 				return false;
 			}
 			anotherTitleElement.InnerText = anotherTitle;
@@ -2868,7 +2868,7 @@ namespace Microarea.Common.MenuLoader
 			}
 			catch(FormatException formatException)
 			{
-				Debug.Fail("FormatException raised in MenuXmlNode.SearchGuidChildValue: " + formatException.Message);
+				Debug.WriteLine("FormatException raised in MenuXmlNode.SearchGuidChildValue: " + formatException.Message);
 			}
 			return guidFromString;
 		}
@@ -3189,12 +3189,12 @@ namespace Microarea.Common.MenuLoader
 			}
 			catch(FormatException formatException)
 			{
-				Debug.Fail("FormatException raised in MenuXmlNode.IsValidGuidString: " + formatException.Message);
+				Debug.WriteLine("FormatException raised in MenuXmlNode.IsValidGuidString: " + formatException.Message);
 				return false;
 			}
 			catch(ArgumentNullException argumentNullException)
 			{
-				Debug.Fail("ArgumentNullException raised in MenuXmlNode.IsValidGuidString: " + argumentNullException.Message);
+				Debug.WriteLine("ArgumentNullException raised in MenuXmlNode.IsValidGuidString: " + argumentNullException.Message);
 				return false; // guidText is a null reference 
 			}
 		}
@@ -3244,7 +3244,7 @@ namespace Microarea.Common.MenuLoader
 			}
 			catch(Exception exception)
 			{
-				Debug.Fail("Exception raised in MenuXmlNode.CreateArgumentsNodeFromOuterXml: " + exception.Message);
+				Debug.WriteLine("Exception raised in MenuXmlNode.CreateArgumentsNodeFromOuterXml: " + exception.Message);
                 throw new MenuXmlNodeException(null, String.Format(MenuManagerLoaderStrings.GenericExceptionRaisedFmtMsg, "MenuXmlNode.CreateArgumentsNodeFromOuterXml"), exception);
 			}
 

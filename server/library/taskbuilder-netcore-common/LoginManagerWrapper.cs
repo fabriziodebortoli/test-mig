@@ -683,7 +683,7 @@ namespace Microarea.Common.WebServicesWrapper
                     if (firstKeyIndex == 0 && expression[0] != '!' && expression[0] != '(' && expression[0] != '?')
                     {
                         // errore di sintassi: l'espressione non può cominciare con un'operatore di tipo '&', '|', ')'
-                        Debug.Fail("Activation expression syntax error encountered in LoginManager.CheckActivationExpression.");
+                        Debug.WriteLine("Activation expression syntax error encountered in LoginManager.CheckActivationExpression.");
                         // non potendo testare correttamente l'attivazione sollevo un'eccezione
                         throw new LoginManagerException(LoginManagerError.GenericError, String.Format(WebServicesWrapperStrings.CheckActivationExpressionErrFmtMsg, expression));
                     }
@@ -718,7 +718,7 @@ namespace Microarea.Common.WebServicesWrapper
                     if (openingParenthesisCount != 0)
                     {
                         // errore di sintassi: non c'è un matching corretto di parentesi
-                        Debug.Fail("Activation expression syntax error encountered in LoginManager.CheckActivationExpression.");
+                        Debug.WriteLine("Activation expression syntax error encountered in LoginManager.CheckActivationExpression.");
                         // non potendo testare correttamente l'attivazione sollevo un'eccezione
                         throw new LoginManagerException(LoginManagerError.GenericError, String.Format(WebServicesWrapperStrings.CheckActivationExpressionErrFmtMsg, expression));
                     }
@@ -755,7 +755,7 @@ namespace Microarea.Common.WebServicesWrapper
                     if (currentOperator != '\0' && (token == null || token.Length == 0)) // non è il primo operando !
                     {
                         // errore di sintassi: l'espressione non può terminare con un'operatore di tipo '&', '|', ')'
-                        Debug.Fail("Activation expression syntax error encountered in LoginManager.CheckActivationExpression.");
+                        Debug.WriteLine("Activation expression syntax error encountered in LoginManager.CheckActivationExpression.");
                         // non potendo testare correttamente l'attivazione sollevo un'eccezione
                         throw new LoginManagerException(LoginManagerError.GenericError, String.Format(WebServicesWrapperStrings.CheckActivationExpressionErrFmtMsg, expression));
                     }
@@ -795,7 +795,7 @@ namespace Microarea.Common.WebServicesWrapper
                 if (currentOperator != '\0' && (expression == null || expression.Length == 0))
                 {
                     // errore di sintassi: l'espressione non può terminare con un'operatore di tipo '&', '|', ')'
-                    Debug.Fail("Activation expression syntax error encountered in LoginManager.CheckActivationExpression.");
+                    Debug.WriteLine("Activation expression syntax error encountered in LoginManager.CheckActivationExpression.");
                     // non potendo testare correttamente l'attivazione sollevo un'eccezione
                     throw new LoginManagerException(LoginManagerError.GenericError, String.Format(WebServicesWrapperStrings.CheckActivationExpressionErrFmtMsg, expression));
                 }

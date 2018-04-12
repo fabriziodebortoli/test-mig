@@ -287,7 +287,7 @@ namespace Microarea.Common.Generic
                 }
                 catch (Exception e)
                 {
-                    Debug.Fail(e.Message);
+                    Debug.WriteLine(e.Message);
                     return string.Empty;
                 }
             }
@@ -343,7 +343,7 @@ namespace Microarea.Common.Generic
             {
                 if (dirPath == null || dirPath == string.Empty)
                 {
-                    Debug.Fail(string.Format("Error in Functions.GetDirectoryName. Invalid path {0}", dirPath));
+                    Debug.WriteLine(string.Format("Error in Functions.GetDirectoryName. Invalid path {0}", dirPath));
                     return string.Empty;
                 }
                 if (dirPath[dirPath.Length - 1] == NameSolverStrings.Directoryseparetor)
@@ -406,7 +406,7 @@ namespace Microarea.Common.Generic
 
                 if (sourceFile == null || sourceFile.Length == 0 || destinationFile == null || destinationFile.Length == 0)
                 {
-                    Debug.Fail("Error in Functions.CopyDifferentFile");
+                    Debug.WriteLine("Error in Functions.CopyDifferentFile");
                     return false;
                 }
 
@@ -436,13 +436,13 @@ namespace Microarea.Common.Generic
                 }
                 catch (IOException exc)
                 {
-                    Debug.Fail(exc.Message);
+                    Debug.WriteLine(exc.Message);
                     error = exc.Message;
                     return false;
                 }
                 catch (Exception e)
                 {
-                    Debug.Fail(e.Message);
+                    Debug.WriteLine(e.Message);
                     error = e.Message;
                     return false;
                 }
@@ -460,7 +460,7 @@ namespace Microarea.Common.Generic
                 //Apply the DACL to the mutex
                 if (!ExternalAPI.SetKernelObjectSecurity((int)mutex.GetSafeWaitHandle().DangerousGetHandle(), ExternalAPI.DACL_SECURITY_INFORMATION, ref securityDescriptor))
                 {
-                    Debug.Fail("Unable to set security on the mutex, error " + Marshal.GetLastWin32Error());
+                    Debug.WriteLine("Unable to set security on the mutex, error " + Marshal.GetLastWin32Error());
                 }
             }
          
@@ -506,19 +506,19 @@ namespace Microarea.Common.Generic
                     {
                         if (parent == null || !parent.IsHandleCreated || Control.FromHandle(parent.Handle) == null)
                         {
-                            Debug.Fail("ShowHelp failed: invalid parent specification.");
+                            Debug.WriteLine("ShowHelp failed: invalid parent specification.");
                             return;
                         }
 
                         if (helpUrl == null || helpUrl.Length == 0)
                         {
-                            Debug.Fail("Invalid Help request: missing Help URL specification.");
+                            Debug.WriteLine("Invalid Help request: missing Help URL specification.");
                             return;
                         }
 
                         if (!System.IO.File.Exists(helpUrl))
                         {
-                            Debug.Fail(String.Format("Invalid Help request: cannot find Help file ({0}).", helpUrl));
+                            Debug.WriteLine(String.Format("Invalid Help request: cannot find Help file ({0}).", helpUrl));
                             return;
                         }
 
@@ -767,7 +767,7 @@ namespace Microarea.Common.Generic
                 }
                 catch (Exception exc)
                 {
-                    Debug.Fail(exc.Message);
+                    Debug.WriteLine(exc.Message);
                     return -1;
                 }
                 finally

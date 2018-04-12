@@ -155,7 +155,7 @@ namespace Microarea.Common.Hotlink
             CustomFilters customFilters = JsonConvert.DeserializeObject<CustomFilters>(cf);
             if (customFilters == null || customFilters.filters == null)
             {
-                Debug.Fail("Wrong custom filters ");
+                Debug.WriteLine("Wrong custom filters ");
                 return string.Empty;
             }
             if (customFilters.filters.Count == 0)
@@ -274,7 +274,7 @@ namespace Microarea.Common.Hotlink
             CustomSortFields customSortFields = JsonConvert.DeserializeObject<CustomSortFields>("{fields:" + cs + '}');
             if (customSortFields == null || customSortFields.fields == null)
             {
-                Debug.Fail("Wrong custom sort fields ");
+                Debug.WriteLine("Wrong custom sort fields ");
                 return string.Empty;
             }
             if (customSortFields.fields.Count == 0)
@@ -350,7 +350,7 @@ namespace Microarea.Common.Hotlink
             XmlDescription = ReferenceObjectsList.LoadPrototypeFromXml(Session.Namespace, Session.PathFinder);
             if (XmlDescription == null)
             {
-                Debug.Fail("Missing Xml Description of " + Session.Namespace);
+                Debug.WriteLine("Missing Xml Description of " + Session.Namespace);
                 return false;
             }
 
@@ -401,7 +401,7 @@ namespace Microarea.Common.Hotlink
                 string hklName = requestQuery["hklName"].ToString();
                 if (hklName.IsNullOrEmpty())
                 {
-                    Debug.Fail("Hotlink of Document " + hklName);
+                    Debug.WriteLine("Hotlink of Document " + hklName);
                     return false;
                 }
 
@@ -417,21 +417,21 @@ namespace Microarea.Common.Hotlink
                 query = await TbSession.GetHotLinkQuery(Session, xmlParameters, (int)hklAction, likeValue, documentId, hklName);
                 if (query.IsNullOrEmpty())
                 {
-                    Debug.Fail("GetHotLinkQuery failed ");
+                    Debug.WriteLine("GetHotLinkQuery failed ");
                     return false;
                 }
 
                 JObject jObject = JObject.Parse(query);
                 if (jObject == null)
                 {
-                    Debug.Fail("It fails to parse HotLink Query");
+                    Debug.WriteLine("It fails to parse HotLink Query");
                     return false;
                 }
 
                 query = jObject.GetValue("query")?.ToString();
                 if (query.IsNullOrEmpty())
                 {
-                    Debug.Fail("HotLink Query is empty");
+                    Debug.WriteLine("HotLink Query is empty");
                     return false;
                 }
 
@@ -445,7 +445,7 @@ namespace Microarea.Common.Hotlink
 
             if (!this.CurrentQuery.Define(query))
             {
-                Debug.Fail("DS fails to prepare hotlink query");
+                Debug.WriteLine("DS fails to prepare hotlink query");
                 return false;
             }
 
@@ -469,7 +469,7 @@ namespace Microarea.Common.Hotlink
             string documentId = requestQuery["documentID"].ToString();
             if (documentId.IsNullOrEmpty())
             {
-                Debug.Fail("Radar called without DocumentID");
+                Debug.WriteLine("Radar called without DocumentID");
                 return null;
             }
 
@@ -492,14 +492,14 @@ namespace Microarea.Common.Hotlink
             string response = await TbSession.GetRadarQuery(Session, documentId, name);
             if (response.IsNullOrEmpty())
             {
-                Debug.Fail("GetRadarQuery failed");
+                Debug.WriteLine("GetRadarQuery failed");
                 return null;
             }
 
             ResponseRadarInfo responseRadarInfo = JsonConvert.DeserializeObject<ResponseRadarInfo>(response);
             if (responseRadarInfo == null || responseRadarInfo.radarInfo == null || responseRadarInfo.radarInfo.query.IsNullOrEmpty())
             {
-                Debug.Fail("It fails to parse RadarInfo");
+                Debug.WriteLine("It fails to parse RadarInfo");
                 return null;
             }
 
@@ -507,7 +507,7 @@ namespace Microarea.Common.Hotlink
 
             if (!this.CurrentQuery.Define(responseRadarInfo.radarInfo.query))
             {
-                Debug.Fail("DS fails to prepare radar query");
+                Debug.WriteLine("DS fails to prepare radar query");
                 return null;
             }
 
@@ -805,7 +805,7 @@ namespace Microarea.Common.Hotlink
                     object o = f.Data;
                     if (o == null)
                     {
-                        Debug.Fail("Empty value for " + f.Name);
+                        Debug.WriteLine("Empty value for " + f.Name);
                         continue;
                     }
 
