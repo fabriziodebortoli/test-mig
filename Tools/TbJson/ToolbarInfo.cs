@@ -47,7 +47,7 @@ namespace Microarea.TbJson
                 if (btn.GetBool(Constants.isDropdown))
                 {
                     foreach(JObject jMenuItem in btn.GetItems())
-                        jMenuItem[Constants.ngClass] = cssClass;
+                        jMenuItem[Constants.ngClass] = Constants.dropDownButton;
                 }
 				jItems.Add(btn);
 			}
@@ -69,7 +69,6 @@ namespace Microarea.TbJson
 			switch (cat)
 			{
 				case CommandCategory.Advanced:
-				case CommandCategory.Undefined:
 					return Constants.dropDownButton;
 				case CommandCategory.Print:
 					return Constants.dropUpButton;
