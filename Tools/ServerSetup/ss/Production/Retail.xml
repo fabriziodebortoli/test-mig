@@ -27,7 +27,7 @@
             <IncludeFolder name="Modules" recursive="yes">
               <IncludeFile name="*.csm"/>
             </IncludeFolder>
-            <IncludeFolder name="DatabaseScript|Files|DataManager|Menu|Settings|ModuleObjects|Report|ReferenceObjects|JsonForms" recursive="yes">
+            <IncludeFolder name="DatabaseScript|Files|DataManager|Menu|Settings|ModuleObjects|Report|ReferenceObjects|JsonForms|Dictionary" recursive="yes">
               <IncludeFile name="*.*"/>
             </IncludeFolder>
             <IncludeFile name="*.config|*.Solution.xml|*.Brand.xml"/>
