@@ -47,6 +47,7 @@
 #include "bodyedit.hjson" //JSON AUTOMATIC UPDATE
 #include "TileDialog.h"
 #include "CAddressDlg.h"
+#include "JsonFormEngineEx.h"
 
 
 //includere come ultimo include all'inizio del cpp
@@ -261,18 +262,37 @@ IMPLEMENT_DYNCREATE(CWndBodyTreeElementDescription, CWndBodyElementDescription)
 //-----------------------------------------------------------------------------
 CWndBodyDescription::CWndBodyDescription(void)
 {
-	m_strRowsIndicator = _T("");
 	m_Type = CWndObjDescription::BodyEdit;
 }
-
+//-----------------------------------------------------------------------------
+CWndBodyDescription::~CWndBodyDescription(void)
+{
+	delete m_pRowViewContext;
+}
 //-----------------------------------------------------------------------------
 CWndBodyDescription::CWndBodyDescription(CWndObjDescription* pParent)
 	: CWndObjDescription(pParent)
 {
-	m_strRowsIndicator = _T("");
 	m_Type = CWndObjDescription::BodyEdit;
 }
-
+//-----------------------------------------------------------------------------
+CWndObjDescription* CWndBodyDescription::GetRowViewDescription(CJsonContext* pOwnerContext)
+{
+	if (m_pRowViewContext != NULL)
+		return m_pRowViewContext->m_pDescription;
+	UINT nID = pOwnerContext->GetRowFormViewId(this);
+	if (nID)
+	{
+		CJsonResource res = AfxGetTBResourcesMap()->DecodeID(TbResources, nID);
+		//è stata mappata come risorsa dinamica: si tratta di risorsa in file tbjson
+		if (!res.IsEmpty())
+		{
+			m_pRowViewContext = (CJsonContext*)CJsonFormEngineObj::GetInstance()->CreateContext(res);
+			ASSERT(m_pRowViewContext);
+		}
+	}
+	return m_pRowViewContext ? m_pRowViewContext->m_pDescription : NULL;
+}
 //-----------------------------------------------------------------------------
 void CWndBodyDescription::SerializeJson(CJsonSerializer& strJson)
 {
@@ -372,9 +392,6 @@ void CWndBodyDescription::ParseJson(CJsonFormParser& parser)
 	PARSE_BOOL3(m_bAllowCustomize, szJsonAllowCustomize);
 	PARSE_BOOL3(m_bAllowSearch, szJsonAllowSearch);
 
-	if (parser.Has(szJsonRowsIndicator))
-		m_strRowsIndicator = parser.ReadString(szJsonRowsIndicator);
-
 	PARSE_INT(m_nMaxRecords, szJsonMaxRecords);
 	PARSE_DOUBLE(m_dTitleRows, szJsonTitleRows);
 
@@ -383,7 +400,6 @@ void CWndBodyDescription::ParseJson(CJsonFormParser& parser)
 void CWndBodyDescription::Assign(CWndObjDescription* pDesc)
 {
 	__super::Assign(pDesc);
-	m_strRowsIndicator = ((CWndBodyDescription*)pDesc)->m_strRowsIndicator;
 	m_bPrevRows = ((CWndBodyDescription*)pDesc)->m_bPrevRows;
 	m_bNextRows = ((CWndBodyDescription*)pDesc)->m_bNextRows;
 	m_strRowView = ((CWndBodyDescription*)pDesc)->m_strRowView;

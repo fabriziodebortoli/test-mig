@@ -594,10 +594,13 @@ void CTBSocketHandler::DoFillListBox(CJsonParser& json)
                     pItemSource->GetData(values, descriptions, currentValue);
                     if (pItemSource->GetNoData())
                     {
-							DataEnum* pEnum;   
+							DataEnum* pEnum = NULL;   
 							if (idc)
-								pEnum = dynamic_cast<DataEnum*> (pDoc->GetLinkedParsedCtrl(idc)->GetCtrlData());
-							
+							{
+								CParsedCtrl* pCtrl = pDoc->GetLinkedParsedCtrl(idc);
+								if (pCtrl)
+									pEnum = dynamic_cast<DataEnum*> (pCtrl->GetCtrlData());
+							}
                            if (!pEnum)
                            {
                                   ASSERT(FALSE);

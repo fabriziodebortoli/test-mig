@@ -240,7 +240,6 @@ public:
 	virtual CRuntimeClass*		GetRowViewClass();
 	virtual UINT				GetRowFormViewId();
 	void						SetAllBodyEditStyles();
-	void						FillMissingColumnProps(CWndObjDescription* pRowViewDesc, CWndBodyColumnDescription* pColDesc);
 	virtual BOOL				OnGetToolTipProperties(CBETooltipProperties* pTp);
 	virtual void				EnableButtons();
 	virtual BOOL				CanDoDeleteRow();

@@ -30,6 +30,112 @@ CJsonFormEngine g_Engine;
 #define LEFT_COL_1_MINI 4
 #define LEFT_COL_2 428
 
+//-----------------------------------------------------------------------------
+void FillMissingColumnProps(CWndObjDescription* pRowViewDesc, CWndBodyColumnDescription* pColDesc)
+{
+	if (!pRowViewDesc)
+		return;
+	CWndObjDescription* pOther = pRowViewDesc->Find(pColDesc->GetID());
+	if (!pOther)
+		return;
+	if (pColDesc->m_strActivation.IsEmpty())
+	{
+		pColDesc->m_strActivation = pOther->m_strActivation;
+	}
+	if (pColDesc->m_strName.IsEmpty())
+		pColDesc->m_strName = pOther->m_strName;
+	if (pColDesc->m_strControlClass.IsEmpty())
+		pColDesc->m_strControlClass = pOther->m_strControlClass;
+	if (pColDesc->m_strText.IsEmpty())
+	{
+		if (!pOther->m_strControlCaption.IsEmpty())
+			pColDesc->m_strText = AfxLoadJsonString(pOther->m_strControlCaption, pOther);
+		else if (!pOther->m_strText.IsEmpty())
+			pColDesc->m_strText = AfxLoadJsonString(pOther->m_strText, pOther);
+	}
+	if (pColDesc->m_nChars == -1)
+		pColDesc->m_nChars = pOther->m_nChars;
+	if (pColDesc->m_nRows == 1)
+		pColDesc->m_nRows = pOther->m_nRows;
+	if (pColDesc->m_nTextLimit == 0)
+		pColDesc->m_nTextLimit = pOther->m_nTextLimit;
+	if (pColDesc->m_sMinValue.IsEmpty())
+		pColDesc->m_sMinValue = pOther->m_sMinValue;
+	if (pColDesc->m_sMaxValue.IsEmpty())
+		pColDesc->m_sMaxValue = pOther->m_sMaxValue;
+
+	if (pColDesc->m_nNumberDecimal == -1 && pOther->m_nNumberDecimal != -1)
+		pColDesc->m_nNumberDecimal = pOther->m_nNumberDecimal;
+
+	if (pOther->m_pControlBehaviourDescription && !pColDesc->m_pControlBehaviourDescription)
+	{
+		pColDesc->m_pControlBehaviourDescription = pOther->m_pControlBehaviourDescription->Clone();
+	}
+	if (pOther->m_pMenu && !pColDesc->m_pMenu)
+	{
+		pColDesc->m_pMenu = (CMenuDescription*)pOther->m_pMenu->DeepClone();
+		pColDesc->m_pMenu->SetParent(pColDesc);
+	}
+	pColDesc->m_Expressions.Assign(&pOther->m_Expressions, pOther, pColDesc);
+	CItemSourceDescription* pItemSource = NULL;
+	//il default per sort e' false; se nella rowview ho specificato true, lo faccio prevalere su quello della colonna, ha senso che siano omogenei
+	if (pOther->IsKindOf(RUNTIME_CLASS(CComboDescription)))
+	{
+		pColDesc->m_bSort = ((CComboDescription*)pOther)->m_bSort;
+		pItemSource = ((CComboDescription*)pOther)->m_pItemSourceDescri;
+	}
+	else if (pOther->IsKindOf(RUNTIME_CLASS(CListDescription)))
+	{
+		pColDesc->m_bSort = ((CListDescription*)pOther)->m_bSort;
+		pItemSource = ((CComboDescription*)pOther)->m_pItemSourceDescri;
+	}
+
+	if (pItemSource && !pColDesc->m_pItemSourceDescri)
+		pColDesc->m_pItemSourceDescri = pItemSource->Clone();
+
+
+	if (pOther->IsKindOf(RUNTIME_CLASS(CTextObjDescription)))
+	{
+		CTextObjDescription* textDesc = ((CTextObjDescription*)pOther);
+		for (int i = 0; i < textDesc->m_arValidators.GetSize(); i++)
+		{
+			CValidatorDescription* pValidator = textDesc->m_arValidators[i]->Clone();
+			pColDesc->m_arValidators.Add(pValidator);
+		}
+	}
+
+	if (pOther->m_pBindings)
+	{
+		if (!pColDesc->m_pBindings)
+		{
+			pColDesc->m_pBindings = new BindingInfo();
+		}
+		pColDesc->m_pBindings->AssignDefaults(pOther->m_pBindings);
+	}
+
+	if (pOther->m_pStateData)
+	{
+		if (!pColDesc->m_pStateData)
+		{
+			pColDesc->m_pStateData = new StateData();
+		}
+		pColDesc->m_pStateData->AssignDefaults(pOther->m_pStateData);
+	}
+}
+
+//-----------------------------------------------------------------------------
+unsigned int CountLines(CString str) 
+{
+
+	int curPos = 0, counter = 1;
+	curPos = str.Find(_T("\n"), curPos);
+	while (curPos != -1)
+	{
+		counter++;
+		curPos = str.Find(_T("\n"), curPos + 1);
+	};
+	return counter;
+}
 
 //-----------------------------------------------------------------------------
 CAbstractFormView* GetParentView(CWnd* pWnd)
@@ -729,18 +835,10 @@ void CJsonContext::GetActivationExpressions(CWndObjDescription* pDesc, CStringAr
 	if (pDesc->m_Type == CWndObjDescription::BodyEdit)
 	{
 		CWndBodyDescription* pBodyDesc = (CWndBodyDescription*)pDesc;
-
-		UINT nID = GetRowFormViewId(pBodyDesc);
-		if (nID)
+		CWndObjDescription* pRowViewDesc = pBodyDesc->GetRowViewDescription(this);
+		if (pRowViewDesc)
 		{
-			CJsonResource res = AfxGetTBResourcesMap()->DecodeID(TbResources, nID);
-			//è stata mappata come risorsa dinamica: si tratta di risorsa in file tbjson
-			if (!res.IsEmpty())
-			{
-				CJsonContext* pRowViewContext = (CJsonContext*)CJsonFormEngineObj::GetInstance()->CreateContext(res);
-				GetActivationExpressions(pRowViewContext->m_pDescription, arIds, arActivated);
-				delete pRowViewContext;
-			}
+			GetActivationExpressions(pRowViewDesc, arIds, arActivated);
 		}
 	}
 	for (int i = 0; i < pDesc->m_Children.GetCount(); i++)
@@ -1847,113 +1945,6 @@ template <class T> void TBJsonBodyEditWrapper<T>::FindHotLink()
 {
 	if (m_pDBT)
 		m_pDBT->PrepareDynamicColumns(TRUE);
-}
-
-
-//-----------------------------------------------------------------------------
-template <class T> void TBJsonBodyEditWrapper<T>::FillMissingColumnProps(CWndObjDescription* pRowViewDesc, CWndBodyColumnDescription* pColDesc)
-{
-	if (!pRowViewDesc)
-		return;
-	CWndObjDescription* pOther = pRowViewDesc->Find(pColDesc->GetID());
-	if (!pOther)
-		return;
-	if (pColDesc->m_strActivation.IsEmpty())
-	{
-		pColDesc->m_strActivation = pOther->m_strActivation;
-	}
-	if (pColDesc->m_strName.IsEmpty())
-		pColDesc->m_strName = pOther->m_strName;
-	if (pColDesc->m_strControlClass.IsEmpty())
-		pColDesc->m_strControlClass = pOther->m_strControlClass;
-	if (pColDesc->m_strText.IsEmpty())
-	{
-		if (!pOther->m_strControlCaption.IsEmpty())
-			pColDesc->m_strText = AfxLoadJsonString(pOther->m_strControlCaption, pOther);
-		else if (!pOther->m_strText.IsEmpty())
-			pColDesc->m_strText = AfxLoadJsonString(pOther->m_strText, pOther);
-	}
-	if (pColDesc->m_nChars == -1)
-		pColDesc->m_nChars = pOther->m_nChars;
-	if (pColDesc->m_nRows == 1)
-		pColDesc->m_nRows = pOther->m_nRows;
-	if (pColDesc->m_nTextLimit == 0)
-		pColDesc->m_nTextLimit = pOther->m_nTextLimit;
-	if (pColDesc->m_sMinValue.IsEmpty())
-		pColDesc->m_sMinValue = pOther->m_sMinValue;
-	if (pColDesc->m_sMaxValue.IsEmpty())
-		pColDesc->m_sMaxValue = pOther->m_sMaxValue;
-
-	if (pColDesc->m_nNumberDecimal == -1 && pOther->m_nNumberDecimal != -1)
-		pColDesc->m_nNumberDecimal = pOther->m_nNumberDecimal;
-
-	if (pOther->m_pControlBehaviourDescription && !pColDesc->m_pControlBehaviourDescription)
-	{
-		pColDesc->m_pControlBehaviourDescription = pOther->m_pControlBehaviourDescription->Clone();
-	}
-	if (pOther->m_pMenu && !pColDesc->m_pMenu)
-	{
-		pColDesc->m_pMenu = (CMenuDescription*)pOther->m_pMenu->DeepClone();
-		pColDesc->m_pMenu->SetParent(pColDesc);
-	}
-	pColDesc->m_Expressions.Assign(&pOther->m_Expressions, pOther, pColDesc);
-	CItemSourceDescription* pItemSource = NULL;
-	//il default per sort e' false; se nella rowview ho specificato true, lo faccio prevalere su quello della colonna, ha senso che siano omogenei
-	if (pOther->IsKindOf(RUNTIME_CLASS(CComboDescription)))
-	{
-		pColDesc->m_bSort = ((CComboDescription*)pOther)->m_bSort;
-		pItemSource = ((CComboDescription*)pOther)->m_pItemSourceDescri;
-	}
-	else if (pOther->IsKindOf(RUNTIME_CLASS(CListDescription)))
-	{
-		pColDesc->m_bSort = ((CListDescription*)pOther)->m_bSort;
-		pItemSource = ((CComboDescription*)pOther)->m_pItemSourceDescri;
-	}
-
-	if (pItemSource && !pColDesc->m_pItemSourceDescri)
-		pColDesc->m_pItemSourceDescri = pItemSource->Clone();
-
-
-	if (pOther->IsKindOf(RUNTIME_CLASS(CTextObjDescription)))
-	{
-		CTextObjDescription* textDesc = ((CTextObjDescription*)pOther);
-		for (int i = 0; i < textDesc->m_arValidators.GetSize(); i++)
-		{
-			CValidatorDescription* pValidator = textDesc->m_arValidators[i]->Clone();
-			pColDesc->m_arValidators.Add(pValidator);
-		}
-	}
-
-	if (pOther->m_pBindings)
-	{
-		if (!pColDesc->m_pBindings)
-		{
-			pColDesc->m_pBindings = new BindingInfo();
-		}
-		pColDesc->m_pBindings->AssignDefaults(pOther->m_pBindings);
-	}
-
-	if (pOther->m_pStateData)
-	{
-		if (!pColDesc->m_pStateData)
-		{
-			pColDesc->m_pStateData = new StateData();
-		}
-		pColDesc->m_pStateData->AssignDefaults(pOther->m_pStateData);
-	}
-}
-
-//-----------------------------------------------------------------------------
-unsigned int CountLines(CString str) {
-
-	int curPos = 0, counter = 1;
-	curPos = str.Find(_T("\n"), curPos);
-	while (curPos != -1)
-	{
-		counter++;
-		curPos = str.Find(_T("\n"), curPos + 1);
-	};
-	return counter;
 }
 
 //-----------------------------------------------------------------------------
@@ -3137,7 +3128,35 @@ void CJsonFormEngine::BuildWebControlLinks(CParsedForm* pParsedForm, CJsonContex
 			pContext->CreateHotFilter(nIDC, pChild);
 			continue;
 		}
-		
+		SqlRecord* pRec = NULL;
+		DataObj* pDataObj = NULL;
+		DBTObject* pDBT = NULL;
+		CString sBindingName;
+		if (pChild->m_Type == CWndObjDescription::ColTitle)
+		{
+			CWndObjDescription* pRowViewDesc = ((CWndBodyDescription*)pWndDesc)->GetRowViewDescription(pContext);
+			if (pRowViewDesc)
+				FillMissingColumnProps(pRowViewDesc, (CWndBodyColumnDescription*)pChild);
+
+			if (pChild->m_pBindings)
+			{
+				CString sDataSource = pChild->m_pBindings->m_strDataSource;
+				int idx = sDataSource.Find(_T('.'));
+				if (idx == -1)
+				{
+					BindingInfo* pParentBinding = pChild->GetParent()->m_pBindings;
+					if (pParentBinding)
+						sDataSource = pParentBinding->m_strDataSource + _T('.') + sDataSource;
+				}
+				
+				if (pContext->m_pDoc)
+					pContext->m_pDoc->GetBindingInfo(sDataSource, pChild->GetID(), pDBT, pRec, pDataObj, sBindingName, TRUE);
+			}
+		}
+		else
+		{
+			pContext->GetBindingInfo(pChild->GetID(), pChild->m_strName, pChild->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
+		}
 		//solo i parsed controls
 		if (!pChild->m_strControlClass.IsEmpty())
 		{
@@ -3148,29 +3167,7 @@ void CJsonFormEngine::BuildWebControlLinks(CParsedForm* pParsedForm, CJsonContex
 
 			int idc = CJsonFormEngine::GetID(pChild);
 
-			SqlRecord* pRec = NULL;
-			DataObj* pDataObj = NULL;
-			DBTObject* pDBT = NULL;
-			CString sBindingName;
-			if (pChild->m_Type == CWndObjDescription::ColTitle)
-			{
-				if (pChild->m_pBindings)
-				{
-					CString sDataSource = pChild->m_pBindings->m_strDataSource;
-					if (sDataSource.Find(_T('.')) == -1)
-					{
-						BindingInfo* pParentBinding = pChild->GetParent()->m_pBindings;
-						if (pParentBinding)
-							sDataSource = pParentBinding->m_strDataSource + _T('.') + sDataSource;
-						if (pContext->m_pDoc)
-							pContext->m_pDoc->GetBindingInfo(sDataSource, pChild->GetID(), pDBT, pRec, pDataObj, sBindingName, TRUE);
-					}
-				}
-			}
-			else
-			{
-				pContext->GetBindingInfo(pChild->GetID(), pChild->m_strName, pChild->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
-			}
+		
 
 			if (pInfo && !pInfo->m_strName.IsEmpty() && pContext->m_pDoc)
 			{

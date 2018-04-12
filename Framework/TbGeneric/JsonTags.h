@@ -249,7 +249,6 @@
 #define szJsonRoundingQuantum					_T("roundingQuantum")
 #define szJsonRowView							_T("rowView")
 #define szJsonRows								_T("rows")
-#define szJsonRowsIndicator						_T("rowsIndicator")
 #define szJsonSecondSep							_T("secondSep")
 #define szJsonSelected							_T("selected")
 #define szJsonSelectedIcon						_T("selectedIcon")

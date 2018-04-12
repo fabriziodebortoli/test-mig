@@ -214,14 +214,15 @@ class TB_EXPORT CWndBodyDescription : public CWndObjDescription
 	int m_nMaxRecords					= MAX_BODY_RECORDS;
 	double m_dTitleRows					= DEFAULT_TITLE_ROWS;
 
+	CJsonContext* m_pRowViewContext		= NULL;
 private:
 	CWndBodyDescription(void);
 public:
-	CString m_strRowsIndicator;
-
+	~CWndBodyDescription();
 	CWndBodyDescription(CWndObjDescription* pParent);
 	virtual void SerializeJson(CJsonSerializer& strJson);
 	virtual void ParseJson(CJsonFormParser& parser);
+	CWndObjDescription* GetRowViewDescription(CJsonContext* pOwnerContext);
 protected:
 	virtual void Assign(CWndObjDescription* pDesc);
 	virtual void UpdateFocusStatus(CWnd *pWnd);
