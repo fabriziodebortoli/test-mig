@@ -182,14 +182,17 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
         case CommandType.ASK:
           this.askDialogTemplate = message;
           this.rsService.showAsk = true;
+          
            this.changeDetectorRef.detectChanges();
           break;
         case CommandType.UPDATEASK:
           this.askDialogTemplate = message;
+
           this.changeDetectorRef.detectChanges();
           break;
         case CommandType.PREVASK:
           this.askDialogTemplate = message;
+
           this.changeDetectorRef.detectChanges();
           break;
         case CommandType.NAMESPACE: break;
@@ -198,20 +201,24 @@ export class ReportingStudioComponent extends DocumentComponent implements OnIni
           this.eventData.model.Title.value = k.page.report_title;
           this.rsExportService.titleReport = k.page.report_title;
           this.reportTemplate = k;
+
           this.runReport();
+
          this.changeDetectorRef.detectChanges();
           break;
         case CommandType.TEMPLATE:
           this.rsService.showAsk = false;
           this.reportTemplate = k;
           this.getData();
-          this.changeDetectorRef.detectChanges();
+          if (k.objects)
+            this.changeDetectorRef.detectChanges();
           break;
         case CommandType.DATA:
           this.rsService.showAsk = false;
           this.reportData = k;
           this.data = k;
           this.curPageNum = k.page.page_number;
+
           this.changeDetectorRef.detectChanges();
           break;
         case CommandType.RUNREPORT:
