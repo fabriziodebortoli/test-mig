@@ -20,7 +20,7 @@ import { DocumentComponent } from './document.component';
 @Component({
     selector: 'tb-dynamic-cmp-tree',
     template: '<ng-content></ng-content>',
-    styles:[':host(tb-dynamic-cmp-tree){display:flex;flex:1;}'],
+    styles:[':host(tb-dynamic-cmp-tree){display:flex;flex:1;overflow:hidden;}'],
     providers: [EventDataService, Store]
 })
 export class DynamicCmpComponentTree {
@@ -28,7 +28,7 @@ export class DynamicCmpComponentTree {
 }
 @Component({
     selector: 'tb-dynamic-cmp',
-    styles: [':host(tb-dynamic-cmp){flex:1}'],
+    styles: [':host(tb-dynamic-cmp){flex:1;overflow:hidden;}'],
     template: '<div #cmpContainer></div><tb-message-dialog></tb-message-dialog><tb-diagnostic-dialog></tb-diagnostic-dialog><tb-dynamic-dialog></tb-dynamic-dialog>'
 })
 export class DynamicCmpComponent implements OnInit, OnDestroy {
