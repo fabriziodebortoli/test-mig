@@ -74,9 +74,18 @@ namespace Microarea.Common
             mySQLCommand.Parameters.Add(new SqlParameter("@IsReadOnly", SqlDbType.Char));
             mySQLCommand.Parameters.Add(new SqlParameter("@FileTextContent", SqlDbType.VarChar));
 
+            
             SqlParameter contentParam = new SqlParameter("@FileContent", SqlDbType.VarBinary);
             mySQLCommand.Parameters.Add(contentParam);
 
+            DirectoryInfo dir = new DirectoryInfo(Path.Combine(pf.GetStandardPath + "\\Taskbuilder"));
+            dir.CreationTime = DateTime.Now;
+            dir.LastWriteTime = DateTime.Now;
+            int tbFolderid = InsertDir(dir, false, 0, string.Empty, string.Empty);
+            dir = new DirectoryInfo(Path.Combine(pf.GetStandardPath + "\\Applications"));
+            dir.CreationTime = DateTime.Now;
+            dir.LastWriteTime = DateTime.Now;
+            int appFolderid = InsertDir(dir, false, 0, string.Empty, string.Empty);
 
             foreach (ApplicationInfo ai in pf.ApplicationInfos)
             {
@@ -89,9 +98,12 @@ namespace Microarea.Common
                     continue;
                 int id;
                 bool isCustom = ai.Path.Contains("Custom");
-                DirectoryInfo dir = new DirectoryInfo(ai.Path);
+                dir = new DirectoryInfo(ai.Path);
+                if (ai.ApplicationType == ApplicationType.TaskBuilder)
                 //inserisco nel db la directory dell app
-                id = InsertDir(dir, isCustom, 0, ai.Name, string.Empty);
+                    id = InsertDir(dir, isCustom, tbFolderid, ai.Name, string.Empty);
+                else
+                    id = InsertDir(dir, isCustom, appFolderid, ai.Name, string.Empty);
                 //...quindi, per ogni modulo...
                 if (File.Exists(Path.Combine(dir.FullName, NameSolverStrings.Application + NameSolverStrings.ConfigExtension)))
                     InsertFile(new FileInfo(dir.FullName + NameSolverStrings.Directoryseparetor + NameSolverStrings.Application + NameSolverStrings.ConfigExtension), isCustom, id, ai.Name, string.Empty);
@@ -384,8 +396,13 @@ namespace Microarea.Common
     
             int index = aDir.FullName.IndexOf(@"Standard\", 0);
             string path = aDir.FullName.Substring(index + 9);
-            string folderNameSpace = path.Substring(12);
-            folderNameSpace = "Folder." + folderNameSpace.Replace('\\', '.');
+            string folderNameSpace = string.Empty;
+
+            if (id != 0)
+            {
+                folderNameSpace = path.Substring(12);
+                folderNameSpace = "Folder." + folderNameSpace.Replace('\\', '.');
+            }
             try
             {
 
