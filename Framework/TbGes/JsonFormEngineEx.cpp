@@ -588,12 +588,10 @@ bool CJsonContext::Evaluate(CJsonExpressions& expressions, CWndObjDescription* p
 //-----------------------------------------------------------------------------
 class ExpressionDynamicSymTable : public SymTable
 {
-	CJsonContext* m_pContext;
 	CWndObjDescription* m_pDescription;
 public:
-	ExpressionDynamicSymTable(CJsonContext* pContext, CWndObjDescription* pDescription)
+	ExpressionDynamicSymTable(CWndObjDescription* pDescription)
 		:
-		m_pContext(pContext),
 		m_pDescription(pDescription)
 	{
 		SetOwns(TRUE);
@@ -630,8 +628,11 @@ public:
 			SqlRecord* pRecord = NULL;
 			DataObj* pDataObj = NULL;
 			CString sBindingName;
-			if (m_pContext->m_pDoc)
-				m_pContext->m_pDoc->GetBindingInfo(pszName, _T(""), pDBT, pRecord, pDataObj, sBindingName, FALSE);
+			if (m_pDocument)
+			{
+				ASSERT_KINDOF(CAbstractFormDoc, m_pDocument);
+				((CAbstractFormDoc*)m_pDocument)->GetBindingInfo(pszName, _T(""), pDBT, pRecord, pDataObj, sBindingName, FALSE);
+			}
 			if (pDataObj != NULL)
 			{
 				pField = new SymField(pszName, pDataObj->GetDataType(), 0, pDataObj);
@@ -646,10 +647,15 @@ public:
 template <class T, class TDataObj>
 bool CJsonContext::EvaluateExpression(const CString& sBareText, CWndObjDescription* pDescri, T& iOut)
 {
-	CString sAdjustedExpression = AdjustExpression(sBareText);
+	return EvaluateExpression<T, TDataObj>(m_pDoc, sBareText, pDescri, iOut);
+}
+//-----------------------------------------------------------------------------
+template <class T, class TDataObj>
+bool CJsonContext::EvaluateExpression(CAbstractFormDoc* pDocument, const CString& sBareText, CWndObjDescription* pDescri, T& iOut)
+{	CString sAdjustedExpression = AdjustExpression(sBareText);
 	Parser parser(sAdjustedExpression);
-	ExpressionDynamicSymTable table(this, pDescri);
-	table.SetDocument(m_pDoc);
+	ExpressionDynamicSymTable table(pDescri);
+	table.SetDocument(pDocument);
 	Expression expr(&table);
 	TDataObj di;
 	if (!expr.Parse(parser, di.GetDataType(), TRUE))

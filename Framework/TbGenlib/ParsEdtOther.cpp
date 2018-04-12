@@ -1359,21 +1359,19 @@ void CNamespaceEdit::ReadStaticPropertiesFromJson()
 	if (!m_pOwnerWndDescription)
 		return;
 	__super::ReadStaticPropertiesFromJson();
-	CJsonContextObj* pContext = GetJsonContext();
-	
 	CString s, sBareText;
 	if (m_pOwnerWndDescription->GetValue(szJsonDefaultNamespace, s))
 	{
-		if (pContext && CJsonFormEngineObj::IsExpression(s, sBareText))
-			((CJsonContext*)pContext)->EvaluateExpression<CString, DataStr>(sBareText, m_pOwnerWndDescription, s);
+		if (CJsonFormEngineObj::IsExpression(s, sBareText))
+			CJsonContext::EvaluateExpression<CString, DataStr>((CAbstractFormDoc*) m_pDocument, sBareText, m_pOwnerWndDescription, s);
 		CTBNamespace tbns(s);
 		ASSERT(tbns.IsValid());
 		SetNamespace(tbns);
 	}
 	if (m_pOwnerWndDescription->GetValue(szJsonNamespaceType, s))
 	{
-		if (pContext && CJsonFormEngineObj::IsExpression(s, sBareText))
-			((CJsonContext*)pContext)->EvaluateExpression<CString, DataStr>(sBareText, m_pOwnerWndDescription, s);
+		if (CJsonFormEngineObj::IsExpression(s, sBareText))
+			CJsonContext::EvaluateExpression<CString, DataStr>((CAbstractFormDoc*)m_pDocument, sBareText, m_pOwnerWndDescription, s);
 		CTBNamespace::NSObjectType nsType = CTBNamespace::FromString(s);
 		SetNamespaceType(nsType);
 	}

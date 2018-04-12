@@ -38,6 +38,8 @@ public:
 	bool CanCreateControl(CWndObjDescription* pWndDesc, UINT nID);
 	template <class T, class TDataObj>
 	bool EvaluateExpression(const CString& sText, CWndObjDescription* pDescri, T& bOut);
+	template <class T, class TDataObj>
+	static bool EvaluateExpression(CAbstractFormDoc* pDocument, const CString& sText, CWndObjDescription* pDescri, T& bOut);
 	bool Evaluate(CJsonExpressions& expressions, CWndObjDescription* pDescri);
 	void BuildDataControlLinks();
 	BOOL TranslateAliasDefaults(CString& sAlias, CWndObjDescription::WndObjType controlType);
@@ -51,7 +53,7 @@ public:
 	void GetActivationExpressions(CStringArray& arIds, CArray<bool>& arActivated);
 	void GetActivationExpressions(CWndObjDescription* pDesc, CStringArray& arIds, CArray<bool>& arActivated);
 
-	CString AdjustExpression(const CString& sRawExpression);
+	static CString AdjustExpression(const CString& sRawExpression);
 	void AttachItemSource(CItemSourceDescription* pItemSource, CParsedCtrl* pParsedCtrl);
 	void AttachDataAdapter(CDataAdapterDescription* pDataAdapterDescription, CParsedCtrl* pParsedCtrl);
 	void AttachValidator(CValidatorDescription* pValidator, CParsedCtrl* pParsedCtrl);
