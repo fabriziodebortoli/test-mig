@@ -6,4 +6,8 @@
     ::ng-deep .tb-frame{
         height:100% !important;
     }
+
+    ::ng-deep .k-window-actions.k-dialog-actions {
+        display: none;
+    }
 }
