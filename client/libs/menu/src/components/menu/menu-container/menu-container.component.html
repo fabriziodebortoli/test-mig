@@ -58,8 +58,8 @@
                             </div>
 
                             <div class="menu-container row" *ngIf="menuService?.selectedMenu?.Object">
-                                <p class="alert alert-warning">
-                                    <m4-icon icon="tb-warning"></m4-icon>Menu non conforme</p>
+                                <!-- <p class="alert alert-warning">
+                                    <m4-icon icon="tb-warning"></m4-icon>Menu non conforme</p> -->
                                 <tb-menu-content [canHide]="false" [menu]="menuTab" [tile]="menuService.selectedMenu" [ngClass]="tileClass"> </tb-menu-content>
                             </div>
 
