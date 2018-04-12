@@ -127,7 +127,8 @@ void CTBSocketHandler::QueryHyperLink(CJsonParser& json)
 	DataObj* pData = pHkl->GetDataObj()->Clone();
 	if (!pData) return;
 
-	CString sValue = ConvertJsonValue(json);
+	//CString sValue = ConvertJsonValue(json);
+	CString sValue = json.ReadString(_T("value"));
 	pData->AssignFromXMLString(sValue);
 	pHkl->ExistData(pData);
 
