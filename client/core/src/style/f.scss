@@ -1,0 +1,77 @@
+.f-login{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    header{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        height: 64px;
+        background: #0277bd;
+        padding:0 16px;
+        &>img{
+            height: 56px;
+            margin: 4px 0;
+        }
+        .fill {
+            flex: 1 1 auto;
+        }
+        #microarea{
+            font: 400 20px/32px Roboto, "Helvetica Neue", sans-serif;
+            line-height: 64px;
+            color:#fff;
+        }
+    }
+    .f-main-content{
+        background: #efefef;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .f-login-form{
+            max-width:400px;
+            max-height:400px;
+            .f-card{                
+                background-color: white;
+                margin: 3px;
+                padding: 5px 7px;
+                box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+                display: -ms-flexbox;
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+                overflow: hidden;
+                width: 380px;
+                .f-card-title{
+                    height:16px;
+                    width: 66%;
+                    background-color:#efefef;
+                    margin-bottom: 34px;
+                }
+                .f-control{
+                    &>p{height:12px;width: 36%;background-color:#efefef;margin:3px 0;}
+                    &>div{height:24px;width:100%;background-color:#efefef;margin:4px 0 14px;}
+                }
+                .f-button{
+                    height: 36px;
+                    width: 100%;
+                    background-color: #efefef;
+                    margin-top: 26px;
+                }
+            }
+        }
+        
+    }
+    
+    footer {
+        background: #0277bd;
+        padding: 10px 15px;
+        color: #fff;
+        font-weight: 400;
+        font-size: 12px;
+        a {
+            color: #fff;
+        }
+    }
+}

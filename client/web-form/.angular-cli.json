@@ -15,7 +15,8 @@
             "assets",
             "dictionary",
             "favicon.ico",
-            "config.json"
+            "config.json",
+            "f.css"
         ],
         "index": "index.html",
         "main": "main.ts",

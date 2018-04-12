@@ -53,7 +53,7 @@ export class LoginComponent extends TbComponent implements OnInit, OnDestroy {
   ) {
     super(tbComponentService, changeDetectorRef);
     this.enableLocalization();
-    this.loadingService.setLoading(true);
+    // this.loadingService.setLoading(true);
   }
 
   //-------------------------------------------------------------------------------------
