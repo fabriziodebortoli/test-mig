@@ -53,7 +53,7 @@ namespace Microarea.Common.NameSolver
             }
             catch (XmlException exc)
             {
-                Debug.Fail(exc.Message);
+                Debug.WriteLine(exc.Message);
                 return false;
             }
 

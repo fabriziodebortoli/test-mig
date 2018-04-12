@@ -574,7 +574,7 @@ namespace Microarea.RSWeb.WoormEngine
 		{
             if (aData == null)
             {
-                Debug.Fail("Field init expression failed" + '(' + this.Name + ')');
+                Debug.WriteLine("Field init expression failed" + '(' + this.Name + ')');
                 return;
             }
             
@@ -864,7 +864,7 @@ namespace Microarea.RSWeb.WoormEngine
 			// in fase di rasterizzazione avanzata (cioe` dalla seconda riga in poi)
 			if (substrings != null || (ownDisplayTable != null && ownDisplayTable.MultiLineFieldsCurrLine > 0))
 			{
-				Debug.Fail(WoormEngineStrings.BadInterline + " " + PublicName);
+				Debug.WriteLine(WoormEngineStrings.BadInterline + " " + PublicName);
 				return true;
 			}
 

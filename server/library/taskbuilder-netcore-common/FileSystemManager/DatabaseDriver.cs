@@ -304,7 +304,7 @@ namespace Microarea.Common.FileSystemManager
 
                 File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                 sb.Clear();
-                Debug.Fail(e.Message);
+                Debug.WriteLine(e.Message);
 		        return null;
 	        }	
 
@@ -363,7 +363,7 @@ namespace Microarea.Common.FileSystemManager
 			        connection.Dispose();
 		        }
 
-		        Debug.Fail(e.Message);
+		        Debug.WriteLine(e.Message);
 	        }
 
             return array;
@@ -427,7 +427,7 @@ namespace Microarea.Common.FileSystemManager
 			        connection.Dispose();
 		        }
 		        
-                Debug.Fail(e.Message);
+                Debug.WriteLine(e.Message);
 	        }
 
             return pModulesPath;
@@ -512,14 +512,14 @@ namespace Microarea.Common.FileSystemManager
 	        TBFile tBFile = GetTBFile(strPathFileName);
 	        nLen = 0;
 	        byte[] pBinaryContent = (tBFile != null) ? tBFile.GetContentAsBinary() : null;
-	        Debug.Fail(tBFile.completeFileName);
+	        Debug.WriteLine(tBFile.completeFileName);
 	        if (tBFile != null)
 	        {
 		        nLen = (pBinaryContent != null) ? (int) tBFile.fileSize : 0; 
                 tBFile.fileContent = null;
                 tBFile = null;
 	        }
-	        Debug.Fail("GetBinaryFile error pBinaryContent");
+	        Debug.WriteLine("GetBinaryFile error pBinaryContent");
 
             return pBinaryContent;
         }
@@ -1094,7 +1094,7 @@ namespace Microarea.Common.FileSystemManager
 			        sqlConnection.Dispose();
 		        }
 
-                Debug.Fail(e.Message);
+                Debug.WriteLine(e.Message);
 		        return false;
 	        }
 
@@ -1326,7 +1326,7 @@ namespace Microarea.Common.FileSystemManager
 			        sqlConnection.Dispose();
 		        }
 
-                Debug.Fail(e.Message);
+                Debug.WriteLine(e.Message);
 		        return;
 	        }
 
@@ -1396,7 +1396,7 @@ namespace Microarea.Common.FileSystemManager
 	        }
 	        catch (SqlException e)
 	        {
-                Debug.Fail(e.Message);
+                Debug.WriteLine(e.Message);
 		        return false;
 	        }
 	        return true;
@@ -1476,7 +1476,7 @@ namespace Microarea.Common.FileSystemManager
 			        sqlConnection.Dispose();
 		        }
 
-		        Debug.Fail(e.Message);
+		        Debug.WriteLine(e.Message);
 		        return null;
 	        }
 	        return subfolders;
@@ -1534,7 +1534,7 @@ namespace Microarea.Common.FileSystemManager
 
                 File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                 sb.Clear();
-                Debug.Fail(e.Message);
+                Debug.WriteLine(e.Message);
 		        return null;
 	        }	
 	        
@@ -1631,7 +1631,7 @@ namespace Microarea.Common.FileSystemManager
 			        sqlConnection.Close();
 			        sqlConnection.Dispose();
 		        }
-		        Debug.Fail(e.Message);
+		        Debug.WriteLine(e.Message);
 		        return false;
 	        }
 	        return true;
@@ -1719,7 +1719,7 @@ namespace Microarea.Common.FileSystemManager
 			        sqlConnection.Close();
 			        sqlConnection.Dispose();
 		        }
-		        Debug.Fail(e.Message);
+		        Debug.WriteLine(e.Message);
 		        return null;
 	        }
             return pFiles;

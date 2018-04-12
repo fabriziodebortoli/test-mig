@@ -1120,9 +1120,9 @@ namespace Microarea.Common.Generic
             }
             catch (Exception ex)
             {
-                Debug.Fail(ex.Message);
+                Debug.WriteLine(ex.Message);
             }
-            Debug.Fail("ToJson(object..." + o.GetType().ToString());
+            Debug.WriteLine("ToJson(object..." + o.GetType().ToString());
 
             return o.ToString().ToJson(name, bracket, true);
         }

@@ -186,7 +186,7 @@ namespace TaskBuilderNetCore.Interfaces
                 case EncodingType.UTF16_BE:
                 case EncodingType.UTF16_LE:
                     {
-                        Debug.Fail("EncodingType.UTF16_BE");
+                        Debug.WriteLine("EncodingType.UTF16_BE");
                         break;
                     }
 

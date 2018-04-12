@@ -226,7 +226,7 @@ namespace Microarea.Common.CoreTypes
         {
             if (!ObjectHelper.Compatible(obj, this.BaseType))
             {
-                System.Diagnostics.Debug.Fail("Array - add element with wrong data type");
+                System.Diagnostics.Debug.WriteLine("Array - add element with wrong data type");
                 throw (new ObjectHelperException(CoreTypeStrings.IncompatibleType));
                 //return -1;
             }
@@ -240,7 +240,7 @@ namespace Microarea.Common.CoreTypes
         {
             if (!ObjectHelper.Compatible(obj, this.BaseType))
             {
-                System.Diagnostics.Debug.Fail("Array - add element with wrong data type");
+                System.Diagnostics.Debug.WriteLine("Array - add element with wrong data type");
                 throw (new ObjectHelperException(CoreTypeStrings.IncompatibleType));
                 //return;
             }
@@ -276,7 +276,7 @@ namespace Microarea.Common.CoreTypes
         {
             if (!ObjectHelper.Compatible(obj, this.BaseType))
             {
-                System.Diagnostics.Debug.Fail("Array - add element with wrong data type");
+                System.Diagnostics.Debug.WriteLine("Array - add element with wrong data type");
                 throw (new ObjectHelperException(CoreTypeStrings.IncompatibleType));
                 //return;
             }

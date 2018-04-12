@@ -159,7 +159,7 @@ namespace Microarea.Common.DBData
                         return String.Format(strSqlServerDateTs, dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second);
                     }
                 default:
-                    Debug.Fail("Illegal data type");
+                    Debug.WriteLine("Illegal data type");
                     break;
             }
             return String.Empty;

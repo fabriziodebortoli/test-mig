@@ -327,14 +327,14 @@ namespace Microarea.Common.NameSolver
             }
             catch (XmlException e)
             {
-                Debug.Fail(e.Message);
+                Debug.WriteLine(e.Message);
                 valid = false;
                 parsingError = e.Message;
                 return false;
             }
             catch (Exception err)
             {
-                Debug.Fail(err.Message);
+                Debug.WriteLine(err.Message);
                 valid = false;
                 parsingError = err.Message;
                 return false;
@@ -375,14 +375,14 @@ namespace Microarea.Common.NameSolver
             }
             catch (XmlException e)
             {
-                Debug.Fail(e.Message);
+                Debug.WriteLine(e.Message);
                 valid = false;
                 parsingError = e.Message;
                 return false;
             }
             catch (Exception err)
             {
-                Debug.Fail(err.Message);
+                Debug.WriteLine(err.Message);
                 valid = false;
                 parsingError = err.Message;
                 return false;

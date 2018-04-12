@@ -213,7 +213,7 @@ namespace Microarea.Common.CoreTypes
         {
             if (pElement == null)
             {
-                Debug.Fail("Error in ParameterInfo.Parse");
+                Debug.WriteLine("Error in ParameterInfo.Parse");
                 return false;
             }
 
@@ -284,7 +284,7 @@ namespace Microarea.Common.CoreTypes
         {
             if (pElement == null)
             {
-                Debug.Fail("Error in ParameterInfo.Unparse");
+                Debug.WriteLine("Error in ParameterInfo.Unparse");
                 return false;
             }
 

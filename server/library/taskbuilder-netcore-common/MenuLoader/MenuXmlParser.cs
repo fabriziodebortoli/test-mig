@@ -190,7 +190,7 @@ namespace Microarea.Common.MenuLoader
             }
             catch (XmlException exception)
             {
-                Debug.Fail("XmlException raised in MenuXmlParser.CreateApplicationNode: " + exception.Message);
+                Debug.WriteLine("XmlException raised in MenuXmlParser.CreateApplicationNode: " + exception.Message);
                 throw new MenuXmlParserException(String.Format(MenuManagerLoaderStrings.GenericExceptionRaisedFmtMsg, "MenuXmlParser.CreateApplicationNode"), exception);
             }
         }
@@ -266,7 +266,7 @@ namespace Microarea.Common.MenuLoader
             }
             catch (XmlException exception)
             {
-                Debug.Fail("XmlException raised in MenuXmlParser.CreateGroupNode: " + exception.Message);
+                Debug.WriteLine("XmlException raised in MenuXmlParser.CreateGroupNode: " + exception.Message);
                 throw new MenuXmlParserException(String.Format(MenuManagerLoaderStrings.GenericExceptionRaisedFmtMsg, "MenuXmlParser.CreateGroupNode"), exception);
             }
         }
@@ -351,7 +351,7 @@ namespace Microarea.Common.MenuLoader
             }
             catch (XmlException exception)
             {
-                Debug.Fail("XmlException raised in MenuXmlParser.CreateMenuNode: " + exception.Message);
+                Debug.WriteLine("XmlException raised in MenuXmlParser.CreateMenuNode: " + exception.Message);
                 throw new MenuXmlParserException(String.Format(MenuManagerLoaderStrings.GenericExceptionRaisedFmtMsg, "MenuXmlParser.CreateMenuNode"), exception);
             }
         }
@@ -588,7 +588,7 @@ namespace Microarea.Common.MenuLoader
             }
             catch (XmlException exception)
             {
-                Debug.Fail("XmlException raised in MenuXmlParser.AddMenuNodeToExistingNode: " + exception.Message);
+                Debug.WriteLine("XmlException raised in MenuXmlParser.AddMenuNodeToExistingNode: " + exception.Message);
                 throw new MenuXmlParserException(String.Format(MenuManagerLoaderStrings.GenericExceptionRaisedFmtMsg, "MenuXmlParser.AddMenuNodeToExistingNode"), exception);
             }
         }
@@ -642,7 +642,7 @@ namespace Microarea.Common.MenuLoader
             }
             catch (XmlException exception)
             {
-                Debug.Fail("XmlException raised in MenuXmlParser.RemoveNode: " + exception.Message);
+                Debug.WriteLine("XmlException raised in MenuXmlParser.RemoveNode: " + exception.Message);
                 throw new MenuXmlParserException(String.Format(MenuManagerLoaderStrings.GenericExceptionRaisedFmtMsg, "MenuXmlParser.RemoveNode"), exception);
             }
         }
@@ -1171,7 +1171,7 @@ namespace Microarea.Common.MenuLoader
             }
             catch (XmlException exception)
             {
-                Debug.Fail("MenuXmlParser LoadMenuFile Error", String.Format("Loading of menu file {0} failed.\n{1}", fileToLoad, exception.Message));
+                Debug.WriteLine("MenuXmlParser LoadMenuFile Error", String.Format("Loading of menu file {0} failed.\n{1}", fileToLoad, exception.Message));
                 //throw new MenuXmlParserException(String.Format(MenuManagerLoaderStrings.GenericExceptionRaisedFmtMsg, "MenuXmlParser.LoadMenuFile"), exception);
                 return false;   //meglio perdere un singolo menu che tutta l'applicazione
             }
@@ -1351,7 +1351,7 @@ namespace Microarea.Common.MenuLoader
             }
             catch (XmlException exception)
             {
-                Debug.Fail("XmlException raised in MenuXmlParser.CreateCommandNode: " + exception.Message);
+                Debug.WriteLine("XmlException raised in MenuXmlParser.CreateCommandNode: " + exception.Message);
                 throw new MenuXmlParserException(String.Format(MenuManagerLoaderStrings.GenericExceptionRaisedFmtMsg, "MenuXmlParser.CreateCommandNode"), exception);
             }
         }
@@ -1431,7 +1431,7 @@ namespace Microarea.Common.MenuLoader
             }
             catch (XmlException exception)
             {
-                Debug.Fail("XmlException raised in MenuXmlParser.AppendNodeCopy: " + exception.Message);
+                Debug.WriteLine("XmlException raised in MenuXmlParser.AppendNodeCopy: " + exception.Message);
                 throw new MenuXmlParserException(String.Format(MenuManagerLoaderStrings.GenericExceptionRaisedFmtMsg, "MenuXmlParser.AppendNodeCopy"), exception);
             }
         }
@@ -1510,7 +1510,7 @@ namespace Microarea.Common.MenuLoader
             }
             catch (XmlException exception)
             {
-                Debug.Fail("XmlException raised in MenuXmlParser.AddApplicationNode: " + exception.Message);
+                Debug.WriteLine("XmlException raised in MenuXmlParser.AddApplicationNode: " + exception.Message);
                 throw new MenuXmlParserException(String.Format(MenuManagerLoaderStrings.GenericExceptionRaisedFmtMsg, "MenuXmlParser.AddApplicationNode"), exception);
             }
         }
@@ -1525,7 +1525,7 @@ namespace Microarea.Common.MenuLoader
 
                 if (!aNode.IsApplication && !aNode.IsGroup && !aNode.IsMenu && !aNode.IsCommand)
                 {
-                    Debug.Fail("MenuXmlParser.FindMatchingApplicationNode Error: wrong node type.");
+                    Debug.WriteLine("MenuXmlParser.FindMatchingApplicationNode Error: wrong node type.");
                     return null;
                 }
 
@@ -1539,7 +1539,7 @@ namespace Microarea.Common.MenuLoader
             }
             catch (Exception exception)
             {
-                Debug.Fail("Exception raised in MenuXmlParser.FindMatchingApplicationNode: " + exception.Message);
+                Debug.WriteLine("Exception raised in MenuXmlParser.FindMatchingApplicationNode: " + exception.Message);
                 throw new MenuXmlParserException(String.Format(MenuManagerLoaderStrings.GenericExceptionRaisedFmtMsg, "MenuXmlParser.FindMatchingApplicationNode"), exception);
             }
         }
@@ -1552,7 +1552,7 @@ namespace Microarea.Common.MenuLoader
 
             if ((applicationNode != null && !applicationNode.IsApplication) || (!aNode.IsGroup && !aNode.IsMenu && !aNode.IsCommand))
             {
-                Debug.Fail("MenuXmlParser.FindMatchingGroupNode Error: wrong node type.");
+                Debug.WriteLine("MenuXmlParser.FindMatchingGroupNode Error: wrong node type.");
                 return null;
             }
 
@@ -1587,13 +1587,13 @@ namespace Microarea.Common.MenuLoader
 
                 if (!aNode.IsMenu && !aNode.IsCommand)
                 {
-                    Debug.Fail("MenuXmlParser.FindMatchingMenuNode Error: wrong node type.");
+                    Debug.WriteLine("MenuXmlParser.FindMatchingMenuNode Error: wrong node type.");
                     return null;
                 }
 
                 if ((groupNode != null && !groupNode.IsGroup))
                 {
-                    Debug.Fail("MenuXmlParser.FindMatchingMenuNode Error: wrong node type.");
+                    Debug.WriteLine("MenuXmlParser.FindMatchingMenuNode Error: wrong node type.");
                     return null;
                 }
 
@@ -1625,7 +1625,7 @@ namespace Microarea.Common.MenuLoader
             }
             catch (Exception exception)
             {
-                Debug.Fail("Exception raised in MenuXmlParser.FindMatchingMenuNode: " + exception.Message);
+                Debug.WriteLine("Exception raised in MenuXmlParser.FindMatchingMenuNode: " + exception.Message);
                 throw new MenuXmlParserException(String.Format(MenuManagerLoaderStrings.GenericExceptionRaisedFmtMsg, "MenuXmlParser.FindMatchingMenuNode"), exception);
             }
         }
@@ -1646,7 +1646,7 @@ namespace Microarea.Common.MenuLoader
 
                 if ((parentNode != null && !(parentNode.IsMenu || parentNode.IsCommand)) || !aNode.IsCommand)
                 {
-                    Debug.Fail("MenuXmlParser.FindMatchingCommandNode Error: wrong Parent node type.");
+                    Debug.WriteLine("MenuXmlParser.FindMatchingCommandNode Error: wrong Parent node type.");
                     return null;
                 }
                 MenuXmlNode menuNode = parentNode.IsMenu ? parentNode : parentNode.GetParentMenu();
@@ -1701,7 +1701,7 @@ namespace Microarea.Common.MenuLoader
             }
             catch (Exception exception)
             {
-                Debug.Fail("Exception raised in MenuXmlParser.FindMatchingCommandNode: " + exception.Message);
+                Debug.WriteLine("Exception raised in MenuXmlParser.FindMatchingCommandNode: " + exception.Message);
                 throw new MenuXmlParserException(String.Format(MenuManagerLoaderStrings.GenericExceptionRaisedFmtMsg, "MenuXmlParser.FindMatchingCommandNode"), exception);
             }
             return null;
@@ -1787,7 +1787,7 @@ namespace Microarea.Common.MenuLoader
             }
             catch (Exception exception)
             {
-                Debug.Fail("Exception raised in MenuXmlParser.FindMatchingNodeFromActionPath: " + exception.Message);
+                Debug.WriteLine("Exception raised in MenuXmlParser.FindMatchingNodeFromActionPath: " + exception.Message);
                 throw new MenuXmlParserException(String.Format(MenuManagerLoaderStrings.GenericExceptionRaisedFmtMsg, "MenuXmlParser.FindMatchingNodeFromActionPath"), exception);
             }
         }
@@ -1802,7 +1802,7 @@ namespace Microarea.Common.MenuLoader
 
                 if (!aNode.IsShortcut)
                 {
-                    Debug.Fail("MenuXmlParser.FindMatchingShortcutNode Error: wrong node type.");
+                    Debug.WriteLine("MenuXmlParser.FindMatchingShortcutNode Error: wrong node type.");
                     return null;
                 }
 
@@ -1810,7 +1810,7 @@ namespace Microarea.Common.MenuLoader
                 {
                     //					if (aMenuInfo.FavoritesXmlParser != this)
                     //					{
-                    //						Debug.Fail("MenuXmlParser.FindMatchingShortcutNode unaspected favorites dom");
+                    //						Debug.WriteLine("MenuXmlParser.FindMatchingShortcutNode unaspected favorites dom");
                     //						return null;
                     //					}
                     List<MenuXmlNode> shortcuts = /*aMenuInfo.FavoritesXmlParser.*/CommandShortcutsNode.ShortcutsItems;
@@ -1848,7 +1848,7 @@ namespace Microarea.Common.MenuLoader
             }
             catch (Exception exception)
             {
-                Debug.Fail("Exception raised in MenuXmlParser.FindMatchingShortcutNode: " + exception.Message);
+                Debug.WriteLine("Exception raised in MenuXmlParser.FindMatchingShortcutNode: " + exception.Message);
                 throw new MenuXmlParserException(String.Format(MenuManagerLoaderStrings.GenericExceptionRaisedFmtMsg, "MenuXmlParser.FindMatchingShortcutNode"), exception);
             }
         }
@@ -1951,7 +1951,7 @@ namespace Microarea.Common.MenuLoader
             }
             catch (Exception exception)
             {
-                Debug.Fail("Exception raised in MenuXmlParser.CreatePathStructureFromActionPath: " + exception.Message);
+                Debug.WriteLine("Exception raised in MenuXmlParser.CreatePathStructureFromActionPath: " + exception.Message);
                 throw new MenuXmlParserException(String.Format(MenuManagerLoaderStrings.GenericExceptionRaisedFmtMsg, "MenuXmlParser.CreatePathStructureFromActionPath"), exception);
             }
         }
@@ -2544,7 +2544,7 @@ namespace Microarea.Common.MenuLoader
             catch (XmlException exception)
             {
                 if (menuFileName != null && menuFileName.Length > 0)
-                    Debug.Fail("MenuXmlParser LoadMenuXml Error", String.Format("Loading of menu file {0} failed.\n{1}", menuFileName, exception.Message));
+                    Debug.WriteLine("MenuXmlParser LoadMenuXml Error", String.Format("Loading of menu file {0} failed.\n{1}", menuFileName, exception.Message));
                 throw new MenuXmlParserException(String.Format(MenuManagerLoaderStrings.GenericExceptionRaisedFmtMsg, "MenuXmlParser.LoadMenuXml"), exception);
             }
         }
@@ -2592,7 +2592,7 @@ namespace Microarea.Common.MenuLoader
                 {
                     if (!(base[index] is ObjectImageInfo))
                     {
-                        Debug.Fail("ObjectsImageInfos.[] Error: invalid element.");
+                        Debug.WriteLine("ObjectsImageInfos.[] Error: invalid element.");
                         return null;
                     }
                     return (ObjectImageInfo)(base[index]);
@@ -2608,7 +2608,7 @@ namespace Microarea.Common.MenuLoader
             {
                 if (!(aObjectImageInfo is ObjectImageInfo))
                 {
-                    Debug.Fail("ObjectsImageInfos.Add Error: invalid element.");
+                    Debug.WriteLine("ObjectsImageInfos.Add Error: invalid element.");
                     return -1;
                 }
 

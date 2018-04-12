@@ -67,12 +67,12 @@ namespace Microarea.Common.CoreTypes
             }
             catch (XmlException e)
             {
-                Debug.Fail(e.Message);
+                Debug.WriteLine(e.Message);
                 return false;
             }
             catch (Exception err)
             {
-                Debug.Fail(err.Message);
+                Debug.WriteLine(err.Message);
                 return false;
             }
 

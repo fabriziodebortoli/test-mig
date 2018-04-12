@@ -75,7 +75,7 @@ namespace Microarea.Common.NameSolver
 		public BehaviourObjectsInfo(string aFilePath, ModuleInfo aParentModuleInfo)
 		{
 			if (string.IsNullOrWhiteSpace(aFilePath))
-				Debug.Fail("Error in BehaviourObjectsInfo file");
+				Debug.WriteLine("Error in BehaviourObjectsInfo file");
 
 			filePath = aFilePath;
 			parentModuleInfo = aParentModuleInfo;
@@ -130,12 +130,12 @@ namespace Microarea.Common.NameSolver
 			}
 			catch (XmlException err)
 			{
-				Debug.Fail(err.Message);
+				Debug.WriteLine(err.Message);
 				return false;
 			}
 			catch (Exception e)
 			{
-				Debug.Fail(e.Message);
+				Debug.WriteLine(e.Message);
 				return false;
 			}
 

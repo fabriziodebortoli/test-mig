@@ -112,7 +112,7 @@ namespace Microarea.Common.SecurityLayer.SecurityObjects
 				}
 				catch (SqlException e)
 				{
-					Debug.Fail("SqlException raised in MenuSecurityFilter constructor: " + e.Message);
+					Debug.WriteLine("SqlException raised in MenuSecurityFilter constructor: " + e.Message);
 					if (sqlConnection != null)
 					{
 						if (sqlConnection.State == ConnectionState.Open)
@@ -192,7 +192,7 @@ namespace Microarea.Common.SecurityLayer.SecurityObjects
 				}
 				catch (SqlException e)
 				{
-					Debug.Fail("SqlException raised in MenuSecurityFilter.FindLoginProperties: " + e.Message);
+					Debug.WriteLine("SqlException raised in MenuSecurityFilter.FindLoginProperties: " + e.Message);
 					return false;
 				}
 				finally
@@ -228,7 +228,7 @@ namespace Microarea.Common.SecurityLayer.SecurityObjects
 				}
 				catch (SqlException e)
 				{
-					Debug.Fail("SqlException raised in MenuSecurityFilter GetObjectTypeFromDB method: " + e.Message);
+					Debug.WriteLine("SqlException raised in MenuSecurityFilter GetObjectTypeFromDB method: " + e.Message);
 					return -1;
 				}
 				finally
@@ -263,7 +263,7 @@ namespace Microarea.Common.SecurityLayer.SecurityObjects
 				}
 				catch (SqlException e)
 				{
-					Debug.Fail("SqlException raised in MenuSecurityFilter CheckAdmin method: " + e.Message);
+					Debug.WriteLine("SqlException raised in MenuSecurityFilter CheckAdmin method: " + e.Message);
 				}
 				finally
 				{
@@ -357,7 +357,7 @@ namespace Microarea.Common.SecurityLayer.SecurityObjects
 				}
 				catch(SqlException sqlException)
 				{
-					Debug.Fail("SqlException raised in MenuSecurityFilter.ExistOSLGrants: " + sqlException.Message);
+					Debug.WriteLine("SqlException raised in MenuSecurityFilter.ExistOSLGrants: " + sqlException.Message);
 					return false;
 				}
 				finally

@@ -129,7 +129,7 @@ namespace Microarea.Common.NameSolver
         {
             if (aClientDocumentInfo == null)
             {
-                Debug.Fail("Error in ServerDocumentInfo.AddClientDoc");
+                Debug.WriteLine("Error in ServerDocumentInfo.AddClientDoc");
                 return -1;
             }
 
@@ -184,7 +184,7 @@ namespace Microarea.Common.NameSolver
         {
             if (aFilePath == null || aFilePath.Length == 0 || aParentModuleInfo == null)
             {
-                Debug.Fail("Error in ClientDocumentsObjectInfo");
+                Debug.WriteLine("Error in ClientDocumentsObjectInfo");
             }
 
             filePath = aFilePath;

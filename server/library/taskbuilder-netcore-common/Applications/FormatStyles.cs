@@ -2862,7 +2862,7 @@ public string DecSeparator = ",";
             //se la tabella è vuota non segnalo errore ma dò semplicemente un ASSERT
             if (lex.LookAhead(Token.END))
             {
-                Debug.Fail("Empty Formatters table");
+                Debug.WriteLine("Empty Formatters table");
                 return true;
             }
 

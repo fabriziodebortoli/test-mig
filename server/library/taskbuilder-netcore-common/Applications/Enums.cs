@@ -1426,7 +1426,7 @@ namespace Microarea.Common.Applications
 
 				if (tagWithSameValue != null && tag == null)
 				{
-					Debug.Fail("Enum with tag value " + tagValue.ToString() + " is already present.");
+					Debug.WriteLine("Enum with tag value " + tagValue.ToString() + " is already present.");
 					if (tag == null)
 						tag = tagWithSameValue;
 					else
@@ -1485,7 +1485,7 @@ namespace Microarea.Common.Applications
 						tag = AddTag (owner, tagName, tagValue);
 						if (tag == null)
 						{
-							Debug.Fail("Enum with tag value " + tagValue.ToString() + " cannot be loaded.");
+							Debug.WriteLine("Enum with tag value " + tagValue.ToString() + " cannot be loaded.");
 							break;
 						}
 						tag.Description = GetTextDescription(tagNode);
@@ -1920,7 +1920,7 @@ namespace Microarea.Common.Applications
 			}
 			catch (Exception ex)
 			{
-				Debug.Fail(ex.Message);
+				Debug.WriteLine(ex.Message);
 				return false;
 			}
 		}

@@ -567,7 +567,7 @@ namespace Microarea.Common.Generic
             }
 
             tokensAr = null;
-            Debug.Fail("Il Namespace " + fullNameSpace + " è errato");
+            Debug.WriteLine("Il Namespace " + fullNameSpace + " è errato");
             fullNameSpace = string.Empty;
         }
 
@@ -598,7 +598,7 @@ namespace Microarea.Common.Generic
 
             if (aNameSpaceObjectType == NameSpaceObjectType.NotValid)
             {
-                Debug.Fail("Error in NameSpace.GetTokenValue");
+                Debug.WriteLine("Error in NameSpace.GetTokenValue");
                 return string.Empty;
             }
 
@@ -618,7 +618,7 @@ namespace Microarea.Common.Generic
 
             if (tokenIndex < 0 || tokenIndex >= tokens.Count)
             {
-                //Debug.Fail("NameSpace errato");
+                //Debug.WriteLine("NameSpace errato");
                 return string.Empty;
             }
 

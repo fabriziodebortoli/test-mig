@@ -171,7 +171,7 @@ namespace Microarea.Common.NameSolver
                 XmlElement root = moduleConfigDocument.DocumentElement;
 				if (root == null)
 				{
-					Debug.Fail("Sintassi del file " + moduleConfigFile);
+					Debug.WriteLine("Sintassi del file " + moduleConfigFile);
 					return false;
 				}
 
@@ -194,7 +194,7 @@ namespace Microarea.Common.NameSolver
 				} 
 				catch (Exception err) 
 				{
-					Debug.Fail(err.Message);
+					Debug.WriteLine(err.Message);
 				}
 
 				//MenuViewOrder
@@ -206,7 +206,7 @@ namespace Microarea.Common.NameSolver
 				} 
 				catch (Exception err) 
 				{
-					Debug.Fail(err.Message);
+					Debug.WriteLine(err.Message);
 				}
 
 				//cartelle di default
@@ -336,12 +336,12 @@ namespace Microarea.Common.NameSolver
 			}
 			catch(XmlException e)
 			{
-				Debug.Fail(e.Message);
+				Debug.WriteLine(e.Message);
 				return false;
 			}
 			catch(Exception err)
 			{
-				Debug.Fail(err.Message);
+				Debug.WriteLine(err.Message);
 				return false;
 			}
 

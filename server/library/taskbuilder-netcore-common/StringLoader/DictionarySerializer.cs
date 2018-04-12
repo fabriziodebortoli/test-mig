@@ -311,7 +311,7 @@ namespace Microarea.Common.StringLoader
 			   if (string.Compare(Types[i], type) == 0)
 				   return i;
              
-			Debug.Fail(string.Format("Invalid type: {0}", type));
+			Debug.WriteLine(string.Format("Invalid type: {0}", type));
 			return 0;	
 		}
 
@@ -322,7 +322,7 @@ namespace Microarea.Common.StringLoader
 				return Types[type];
 			else
 			{
-			   Debug.Fail(string.Format("Invalid type: {0}", type));
+			   Debug.WriteLine(string.Format("Invalid type: {0}", type));
 			   return ""; 
 			}
 		}

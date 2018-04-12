@@ -246,7 +246,7 @@ namespace Microarea.Common.Generic
                 catch(Exception ex)
                 {
 					//qui non dovrebbe passare
-					Debug.Fail(ex.Message);
+					Debug.WriteLine(ex.Message);
                 }
                 
 			}

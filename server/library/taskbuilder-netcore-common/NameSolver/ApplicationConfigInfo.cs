@@ -65,7 +65,7 @@ namespace Microarea.Common.NameSolver
 			XmlElement root = appConfigDocument.DocumentElement;
 			if (root == null)
 			{
-	    		Debug.Fail("Sintassi del file " + appConfigFile);
+	    		Debug.WriteLine("Sintassi del file " + appConfigFile);
 				return false;
 			}
 
@@ -186,7 +186,7 @@ namespace Microarea.Common.NameSolver
 			}
 			catch (Exception exc)
 			{
-				Debug.Fail("Errore in ApplicationConfigInfo.Save() durante il salvataggio di " + appConfigFile + "\n" + exc.Message);
+				Debug.WriteLine("Errore in ApplicationConfigInfo.Save() durante il salvataggio di " + appConfigFile + "\n" + exc.Message);
 				return false;
 			}
 

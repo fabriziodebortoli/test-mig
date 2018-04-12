@@ -112,7 +112,7 @@ namespace Microarea.Common.NameSolver
 			}
 			catch (Exception exception)
 			{
-				Debug.Fail("Error in BrandLoader.LoadFromFile: " + exception.Message);
+				Debug.WriteLine("Error in BrandLoader.LoadFromFile: " + exception.Message);
 				return false;
 			}
 			
@@ -338,7 +338,7 @@ namespace Microarea.Common.NameSolver
 				String.Compare(aBrandXmlNode.Name, BrandLoader.XML_TAG_BRAND) != 0
 				)
 			{
-				Debug.Fail("Error in BrandInfo constructor: invalid xml node.");
+				Debug.WriteLine("Error in BrandInfo constructor: invalid xml node.");
 				return;
 			}
 
@@ -386,7 +386,7 @@ namespace Microarea.Common.NameSolver
 				String.Compare(aBrandXmlNode.Name, BrandLoader.XML_TAG_BRAND) != 0
 				)
 			{
-				Debug.Fail("Error in BrandInfo.AddInfoFromXmlNode: invalid xml node.");
+				Debug.WriteLine("Error in BrandInfo.AddInfoFromXmlNode: invalid xml node.");
 				return false;
 			}
 
@@ -532,7 +532,7 @@ namespace Microarea.Common.NameSolver
 				String.Compare(aAppInfoXmlNode.Name, BrandLoader.XML_TAG_APPLICATION) != 0
 				)
 			{
-				Debug.Fail("Error in ApplicationBrandInfo constructor: invalid xml node.");
+				Debug.WriteLine("Error in ApplicationBrandInfo constructor: invalid xml node.");
 				return;
 			}
 
@@ -554,7 +554,7 @@ namespace Microarea.Common.NameSolver
 				String.Compare(aAppBrandInfoXmlNode.Name, BrandLoader.XML_TAG_APPLICATION) != 0
 				)
 			{
-				Debug.Fail("Error in ApplicationBrandInfo.SetInfoFromXmlNode: invalid xml node.");
+				Debug.WriteLine("Error in ApplicationBrandInfo.SetInfoFromXmlNode: invalid xml node.");
 				return;
 			}
 
@@ -599,7 +599,7 @@ namespace Microarea.Common.NameSolver
 				String.Compare(aKeyInfoXmlNode.Name, BrandLoader.XML_TAG_BRANDEDKEY) != 0
 				)
 			{
-				Debug.Fail("Error in BrandedKeynfo constructor: invalid xml node.");
+				Debug.WriteLine("Error in BrandedKeynfo constructor: invalid xml node.");
 				return;
 			}
 
@@ -620,7 +620,7 @@ namespace Microarea.Common.NameSolver
 				String.Compare(aKeyBrandInfoXmlNode.Name, BrandLoader.XML_TAG_BRANDEDKEY) != 0
 				)
 			{
-				Debug.Fail("Error in BrandedKeynfo.SetInfoFromXmlNode: invalid xml node.");
+				Debug.WriteLine("Error in BrandedKeynfo.SetInfoFromXmlNode: invalid xml node.");
 				return;
 			}
 			source = ((XmlElement)aKeyBrandInfoXmlNode).GetAttribute(BrandLoader.XML_ATTRIBUTE_SOURCE);

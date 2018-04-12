@@ -187,7 +187,7 @@ namespace Microarea.Common.Hotlink
 			}
 			catch (XmlException e)
 			{
-				Debug.Fail(e.Message);
+				Debug.WriteLine(e.Message);
 				return false;
 			}
 		}

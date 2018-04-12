@@ -218,7 +218,7 @@ namespace Microarea.Common.NameSolver
 		public DatabaseObjectsInfo(string aFilePath, ModuleInfo aParentModuleInfo)
 		{
 			if (aFilePath == null || aFilePath.Length == 0)
-				Debug.Fail("Error in DatabaseObjectsInfo");
+				Debug.WriteLine("Error in DatabaseObjectsInfo");
 
 			filePath		= aFilePath;
 			valid			= true;
@@ -342,14 +342,14 @@ namespace Microarea.Common.NameSolver
 			}
 			catch(XmlException err)
 			{
-                Debug.Fail(err.Message + '\n' + filePath);
+                Debug.WriteLine(err.Message + '\n' + filePath);
 				valid = false;
 				parsingError = err.Message;
 				return false;
 			}
 			catch(Exception e)
 			{
-				Debug.Fail(e.Message);
+				Debug.WriteLine(e.Message);
 				valid = false;
 				parsingError = e.Message;
 				return false;

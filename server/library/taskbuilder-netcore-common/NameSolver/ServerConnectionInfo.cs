@@ -132,7 +132,7 @@ namespace Microarea.Common.NameSolver
                 XmlElement root = ServerConnectionDocument.DocumentElement;
                 if (root == null)
                 {
-                    Debug.Fail("Error in ServerConnectionInfo.Parse");
+                    Debug.WriteLine("Error in ServerConnectionInfo.Parse");
                     return false;
                 }
 
@@ -163,7 +163,7 @@ namespace Microarea.Common.NameSolver
                     }
                     catch (Exception err)
                     {
-                        Debug.Fail(err.Message.ToString());
+                        Debug.WriteLine(err.Message.ToString());
                     }
                 }
 
@@ -176,7 +176,7 @@ namespace Microarea.Common.NameSolver
                     }
                     catch (Exception err)
                     {
-                        Debug.Fail(err.Message.ToString());
+                        Debug.WriteLine(err.Message.ToString());
                     }
                 }
 
@@ -189,7 +189,7 @@ namespace Microarea.Common.NameSolver
                     }
                     catch (Exception err)
                     {
-                        Debug.Fail(err.Message.ToString());
+                        Debug.WriteLine(err.Message.ToString());
                     }
                 }
 
@@ -202,7 +202,7 @@ namespace Microarea.Common.NameSolver
                     }
                     catch (Exception err)
                     {
-                        Debug.Fail(err.Message.ToString());
+                        Debug.WriteLine(err.Message.ToString());
                     }
                 }
 
@@ -216,7 +216,7 @@ namespace Microarea.Common.NameSolver
                     }
                     catch (Exception err)
                     {
-                        Debug.Fail(err.Message.ToString());
+                        Debug.WriteLine(err.Message.ToString());
                     }
                 }
                 //MaxLoginPerTBLoader
@@ -229,7 +229,7 @@ namespace Microarea.Common.NameSolver
                     }
                     catch (Exception err)
                     {
-                        Debug.Fail(err.Message.ToString());
+                        Debug.WriteLine(err.Message.ToString());
                     }
                 }
                 //TBLoaderTimeout
@@ -245,7 +245,7 @@ namespace Microarea.Common.NameSolver
                     }
                     catch (Exception err)
                     {
-                        Debug.Fail(err.Message.ToString());
+                        Debug.WriteLine(err.Message.ToString());
                     }
                 }
 
@@ -259,7 +259,7 @@ namespace Microarea.Common.NameSolver
                     }
                     catch (Exception err)
                     {
-                        Debug.Fail(err.Message.ToString());
+                        Debug.WriteLine(err.Message.ToString());
                     }
                 }
 
@@ -273,7 +273,7 @@ namespace Microarea.Common.NameSolver
                     }
                     catch (Exception err)
                     {
-                        Debug.Fail(err.Message.ToString());
+                        Debug.WriteLine(err.Message.ToString());
                     }
                 }
 
@@ -287,7 +287,7 @@ namespace Microarea.Common.NameSolver
                     }
                     catch (Exception err)
                     {
-                        Debug.Fail(err.Message.ToString());
+                        Debug.WriteLine(err.Message.ToString());
                     }
                 }
                 //UseStrongPwd
@@ -300,7 +300,7 @@ namespace Microarea.Common.NameSolver
                     }
                     catch (Exception err)
                     {
-                        Debug.Fail(err.Message.ToString());
+                        Debug.WriteLine(err.Message.ToString());
                     }
                 }
 
@@ -314,7 +314,7 @@ namespace Microarea.Common.NameSolver
                     }
                     catch (Exception err)
                     {
-                        Debug.Fail(err.Message.ToString());
+                        Debug.WriteLine(err.Message.ToString());
                     }
                 }
 
@@ -328,7 +328,7 @@ namespace Microarea.Common.NameSolver
                     }
                     catch (Exception err)
                     {
-                        Debug.Fail(err.Message.ToString());
+                        Debug.WriteLine(err.Message.ToString());
                     }
                 }
 
@@ -342,7 +342,7 @@ namespace Microarea.Common.NameSolver
                     }
                     catch (Exception err)
                     {
-                        Debug.Fail(err.Message.ToString());
+                        Debug.WriteLine(err.Message.ToString());
                     }
                 }
 
@@ -358,7 +358,7 @@ namespace Microarea.Common.NameSolver
                     }
                     catch (Exception err)
                     {
-                        Debug.Fail(err.Message.ToString());
+                        Debug.WriteLine(err.Message.ToString());
                     }
                 }
 
@@ -374,7 +374,7 @@ namespace Microarea.Common.NameSolver
                     }
                     catch (Exception err)
                     {
-                        Debug.Fail(err.Message.ToString());
+                        Debug.WriteLine(err.Message.ToString());
                     }
                 }
 
@@ -389,7 +389,7 @@ namespace Microarea.Common.NameSolver
                     }
                     catch (Exception err)
                     {
-                        Debug.Fail(err.Message.ToString());
+                        Debug.WriteLine(err.Message.ToString());
                     }
                 }
 
@@ -408,7 +408,7 @@ namespace Microarea.Common.NameSolver
                     }
                     catch (Exception err)
                     {
-                        Debug.Fail(err.Message.ToString());
+                        Debug.WriteLine(err.Message.ToString());
                     }
                 }
 
@@ -710,7 +710,7 @@ namespace Microarea.Common.NameSolver
             }
             catch (Exception err)
             {
-                Debug.Fail(err.Message + "\nVerificare che il file non sia protetto da scrittura");
+                Debug.WriteLine(err.Message + "\nVerificare che il file non sia protetto da scrittura");
                 return false;
             }
 

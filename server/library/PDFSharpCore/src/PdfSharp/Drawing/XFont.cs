@@ -715,7 +715,7 @@ namespace PdfSharp.Drawing
                 return value;
             }
             // ReSharper disable HeuristicUnreachableCode
-            Debug.Fail("Either GDI or WPF.");
+            Debug.WriteLine("Either GDI or WPF.");
             return 0;
             // ReSharper restore HeuristicUnreachableCode
 #endif

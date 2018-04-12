@@ -388,7 +388,7 @@ namespace Microarea.Common.MenuLoader
 					if (closingDoubleQuoteIndex == -1)
 					{
 						// errore di sintassi: l'espressione non può terminare con un'operatore di tipo '&', '|', ')'
-						Debug.Fail("Search expression evaluation error encountered in MenuSearchEngine.SearchExpression.");
+						Debug.WriteLine("Search expression evaluation error encountered in MenuSearchEngine.SearchExpression.");
 						// non potendo valutare correttamente l'espressione, sollevo un'eccezione
 						throw new MenuXmlParserException(String.Format(MenuManagerLoaderStrings.SearchExprDoubleQuoteMatchError, expression));
 					}
@@ -402,7 +402,7 @@ namespace Microarea.Common.MenuLoader
 					if (firstKeyIndex == 0 && expression[0] != '(')
 					{
 						// errore di sintassi: l'espressione non può cominciare con un'operatore di tipo '&', '|', ')'
-						Debug.Fail("Search expression evaluation error encountered in MenuSearchEngine.SearchExpression.");
+						Debug.WriteLine("Search expression evaluation error encountered in MenuSearchEngine.SearchExpression.");
 						// non potendo valutare correttamente l'espressione, sollevo un'eccezione
 						throw new MenuXmlParserException(MenuManagerLoaderStrings.SearchExprStartingCharError);
 					}
@@ -442,7 +442,7 @@ namespace Microarea.Common.MenuLoader
 					if (openingParenthesisCount != 0)
 					{
 						// errore di sintassi: non c'è un matching corretto di parentesi
-						Debug.Fail("Search expression evaluation error encountered in MenuSearchEngine.SearchExpression.");
+						Debug.WriteLine("Search expression evaluation error encountered in MenuSearchEngine.SearchExpression.");
 						// non potendo valutare correttamente l'espressione, sollevo un'eccezione
 						throw new MenuXmlParserException(MenuManagerLoaderStrings.SearchExprParenthesisMatchError);
 					}
@@ -484,7 +484,7 @@ namespace Microarea.Common.MenuLoader
 					if (currentOperator != '\0' && (token == null || token.Length == 0)) // non è il primo operando !
 					{
 						// errore di sintassi: l'espressione non può terminare con un'operatore di tipo '&', '|', ')'
-						Debug.Fail("Search expression evaluation error encountered in MenuSearchEngine.SearchExpression.");
+						Debug.WriteLine("Search expression evaluation error encountered in MenuSearchEngine.SearchExpression.");
 						// non potendo valutare correttamente l'espressione, sollevo un'eccezione
 						throw new MenuXmlParserException(MenuManagerLoaderStrings.SearchExprEndingCharError);
 					}
@@ -499,7 +499,7 @@ namespace Microarea.Common.MenuLoader
 						if (closingDoubleQuoteIndex == -1)
 						{
 							// errore di sintassi: l'espressione non può terminare con un'operatore di tipo '&', '|', ')'
-							Debug.Fail("Search expression evaluation error encountered in MenuSearchEngine.SearchExpression.");
+							Debug.WriteLine("Search expression evaluation error encountered in MenuSearchEngine.SearchExpression.");
 							// non potendo valutare correttamente l'espressione, sollevo un'eccezione
 							throw new MenuXmlParserException(String.Format(MenuManagerLoaderStrings.SearchExprDoubleQuoteMatchError, expression));
 						}
@@ -534,7 +534,7 @@ namespace Microarea.Common.MenuLoader
 				if (currentOperator != '\0' && (expression == null || expression.Length == 0))
 				{
 					// errore di sintassi: l'espressione non può terminare con un'operatore di tipo '&', '|', ')'
-					Debug.Fail("Search expression evaluation error encountered in MenuSearchEngine.SearchExpression.");
+					Debug.WriteLine("Search expression evaluation error encountered in MenuSearchEngine.SearchExpression.");
 					// non potendo valutare correttamente l'espressione, sollevo un'eccezione
 					throw new MenuXmlParserException(String.Format(MenuManagerLoaderStrings.SearchExprEndingCharError, expression));
 				}
@@ -653,7 +653,7 @@ namespace Microarea.Common.MenuLoader
 			string tmpExpression = searchExpression.Trim();
 			if (!CheckDoubleQuote(tmpExpression))
 			{
-				Debug.Fail("Search expression error in MenuSearchEngine.ValidateExpression: the double-quote character that terminates the string is not included.");
+				Debug.WriteLine("Search expression error in MenuSearchEngine.ValidateExpression: the double-quote character that terminates the string is not included.");
 				// non potendo valutare correttamente l'espressione, sollevo un'eccezione
 				throw new MenuXmlParserException(MenuManagerLoaderStrings.SearchExprDoubleQuoteMatchError);
 			}

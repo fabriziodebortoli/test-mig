@@ -213,7 +213,7 @@ namespace Microarea.Common.NameSolver
 		{
 			if (aFilePath == null || aFilePath.Length == 0)
 			{
-				Debug.Fail("Error in AddOnDatabaseObjectsInfo");
+				Debug.WriteLine("Error in AddOnDatabaseObjectsInfo");
 			}
 
 			filePath		= aFilePath;
@@ -266,14 +266,14 @@ namespace Microarea.Common.NameSolver
 			}
 			catch(XmlException err)
 			{
-				Debug.Fail(string.Format("Error parsing file {0} ({1})", filePath, err.Message));
+				Debug.WriteLine(string.Format("Error parsing file {0} ({1})", filePath, err.Message));
 				valid = false;
 				parsingError = err.Message;
 				return false;
 			}
 			catch(Exception e)
 			{
-				Debug.Fail(string.Format("Error parsing file {0} ({1})", filePath, e.Message));
+				Debug.WriteLine(string.Format("Error parsing file {0} ({1})", filePath, e.Message));
 				valid = false;
 				parsingError = e.Message;
 				return false;

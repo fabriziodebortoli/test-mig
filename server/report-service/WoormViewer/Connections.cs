@@ -991,7 +991,7 @@ namespace Microarea.RSWeb.WoormViewer
             }
             catch (Exception ex)
             {
-                Debug.Fail(ex.Message);
+                Debug.WriteLine(ex.Message);
                 return "";
             }
             return "";

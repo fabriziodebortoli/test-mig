@@ -1848,7 +1848,7 @@ namespace Microarea.RSWeb.WoormViewer
 			}
 			catch (Exception e)
 			{
-				Debug.Fail(e.Message + Environment.NewLine + e.Source + Environment.NewLine + e.StackTrace);
+				Debug.WriteLine(e.Message + Environment.NewLine + e.Source + Environment.NewLine + e.StackTrace);
 			}
 			return companyName;
 		}

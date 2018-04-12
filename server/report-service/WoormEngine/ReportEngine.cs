@@ -86,7 +86,7 @@ namespace Microarea.RSWeb.WoormEngine
 			}
 			catch (DBException e)
 			{
-				Debug.Fail(string.Format(WoormEngineStrings.CreateScheraError, e.Message));
+				Debug.WriteLine(string.Format(WoormEngineStrings.CreateScheraError, e.Message));
 				Diagnostic.Set(DiagnosticType.Error, e.Message);
 				//schema = null;       TODO rsweb
 			}

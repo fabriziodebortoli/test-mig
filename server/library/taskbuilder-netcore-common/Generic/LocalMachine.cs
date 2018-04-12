@@ -38,7 +38,7 @@ namespace Microarea.Common.Generic
             }
             catch (Exception ex)
             {
-                Debug.Fail(ex.Message);
+                Debug.WriteLine(ex.Message);
             }
 
             return "MACNOTFOUND";
@@ -53,7 +53,7 @@ namespace Microarea.Common.Generic
             }
             catch (Exception ex)
             {
-                Debug.Fail(ex.Message);
+                Debug.WriteLine(ex.Message);
             }
 
             return "HOSTNAMENOTFOUND";
@@ -83,7 +83,7 @@ namespace Microarea.Common.Generic
 		//	}
 		//	catch (Exception ex)
 		//	{
-		//		Debug.Fail(ex.Message);
+		//		Debug.WriteLine(ex.Message);
 		//		throw ex;
 		//	}
 		//}
@@ -123,7 +123,7 @@ namespace Microarea.Common.Generic
 		//	}
 		//	catch (Exception ex)
 		//	{
-		//		Debug.Fail(ex.Message);
+		//		Debug.WriteLine(ex.Message);
 		//		throw ex;
 		//	}
 		//}

@@ -218,13 +218,13 @@ namespace Microarea.Common.CoreTypes
 
 			if (o1 == null && o2 != null)
 			{
-				Debug.Fail(CoreTypeStrings.VariableNull);
+				Debug.WriteLine(CoreTypeStrings.VariableNull);
 				return false;
 			}
 
 			if (!Compatible(o1, o2))
 			{
-				Debug.Fail(CoreTypeStrings.VariableNotCompatible);
+				Debug.WriteLine(CoreTypeStrings.VariableNotCompatible);
 				return false;
 			}
 
@@ -288,7 +288,7 @@ namespace Microarea.Common.CoreTypes
             }
             catch (Exception ex)
             {
-                Debug.Fail(ex.Message);
+                Debug.WriteLine(ex.Message);
             }
 
             throw (new ObjectHelperException(CoreTypeStrings.IllegalDataType + " " + o2));
@@ -514,7 +514,7 @@ namespace Microarea.Common.CoreTypes
 				case "Single":		d = (object)0.0F;				break;
 				case "Byte":		d = (object)((byte)0);			break;
 				default:
-					Debug.Fail(CoreTypeStrings.ClearError);
+					Debug.WriteLine(CoreTypeStrings.ClearError);
 					break;
 			}
 		}
@@ -588,7 +588,7 @@ namespace Microarea.Common.CoreTypes
 				return b == TrueString || b.CompareNoCase("true");
 			}
 
-			//Debug.Fail(CoreTypeStrings.ErrorIn + " ObjectHelper.CastBool");
+			//Debug.WriteLine(CoreTypeStrings.ErrorIn + " ObjectHelper.CastBool");
 			return false;
 		}
 
@@ -630,7 +630,7 @@ namespace Microarea.Common.CoreTypes
 			if (d is string)	
                 return new Guid((string)d);
 
-			Debug.Fail(CoreTypeStrings.ErrorIn + " ObjectHelper.CastGuid");
+			Debug.WriteLine(CoreTypeStrings.ErrorIn + " ObjectHelper.CastGuid");
 			return Guid.Empty;
 		}
 
@@ -639,7 +639,7 @@ namespace Microarea.Common.CoreTypes
 		{
 			if (d is byte)	return (byte)d;
 
-			Debug.Fail("Error in ObjectHelper.CastByte");
+			Debug.WriteLine("Error in ObjectHelper.CastByte");
 			return 0;
 		}
 
@@ -662,7 +662,7 @@ namespace Microarea.Common.CoreTypes
                     return l;
             }
 
-			Debug.Fail(CoreTypeStrings.ErrorIn + " ObjectHelper.CastShort");
+			Debug.WriteLine(CoreTypeStrings.ErrorIn + " ObjectHelper.CastShort");
 			return 0;
 		}
 
@@ -685,7 +685,7 @@ namespace Microarea.Common.CoreTypes
                     return l;
             }
 
-            Debug.Fail(CoreTypeStrings.ErrorIn + " ObjectHelper.CastShort");
+            Debug.WriteLine(CoreTypeStrings.ErrorIn + " ObjectHelper.CastShort");
             return 0;
         }
 
@@ -705,7 +705,7 @@ namespace Microarea.Common.CoreTypes
 			}
 			if (d is DataEnum) return (uint)(DataEnum)d;
 
-			Debug.Fail(CoreTypeStrings.ErrorIn + " ObjectHelper.CastUInt");
+			Debug.WriteLine(CoreTypeStrings.ErrorIn + " ObjectHelper.CastUInt");
 			return 0;
 		}
 
@@ -728,7 +728,7 @@ namespace Microarea.Common.CoreTypes
 			if (d is DataEnum)	
                                 return (int)(uint)(DataEnum)d;
 
-			Debug.Fail(CoreTypeStrings.ErrorIn + " ObjectHelper.CastInt");
+			Debug.WriteLine(CoreTypeStrings.ErrorIn + " ObjectHelper.CastInt");
 			return 0;
 		}
 
@@ -751,7 +751,7 @@ namespace Microarea.Common.CoreTypes
             }
             if (d is uint) return (long)(uint)d;
 
-			Debug.Fail(CoreTypeStrings.ErrorIn + " ObjectHelper.CastLong");
+			Debug.WriteLine(CoreTypeStrings.ErrorIn + " ObjectHelper.CastLong");
 			return 0L;
 		}
 
@@ -778,7 +778,7 @@ namespace Microarea.Common.CoreTypes
 			if (d is DateTime)	return DateTimeFunctions.GiulianDate((DateTime)d);
 			if (d is DataEnum)	return (uint)((DataEnum) d);
 
-			Debug.Fail(CoreTypeStrings.ErrorIn + " ObjectHelper.CastDecimal");
+			Debug.WriteLine(CoreTypeStrings.ErrorIn + " ObjectHelper.CastDecimal");
 			return 0;
 		}
 		
@@ -799,7 +799,7 @@ namespace Microarea.Common.CoreTypes
                     return dbl;
             }
 
-			Debug.Fail(CoreTypeStrings.ErrorIn + " ObjectHelper.CastDouble");
+			Debug.WriteLine(CoreTypeStrings.ErrorIn + " ObjectHelper.CastDouble");
 			return 0.0;
 		}
 
@@ -813,7 +813,7 @@ namespace Microarea.Common.CoreTypes
 			if (d is int)		return (int)d;
 			if (d is long)		return (long)d;
 
-			Debug.Fail(CoreTypeStrings.ErrorIn + " ObjectHelper.CastFloat");
+			Debug.WriteLine(CoreTypeStrings.ErrorIn + " ObjectHelper.CastFloat");
 			return 0.0F;
 		}
 
@@ -829,7 +829,7 @@ namespace Microarea.Common.CoreTypes
                     return new DataEnum(l);
             }
 
-			Debug.Fail(CoreTypeStrings.ErrorIn + " ObjectHelper.CastDataEnum");
+			Debug.WriteLine(CoreTypeStrings.ErrorIn + " ObjectHelper.CastDataEnum");
 
 			return new DataEnum(0);
 		}
@@ -840,7 +840,7 @@ namespace Microarea.Common.CoreTypes
 			if (d is DateTime) return (DateTime)d;
 
             if (d is String) return DateTime.Parse((string)d);
-			Debug.Fail(CoreTypeStrings.ErrorIn + " ObjectHelper.CastDateTime");
+			Debug.WriteLine(CoreTypeStrings.ErrorIn + " ObjectHelper.CastDateTime");
 			return NullTbDateTime;
 		}
 
@@ -849,7 +849,7 @@ namespace Microarea.Common.CoreTypes
 		{
 			if (d is DataArray) return (DataArray)d;
 
-			Debug.Fail(CoreTypeStrings.ErrorIn + " ObjectHelper.CastDataArray");
+			Debug.WriteLine(CoreTypeStrings.ErrorIn + " ObjectHelper.CastDataArray");
 			return new DataArray();
 		}
 
@@ -969,49 +969,49 @@ namespace Microarea.Common.CoreTypes
 				{ 
 					byte b = 0; 
 					try { if (from.Length > 0) b = Byte.Parse(from); }
-					catch(Exception e) { if (throwException) throw(new ObjectHelperException(e.Message)); else Debug.Fail(e.Message); }
+					catch(Exception e) { if (throwException) throw(new ObjectHelperException(e.Message)); else Debug.WriteLine(e.Message); }
 					return b;
 				}
 				case "Int16"	: 
 				{
 					short s = 0;
 					try { if (from.Length > 0) s = Int16.Parse(from); }
-					catch(Exception e) { if (throwException) throw(new ObjectHelperException(e.Message)); else Debug.Fail(e.Message); }
+					catch(Exception e) { if (throwException) throw(new ObjectHelperException(e.Message)); else Debug.WriteLine(e.Message); }
 					return s;
 				}
 				case "Int32"	:
 				{
 					int i = 0;
 					try { if (from.Length > 0) i = Int32.Parse(from); }
-					catch(Exception e) { if (throwException) throw(new ObjectHelperException(e.Message)); else Debug.Fail(e.Message); }
+					catch(Exception e) { if (throwException) throw(new ObjectHelperException(e.Message)); else Debug.WriteLine(e.Message); }
 					return i;
 				}
 				case "Int64"	:
 				{
 					long l = 0;
 					try { if (from.Length > 0) l = Int64.Parse(from); }
-					catch(Exception e) { if (throwException) throw(new ObjectHelperException(e.Message)); else Debug.Fail(e.Message); }
+					catch(Exception e) { if (throwException) throw(new ObjectHelperException(e.Message)); else Debug.WriteLine(e.Message); }
 					return l;
 				}
 				case "Decimal"	:
 				{
 					decimal d = 0.0M;
 					try { if (from.Length > 0) d = Decimal.Parse(from); }
-					catch(Exception e) { if (throwException) throw(new ObjectHelperException(e.Message)); else Debug.Fail(e.Message); }
+					catch(Exception e) { if (throwException) throw(new ObjectHelperException(e.Message)); else Debug.WriteLine(e.Message); }
 					return d;
 				}
 				case "Single"	:	
 				{
 					float f = 0.0F;
 					try { if (from.Length > 0) f = Single.Parse(from); }
-					catch(Exception e) { if (throwException) throw(new ObjectHelperException(e.Message)); else Debug.Fail(e.Message); }
+					catch(Exception e) { if (throwException) throw(new ObjectHelperException(e.Message)); else Debug.WriteLine(e.Message); }
 					return f;
 				}
 				case "Double"	:
 				{
 					double d = 0.0;
 					try { if (from.Length > 0) d = Double.Parse(from); }
-					catch(Exception e) { if (throwException) throw(new ObjectHelperException(e.Message)); else Debug.Fail(e.Message); }
+					catch(Exception e) { if (throwException) throw(new ObjectHelperException(e.Message)); else Debug.WriteLine(e.Message); }
 					return d;
 				}
 
@@ -1033,7 +1033,7 @@ namespace Microarea.Common.CoreTypes
                         {
                             if (throwException)
                                 throw (new ObjectHelperException(e.Message));
-                            else Debug.Fail(e.Message);
+                            else Debug.WriteLine(e.Message);
                         }
                         finally
                         {
@@ -1047,7 +1047,7 @@ namespace Microarea.Common.CoreTypes
 					// in questo caso "from" deve contenere un int valido che è la rappresentazione del DataEnum
 					DataEnum de = new DataEnum(0);
 					try { de = DataEnum.Parse(from); }
-					catch (Exception e) { if (throwException) throw(new ObjectHelperException(e.Message)); else Debug.Fail(e.Message); }
+					catch (Exception e) { if (throwException) throw(new ObjectHelperException(e.Message)); else Debug.WriteLine(e.Message); }
 					return de;
 				}
 			}
@@ -1152,7 +1152,7 @@ namespace Microarea.Common.CoreTypes
 				case "DataEnum":	((DataEnum) d).Clear(); return d;
 //				case "DataArray":	((DataArray) d).Clear(); return d;
 				default:
-					Debug.Fail(CoreTypeStrings.ErrorIn + " ObjectHelper.SetUpperLimit");
+					Debug.WriteLine(CoreTypeStrings.ErrorIn + " ObjectHelper.SetUpperLimit");
 					return null;
 			}
 		}
@@ -1176,7 +1176,7 @@ namespace Microarea.Common.CoreTypes
 				case "DataEnum":	((DataEnum) d).Clear();	return d;
 //				case "DataArray":	((DataArray) d).Clear(); return d;
 				default:
-					Debug.Fail(CoreTypeStrings.ErrorIn + " ObjectHelper.SetUpperLimit");
+					Debug.WriteLine(CoreTypeStrings.ErrorIn + " ObjectHelper.SetUpperLimit");
 					return null;
 			}
 		}

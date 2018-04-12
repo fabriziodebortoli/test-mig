@@ -964,7 +964,7 @@
 //        //                return String.Format(sDateConvert, dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, dt.Second);
 //        //            }
 //        //        default:
-//        //            Debug.Fail(CoreTypeStrings.IllegalDataType);
+//        //            Debug.WriteLine(CoreTypeStrings.IllegalDataType);
 //        //            break;
 //        //    }
 //        //    return String.Empty;
@@ -1729,7 +1729,7 @@
 //            }
 //            catch (Exception exc)
 //            {
-//                Debug.Fail(exc.Message);
+//                Debug.WriteLine(exc.Message);
 //                return -1;
 //            }
 //            finally
@@ -3234,7 +3234,7 @@
 //            }
 //            catch (Exception e)
 //            {
-//                Debug.Fail(e.Message);
+//                Debug.WriteLine(e.Message);
 //                Debug.WriteLine(e.ToString());
 //            }
 
@@ -6246,7 +6246,7 @@
 //    //        }
 //    //        catch (OleDbException exception)
 //    //        {
-//    //            Debug.Fail(exception.Message);
+//    //            Debug.WriteLine(exception.Message);
 //    //            return null;
 //    //        }
 
@@ -6288,7 +6288,7 @@
 //    //        }
 //    //        catch (OleDbException exception)
 //    //        {
-//    //            Debug.Fail(exception.Message);
+//    //            Debug.WriteLine(exception.Message);
 //    //            return null;
 //    //        }
 

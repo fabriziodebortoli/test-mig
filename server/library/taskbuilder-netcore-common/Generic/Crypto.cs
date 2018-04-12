@@ -73,13 +73,13 @@ namespace Microarea.Common.Generic
 
                 if (symmetricAlgorithm == null)
 				{
-					Debug.Fail("Crypto.Init: Errore creazione algoritmo di Rijndael");
+					Debug.WriteLine("Crypto.Init: Errore creazione algoritmo di Rijndael");
 					return null;
 				}
 			}
 			catch(Exception err)
 			{
-				Debug.Fail(err.Message);
+				Debug.WriteLine(err.Message);
 				return null;
 			}
 
@@ -90,7 +90,7 @@ namespace Microarea.Common.Generic
 			}
 			catch (Exception err)
 			{
-				Debug.Fail(err.Message);
+				Debug.WriteLine(err.Message);
 				return null;
 			}
 			return symmetricAlgorithm;
@@ -190,7 +190,7 @@ namespace Microarea.Common.Generic
 			}
 			catch (Exception err)
 			{
-				Debug.Fail(err.Message);
+				Debug.WriteLine(err.Message);
 				return string.Empty;
 			}
 
@@ -261,7 +261,7 @@ namespace Microarea.Common.Generic
 			}
 			catch (Exception err)
 			{
-				Debug.Fail(err.Message);
+				Debug.WriteLine(err.Message);
 				return new byte[0];
 			}
 			
@@ -355,7 +355,7 @@ namespace Microarea.Common.Generic
 			}
 			catch (Exception err)
 			{
-				Debug.Fail(err.Message);
+				Debug.WriteLine(err.Message);
 				return string.Empty;
 			}
 		}
@@ -394,7 +394,7 @@ namespace Microarea.Common.Generic
 			}
 			catch (Exception err)
 			{
-				Debug.Fail(err.Message);
+				Debug.WriteLine(err.Message);
 				return string.Empty;
 			}
 		}
@@ -471,7 +471,7 @@ namespace Microarea.Common.Generic
 			}
 			catch (Exception err)
 			{
-				Debug.Fail(err.Message);
+				Debug.WriteLine(err.Message);
 				return new byte[0];
 			}
 		}

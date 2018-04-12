@@ -81,7 +81,7 @@ namespace Microarea.Common.NameSolver
 			if (aFilename == null || aFilename == string.Empty || 
 				aFilename == string.Empty || aParentModuleInfo == null)
 			{
-				Debug.Fail("Error in SettingsConfigInfo"); 
+				Debug.WriteLine("Error in SettingsConfigInfo"); 
 			}
 			
 			fileName		= aFilename;
@@ -153,7 +153,7 @@ namespace Microarea.Common.NameSolver
 			}
 			catch(Exception err)
 			{
-				Debug.Fail(err.Message);
+				Debug.WriteLine(err.Message);
 				valid = false;
 				parsingError = err.Message;
 				return false;
@@ -303,7 +303,7 @@ namespace Microarea.Common.NameSolver
 			}
 			catch(Exception err)
 			{
-				Debug.Fail(err.Message);
+				Debug.WriteLine(err.Message);
 				return null;
 			}
 		}
@@ -759,14 +759,14 @@ namespace Microarea.Common.NameSolver
 					
 			if (!PathFinder.PathFinderInstance.ExistFile(path))
 			{
-				if (mandatory) Debug.Fail("missing " + path);
+				if (mandatory) Debug.WriteLine("missing " + path);
 				return null;
 			}
 
 			SettingsConfigInfo sci = new SettingsConfigInfo(path, m);
 			if (!sci.Parse())
 			{
-				Debug.Fail("Error on parsing "+ path);
+				Debug.WriteLine("Error on parsing "+ path);
 				return null;
 			}
 
@@ -775,7 +775,7 @@ namespace Microarea.Common.NameSolver
 			
 			if (si == null)
 			{
-				if (mandatory) Debug.Fail("Section "+ sSection +" not found into "+ path);
+				if (mandatory) Debug.WriteLine("Section "+ sSection +" not found into "+ path);
 				return null;
 			}
 			else 
@@ -784,7 +784,7 @@ namespace Microarea.Common.NameSolver
 			}
 			if (item == null)
 			{
-				if (mandatory) Debug.Fail("Section "+ sSection +", entry"+ sEntry +" not found into "+ path);
+				if (mandatory) Debug.WriteLine("Section "+ sSection +", entry"+ sEntry +" not found into "+ path);
 				return null;
 			}
 			return item.Values[0];

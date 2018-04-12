@@ -47,7 +47,7 @@ namespace TaskBuilderNetCore.EasyStudio
         //---------------------------------------------------------------
         public void NotifyMessage(Exception ex)
         {
-            Debug.Fail(ex.Message);
+            Debug.WriteLine(ex.Message);
             Add(DiagnosticType.FatalError, ex.Message);
         }
 

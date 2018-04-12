@@ -107,7 +107,7 @@ namespace Microarea.Common.StringLoader
 		{
 			if (doc == null)
 			{
-				Debug.Fail("XmlDocument reference can't be null");
+				Debug.WriteLine("XmlDocument reference can't be null");
 				return null;
 			}
 

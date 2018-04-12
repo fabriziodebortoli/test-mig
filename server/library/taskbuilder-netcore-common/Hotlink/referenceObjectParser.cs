@@ -139,7 +139,7 @@ namespace Microarea.Common.Hotlink
 			diagnostic	= new Diagnostic("DiagnosticReferenceObjectParser");
 			if (nsHotlink == null || !nsHotlink.IsValid())
 			{
-				Debug.Fail("File not found");
+				Debug.WriteLine("File not found");
 			}
 
 			filePath			= aParentModuleInfo.GetReferenceObjectFileName (nsHotlink);
@@ -158,7 +158,7 @@ namespace Microarea.Common.Hotlink
 			diagnostic	= new Diagnostic("DiagnosticReferenceObjectParser");
 			if (aParentModuleInfo == null)
 			{
-				Debug.Fail("No HotKeyLinks find in file");
+				Debug.WriteLine("No HotKeyLinks find in file");
 			}
 
 			parentModuleInfo	= aParentModuleInfo;
@@ -186,7 +186,7 @@ namespace Microarea.Common.Hotlink
 			diagnostic	= new Diagnostic("DiagnosticReferenceObjectParser");
 			if (aParentModuleInfo == null)
 			{
-				Debug.Fail("No HotKeyLinks find in file");
+				Debug.WriteLine("No HotKeyLinks find in file");
 			}
 
 			parentModuleInfo	= aParentModuleInfo;
@@ -232,7 +232,7 @@ namespace Microarea.Common.Hotlink
 				//leggo il file
 				if (!PathFinder.PathFinderInstance.ExistFile(filePath))
 				{
-					Debug.Fail("File not found");
+					Debug.WriteLine("File not found");
 					return false;
 				}
 
@@ -256,7 +256,7 @@ namespace Microarea.Common.Hotlink
 					XmlNode functionTag = root.SelectSingleNode(xpath);
 					if (functionTag == null) 
 					{
-						Debug.Fail("No HotKeyLinks find in file");
+						Debug.WriteLine("No HotKeyLinks find in file");
 						return false;
 					}
 					
@@ -310,13 +310,13 @@ namespace Microarea.Common.Hotlink
 			}
 			catch(XmlException err)
 			{
-				Debug.Fail(err.Message);
+				Debug.WriteLine(err.Message);
 				valid = false;
 				return false;
 			}
 			catch(Exception e)
 			{
-				Debug.Fail(e.Message);
+				Debug.WriteLine(e.Message);
 				valid = false;
 				return false;
 			}
@@ -406,7 +406,7 @@ namespace Microarea.Common.Hotlink
 			}
 			catch (Exception err)
 			{
-				Debug.Fail(err.ToString());
+				Debug.WriteLine(err.ToString());
 				return String.Empty;
 			}
 		}

@@ -1492,7 +1492,7 @@ namespace Microarea.RSWeb.WoormEngine
                 }
                 else
                 {
-                    Debug.Fail("Cannot conver enum value: " + data);
+                    Debug.WriteLine("Cannot conver enum value: " + data);
                 }
             }
         }

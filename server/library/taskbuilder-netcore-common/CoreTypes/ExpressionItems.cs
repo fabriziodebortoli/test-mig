@@ -125,7 +125,7 @@ namespace Microarea.Common.CoreTypes
 
                 //if (woormType == "String" && DataType != "String" && DataType != string.Empty)
                 //{
-                //    System.Diagnostics.Debug.Fail("field with inconsisten data type:" + name);
+                //    System.Diagnostics.Debug.WriteLine("field with inconsisten data type:" + name);
                 //}
             } 
         }

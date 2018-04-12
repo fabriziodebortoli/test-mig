@@ -101,7 +101,7 @@ namespace Microarea.Common.NameSolver
 				// check nome root
 				if (string.Compare(myDocument.DocumentElement.Name, DBObjectXML.Element.RootElement, StringComparison.OrdinalIgnoreCase) != 0)
 				{
-					Debug.Fail(string.Format("No valid root element in file {0}", filePath));
+					Debug.WriteLine(string.Format("No valid root element in file {0}", filePath));
 					return false;
 				}
 
@@ -143,12 +143,12 @@ namespace Microarea.Common.NameSolver
 			}
 			catch (XmlException xmlEx)
 			{
-				Debug.Fail(xmlEx.Message);
+				Debug.WriteLine(xmlEx.Message);
 				return false;
 			}
 			catch (Exception ex)
 			{
-				Debug.Fail(ex.Message);
+				Debug.WriteLine(ex.Message);
 				return false;
 			}
 
