@@ -1180,9 +1180,9 @@ protected:
 
 	void DoMaskedGetValue(CString& aValue, DataObj& aDataObj);
 
+	CJsonContextObj* GetJsonContext();
 private:
 	void ToggleFormatMask	();
-	CJsonContextObj* GetJsonContext();
 public:
 	CCustomFont*	m_pCustomFont;
 	BOOL AttachCustomFont (CCustomFont* pcf) { m_pCustomFont = pcf; return TRUE; }
