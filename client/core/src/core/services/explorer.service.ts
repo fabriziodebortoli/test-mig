@@ -64,27 +64,34 @@ export class ExplorerService {
     );
   }
 
-    async GetObjs(app: Item, module: Item, type: ObjType): Promise<Maybe<Item[]>> {
-        return this.tryGetMap({
-            method: 'GetAllObjectsBytype', params: {
-                'appName': app.name.toLowerCase(),
-                'modulesName': module.name.toLowerCase(),
-                'objType': type
-            }
-        }, r => r.objects
-            .map(augmentItem({ parent: module, level: 3 }, type)));
-    }
-    async ExistsObject(
-        objnameSpace: string,
-        user: string,
-        companyName: string,
-        culture: string
-    ): Promise<boolean> {
-        return (await this.tryGetMap({
-            method: "ExistObject",
-            params: { objnameSpace, user, companyName, culture }
-        })).getOrDefault(false);
-    }
+  async GetObjs(
+    app: Item,
+    module: Item,
+    type: ObjType
+  ): Promise<Maybe<Item[]>> {
+    return this.tryGetMap(
+      {
+        method: 'GetAllObjectsBytype',
+        params: {
+          appName: app.name.toLowerCase(),
+          modulesName: module.name.toLowerCase(),
+          objType: type
+        }
+      },
+      r => r.objects.map(augmentItem({ parent: module, level: 3 }, type))
+    );
+  }
+  async ExistsObject(
+    objnameSpace: string,
+    user: string,
+    companyName: string,
+    culture: string
+  ): Promise<boolean> {
+    return (await this.tryGetMap({
+      method: 'ExistObject',
+      params: { objnameSpace, user, companyName, culture }
+    })).getOrDefault(false);
+  }
 
   async GetObjsByNamespace(namespace: string, type: ObjType): Promise<Item[]> {
     return [];
@@ -129,19 +136,25 @@ export class ExplorerService {
 }
 
 const augmentItem = (partial: Partial<Item>, type?: ObjType) => item => {
-    const humanizeName = (name: string) => {
-        let idx = -1;
-        if ((idx = name.lastIndexOf('/')) !== -1) return name.slice(idx + 1);
-        if ((idx = name.lastIndexOf('\\')) !== -1) return name.slice(idx + 1);
-        return name;
-    };
-    const typeToIcon = (type?: ObjType) =>
-        typeof type === 'undefined' ? 'tb-open'
-            : { [ObjType.Document]: 'erp-document', [ObjType.File]: 'erp-documenttextnote', [ObjType.Report]: 'tb-report', [ObjType.Image]: 'tb-picture' }[type]
-    item = { ...item, ...partial };
-    item.name = humanizeName(item.name || item.title);
-    item.namespace = item.namespace || item.NameSpace;
-    item.type = type;
-    item.icon = typeToIcon(type);
-    return item;
+  const humanizeName = (name: string) => {
+    let idx = -1;
+    if ((idx = name.lastIndexOf('/')) !== -1) return name.slice(idx + 1);
+    if ((idx = name.lastIndexOf('\\')) !== -1) return name.slice(idx + 1);
+    return name;
+  };
+  const typeToIcon = (t?: ObjType) =>
+    typeof t === 'undefined'
+      ? 'tb-open'
+      : {
+          [ObjType.Document]: 'erp-document',
+          [ObjType.File]: 'erp-documenttextnote',
+          [ObjType.Report]: 'tb-report',
+          [ObjType.Image]: 'tb-picture'
+        }[t];
+  item = { ...item, ...partial };
+  item.name = humanizeName(item.name || item.title);
+  item.namespace = item.namespace || item.NameSpace;
+  item.type = type;
+  item.icon = typeToIcon(type);
+  return item;
 };
