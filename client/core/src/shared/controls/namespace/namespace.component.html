@@ -2,13 +2,12 @@
     <tb-caption caption="{{caption}}" [for]="cmpId"></tb-caption>
     <div class="group">
         <ng-template [ngIf]="rows<2 && !multiline">
-            <input #textArea kendoTextBox maxlength="{{maxLength}}" [ngModel]="model?.value | toUpper: model?.uppercase" required="required" (blur)="onBlur($event)"
-                [disabled]="!(model?.enabled)" (ngModelChange)="model.value=$event" [style.width.px]="width" [ngClass]="controlClass"/>
+            <input #textArea kendoTextBox maxlength="{{maxLength}}" [ngModel]="model?.value | toUpper: model?.uppercase" (blur)="onBlur($event)" [disabled]="!(model?.enabled)" (ngModelChange)="model.value=$event" [style.width.px]="width" [ngClass]="controlClass"
+            />
         </ng-template>
         <ng-template [ngIf]="rows>1 || multiline">
-            <textarea #textArea class="tb-textarea" name="{{cmpId}}" maxlength="{{maxLength}}" [readonly]="readonly" [ngModel]="model?.value | toUpper: model?.uppercase"
-                (ngModelChange)="model.value=$event" [disabled]="!model?.enabled || readonly" [style.width.px]="width+8" [style.height.px]="height-3"
-                rows="{{rows}}" [ngClass]="controlClass">
+            <textarea #textArea class="tb-textarea" name="{{cmpId}}" maxlength="{{maxLength}}" [readonly]="readonly" [ngModel]="model?.value | toUpper: model?.uppercase" (ngModelChange)="model.value=$event" [disabled]="!model?.enabled || readonly" [style.width.px]="width+8"
+                [style.height.px]="height-3" rows="{{rows}}" [ngClass]="controlClass">
         </textarea>
         </ng-template>
         <button kendoButton tabindex="-1" (click)="search($event)" [disabled]="!(model?.enabled)">

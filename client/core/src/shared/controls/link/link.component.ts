@@ -63,6 +63,10 @@ export class LinkComponent extends ControlComponent implements OnInit, OnChanges
   }
 
   onBlur(e): any {
+    if (!this.model || !this.model.value) {
+        this.cc.errorMessage = '';
+        return;
+    }
     this.constraint = new RegExp('((http|https)(:\/\/))?([a-zA-Z0-9]+[.]{1}){2}[a-zA-z0-9]+(\/{1}[a-zA-Z0-9]+)*\/?', 'i');
     if (!this.constraint.test(this.model.value)) {
       this.cc.errorMessage = 'Input not in correct form';
