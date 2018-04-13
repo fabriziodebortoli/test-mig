@@ -64,7 +64,8 @@
 #define PROP_HAS_LIST 0x0001
 
 //char degree °
-#define CHAR_DEGREE '\0xB0'	
+//#define CHAR_DEGREE '\0xB0'	
+#define CHAR_DEGREE ' o'	
 
 void GetPrinters(CStringArray& szaPrinterArray){
 	DWORD dwNeeded = 0, dwItems = 0;

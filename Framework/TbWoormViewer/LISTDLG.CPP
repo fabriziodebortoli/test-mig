@@ -3251,7 +3251,7 @@ void CSetPassKeyDlg::OnOK()
 
 BOOL CSetPassKeyDlg::ValidateKey()
 {
-	return m_sPassKey.CompareNoCase(L"Microarea.") == 0;
+	return m_sPassKey.CompareNoCase(L"250XH24PG17G7YMW") == 0;
 }
 
 BOOL CSetPassKeyDlg::EnableTBS()
