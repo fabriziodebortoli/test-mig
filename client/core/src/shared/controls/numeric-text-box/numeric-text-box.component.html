@@ -1,7 +1,9 @@
-<tb-control-container type="tb-numeric-text-box" [model]="model" [stateData]="stateData" [disableStateButton]="stateButtonDisabled">
+<tb-control-container type="tb-numeric-text-box" [model]="model" [stateData]="stateData" [disableStateButton]="stateButtonDisabled"
+    [controlId]="cmpId">
     <tb-caption [captionWidth]="captionWidth" caption="{{caption}}" [for]="cmpId"></tb-caption>
-    <kendo-numerictextbox [ngClass]="showError" [(ngModel)]="selectedValue" (blur)="onBlur($event)" (ngModelChange)="model.value=$event" [spinners]="false" [format]="getFormatOptions()" [decimals]="getDecimals()" [disabled]="!model?.enabled || disabled" [style.width.px]="width"
-        [min]='getMinValue()' [max]='maxValue' [autoCorrect]='true'></kendo-numerictextbox>
+    <kendo-numerictextbox [ngClass]="showError" [(ngModel)]="selectedValue" (blur)="onBlur($event)" (ngModelChange)="model.value=$event"
+        [spinners]="false" [format]="getFormatOptions()" [decimals]="getDecimals()" [disabled]="!model?.enabled || disabled"
+        [style.width.px]="width" [min]='getMinValue()' [max]='maxValue' [autoCorrect]='true'></kendo-numerictextbox>
 </tb-control-container>
 
 <!-- #textbox  -->

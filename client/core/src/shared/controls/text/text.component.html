@@ -1,12 +1,15 @@
-<tb-control-container type="tb-text" [contextMenu]="contextMenu" [stateData]="stateData" [disableStateButton]="stateButtonDisabled" [model]="model">
+<tb-control-container type="tb-text" [contextMenu]="contextMenu" [stateData]="stateData" [disableStateButton]="stateButtonDisabled"
+    [model]="model" [controlId]="cmpId">
     <tb-caption [captionWidth]="captionWidth" caption="{{caption}}" [for]="cmpId"></tb-caption>
     <div class="group">
         <ng-template [ngIf]="rows<2 && !multiline">
-            <input kendoTextBox maxlength="{{maxLength}}" [ngModel]="model?.value | toUpper: model?.uppercase" (blur)="onBlur($event)" [disabled]="!(model?.enabled) || readonly" (ngModelChange)="model.value=$event" [style.width.px]="width+8" />
+            <input kendoTextBox maxlength="{{maxLength}}" [ngModel]="model?.value | toUpper: model?.uppercase" (blur)="onBlur($event)"
+                [disabled]="!(model?.enabled) || readonly" (ngModelChange)="model.value=$event" [style.width.px]="width+8" />
         </ng-template>
         <ng-template [ngIf]="rows>1 || multiline">
-            <textarea class="tb-textarea" name="{{cmpId}}" maxlength="{{maxLength}}" [readonly]="readonly" [ngModel]="model?.value | toUpper: model?.uppercase" (ngModelChange)="model.value=$event" [disabled]="!model?.enabled || readonly" [style.width.px]="width+8"
-                [style.height.px]="height-3" rows="{{rows}}"></textarea>
+            <textarea class="tb-textarea" name="{{cmpId}}" maxlength="{{maxLength}}" [readonly]="readonly" [ngModel]="model?.value | toUpper: model?.uppercase"
+                (ngModelChange)="model.value=$event" [disabled]="!model?.enabled || readonly" [style.width.px]="width+8" [style.height.px]="height-3"
+                rows="{{rows}}"></textarea>
         </ng-template>
         <ng-template [ngIf]="hotLink">
             <ng-template [tbHotLink]="hotLink"></ng-template>
