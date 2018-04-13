@@ -80,7 +80,7 @@ export class EmailComponent extends ControlComponent implements OnInit, OnChange
   }
 
   onBlur(e): any {
-    if (!this.model.value) {
+    if (!this.model || !this.model.value) {
         this.cc.errorMessage = '';
         return;
     }
