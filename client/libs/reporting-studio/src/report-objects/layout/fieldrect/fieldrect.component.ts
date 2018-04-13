@@ -46,10 +46,11 @@ export class ReportFieldrectComponent implements AfterViewInit {
   }
 
   applyValueStyle(): any {
-    let borderSize = (this.rect.borders.left ? this.rect.pen.width : 0) + (this.rect.borders.right ? this.rect.pen.width : 0) ;
+    let borderWSize = (this.rect.borders.left ? this.rect.pen.width : 0) + (this.rect.borders.right ? this.rect.pen.width : 0) ;
+    let borderHSize = (this.rect.borders.top ? this.rect.pen.width : 0) + (this.rect.borders.bottom ? this.rect.pen.width : 0) ;
     let obj = {
-      'width': this.rect.rect.right - this.rect.rect.left - borderSize + 'px',
-      'height': this.rect.rect.bottom - this.rect.rect.top - borderSize + 'px',  
+      'width': this.rect.rect.right - this.rect.rect.left - borderWSize + 'px',
+      'height': this.rect.rect.bottom - this.rect.rect.top - borderHSize + 'px',  
       'font-family': this.rect.font.face,
       'font-size': this.rect.font.size + 'px',
       'font-style': this.rect.font.italic ? 'italic' : 'normal',
@@ -135,10 +136,11 @@ export class ReportFieldrectComponent implements AfterViewInit {
   }
 
   applyLabelStyle(): any {
-    let borderSize = (this.rect.borders.left ? this.rect.pen.width : 0) + (this.rect.borders.right ? this.rect.pen.width : 0) ;
+    let borderWSize = (this.rect.borders.left ? this.rect.pen.width : 0) + (this.rect.borders.right ? this.rect.pen.width : 0) ;
+    let borderHSize = (this.rect.borders.top ? this.rect.pen.width : 0) + (this.rect.borders.bottom ? this.rect.pen.width : 0) ;
     let obj = {
-      'width': this.rect.rect.right - this.rect.rect.left - borderSize + 'px',
-      'height': this.rect.rect.bottom - this.rect.rect.top - borderSize + 'px',
+      'width': this.rect.rect.right - this.rect.rect.left - borderWSize + 'px',
+      'height': this.rect.rect.bottom - this.rect.rect.top - borderHSize + 'px',
       'font-family': this.rect.label.font.face,
       'font-size': this.rect.label.font.size + 'px',
       'font-style': this.rect.label.font.italic ? 'italic' : 'normal',
