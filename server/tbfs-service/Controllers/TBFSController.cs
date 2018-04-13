@@ -10,6 +10,7 @@ using FakeItEasy;
 using System.Security.Authentication;
 using Microarea.Common.Generic;
 using TaskBuilderNetCore.Interfaces;
+using System.IO;
 
 namespace tbfs_service.Controllers
 {
@@ -101,7 +102,7 @@ namespace tbfs_service.Controllers
                 string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
 
                 PathFinder pf = new PathFinder(company, user);
-                string json = pf.GetFileNameFromNamespace(objNameSpace, user, company, culture);
+                string json = pf.GetFileNameFromNamespace(objNameSpace, user, company, culture, false);
                 return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
             }
             catch (Exception e)
@@ -131,11 +132,15 @@ namespace tbfs_service.Controllers
         [Route("GetAllObjectsBytype")] //paolo
         public IActionResult GetAllObjectsBytype(string appName, string modulesName, ObjectType objType)
         {
+            var session = GetLoginInformation();
             try
             {
                 string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
                 //potrebbe arrivarmi vuoto, se non sono ancora connesso, allora ritorno solo informazioni parziali
-                string json = PathFinder.PathFinderInstance.GetJsonAllObjectsByType(authtoken, appName, modulesName, objType);
+                var pathFinder = new PathFinder(session.Company, session.User);
+
+                var ns = $"{appName}.{modulesName}";
+                string json = pathFinder.GetObjsByCustomizationLevel(authtoken, appName, modulesName, objType, NameSolverStrings.AllUsers);
                 return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
             }
             catch (Exception e)
@@ -169,20 +174,42 @@ namespace tbfs_service.Controllers
         /// <returns></returns>
         [HttpPost("UploadObject")]
         [RequestSizeLimit(100_000_000)]
-        public IActionResult UploadObject(ICollection<IFormFile> files, string currentNamespace, string company, string user) //applicazione moduleo e tipo ???
+        public IActionResult UploadObject(ICollection<IFormFile> files, ObjectType objectType, string currentNamespace, string user, bool forUpload) //applicazione moduleo e tipo ???
         {
             var session = GetLoginInformation();
             if (session == null)
                 throw new AuthenticationException();
-            if (files == null || files.Count <1)
+            if (files == null || files.Count < 1)
                 throw new ArgumentNullException(nameof(files));
             try
             {
-                var handler = A.Fake<IFileHandler>(); // TODO => implementare metodo interfaccia caricamento file
-                A.CallTo(() => handler.Upload(files, currentNamespace, session.AuthenticationToken))
-                    .Returns(new[] { "a" });
-                var finalPaths = handler.Upload(files, currentNamespace, session.AuthenticationToken);
-                return Ok(new { Content = files.Select((f, i) => new { name = f.FileName, ns = finalPaths.ElementAt(i) }) });
+                var pf = new PathFinder(session.Company, user);
+                var ok = false;
+
+                foreach (var file in files)
+                {
+                    var partialNamespace = $"{Enum.GetName(typeof(ObjectType), objectType)}.{currentNamespace}.{file.FileName}";
+                    var fullNameSpace = new NameSpace(partialNamespace);
+                    var filename = pf.GetFileNameFromNamespace(fullNameSpace, user, session.Company, session.CompanyCulture.EnglishName, forUpload);
+
+                    if (objectType == ObjectType.Report)
+                    {
+                        using (var stream = file.OpenReadStream())
+                            ok = pf.SaveTextFileFromStream(filename, stream);
+                    }
+                    else
+                    {
+                        var byteArray = new byte[file.Length];
+                        using (var stream = file.OpenReadStream())
+                        {
+                            var len = stream.Read(byteArray, 0, (int)file.Length);
+                            ok = len > 0 ? pf.SaveBinaryFile(filename, byteArray, len) : false;
+                        }
+                    }
+                    if (!ok)
+                        break;
+                }
+                return Ok();
             }
             catch (Exception e)
             {

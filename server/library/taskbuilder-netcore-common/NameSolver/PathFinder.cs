@@ -25,7 +25,7 @@ using static Microarea.Common.MenuLoader.MenuInfo;
 namespace Microarea.Common.NameSolver
 {
     public enum ObjectType { Document, Report, File, Image }
-	public enum ImageSize { None, Size16x16, Size20x20, Size24x24, Size32x32 }
+    public enum ImageSize { None, Size16x16, Size20x20, Size24x24, Size32x32 }
     //=========================================================================
     public class PathFinder
     {
@@ -919,7 +919,7 @@ namespace Microarea.Common.NameSolver
                 )
                 return string.Empty;
 
-            string repName = ns.Report + NameSolverStrings.WrmExtension;
+            string repName = Path.ChangeExtension(ns.Report, NameSolverStrings.WrmExtension);
             string reportPath = string.Empty;
             string reportFile = string.Empty;
 
@@ -1616,10 +1616,10 @@ namespace Microarea.Common.NameSolver
                 return false;
             }
 
-            return (GetFileNameFromNamespace(objNameSpace, user, company, culture) != string.Empty);
+            return (GetFileNameFromNamespace(objNameSpace, user, company, culture, false) != string.Empty);
         }
         //----------------------------------------------------------------------
-        public string GetFileNameFromNamespace(NameSpace objNameSpace, string user, string company, string culture)
+        public string GetFileNameFromNamespace(NameSpace objNameSpace, string user, string company, string culture, bool forUpload)
         {
             if (!objNameSpace.IsValid())
                 return string.Empty;
@@ -1629,28 +1629,27 @@ namespace Microarea.Common.NameSolver
             string fileName = objNameSpace.ObjectName;
 
 
-            string sFullFileName;
             switch (objNameSpace.NameSpaceType.Type)
             {
                 case NameSpaceObjectType.Report:
                     {
-                        sFullFileName = GetCustomUserReportFile(company, user, objNameSpace, false);
-                        if (ExistFile(sFullFileName))
-                            return Path.Combine(sFullFileName, fileName, " .wrm");
+                        var sFullFileName = GetCustomUserReportFile(company, user, objNameSpace, false);
+                        if (ExistFile(sFullFileName) || forUpload)
+                            return sFullFileName;
 
-                        return  string.Empty;
+                        return string.Empty;
                     }
                 case NameSpaceObjectType.Image:
                     {
-                        sFullFileName = moduleInfo.GetCustomImagePath(user);
+                        var sFullFileName = Path.Combine(moduleInfo.GetCustomImagePath(user), fileName);
                         if (ExistFile(sFullFileName))
-                            return Path.Combine(sFullFileName, fileName);
+                            return sFullFileName;
 
-                        sFullFileName = moduleInfo.GetCustomImagePath(NameSolverStrings.AllUsers);
-                        if (ExistFile(sFullFileName))
-                            return Path.Combine(sFullFileName, fileName);
+                        sFullFileName = Path.Combine(moduleInfo.GetCustomImagePath(NameSolverStrings.AllUsers), fileName);
+                        if (ExistFile(sFullFileName) || forUpload)
+                            return sFullFileName;
 
-                        sFullFileName =  Path.Combine(moduleInfo.GetStandardImagePath(), fileName);
+                        sFullFileName = Path.Combine(moduleInfo.GetStandardImagePath(), fileName);
                         if (ExistFile(sFullFileName))
                             return sFullFileName;
 
@@ -1661,7 +1660,7 @@ namespace Microarea.Common.NameSolver
                 case NameSpaceObjectType.RFT:
                 case NameSpaceObjectType.File:
                     {
-                        sFullFileName = moduleInfo.GetCustomFilePath(user);
+                        var sFullFileName = moduleInfo.GetCustomFilePath(user);
                         if (ExistFile(sFullFileName))
                             return Path.Combine(sFullFileName, fileName);
 
@@ -1680,9 +1679,9 @@ namespace Microarea.Common.NameSolver
                     {
 
                         fileName += ".xml";
-                        
+
                         //TODO LARA xche il c# nn va sulla custom????????? todo RIky
-                        sFullFileName = GetStandardDataFilePath(objNameSpace.Application, objNameSpace.Module, culture);
+                        var sFullFileName = GetStandardDataFilePath(objNameSpace.Application, objNameSpace.Module, culture);
                         if (ExistFile(sFullFileName))
                             return Path.Combine(sFullFileName, fileName);
 
@@ -1690,14 +1689,14 @@ namespace Microarea.Common.NameSolver
                     }
                 case NameSpaceObjectType.Profile:
                     {
-                        sFullFileName = moduleInfo.GetCustomDocumentSchemaFilesPath(fileName, user, company);
-                        if(ExistFile(sFullFileName + "\\" + "Document.xml")) 
+                        var sFullFileName = moduleInfo.GetCustomDocumentSchemaFilesPath(fileName, user, company);
+                        if (ExistFile(sFullFileName + "\\" + "Document.xml"))
                             return sFullFileName;
 
                         sFullFileName = moduleInfo.GetCustomAllsUserDocumentSchemaFilesPath(fileName, company);
                         if (ExistFile(sFullFileName + "\\" + "Document.xml"))
                             return sFullFileName;
-                        
+
                         sFullFileName = moduleInfo.GetStandardDocumentSchemaFilesPath(fileName);
                         if (ExistFile(sFullFileName))
                             return sFullFileName;
@@ -1710,7 +1709,7 @@ namespace Microarea.Common.NameSolver
                 case NameSpaceObjectType.WordTemplate:
                 case NameSpaceObjectType.ODT:
                     {
-                        sFullFileName = moduleInfo.GetCustomWordDocumentFullFilename(fileName, user);
+                        var sFullFileName = moduleInfo.GetCustomWordDocumentFullFilename(fileName, user);
                         if (ExistFile(sFullFileName))
                             return Path.Combine(sFullFileName, fileName);
 
@@ -1729,7 +1728,7 @@ namespace Microarea.Common.NameSolver
                 case NameSpaceObjectType.ExcelTemplate:
                 case NameSpaceObjectType.ODS:
                     {
-                        sFullFileName = moduleInfo.GetCustomExcelDocumentFullFilename(fileName, user);
+                        var sFullFileName = moduleInfo.GetCustomExcelDocumentFullFilename(fileName, user);
                         if (ExistFile(sFullFileName))
                             return Path.Combine(sFullFileName, fileName);
 
@@ -2603,14 +2602,14 @@ namespace Microarea.Common.NameSolver
         }
 
         //---------------------------------------------------------------------
-        public string GetObjsByCustomizationLevel(string authtoken, string namesp, Enum objType, String userName)
+        public string GetObjsByCustomizationLevel(string authtoken, string appName, string modulesName, Enum objType, String userName)
         {
             LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authtoken);
 
             if (session == null)
                 return string.Empty;
 
-            ModuleInfo moduleInfo = GetModuleInfo(new NameSpace(namesp));
+            ModuleInfo moduleInfo = GetModuleInfoByName(appName, modulesName);
             Dictionary<string, string> objects = new Dictionary<string, string>();
             //IList result = null;
             string description = string.Empty;
@@ -2619,65 +2618,6 @@ namespace Microarea.Common.NameSolver
             if ((ObjectType)objType == ObjectType.Report)
             {
                 string path = moduleInfo.GetCustomReportPath(userName);
-                string[] reportFiles = Directory.GetFiles(path, "*" + NameSolverStrings.WrmExtension);
-
-                foreach (string fileName in reportFiles)
-                {
-                    nameSpace = GetNamespaceFromPath(fileName).GetNameSpaceWithoutType();
-                    description = GetReportDescriptionFromFileName(fileName);
-                    objects.Add(nameSpace, description);
-                }
-            }
-
-            if ((ObjectType)objType == ObjectType.Image)
-            {
-                string path = moduleInfo.GetCustomImagePath(userName);
-                string[] imageFiles = Directory.GetFiles(path, "*.*");
-
-                foreach (string fileName in imageFiles)
-                {
-                    nameSpace = GetNamespaceFromPath(fileName).GetNameSpaceWithoutType();
-                    description = fileName;
-                    objects.Add(nameSpace, description);
-                }
-            }
-
-            if ((ObjectType)objType == ObjectType.File)
-            {
-                string path = moduleInfo.GetCustomFilePath(userName);
-                string[] files = Directory.GetFiles(path, "*.*");
-
-                foreach (string fileName in files)
-                {
-                    nameSpace = GetNamespaceFromPath(fileName).GetNameSpaceWithoutType();
-                    description = fileName;
-                    objects.Add(nameSpace, description);
-                }
-            }
-
-            return GetJsonAllObjectsByType(moduleInfo, objType);
-        }
-
-        //---------------------------------------------------------------------
-        private string GetJsonAllObjectsByType(ModuleInfo moduleInfo, Enum objType)
-        {
-            Dictionary<string, string> objects = new Dictionary<string, string>();
-            IList result = null;
-            string description = string.Empty;
-            string nameSpace = string.Empty;
-
-            if ((ObjectType)objType == ObjectType.Document)
-            {
-                result = moduleInfo.Documents;
-                foreach (DocumentInfo documentInfo in result)
-                {
-                    objects.Add(documentInfo.NameSpace.GetNameSpaceWithoutType(), documentInfo.Title);
-                }
-            }
-
-            if ((ObjectType)objType == ObjectType.Report)
-            {
-                string path = moduleInfo.GetStandardReportPath();
                 if (Directory.Exists(path))
                 {
                     string[] reportFiles = Directory.GetFiles(path, "*" + NameSolverStrings.WrmExtension);
@@ -2693,7 +2633,7 @@ namespace Microarea.Common.NameSolver
 
             if ((ObjectType)objType == ObjectType.Image)
             {
-                string path = moduleInfo.GetStandardImagePath();
+                string path = moduleInfo.GetCustomImagePath(userName);
                 if (Directory.Exists(path))
                 {
                     string[] imageFiles = Directory.GetFiles(path, "*.*");
@@ -2709,7 +2649,7 @@ namespace Microarea.Common.NameSolver
 
             if ((ObjectType)objType == ObjectType.File)
             {
-                string path = moduleInfo.GetStandardFilePath();
+                string path = moduleInfo.GetCustomFilePath(userName);
                 if (Directory.Exists(path))
                 {
                     string[] files = Directory.GetFiles(path, "*.*");
@@ -2719,6 +2659,79 @@ namespace Microarea.Common.NameSolver
                         nameSpace = GetNamespaceFromPath(fileName).GetNameSpaceWithoutType();
                         description = fileName;
                         objects.Add(nameSpace, description);
+                    }
+                }
+            }
+
+            return GetJsonAllObjectsByType(moduleInfo, objType, objects);
+        }
+
+        //---------------------------------------------------------------------
+        private string GetJsonAllObjectsByType(ModuleInfo moduleInfo, Enum objType, Dictionary<string, string> elements = null)
+        {
+            // Il dictionary può essere passato dall'esterno o istanziato localmente
+            var objects = elements == null 
+                ? new Dictionary<string, string>() 
+                : elements;
+
+            IList result = null;
+
+            if ((ObjectType)objType == ObjectType.Document)
+            {
+                result = moduleInfo.Documents;
+                foreach (DocumentInfo documentInfo in result)
+                {
+                    var ns = documentInfo.NameSpace.GetNameSpaceWithoutType();
+                    if (!objects.ContainsKey(ns))
+                        objects.Add(ns, documentInfo.Title);
+                }
+            }
+
+            if ((ObjectType)objType == ObjectType.Report)
+            {
+                var path = moduleInfo.GetStandardReportPath();
+                if (Directory.Exists(path))
+                {
+                    var reportFiles = Directory.GetFiles(path, "*" + NameSolverStrings.WrmExtension);
+
+                    foreach (string fileName in reportFiles)
+                    {
+                        var nameSpace = GetNamespaceFromPath(fileName).GetNameSpaceWithoutType();
+                        var description = GetReportDescriptionFromFileName(fileName);
+                        if (!objects.ContainsKey(nameSpace))
+                            objects.Add(nameSpace, description);
+                    }
+                }
+            }
+
+            if ((ObjectType)objType == ObjectType.Image)
+            {
+                var path = moduleInfo.GetStandardImagePath();
+                if (Directory.Exists(path))
+                {
+                    var imageFiles = Directory.GetFiles(path, "*.*");
+
+                    foreach (string fileName in imageFiles)
+                    {
+                        var nameSpace = GetNamespaceFromPath(fileName).GetNameSpaceWithoutType();
+                        if (!objects.ContainsKey(nameSpace))
+                            objects.Add(nameSpace, fileName);
+                    }
+                }
+            }
+
+            if ((ObjectType)objType == ObjectType.File)
+            {
+                var path = moduleInfo.GetStandardFilePath();
+                if (Directory.Exists(path))
+                {
+                    var files = Directory.GetFiles(path, "*.*");
+
+                    foreach (string fileName in files)
+                    {
+                        var nameSpace = GetNamespaceFromPath(fileName).GetNameSpaceWithoutType();
+                        if (!objects.ContainsKey(nameSpace))
+                            objects.Add(nameSpace, fileName);
                     }
                 }
             }
@@ -2833,148 +2846,148 @@ namespace Microarea.Common.NameSolver
 
         //---------------------------------------------------------------------
         public string GetJsonAllObjectsByType(string authtoken, string appName, string modulesName, Enum objType)
-		{
-			LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authtoken);
+        {
+            LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authtoken);
 
-			if (session == null)
-				return string.Empty;
+            if (session == null)
+                return string.Empty;
 
-			ApplicationInfo app = GetApplicationInfoByName(appName);
-			if (app == null)
-				return string.Empty;
+            ApplicationInfo app = GetApplicationInfoByName(appName);
+            if (app == null)
+                return string.Empty;
 
-			ModuleInfo moduleInfo = GetModuleInfoByName(appName, modulesName);
-			if (moduleInfo == null)
-				return string.Empty;
+            ModuleInfo moduleInfo = GetModuleInfoByName(appName, modulesName);
+            if (moduleInfo == null)
+                return string.Empty;
 
-			return GetJsonAllObjectsByType(moduleInfo, objType);
-		}
-		//---------------------------------------------------------------------
-		public string GetJsonAllApplications(string authenticationToken)
-		{
-			LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
-			if (session == null)
-				return string.Empty;
+            return GetJsonAllObjectsByType(moduleInfo, objType);
+        }
+        //---------------------------------------------------------------------
+        public string GetJsonAllApplications(string authenticationToken)
+        {
+            LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
+            if (session == null)
+                return string.Empty;
 
-			StringBuilder sb = new StringBuilder();
-			using (StringWriter sw = new StringWriter(sb))
-			{
-				JsonWriter jsonWriter = new JsonTextWriter(sw);
+            StringBuilder sb = new StringBuilder();
+            using (StringWriter sw = new StringWriter(sb))
+            {
+                JsonWriter jsonWriter = new JsonTextWriter(sw);
 
-				try
-				{
-					jsonWriter.WriteStartObject();
-					jsonWriter.WritePropertyName("applications");
+                try
+                {
+                    jsonWriter.WriteStartObject();
+                    jsonWriter.WritePropertyName("applications");
 
-					jsonWriter.WriteStartArray();
+                    jsonWriter.WriteStartArray();
 
-					foreach (ApplicationInfo applicationInfo in this.ApplicationInfos)
-					{
-						if (applicationInfo.ApplicationType != ApplicationType.TaskBuilderApplication &&
-							applicationInfo.ApplicationType != ApplicationType.TaskBuilder &&
-							applicationInfo.ApplicationType != ApplicationType.Customization)
-							continue;
-						jsonWriter.WriteStartObject();
+                    foreach (ApplicationInfo applicationInfo in this.ApplicationInfos)
+                    {
+                        if (applicationInfo.ApplicationType != ApplicationType.TaskBuilderApplication &&
+                            applicationInfo.ApplicationType != ApplicationType.TaskBuilder &&
+                            applicationInfo.ApplicationType != ApplicationType.Customization)
+                            continue;
+                        jsonWriter.WriteStartObject();
 
-						jsonWriter.WritePropertyName("name");
-						jsonWriter.WriteValue(applicationInfo.Name);
+                        jsonWriter.WritePropertyName("name");
+                        jsonWriter.WriteValue(applicationInfo.Name);
 
-						jsonWriter.WritePropertyName("path");
-						jsonWriter.WriteValue(applicationInfo.Path);
-						jsonWriter.WriteEndObject();
+                        jsonWriter.WritePropertyName("path");
+                        jsonWriter.WriteValue(applicationInfo.Path);
+                        jsonWriter.WriteEndObject();
 
-					}
+                    }
 
-					jsonWriter.WriteEndArray();
+                    jsonWriter.WriteEndArray();
 
-					jsonWriter.WriteEndObject();
-				}
-				catch (Exception)
-				{
-				}
+                    jsonWriter.WriteEndObject();
+                }
+                catch (Exception)
+                {
+                }
 
-				return sb.ToString();
+                return sb.ToString();
 
-			}
-		}
+            }
+        }
 
-		//---------------------------------------------------------------------
-		public string GetJsonAllModulesByApplication(string authenticationToken, string appName)
-		{
-			LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
-			if (session == null)
-				return string.Empty;
+        //---------------------------------------------------------------------
+        public string GetJsonAllModulesByApplication(string authenticationToken, string appName)
+        {
+            LoginManagerSession session = LoginManagerSessionManager.GetLoginManagerSession(authenticationToken);
+            if (session == null)
+                return string.Empty;
 
-			ApplicationInfo app = GetApplicationInfoByName(appName);
-			if (app == null)
-				return string.Empty;
+            ApplicationInfo app = GetApplicationInfoByName(appName);
+            if (app == null)
+                return string.Empty;
 
-			StringBuilder sb = new StringBuilder();
-			using (StringWriter sw = new StringWriter(sb))
-			{
-				JsonWriter jsonWriter = new JsonTextWriter(sw);
+            StringBuilder sb = new StringBuilder();
+            using (StringWriter sw = new StringWriter(sb))
+            {
+                JsonWriter jsonWriter = new JsonTextWriter(sw);
 
-				try
-				{
-					jsonWriter.WriteStartObject();
-					jsonWriter.WritePropertyName("modules");
+                try
+                {
+                    jsonWriter.WriteStartObject();
+                    jsonWriter.WritePropertyName("modules");
 
-					jsonWriter.WriteStartArray();
+                    jsonWriter.WriteStartArray();
 
-					foreach (ModuleInfo moduleInfo in app.Modules)
-					{
+                    foreach (ModuleInfo moduleInfo in app.Modules)
+                    {
 
-						jsonWriter.WriteStartObject();
+                        jsonWriter.WriteStartObject();
 
-						jsonWriter.WritePropertyName("name");
-						jsonWriter.WriteValue(moduleInfo.Name);
+                        jsonWriter.WritePropertyName("name");
+                        jsonWriter.WriteValue(moduleInfo.Name);
 
-						jsonWriter.WritePropertyName("path");
-						jsonWriter.WriteValue(moduleInfo.Path);
+                        jsonWriter.WritePropertyName("path");
+                        jsonWriter.WriteValue(moduleInfo.Path);
 
-						jsonWriter.WritePropertyName("NameSpace");
-						jsonWriter.WriteValue(moduleInfo.NameSpace.GetNameSpaceWithoutType());
+                        jsonWriter.WritePropertyName("NameSpace");
+                        jsonWriter.WriteValue(moduleInfo.NameSpace.GetNameSpaceWithoutType());
 
-							jsonWriter.WriteEndObject();
+                        jsonWriter.WriteEndObject();
 
-					}
+                    }
 
-					jsonWriter.WriteEndArray();
+                    jsonWriter.WriteEndArray();
 
-					jsonWriter.WriteEndObject();
-				}
-				catch (Exception)
-				{
-				}
+                    jsonWriter.WriteEndObject();
+                }
+                catch (Exception)
+                {
+                }
 
-				return sb.ToString();
+                return sb.ToString();
 
-			}
-		}
+            }
+        }
 
-		#endregion DellePiane
+        #endregion DellePiane
 
-		#region EasyStudio functions
+        #region EasyStudio functions
 
-		EasyStudioConfiguration easyStudioConfiguration;
+        EasyStudioConfiguration easyStudioConfiguration;
 
-		//-----------------------------------------------------------------------------
-		public string GetEasyStudioHomePath(bool createDir = false)
-		{
-			if (easyStudioConfiguration == null)
-				easyStudioConfiguration = new EasyStudioConfiguration(this);
+        //-----------------------------------------------------------------------------
+        public string GetEasyStudioHomePath(bool createDir = false)
+        {
+            if (easyStudioConfiguration == null)
+                easyStudioConfiguration = new EasyStudioConfiguration(this);
 
-			string path = string.Empty;
-			if (easyStudioConfiguration.Settings.CustomizationsInCustom)
-				path = Path.Combine(GetCustomPath(), NameSolverStrings.Subscription, easyStudioConfiguration.Settings.HomeName);
-			else
-				path = GetStandardPath;
+            string path = string.Empty;
+            if (easyStudioConfiguration.Settings.CustomizationsInCustom)
+                path = Path.Combine(GetCustomPath(), NameSolverStrings.Subscription, easyStudioConfiguration.Settings.HomeName);
+            else
+                path = GetStandardPath;
 
-			if (createDir)
-				CreateFolder(path, true);
+            if (createDir)
+                CreateFolder(path, true);
 
-			return path;
-		}
+            return path;
+        }
 
         //---------------------------------------------------------------------------------
         public string GetEasyStudioReferencedAssembliesPath()
@@ -2982,82 +2995,82 @@ namespace Microarea.Common.NameSolver
             string path = string.Empty;
             if (easyStudioConfiguration.Settings.CustomizationsInCustom)
                 return Path.Combine(GetEasyStudioHomePath(), easyStudioConfiguration.Settings.ReferencedAssemblies);
-            
+
             return Path.Combine(GetStandardPath, easyStudioConfiguration.Settings.ReferencedAssemblies);
         }
 
         //--------------------------------------------------------------------------------
         public (string, string) GetCustomizationPath(INameSpace documentNamespace, string user, TBFile tbFile)
-		{
-			if (!user.IsNullOrEmpty())
-				user = user.Replace("\\", ".");
+        {
+            if (!user.IsNullOrEmpty())
+                user = user.Replace("\\", ".");
 
-			//"C:\\Develop\\Custom\\Subscription\\ESHome\\Applications\\NewApplication1\\NewModule1\\ ...
-			string customModulePath = GetCustomModulePath(easyStudioConfiguration.Settings.HomeName, tbFile.ApplicationName, tbFile.ModuleName);
-			//"C:\\Develop\\Custom\\Subscription\\ESHome\\Applications\\NewApplication1\\NewModule1\\ModuleObjects\\Contacts
-			string path = Path.Combine(customModulePath, NameSolverStrings.ModuleObjects, documentNamespace.Document);
+            //"C:\\Develop\\Custom\\Subscription\\ESHome\\Applications\\NewApplication1\\NewModule1\\ ...
+            string customModulePath = GetCustomModulePath(easyStudioConfiguration.Settings.HomeName, tbFile.ApplicationName, tbFile.ModuleName);
+            //"C:\\Develop\\Custom\\Subscription\\ESHome\\Applications\\NewApplication1\\NewModule1\\ModuleObjects\\Contacts
+            string path = Path.Combine(customModulePath, NameSolverStrings.ModuleObjects, documentNamespace.Document);
 
-			if (path == string.Empty || !Directory.Exists(path))
-				return (string.Empty, string.Empty);
-			return (Path.Combine(path, user), path); // (string userPath, string allUserPath)
-		}
+            if (path == string.Empty || !Directory.Exists(path))
+                return (string.Empty, string.Empty);
+            return (Path.Combine(path, user), path); // (string userPath, string allUserPath)
+        }
 
-		//---------------------------------------------------------------------
-		public TBFile GetTBFile(string strCompleteFileName)
-		{
-			return fileSystemManager.GetTBFile(strCompleteFileName);
-		}
+        //---------------------------------------------------------------------
+        public TBFile GetTBFile(string strCompleteFileName)
+        {
+            return fileSystemManager.GetTBFile(strCompleteFileName);
+        }
 
-		//-----------------------------------------------------------------------------
-		public List<TBFile> GetEasyStudioCustomizationsListFor(string documentNamespace, bool onlyDesignable = true)
-		{
-			IDocumentInfo info = GetDocumentInfo(new NameSpace(documentNamespace));
-			/* if (onlyDesignable && !info.IsDesignable)
+        //-----------------------------------------------------------------------------
+        public List<TBFile> GetEasyStudioCustomizationsListFor(string documentNamespace, bool onlyDesignable = true)
+        {
+            IDocumentInfo info = GetDocumentInfo(new NameSpace(documentNamespace));
+            /* if (onlyDesignable && !info.IsDesignable)
 				 return "";*/ //TODOROBY
 
-			var pathApps = Path.Combine(GetEasyStudioHomePath(), NameSolverStrings.Applications);
-			var subfolders = GetSubFolders(pathApps);
-			List<TBFile> listDll = new List<TBFile>();
-			foreach (var item in subfolders)
-			{
-				List<TBFile> dlls = GetFiles(item.CompleteDirectoryPath, NameSolverStrings.DllExtension, SearchOption.AllDirectories);
-				listDll.AddRange(dlls);
-			}
-			return listDll;
-		}
+            var pathApps = Path.Combine(GetEasyStudioHomePath(), NameSolverStrings.Applications);
+            var subfolders = GetSubFolders(pathApps);
+            List<TBFile> listDll = new List<TBFile>();
+            foreach (var item in subfolders)
+            {
+                List<TBFile> dlls = GetFiles(item.CompleteDirectoryPath, NameSolverStrings.DllExtension, SearchOption.AllDirectories);
+                listDll.AddRange(dlls);
+            }
+            return listDll;
+        }
 
-		//-----------------------------------------------------------------------------
-		public bool IsEasyStudioPath(string fileName)
-		{
-			return fileName.StartsWith(GetEasyStudioHomePath());
-		}
+        //-----------------------------------------------------------------------------
+        public bool IsEasyStudioPath(string fileName)
+        {
+            return fileName.StartsWith(GetEasyStudioHomePath());
+        }
 
-		#endregion
+        #endregion
 
-		#region da Filessystemmanager
-		//-----------------------------------------------------------------------------
-		public string GetServerConnectionConfig()
-		{
-			return fileSystemManager.GetServerConnectionConfig();
-		}
+        #region da Filessystemmanager
+        //-----------------------------------------------------------------------------
+        public string GetServerConnectionConfig()
+        {
+            return fileSystemManager.GetServerConnectionConfig();
+        }
 
         //-----------------------------------------------------------------------------
         public XmlDocument LoadXmlDocument(XmlDocument dom, string filename)
-		{
-			return fileSystemManager.LoadXmlDocument(dom, filename);
-		}
+        {
+            return fileSystemManager.LoadXmlDocument(dom, filename);
+        }
 
-		//-----------------------------------------------------------------------------
-		public String GetFileTextFromFileName(string sFileName)
-		{
-			return fileSystemManager.GetFileTextFromFileName(sFileName);
-		}
+        //-----------------------------------------------------------------------------
+        public String GetFileTextFromFileName(string sFileName)
+        {
+            return fileSystemManager.GetFileTextFromFileName(sFileName);
+        }
 
-		//-----------------------------------------------------------------------------
-		public Stream GetStream(string sFileName, bool readStream)
-		{
-			return fileSystemManager.GetStream(sFileName, readStream);
-		}
+        //-----------------------------------------------------------------------------
+        public Stream GetStream(string sFileName, bool readStream)
+        {
+            return fileSystemManager.GetStream(sFileName, readStream);
+        }
 
         //-----------------------------------------------------------------------------
         public void SaveCachedMenuSerialization(string sFileName, CachedMenuInfos cachedMenuInfos)
@@ -3067,174 +3080,174 @@ namespace Microarea.Common.NameSolver
 
         //-----------------------------------------------------------------------------
         public bool SaveTextFileFromStream(string sFileName, Stream sFileContent)
-		{
-			return fileSystemManager.SaveTextFileFromStream(sFileName, sFileContent);
-		}
+        {
+            return fileSystemManager.SaveTextFileFromStream(sFileName, sFileContent);
+        }
 
-		//-----------------------------------------------------------------------------
-		public bool SaveTextFileFromXml(string sFileName, XmlDocument dom)
-		{
-			return fileSystemManager.SaveTextFileFromXml(sFileName, dom);
-		}
+        //-----------------------------------------------------------------------------
+        public bool SaveTextFileFromXml(string sFileName, XmlDocument dom)
+        {
+            return fileSystemManager.SaveTextFileFromXml(sFileName, dom);
+        }
 
-		//-----------------------------------------------------------------------------
-		public byte[] GetBinaryFile(string sFileName, int nLen)
-		{
-			return fileSystemManager.GetBinaryFile(sFileName, nLen);
-		}
+        //-----------------------------------------------------------------------------
+        public byte[] GetBinaryFile(string sFileName, int nLen)
+        {
+            return fileSystemManager.GetBinaryFile(sFileName, nLen);
+        }
 
-		//-----------------------------------------------------------------------------
-		public bool ExistFile(string sFileName)
-		{
-			return fileSystemManager.ExistFile(sFileName);
-		}
+        //-----------------------------------------------------------------------------
+        public bool ExistFile(string sFileName)
+        {
+            return fileSystemManager.ExistFile(sFileName);
+        }
 
-		//-----------------------------------------------------------------------------
-		public bool ExistPath(string sPathName)
-		{
-			return fileSystemManager.ExistPath(sPathName);
-		}
+        //-----------------------------------------------------------------------------
+        public bool ExistPath(string sPathName)
+        {
+            return fileSystemManager.ExistPath(sPathName);
+        }
 
-		//-----------------------------------------------------------------------------
-		public bool CreateFolder(string sPathName, bool bRecursive)
-		{
-			return fileSystemManager.CreateFolder(sPathName, bRecursive);
-		}
+        //-----------------------------------------------------------------------------
+        public bool CreateFolder(string sPathName, bool bRecursive)
+        {
+            return fileSystemManager.CreateFolder(sPathName, bRecursive);
+        }
 
-		//-----------------------------------------------------------------------------
-		public void RemoveFolder(string sPathName, bool bRecursive, bool bRemoveRoot, bool bAndEmptyParents)
-		{
-			fileSystemManager.RemoveFolder(sPathName, bRecursive, bRemoveRoot, bAndEmptyParents);
-		}
+        //-----------------------------------------------------------------------------
+        public void RemoveFolder(string sPathName, bool bRecursive, bool bRemoveRoot, bool bAndEmptyParents)
+        {
+            fileSystemManager.RemoveFolder(sPathName, bRecursive, bRemoveRoot, bAndEmptyParents);
+        }
 
-		//-----------------------------------------------------------------------------
-		public bool RemoveFile(string sFileName)
-		{
-			return fileSystemManager.RemoveFile(sFileName);
-		}
+        //-----------------------------------------------------------------------------
+        public bool RemoveFile(string sFileName)
+        {
+            return fileSystemManager.RemoveFile(sFileName);
+        }
 
-		//-----------------------------------------------------------------------------
-		public bool RenameFile(string sOldFileName, string sNewFileName)
-		{
-			return fileSystemManager.RenameFile(sOldFileName, sNewFileName);
-		}
+        //-----------------------------------------------------------------------------
+        public bool RenameFile(string sOldFileName, string sNewFileName)
+        {
+            return fileSystemManager.RenameFile(sOldFileName, sNewFileName);
+        }
 
-		//-----------------------------------------------------------------------------
-		public bool RenameFolder(string sOldName, string sNewName)
-		{
-			return fileSystemManager.RenameFolder(sOldName, sNewName);
-		}
+        //-----------------------------------------------------------------------------
+        public bool RenameFolder(string sOldName, string sNewName)
+        {
+            return fileSystemManager.RenameFolder(sOldName, sNewName);
+        }
 
-		//-----------------------------------------------------------------------------
-		public bool CopyFile(string sOldFileName, string sNewFileName, bool bOverWrite)
-		{
-			return fileSystemManager.CopyFile(sOldFileName, sNewFileName, bOverWrite);
-		}
-
-
-		//-----------------------------------------------------------------------------
-		public FileInfo GetFileStatus(string sFileName, FileInfo fs)
-		{
-			return fileSystemManager.GetFileStatus(sFileName, fs);
-		}
-
-		//-----------------------------------------------------------------------------
-		public int[] GetFileAttributes(string sFileName)
-		{
-			return fileSystemManager.GetFileAttributes(sFileName);
-		}
-
-		//-----------------------------------------------------------------------------
-		public bool CopyFolder(string sOldPathName, string sNewPathName, bool bOverwrite, bool bRecursive)
-		{
-			return fileSystemManager.CopyFolder(sOldPathName, sNewPathName, bOverwrite, bRecursive);
-		}
+        //-----------------------------------------------------------------------------
+        public bool CopyFile(string sOldFileName, string sNewFileName, bool bOverWrite)
+        {
+            return fileSystemManager.CopyFile(sOldFileName, sNewFileName, bOverWrite);
+        }
 
 
-		//-----------------------------------------------------------------------------
-		public List<TBDirectoryInfo> GetSubFolders(string sPathName)
-		{
-			return fileSystemManager.GetSubFolders(sPathName);
-		}
+        //-----------------------------------------------------------------------------
+        public FileInfo GetFileStatus(string sFileName, FileInfo fs)
+        {
+            return fileSystemManager.GetFileStatus(sFileName, fs);
+        }
 
-		//-----------------------------------------------------------------------------
-		public List<TBFile> GetFiles(string sPathName, string sFileExt, SearchOption searchOption = SearchOption.TopDirectoryOnly)
-		{
-			return fileSystemManager.GetFiles(sPathName, sFileExt, searchOption);
-		}
+        //-----------------------------------------------------------------------------
+        public int[] GetFileAttributes(string sFileName)
+        {
+            return fileSystemManager.GetFileAttributes(sFileName);
+        }
 
-		//-----------------------------------------------------------------------------
-		public bool GetPathContent(string sPathName, bool bFolders, out List<TBDirectoryInfo> pSubFolders, bool bFiles, string strFileExt, out List<TBFile> pFiles)
-		{
-			pSubFolders = new List<TBDirectoryInfo>();
-			pFiles = new List<TBFile>();
-
-			return fileSystemManager.GetPathContent(sPathName, bFolders, out pSubFolders, bFiles, strFileExt, out pFiles);
-		}
+        //-----------------------------------------------------------------------------
+        public bool CopyFolder(string sOldPathName, string sNewPathName, bool bOverwrite, bool bRecursive)
+        {
+            return fileSystemManager.CopyFolder(sOldPathName, sNewPathName, bOverwrite, bRecursive);
+        }
 
 
-		//-----------------------------------------------------------------------------
-		public bool SaveBinaryFile(string sFileName, byte[] pBinaryContent, int nLen)
-		{
-			return fileSystemManager.SaveBinaryFile(sFileName, pBinaryContent, nLen);
-		}
+        //-----------------------------------------------------------------------------
+        public List<TBDirectoryInfo> GetSubFolders(string sPathName)
+        {
+            return fileSystemManager.GetSubFolders(sPathName);
+        }
 
-		// gets a binary file and it stores it into the temp directory
-		//-----------------------------------------------------------------------------
-		public string GetTemporaryBinaryFile(string sFileName)
-		{
-			return fileSystemManager.GetTemporaryBinaryFile(sFileName);
-		}
+        //-----------------------------------------------------------------------------
+        public List<TBFile> GetFiles(string sPathName, string sFileExt, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+        {
+            return fileSystemManager.GetFiles(sPathName, sFileExt, searchOption);
+        }
 
-		//-----------------------------------------------------------------------------
-		public bool IsManagedByAlternativeDriver(string sName)
-		{
-			return fileSystemManager.IsManagedByAlternativeDriver(sName);
-		}
+        //-----------------------------------------------------------------------------
+        public bool GetPathContent(string sPathName, bool bFolders, out List<TBDirectoryInfo> pSubFolders, bool bFiles, string strFileExt, out List<TBFile> pFiles)
+        {
+            pSubFolders = new List<TBDirectoryInfo>();
+            pFiles = new List<TBFile>();
+
+            return fileSystemManager.GetPathContent(sPathName, bFolders, out pSubFolders, bFiles, strFileExt, out pFiles);
+        }
 
 
-		//-----------------------------------------------------------------------------
-		public IFileSystemDriver GetFileSystemDriver()
-		{
-			return fileSystemManager.GetFileSystemDriver();
-		}
+        //-----------------------------------------------------------------------------
+        public bool SaveBinaryFile(string sFileName, byte[] pBinaryContent, int nLen)
+        {
+            return fileSystemManager.SaveBinaryFile(sFileName, pBinaryContent, nLen);
+        }
 
-		//-----------------------------------------------------------------------------
-		public IFileSystemDriver GetAlternativeDriver()
-		{
-			return fileSystemManager.GetAlternativeDriver();
-		}
+        // gets a binary file and it stores it into the temp directory
+        //-----------------------------------------------------------------------------
+        public string GetTemporaryBinaryFile(string sFileName)
+        {
+            return fileSystemManager.GetTemporaryBinaryFile(sFileName);
+        }
 
-		//-----------------------------------------------------------------------------
-		public IFileSystemDriver GetAlternativeDriverIfManagedFile(string sName)
-		{
-			return fileSystemManager.GetAlternativeDriverIfManagedFile(sName);
-		}
+        //-----------------------------------------------------------------------------
+        public bool IsManagedByAlternativeDriver(string sName)
+        {
+            return fileSystemManager.IsManagedByAlternativeDriver(sName);
+        }
 
-		//-----------------------------------------------------------------------------
-		public bool Start(bool bLoadCaches  /*true*/)
-		{
-			return fileSystemManager.Start(bLoadCaches);
-		}
 
-		//-----------------------------------------------------------------------------
-		public bool Stop(bool bLoadCaches  /*true*/)
-		{
-			return fileSystemManager.Stop(bLoadCaches);
-		}
+        //-----------------------------------------------------------------------------
+        public IFileSystemDriver GetFileSystemDriver()
+        {
+            return fileSystemManager.GetFileSystemDriver();
+        }
 
-		//-----------------------------------------------------------------------------
-		public List<string> GetAllApplicationInfo(string dir)
-		{
-			return fileSystemManager.GetAllApplicationInfo(dir);
-		}
+        //-----------------------------------------------------------------------------
+        public IFileSystemDriver GetAlternativeDriver()
+        {
+            return fileSystemManager.GetAlternativeDriver();
+        }
 
-		//-----------------------------------------------------------------------------
-		public List<string> GetAllModuleInfo(string strAppName)
-		{
-			return fileSystemManager.GetAllModuleInfo(strAppName);
-		}
+        //-----------------------------------------------------------------------------
+        public IFileSystemDriver GetAlternativeDriverIfManagedFile(string sName)
+        {
+            return fileSystemManager.GetAlternativeDriverIfManagedFile(sName);
+        }
 
-		#endregion
-	}
+        //-----------------------------------------------------------------------------
+        public bool Start(bool bLoadCaches  /*true*/)
+        {
+            return fileSystemManager.Start(bLoadCaches);
+        }
+
+        //-----------------------------------------------------------------------------
+        public bool Stop(bool bLoadCaches  /*true*/)
+        {
+            return fileSystemManager.Stop(bLoadCaches);
+        }
+
+        //-----------------------------------------------------------------------------
+        public List<string> GetAllApplicationInfo(string dir)
+        {
+            return fileSystemManager.GetAllApplicationInfo(dir);
+        }
+
+        //-----------------------------------------------------------------------------
+        public List<string> GetAllModuleInfo(string strAppName)
+        {
+            return fileSystemManager.GetAllModuleInfo(strAppName);
+        }
+
+        #endregion
+    }
 }

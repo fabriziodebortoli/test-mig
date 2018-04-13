@@ -86,12 +86,16 @@ namespace Microarea.Common.FileSystemManager
 		//-----------------------------------------------------------------------------
 		public bool SaveBinaryFile(string sFileName, byte[] sBinaryContent, int nLen)
 		{
+            var directory = Path.GetDirectoryName(sFileName);
+            if (!Directory.Exists(directory))
+                Directory.CreateDirectory(directory);
+
 			try
 			{
 				File.WriteAllBytes(sFileName, sBinaryContent);
 				return true;
 			}
-			catch (Exception)
+			catch (Exception e)
 			{
 				return false;
 			}

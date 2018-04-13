@@ -2,7 +2,6 @@ import { TbComponentService } from './../../../core/services/tbcomponent.service
 import { LayoutService } from './../../../core/services/layout.service';
 import { ExplorerService } from './../../../core/services/explorer.service';
 import { InfoService } from './../../../core/services/info.service';
-import { MenuService } from '@taskbuilder/menu';
 
 import {
   Component, Input, ViewChild, ViewContainerRef, ComponentFactoryResolver, ComponentRef, ElementRef,
@@ -83,8 +82,8 @@ export class NamespaceComponent extends ControlComponent implements OnChanges, O
   //     console.log('Wrong objectType in ' + this.cmpId);
   // }
 
-  search($event) {
-    this.explorer.open({ objType: this.objectType })
+    search($event) {
+    this.explorer.open({ objType: this.objectType, upload: this.objectType == ObjType.Image || this.objectType == ObjType.Report})
       .subscribe(this.onsearch);
   }
 

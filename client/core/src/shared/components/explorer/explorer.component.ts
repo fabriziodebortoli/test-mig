@@ -29,14 +29,20 @@ import { Maybe } from '../../commons/monads/maybe';
 import { fuzzysearch } from '../../commons/u';
 import { get, cloneDeep } from 'lodash';
 
+const objTypeToFileExtension = {
+  [ObjType.Report]: ['.wrm'],
+  [ObjType.Image]: ['.png', '.jpg', '.jpeg', '.tif', '.tiff']
+};
+
 export class ExplorerOptions {
   objType: ObjType = ObjType.Document;
   startNamespace?: string;
   upload?: boolean;
   uploadUrl?: string;
   initialNamespace?: string;
-  uploadRestrictions? = {
-    maxFileSize: 4194304
+  uploadRestrictions?: {
+    maxFileSize?: number;
+    allowedExtensions?: string[];
   };
   constructor(opt?: Partial<ExplorerOptions>) {
     Object.assign(this, cloneDeep(opt));
@@ -81,6 +87,11 @@ export class ExplorerComponent extends ControlComponent implements OnInit {
     if (!this._options.uploadUrl)
       this._options.uploadUrl =
         this.explorer.info.getBaseUrl() + '/tbfs-service/UploadObject';
+    if (!this._options.uploadRestrictions)
+      this._options.uploadRestrictions = {
+        maxFileSize: 4194304,
+        allowedExtensions: objTypeToFileExtension[this._options.objType]
+      };
     return this._options;
   }
   @Output() selectionChanged = new EventEmitter<ExplorerItem>();
@@ -148,17 +159,22 @@ export class ExplorerComponent extends ControlComponent implements OnInit {
   breadClick(item: Item) {
     this.updateItemsInside(item);
   }
+
   _itemClick(item: Item) {
     this.updateItemsInside(item);
     this.itemClick.emit(item);
   }
+
   customLevelChanged() {
     this.updateItemsInside(this.currentItem);
   }
+
   refresh() {
     this.updateItemsInside(this.currentItem);
   }
+
   close() {}
+
   select(item: Item) {
     this.selectionChanged.emit(new ExplorerItem(item.name, item.namespace));
   }
@@ -243,9 +259,7 @@ export class ExplorerComponent extends ControlComponent implements OnInit {
   }
 
   successEventHandler(e) {
-    e.response.body.content
-      .map(f => new ExplorerItem(f.name, f.ns))
-      .forEach(i => this.selectionChanged.emit(i));
+    this.refresh();
   }
 
   errorEventHandler(e) {}
