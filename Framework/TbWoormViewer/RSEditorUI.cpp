@@ -3887,7 +3887,7 @@ BOOL CRSTreeCtrl::FillFunctions(CRSEditView* editView)
 //-----------------------------------------------------------------------------
 BOOL CRSTreeCtrl::FillHtmlTags(CRSEditView* editView, BOOL bExpand)
 {
-	if (!m_pWDoc->m_bBetaFeatures)
+	if (!m_pWDoc->m_bMiniHTMLFeatures)
 		return FALSE;
 
 	BOOL delayed = FALSE;
@@ -4075,8 +4075,8 @@ BOOL CRSTreeCtrl::FillWebMethods(CRSEditView* editView)
 						{
 							htMail = AddNode(IDF_WOORM_GROUP_MAIL, CNodeTree::ENodeType::NT_SUBROOT_MODULE, htMod, pAddOnMod, pAddOnApplication);
 							htPostaLite = AddNode(IDF_WOORM_GROUP_POSTALITE, CNodeTree::ENodeType::NT_SUBROOT_MODULE, htMod, pAddOnMod, pAddOnApplication);
-							if (this->GetDocument() && this->GetDocument()->m_bBetaFeatures)
-							htMiniHtml = AddNode(IDF_WOORM_GROUP_MINIHTML, CNodeTree::ENodeType::NT_SUBROOT_MODULE, htMod, pAddOnMod, pAddOnApplication);
+							if (this->GetDocument() && this->GetDocument()->m_bMiniHTMLFeatures)
+								htMiniHtml = AddNode(IDF_WOORM_GROUP_MINIHTML, CNodeTree::ENodeType::NT_SUBROOT_MODULE, htMod, pAddOnMod, pAddOnApplication);
 							htAdvanced = AddNode(IDF_WOORM_GROUP_ADVANCED, CNodeTree::ENodeType::NT_SUBROOT_MODULE, htMod, pAddOnMod, pAddOnApplication);
 						}
 					}

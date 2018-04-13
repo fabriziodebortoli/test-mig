@@ -334,6 +334,7 @@ private:
 public:
 	int		m_nCurrentLayer = 0;
 	BOOL	m_bBetaFeatures = FALSE;
+	BOOL	m_bMiniHTMLFeatures = FALSE;
 // private function
 protected:
 	void	SaveDocument		();

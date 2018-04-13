@@ -5778,8 +5778,8 @@ void CRS_ObjectPropertyView::LoadTextAppearenceProperties(TextRect* pText)
 	//Simil BitWise Alignment prop
 	m_pAppearenceGroup->AddSubItem(new CRSAlignBitwiseProp(this, pText, _TB("Alignment"), &(pText->m_StaticText.m_nAlign), TRUE, FALSE, TRUE));
 
-	if (GetDocument()->m_bBetaFeatures)
-	m_pAppearenceGroup->AddSubItem(new CRSBoolProp(pText, _TB("Mini html"), &(pText->m_bMiniHtml), _TB("Mini html ...")));
+	if (GetDocument()->m_bMiniHTMLFeatures)
+		m_pAppearenceGroup->AddSubItem(new CRSBoolProp(pText, _TB("Mini html"), &(pText->m_bMiniHtml), _TB("Mini html ...")));
 }
 
 //-----------------------------------------------------------------------------
@@ -6689,7 +6689,7 @@ void CRS_ObjectPropertyView::LoadColumnAppearenceProperties(TableColumn* pCol)
 
 		if (colType == DataType::String || colType == DataType::Text)
 		{
-			if (GetDocument()->m_bBetaFeatures)
+			if (GetDocument()->m_bMiniHTMLFeatures)
 				pBodyGroup->AddSubItem(new CRSBoolProp(pCol, _TB("Mini html"), &(pCol->m_bMiniHtml), _TB("Mini html ...")));
 		}
 
