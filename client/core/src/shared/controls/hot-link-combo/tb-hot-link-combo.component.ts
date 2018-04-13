@@ -41,6 +41,7 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
   }
 
   comboInputTyping$: Subject<any> = new Subject<any>();
+  comboExplicitRequest$: Subject<any> = new Subject<any>();
 
   constructor(layoutService: LayoutService,
     protected httpService: HttpService,
@@ -58,9 +59,9 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
 
   openDropDown(ev) {
     ev.preventDefault();
-    let v = _.get(this.modelComponent.model, 'value');
-    this.comboInputTyping$.next(v ? v : '');
+    let v = this.modelComponent.model.value;
     this.start();
+    this.comboExplicitRequest$.next(v ? v : '');
   }
 
   closeDropDown() {
@@ -76,7 +77,7 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
   get enablePager(): boolean { return !this.disablePager; }
 
   protected get queryTrigger(): Observable<ServerNeededParams> {
-    return this.comboInputTyping$.pipe(debounceFirst(200)).map(x => ({ model: x }));
+    return this.comboInputTyping$.pipe(debounceFirst(200)).merge(this.comboExplicitRequest$).map(x => ({ model: x }))
   }
 
   start() {
@@ -142,6 +143,7 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
 
   ngOnDestroy() {
     this.comboInputTyping$.complete();
+    this.comboExplicitRequest$.complete();
     this.stop();
   }
 }

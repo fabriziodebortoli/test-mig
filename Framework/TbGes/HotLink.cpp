@@ -428,8 +428,12 @@ BOOL HotKeyLink::ExistData(DataObj* pData)
 	OnPrepareForFind(GetMasterRecord());
 
 	FindResult res = FindRecord(pData, IsEnabledAddOnFly(), TRUE);
+	BOOL bFound = res == FOUND || res == EMPTY;
 
-	return res == FOUND || res == EMPTY;
+	if (bFound && m_pDocument && AfxIsRemoteInterface())
+		m_pDocument->UpdateDataView();
+
+	return bFound;
 }
 
 // Chiamata dal control per fermare l'hotlink se e` running

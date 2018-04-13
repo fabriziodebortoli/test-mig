@@ -114,7 +114,6 @@ export class HyperLinkService implements OnDestroy {
         this.onAfterAddOnFly = onAfterAddOnFly;
         this.shouldAddOnFly = (focusEvent: ChangeFocusEvent) => 
             this.isAttachedComponentEnabled && 
-            this.workingValue &&
             this.elementInfo.element &&
             this.elementInfo.element.contains(focusEvent.source) &&
             (!hotLinkButton || !hotLinkButton.contains(focusEvent.target)) &&
@@ -156,7 +155,6 @@ export class HyperLinkService implements OnDestroy {
     * @param currentType model type
     */
     private userChoice = (info: HyperLinkInfo, currentValue: any, currentType: number): Observable<boolean> =>
-        (currentValue === '' || currentValue === undefined) ? Observable.never<boolean>() :
         Observable.fromPromise(this.wsService.queryHyperLink(info.name, info.cmpId, currentValue, currentType)).take(1).map(_ => false)
         .concat(this.eventDataService.closeMessageDialog.take(1).map(res => res['yes'])).skip(1);
 

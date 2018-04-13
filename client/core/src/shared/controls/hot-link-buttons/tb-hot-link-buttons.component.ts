@@ -97,15 +97,15 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
     this.search();
   }
 
-  selectionChanged(value: any) {
-    let idx = this.paginatorService.getClientPageIndex(value.index);
+  private getValueForModelChanged(indexer: any): any {
+    let idx = this.paginatorService.getClientPageIndex(indexer.index);
     let k = this.state.gridData.data.slice(idx, idx + 1);
-    this.value = k[0][this.state.selectionColumn];
-    if (this.modelComponent && this.modelComponent.model) {
-      this.modelComponent.model.value = this.value;
-    }
-    let v = _.get(k[0], 'Description');
-    _.set(this.eventDataService.model, this.hotLinkInfo.name + '.Description.value', v);
+    return k[0][this.state.selectionColumn];
+  }
+
+  selectionChanged(indexer: any) {
+    this.value = this.getValueForModelChanged(indexer);
+    this.modelComponent.model.value = this.value;
     this.emitModelChange();
     this.popupHandler.closePopups();
   }
