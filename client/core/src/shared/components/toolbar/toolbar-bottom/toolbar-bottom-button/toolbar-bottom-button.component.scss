@@ -41,7 +41,7 @@
         display: flex;
     }
     .k-button {
-        background: #0277bd;
+        background: #065aad;
         border: 0px;
         width: 100%;
         color: #fff;
@@ -50,10 +50,12 @@
         font-size: 14px;
         font-weight: 400;
         border-radius: 0px;
+        border-radius: 5px;
         &:hover,
         &:focus,
         &:active {
-            background: $darkblue;
+            background: #D3DFEC;
+            color: #fff;
             border: 0px;
         }
     }
