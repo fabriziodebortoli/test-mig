@@ -1,10 +1,11 @@
+import { Store } from './../../../../../core/services/store.service';
 import { TbComponent } from '../../../../components/tb.component';
 import { EventDataService } from './../../../../../core/services/eventdata.service';
 import { TbComponentService } from './../../../../../core/services/tbcomponent.service';
 import { LayoutService } from './../../../../../core/services/layout.service';
 import { ControlComponent } from './../../../../controls/control.component';
 import { Component, Input, ChangeDetectorRef, OnDestroy, Injector, ViewContainerRef, QueryList, ContentChild, TemplateRef,
-         ElementRef, AfterContentInit } from '@angular/core';
+         ElementRef, AfterContentInit , AfterContentChecked} from '@angular/core';
 
 
 
@@ -14,7 +15,7 @@ import { Component, Input, ChangeDetectorRef, OnDestroy, Injector, ViewContainer
   styleUrls: ['./status-tile.component.scss']
 })
 
-export class StatusTileComponent extends ControlComponent implements OnDestroy, AfterContentInit{
+export class StatusTileComponent extends ControlComponent implements OnDestroy {
 
   active: boolean = true;
 
@@ -29,17 +30,17 @@ export class StatusTileComponent extends ControlComponent implements OnDestroy, 
     changeDetectorRef: ChangeDetectorRef,
     tbComponentService: TbComponentService,
     public eventData: EventDataService,
+    public store: Store,
     elRef: ElementRef) {
     super(layoutService,tbComponentService,changeDetectorRef);
     this.DEFAULT_TILE_COLOR = "RGB(255, 255, 255)";
   }
 
   ngOnInit() {  
+    this.store.select(_ => this.backgroundColor && this.backgroundColor.value).subscribe(c => this._backGroundHexColors = c ? 
+        this.ExtractRGBValues(c) : this.DEFAULT_TILE_COLOR);
   }
 
-  ngAfterContentInit(): void {          
-     this._backGroundHexColors = this.backgroundColor ? this.ExtractRGBValues(this.backgroundColor.value) : this.DEFAULT_TILE_COLOR;       
-  }
 
    inputStyle(){
 
