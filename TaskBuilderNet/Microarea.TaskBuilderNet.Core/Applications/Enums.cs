@@ -1586,6 +1586,10 @@ namespace Microarea.TaskBuilderNet.Core.Applications
 			// aggiunge tutti i tag che trova
 			foreach (EnumTag enumTag in this)
 			{
+                if (enumTag.EnumItems == null || enumTag.EnumItems.Count == 0)
+                {
+                    continue;
+                }
 				XmlElement tagElement = dom.CreateElement(EnumsXml.Element.Tag);
 
                 AddAttribute(dom, tagElement, EnumsXml.Attribute.Name, localizedVersion && !useLocalizeAttribute ? enumTag.LocalizedName : enumTag.Name);
@@ -1593,8 +1597,8 @@ namespace Microarea.TaskBuilderNet.Core.Applications
                 if (localizedVersion && useLocalizeAttribute)
                     AddAttribute(dom, tagElement, EnumsXml.Attribute.Localized, enumTag.LocalizedName);
 
-				//gli aggiungo l'Attributo Default se è diverso dal primo
-				if (enumTag.DefaultValue != enumTag.EnumItems[0].Value)
+                //gli aggiungo l'Attributo Default se è diverso dal primo
+                if (enumTag.DefaultValue != enumTag.EnumItems[0].Value)
 				{
 					AddAttribute(dom, tagElement, EnumsXml.Attribute.DefaultValue, enumTag.DefaultValue.ToString());
 				}

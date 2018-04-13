@@ -167,7 +167,7 @@ namespace Microarea.EasyBuilder.UI
 					enumItem.SetAllPropertiesReadOnly(readOnly);
 
 					//Se l'enumerativo appartiene alla customizzazione corrente, carico tutto nella variabile
-					//enumTagsForCurrentEasyBuilderApp che tene l'equivalente del file Enums.xml per la coppia
+					//enumTagsForCurrentEasyBuilderApp che tiene l'equivalente del file Enums.xml per la coppia
 					//<applicazione, modulo> corrente (cioè la CurrentEasybuilderApp)
 					if (
 						String.Compare(enumModuleName, ownerModuleInfo.Name, StringComparison.InvariantCultureIgnoreCase) == 0 &&
@@ -901,14 +901,28 @@ namespace Microarea.EasyBuilder.UI
 			}
 			else
 			{
-				EnumTag owner = enumItem.Owner;
+                //Rimuovo l'enumItem dal TB C# in memoria.
+                EnumTag owner = enumItem.Owner;
 				owner.EnumItems.Remove(enumItem);
 
 				if (owner.DefaultValue == enumItem.Value && owner.EnumItems.Count > 0)
-					owner.DefaultValue = owner.EnumItems[0].Value;
+                {
+                    owner.DefaultValue = owner.EnumItems[0].Value;
+                }
 
-				UnloadEnumTagFromTBMemory(enumItem);
-			}
+                //Rimuovo l'enumItem dall'enumtag che mi permette di gestire gli enumerativi della mia personalizzaizone.
+                if (enumTagsForCurrentEasyBuilderApp.Count > 0)
+                {
+                    enumTag = enumTagsForCurrentEasyBuilderApp.GetTag(owner.Name);
+                    if (enumTag != null)
+                    {
+                        enumTag.EnumItems.Remove(enumItem);
+                    }
+                }
+
+                //Rimuovo l'enumItem dal TB C++ in memoria.
+                CUtility.DeleteEnumItem(enumItem);
+            }
 
 			TreeNode toBeDeletedNode = selectedNode;
 			this.EnumsTreeView.SelectedNode = selectedNode.NextNode != null ? selectedNode.NextNode : selectedNode.Parent;
@@ -936,20 +950,6 @@ namespace Microarea.EasyBuilder.UI
 			//Aggiungo l'enum item al TB C# in memoria.
 			DataType.Enums.Tags.Add(newEnumTag);
 			DataType.RefreshEnumTypes();
-		}
-
-		//---------------------------------------------------------------------
-		private static void UnloadEnumTagFromTBMemory(EnumItem enumItem)
-		{
-			//Rimuovo l'enumItem dal TB C++ in memoria.
-			CUtility.DeleteEnumItem(enumItem);
-			//Rimuovo l'enum item dal TB C# in memoria.
-			EnumItems items = DataType.Enums.EnumItems(enumItem.Owner.Name);
-			if (items != null && items.Count > 0)
-			{
-				items.Remove(enumItem);
-				DataType.RefreshEnumTypes();
-			}
 		}
 
 		//---------------------------------------------------------------------
