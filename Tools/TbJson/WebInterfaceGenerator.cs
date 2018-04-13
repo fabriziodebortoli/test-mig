@@ -1014,15 +1014,23 @@ namespace Microarea.TbJson
 
                 case WndObjType.TilePanel:
                     {
-                        using (OpenCloseTagWriter w = new OpenCloseTagWriter(Constants.tbPanel, this, false))
+                        string tag = Constants.tbPanel;
+
+                        if (!string.IsNullOrEmpty(jObj.GetParentItem().GetFlatString("hasPinnableTiles")))
+                            tag = Constants.tbFilterGroup;
+
+                        using (OpenCloseTagWriter w = new OpenCloseTagWriter(tag, this, false))
                         {
                             string title = jObj.GetLocalizableString(Constants.text);
                             if (!string.IsNullOrEmpty(title))
                                 htmlWriter.WriteAttribute(Square(Constants.title), title);
 
-                            htmlWriter.Write(" tbTile");
-                            htmlWriter.Write(jObj.GetTileDialogSize().ToString());
-                            htmlWriter.Write(" ");
+                            if(tag == Constants.tbPanel)
+                            {
+                                htmlWriter.Write(" tbTile");
+                                htmlWriter.Write(jObj.GetTileDialogSize().ToString());
+                                htmlWriter.Write(" ");
+                            }
 
                             WriteAttribute(jObj, Constants.collapsible, Constants.isCollapsible);
                             WriteAttribute(jObj, Constants.collapsed, Constants.isCollapsed);
@@ -1030,10 +1038,8 @@ namespace Microarea.TbJson
 
                             WriteActivationAttribute(jObj);
 
-                            if (!string.IsNullOrEmpty(jObj.GetParentItem().GetFlatString("hasPinnableTiles")))
-                                htmlWriter.WriteAttribute(Constants.hasPinnableTiles, "true");
-
                             w.CloseBeginTag();
+
                             GenerateHtmlChildren(jObj, type, insideRowView, slave);
                         }
 
@@ -1833,10 +1839,6 @@ namespace Microarea.TbJson
 
             htmlWriter.Write(" tbControl");
 
-            string anchor = jObj.GetFlatString(Constants.anchor);
-            if (string.IsNullOrEmpty(anchor) || anchor.IndexOf("COL", StringComparison.InvariantCultureIgnoreCase) < 0)
-                htmlWriter.WriteAttribute(Square("staticArea"), "false");
-
             string marginLeft = jObj.GetFlatString(Constants.marginLeft);
             if (!string.IsNullOrEmpty(marginLeft))
                 htmlWriter.WriteAttribute("marginLeft", marginLeft);
@@ -1844,6 +1846,10 @@ namespace Microarea.TbJson
             string captionWidth = jObj.GetFlatString(Constants.captionWidth);
             if (!string.IsNullOrEmpty(captionWidth))
                 htmlWriter.WriteAttribute(Square("captionWidth"), captionWidth);
+
+            string anchor = jObj.GetFlatString(Constants.anchor);
+            if (!string.IsNullOrEmpty(captionWidth) || string.IsNullOrEmpty(anchor) || anchor.IndexOf("COL", StringComparison.InvariantCultureIgnoreCase) < 0)
+                htmlWriter.WriteAttribute(Square("staticArea"), "false");
 
             string textAlign = jObj.GetTextAlign();
             if (!string.IsNullOrEmpty(textAlign))

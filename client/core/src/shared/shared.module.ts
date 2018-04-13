@@ -134,6 +134,7 @@ const TB_COMPONENTS = [
 import { TbHeaderComponent } from './containers/header/header.component';
 import { PanelComponent } from './containers/panel/panel.component';
 import { FilterComponent } from './containers/filter/filter.component';
+import { FilterGroupComponent } from './containers/filter/filter-group/filter-group.component';
 import { TbCardContentComponent } from './containers/tb-card/tb-card-content/tb-card-content.component';
 import { TbCardFooterComponent } from './containers/tb-card/tb-card-footer/tb-card-footer.component';
 import { TbCardHeaderComponent } from './containers/tb-card/tb-card-header/tb-card-header.component';
@@ -161,6 +162,7 @@ import { StatusTileComponent } from './containers/tiles/status-tile-panel/status
 export { TbHeaderComponent } from './containers/header/header.component';
 export { PanelComponent } from './containers/panel/panel.component';
 export { FilterComponent } from './containers/filter/filter.component';
+export { FilterGroupComponent } from './containers/filter/filter-group/filter-group.component';
 export { TbCardContentComponent } from './containers/tb-card/tb-card-content/tb-card-content.component';
 export { TbCardFooterComponent } from './containers/tb-card/tb-card-footer/tb-card-footer.component';
 export { TbCardHeaderComponent } from './containers/tb-card/tb-card-header/tb-card-header.component';
@@ -191,7 +193,7 @@ const TB_CONTAINERS = [
     TbHeaderComponent, TileManagerComponent, TileManagerTabComponent, TileGroupComponent, TileComponent, TilePanelComponent, LayoutContainerComponent,
     MessageDialogComponent, DiagnosticDialogComponent, DiagnosticDialogItemComponent, DynamicDialogComponent,
     TbCardComponent, TbCardTitleComponent, TbCardSubtitleComponent, TbCardHeaderComponent, TbCardFooterComponent, TbCardContentComponent,
-    StatusTilePanelComponent, StatusTileComponent, PanelComponent, FilterComponent
+    StatusTilePanelComponent, StatusTileComponent, PanelComponent, FilterComponent, FilterGroupComponent
 ];
 
 /**

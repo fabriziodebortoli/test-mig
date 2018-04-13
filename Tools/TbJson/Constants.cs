@@ -29,6 +29,7 @@
         internal const string tbTileGroup = "tb-tile-group";
         internal const string tbHeader = "tb-header";
         internal const string tbFilter = "tb-filter";
+        internal const string tbFilterGroup = "tb-filter-group";
         internal const string tbStatusTilePanel = "tb-status-tile-panel";
         internal const string tbStatusTile = "tb-status-tile";
         internal const string tbTile = "tb-tile";
