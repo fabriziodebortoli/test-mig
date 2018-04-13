@@ -34,10 +34,11 @@ export class EventDataService implements OnDestroy {
 
     constructor() { }
 
-    public raiseCommand(componentId: string, commandId: string) {
+    public raiseCommand(componentId: string, commandId: string, controlId: string = '') {
         const evt = new CommandEventArgs();
         evt.commandId = commandId;
         evt.componentId = componentId;
+        evt.controlId = controlId;
         this.command.emit(evt);
     }
     public raiseControlCommand(controlId: string) {

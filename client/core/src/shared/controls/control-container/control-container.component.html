@@ -1,6 +1,6 @@
 <div class="tb-control {{type}}" [ngClass]="componentClass()">
     <ng-content #cmp></ng-content>
-    <tb-context-menu *ngIf="contextMenu.length > 0" [contextMenu]="contextMenu" [locked]="contextMenuLocked"></tb-context-menu>
+    <tb-context-menu *ngIf="contextMenu.length > 0" [contextMenu]="contextMenu" [locked]="contextMenuLocked" [controlId]="controlId"></tb-context-menu>
     <div class="has-error">{{errorMessage}}</div>
     <button [disabled]="disableStateButton" *ngIf="stateData" kendoButton (click)="stateButtonClick($event)">
         <tb-icon [iconType]="'M4'" [icon]="(stateButtonEnabled$ | async) ? editIcon : executeIcon"></tb-icon>

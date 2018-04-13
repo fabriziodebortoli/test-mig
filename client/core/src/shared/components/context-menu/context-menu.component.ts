@@ -28,6 +28,7 @@ export class ContextMenuComponent extends TbComponent {
   contextMenuBinding: ContextMenuItem[];
   currentItem: ContextMenuItem;
 
+  @Input() controlId = '';
   @Input() fontIcon = 'tb-menu2';
   @Input() contextMenu: ContextMenuItem[];
   @Input() popupClass = 'content popup';
@@ -90,7 +91,7 @@ export class ContextMenuComponent extends TbComponent {
     if (typeof menuItem.fnc === 'function')
       menuItem.fnc();
     else
-      this.eventDataService.raiseCommand('', menuItem.id);
+      this.eventDataService.raiseCommand('', menuItem.id, this.controlId);
 
     this.onToggle();
   }

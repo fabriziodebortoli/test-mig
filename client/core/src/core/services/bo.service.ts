@@ -62,7 +62,7 @@ export class BOService extends DocumentService {
         this.subscriptions.push(this.eventData.command.subscribe((args: CommandEventArgs) => {
             const ret = this.onCommand(args.commandId);
             if (ret === true) {
-                this.doCommand(args.componentId, args.commandId, '');
+                this.doCommand(args.componentId, args.commandId, args.controlId);
                 return;
             }
             if (ret === false) {

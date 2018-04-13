@@ -22,6 +22,7 @@ import * as _ from 'lodash';
 })
 
 export class ControlContainerComponent extends ControlComponent {
+    @Input() controlId = '';
     @Input() type = '';
     @Input() errorMessage = '';
     @Input() disableStateButton = false;
