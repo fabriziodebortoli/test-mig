@@ -25,9 +25,11 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit {
   private isMasterBR = false;
   private isMasterIT = false;
   private isMasterRO = false;
+  private isMasterES = false;
   private isEuropeanUnion = false;
   private naturalPerson = false;
   private isoCode = '';
+  private taxIdType = 0;
 
   menuItemITCheck = new ContextMenuItem(this._TB('Check TaxId existence (IT site)'), '', true, false, null, this.checkIT.bind(this));
   menuItemEUCheck = new ContextMenuItem(this._TB('Check TaxId existence (EU site)'), '', true, false, null, this.checkEU.bind(this));
@@ -50,13 +52,14 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit {
 
   ngOnInit() {
     if (this.selector) {
-      this.store.select(
-        createSelector(
+        this.store.select(
+          createSelector(
           this.selector.nest('naturalPerson.value'),
           this.selector.nest('isoCode.value'),
+          this.selector.nest('taxIdType.value'),
           s => s.FormMode && s.FormMode.value,
           t => t.BatchMode && t.BatchMode.value,
-          (naturalperson, isocode, formMode, batchMode) => ({ naturalperson, isocode, formMode, batchMode })
+          (naturalperson, isocode, taxIdType, formMode, batchMode) => ({ naturalperson, isocode, taxIdType, formMode, batchMode })
         )
       )
         .pipe(untilDestroy(this))
@@ -73,6 +76,7 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit {
     this.isMasterBR = this.activationService.isActivated('ERP', 'MasterData_BR');
     this.isMasterIT = this.activationService.isActivated('ERP', 'MasterData_IT');
     this.isMasterRO = this.activationService.isActivated('ERP', 'MasterData_RO');
+    this.isMasterES = this.activationService.isActivated('ERP', 'MasterData_ES');
     this.isEuropeanUnion = this.activationService.isActivated('ERP', 'EuropeanUnion');
   }
   
@@ -90,9 +94,10 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit {
   onSelectorChanged = obj => {
     this.ctrlEnabled = obj.formMode === FormMode.FIND || obj.formMode === FormMode.NEW || obj.formMode === FormMode.EDIT || obj.batchMode === true;
     this.naturalPerson = obj.naturalperson;
-
     let isoChanged = this.isoCode != obj.isocode;
+    let taxIdTypeChanged = this.taxIdType != obj.taxIdType;
     this.isoCode = obj.isocode;
+    this.taxIdType = obj.taxIdType;
 
     this.buildContextMenu();
 
@@ -101,7 +106,7 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit {
       this.changeDetectorRef.detectChanges();
     }
 
-    if (isoChanged)
+    if (isoChanged || taxIdTypeChanged)
       this.validate();
   }
 
@@ -275,12 +280,81 @@ export class TaxIdEditComponent extends ControlComponent implements OnInit {
     return stato;
   }
 
-  validate() {
+    getTaxIdTypeString(taxIdType: any): string {
+        if (Number(taxIdType) === 33226752)
+            return this._TB("Tax Number");
+        else if (Number(taxIdType) === 33226753)
+            return this._TB("Tax Number Intra");
+        else if (Number(taxIdType) === 33226754)
+            return this._TB("Passport");
+        else if (Number(taxIdType) === 33226755)
+            return this._TB("Official Document in the Country");
+        else if (Number(taxIdType) === 33226756)
+            return this._TB("Residence Certificate");
+        else if (Number(taxIdType) === 33226757)
+            return this._TB("Other Document");
+        else
+            return this._TB("");
+    }
+
+    getSpanishTaxIdType(taxIdNumber: any, taxIdType: any): any {
+        // controlla solo congruità tra taxIdNumber (corretto) e il taxIdType
+        var bIsNaturalPerson = false;
+        var bIsForeignNaturalPerson = false;
+        var bIsJuridicalPerson = false;
+        var vatexp = new Array();
+        vatexp.push(/^([0-9])/);
+        vatexp.push(/^([LKXYZM])/);
+
+        if (vatexp[0].test(taxIdNumber[0]))
+            bIsNaturalPerson = true;
+        if (vatexp[1].test(taxIdNumber[0]))
+            bIsForeignNaturalPerson = true;
+        bIsJuridicalPerson = !bIsNaturalPerson && !bIsForeignNaturalPerson;
+	    // - se si tratta di NIE allora deve essere selezionato il tipo Residenza Certificata
+	    // - se NON si tratta di NIE allora NON deve essere selezionato il tipo Residenza Certificata
+        return (bIsForeignNaturalPerson ? 33226756 : 33226752);
+    }
+
+    setErrorSpanishTaxIdNumber(kind: any, taxIdType: any) {
+        if (Number(kind) === 7733248)
+            this.cc.errorMessage = this._TB('The entered Document is a {0}. Enter a correct one or change the Document Type.', this.getTaxIdTypeString(taxIdType));
+        else
+            this.cc.errorMessage = this._TB('The entered Document is not a {0}. Enter a correct one or change the Document Type.', this.getTaxIdTypeString(taxIdType));
+    }
+
+
+  async validate() {
     this.cc.errorMessage = '';
     if (!this.model || !this.ctrlEnabled || !this.value || this.value === '') return;
 
-    if (!JsCheckTaxId.isTaxIdValid(this.model.value, this.isoCode))
-      this.cc.errorMessage = this._TB('Incorrect Tax Number');
+    let slice = await this.store.select(this.selector).take(1).toPromise();
+    // per Spagna
+      if (this.isMasterES) {
+        if (this.isoCode === 'ES' && !slice.taxIdType)//in loc. Spagna se manca taxIdType e isoCode Spagna non può controllare
+            return;              
+        if (this.isoCode === 'ES' &&
+            (Number(slice.taxIdType) !== 33226752 &&
+            Number(slice.taxIdType) !== 33226753 &&
+            Number(slice.taxIdType) !== 33226756))
+            return;
+        if (this.isoCode !== 'ES' &&
+            Number(slice.taxIdType) !== 33226753)
+            return;
+    }
+      if (!JsCheckTaxId.isTaxIdValid(this.model.value, this.isoCode)) {
+          if (this.isMasterES && this.isoCode === 'ES')
+              this.setErrorSpanishTaxIdNumber(slice.kind, slice.taxIdType);
+          else
+              this.cc.errorMessage = this._TB('Incorrect Tax Number');
+      }
+      else if (this.isMasterES && this.isoCode === 'ES') {
+          // se partita iva corretta ma siamo in loc. Spagna e isoCode è Spagna
+          // viene controllato che il taxIdType sia congruente
+          let taxIdTypeCalc = this.getSpanishTaxIdType(this.model.value, slice.taxIdType);
+          if (Number(taxIdTypeCalc) !== Number(slice.taxIdType))
+              this.setErrorSpanishTaxIdNumber(slice.kind, taxIdTypeCalc);
+      }
 
     this.changeDetectorRef.detectChanges();
   }
