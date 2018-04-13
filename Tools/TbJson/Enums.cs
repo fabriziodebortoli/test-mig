@@ -39,6 +39,7 @@
         StatusTilePanel = 85,
         Splitter = 86,
         DockingPane = 87,
+        FilterGroup = 88,
 
         //enumerativi di utilità solo per il tool
         FrameContent = 200,

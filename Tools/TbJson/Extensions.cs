@@ -68,6 +68,23 @@ namespace Microarea.TbJson
                 return (WndObjType)Enum.Parse(typeof(WndObjType), t.Value<string>(), true);
             throw new Exception(string.Format("Invalid type: {0}", t.ToString()));
         }
+
+        //-----------------------------------------------------------------------------
+        internal static WndObjType GetWebWndObjType(this JToken jObj)
+        {
+            if (!(jObj is JObject))
+                return WndObjType.Undefined;
+            JToken t = jObj[Constants.webType];
+            if (t == null)
+                return WndObjType.Undefined;
+            if (t.Type == JTokenType.Integer)
+                return (WndObjType)t.Value<int>();
+            if (t.Type == JTokenType.String)
+                return (WndObjType)Enum.Parse(typeof(WndObjType), t.Value<string>(), true);
+            throw new Exception(string.Format("Invalid type: {0}", t.ToString()));
+        }
+
+
         //-----------------------------------------------------------------------------
         internal static TileDialogSize GetTileDialogSize(this JToken jObj)
         {

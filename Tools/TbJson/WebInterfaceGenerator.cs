@@ -1015,8 +1015,7 @@ namespace Microarea.TbJson
                 case WndObjType.TilePanel:
                     {
                         string tag = Constants.tbPanel;
-
-                        if (!string.IsNullOrEmpty(jObj.GetParentItem().GetFlatString("hasPinnableTiles")))
+                        if (jObj.GetWebWndObjType() == WndObjType.FilterGroup)
                             tag = Constants.tbFilterGroup;
 
                         using (OpenCloseTagWriter w = new OpenCloseTagWriter(tag, this, false))
@@ -1848,7 +1847,7 @@ namespace Microarea.TbJson
                 htmlWriter.WriteAttribute(Square("captionWidth"), captionWidth);
 
             string anchor = jObj.GetFlatString(Constants.anchor);
-            if (!string.IsNullOrEmpty(captionWidth) || string.IsNullOrEmpty(anchor) || anchor.IndexOf("COL", StringComparison.InvariantCultureIgnoreCase) < 0)
+            if (jObj.GetParentItem().GetDialogStyle() != TileDialogStyle.Filter && !string.IsNullOrEmpty(captionWidth) || string.IsNullOrEmpty(anchor) || anchor.IndexOf("COL", StringComparison.InvariantCultureIgnoreCase) < 0)
                 htmlWriter.WriteAttribute(Square("staticArea"), "false");
 
             string textAlign = jObj.GetTextAlign();

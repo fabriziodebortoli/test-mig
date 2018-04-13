@@ -66,6 +66,7 @@
         internal const string icon = "icon";
         internal const string iconType = "iconType";
         internal const string type = "type";
+        internal const string webType = "webType";
         internal const string category = "category";
         internal const string tileStyle = "tileStyle";
         internal const string buttonClick = "click";
