@@ -20,6 +20,9 @@
             ],
             "rxjs/*": [
                 "../../web-form/node_modules/rxjs/*"
+            ],
+            "ngx-gallery/*": [
+                "../../web-form/node_modules/ngx-gallery/*"
             ]
         }
     }
