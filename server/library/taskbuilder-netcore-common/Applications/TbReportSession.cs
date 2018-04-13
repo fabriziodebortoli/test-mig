@@ -46,7 +46,15 @@ namespace Microarea.Common.Applications
         public UserInfo UserInfo = null;
 
         private string tbBaseAddress = "http://localhost:5000/";
-        public string TbBaseAddress { get => tbBaseAddress; set => tbBaseAddress = value; }
+        public string TbBaseAddress {
+            get{
+                return tbBaseAddress;
+            }
+            set
+            {
+                tbBaseAddress = value.TrimEnd('/') + '/';
+            }
+        }
 
         public const string TbBaseRoute = "tbloader/api/";
         public const string TbLoginRoute = "tb/document/initTBLogin/";
@@ -345,7 +353,7 @@ namespace Microarea.Common.Applications
 
             try
             {
-                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, new Uri(session.TbBaseAddress + '/' + TbSession.TbBaseRoute + TbSession.TbRunFunctionRoute));
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, new Uri(session.TbBaseAddress + TbSession.TbBaseRoute + TbSession.TbRunFunctionRoute));
                 using (var client = new HttpClient())
                 {
                     try

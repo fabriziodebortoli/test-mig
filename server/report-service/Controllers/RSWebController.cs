@@ -75,7 +75,7 @@ namespace Microarea.RSWeb.Controllers
                 return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
-            session.TbBaseAddress = "http://localhost:5000/";
+            session.TbBaseAddress = tbBaseAddress;
 
             //trucco per parametri
             XmlReportEngine reportParameters = new XmlReportEngine(session);
@@ -108,7 +108,7 @@ namespace Microarea.RSWeb.Controllers
                 return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
-            session.TbBaseAddress = "http://localhost:5000/";
+            session.TbBaseAddress = tbBaseAddress;
 
             //trucco per parametri
             XmlReportEngine reportParameters = new XmlReportEngine(session);
@@ -252,7 +252,7 @@ namespace Microarea.RSWeb.Controllers
                 return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
-            session.TbBaseAddress = "http://localhost:5000/";
+            session.TbBaseAddress = tbBaseAddress;
 
             JsonReportEngine report = new JsonReportEngine(session);
             report.Execute();
@@ -272,7 +272,7 @@ namespace Microarea.RSWeb.Controllers
                 return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
-            session.TbBaseAddress = "http://localhost:5000/";
+            session.TbBaseAddress = tbBaseAddress;
 
             JsonReportEngine report = new JsonReportEngine(session);
             report.Execute();
@@ -303,7 +303,7 @@ namespace Microarea.RSWeb.Controllers
                 return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
-            session.TbBaseAddress = "http://localhost:5000/";
+            session.TbBaseAddress = tbBaseAddress;
             string customPath = session.PathFinder.GetCustomReportPathFromWoormFile(session.FilePath, ui.Company, session.UserInfo.User);
             string destinationPath = PathFunctions.WoormRunnedReportPath(customPath, Path.GetFileNameWithoutExtension(session.FilePath), true);
 
