@@ -27,11 +27,8 @@ export class ImageComponent extends ControlComponent {
 
     let imgStyles = {};
 
-    if (+(this.width) > +(this.height)) {
-      imgStyles['width'] = this.width + 'px';
-    } else {
-      imgStyles['height'] = this.height + 'px';
-    }
+    if(this.width) imgStyles['max-width'] = this.width + 'px';
+    if(this.height) imgStyles['max-height'] = this.height + 'px';
 
     return imgStyles;
   }
