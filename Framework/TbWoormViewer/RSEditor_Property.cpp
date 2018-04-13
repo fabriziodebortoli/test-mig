@@ -65,7 +65,7 @@
 
 //char degree °
 //#define CHAR_DEGREE '\0xB0'	
-#define CHAR_DEGREE ' o'	
+#define CHAR_DEGREE _TB(" degree")	
 
 void GetPrinters(CStringArray& szaPrinterArray){
 	DWORD dwNeeded = 0, dwItems = 0;
@@ -21068,9 +21068,9 @@ void CRSAlignBitwiseProp::Rebuild()
 	if (m_bAllowVertical)
 	{
 		m_OrientationProp = new CRSBitProp(this, _TB("Rotate by"), (_variant_t)GetOrientationString());
-			m_OrientationProp->AddOption(::cwsprintf(_T("0%c"), CHAR_DEGREE), TRUE, 0);									//deafult 0
-			m_OrientationProp->AddOption(::cwsprintf(_T("90%c"), CHAR_DEGREE), TRUE, DT_EX_ORIENTATION_90);				//DT_EX_ORIENTATION_90		ma devo impostare m_nAlign = (m_nAlign | DT_EX_ORIENTATION_90) &  ~DT_EX_VCENTER_LABEL
-			m_OrientationProp->AddOption(::cwsprintf(_T("270%c"), CHAR_DEGREE), TRUE, DT_EX_ORIENTATION_270);				//DT_EX_ORIENTATION_270		ma devo impostare m_nAlign = (m_nAlign | DT_EX_ORIENTATION_270) &  ~DT_EX_VCENTER_LABEL
+			m_OrientationProp->AddOption(::cwsprintf(_T("0 %s"), CHAR_DEGREE), TRUE, 0);									//deafult 0
+			m_OrientationProp->AddOption(::cwsprintf(_T("90 %s"), CHAR_DEGREE), TRUE, DT_EX_ORIENTATION_90);				//DT_EX_ORIENTATION_90		ma devo impostare m_nAlign = (m_nAlign | DT_EX_ORIENTATION_90) &  ~DT_EX_VCENTER_LABEL
+			m_OrientationProp->AddOption(::cwsprintf(_T("270 %s"), CHAR_DEGREE), TRUE, DT_EX_ORIENTATION_270);				//DT_EX_ORIENTATION_270		ma devo impostare m_nAlign = (m_nAlign | DT_EX_ORIENTATION_270) &  ~DT_EX_VCENTER_LABEL
 		AddSubItem(m_OrientationProp);
 	}
 
@@ -21137,11 +21137,11 @@ CString CRSAlignBitwiseProp::GetOrientationString()
 	switch (m_eOrientation)
 	{
 	case BitOrientation::Orientation_0:
-		return ::cwsprintf(_T("0%c"), CHAR_DEGREE);
+		return ::cwsprintf(_T("0 %s"), CHAR_DEGREE);
 	case BitOrientation::Orientation_90:
-		return ::cwsprintf(_T("90%c"), CHAR_DEGREE);
+		return ::cwsprintf(_T("90 %s"), CHAR_DEGREE);
 	case BitOrientation::Orientation_270:
-		return ::cwsprintf(_T("270%c"), CHAR_DEGREE);
+		return ::cwsprintf(_T("270 %s"), CHAR_DEGREE);
 	default:
 		ASSERT(FALSE);
 		return _TB("Error retrieving Orientation");
