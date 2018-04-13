@@ -333,8 +333,7 @@ namespace Microarea.RSWeb.Render
                             }
 
                             if (reportSession.UserInfo == null ||
-                                !reportSession.UserInfo.IsValidToken(reportSession.UserInfo.AuthenticationToken) ||
-                                !reportSession.UserInfo.IsActivated(StateMachineConstStrings.WebFramework, StateMachineConstStrings.EasyLook))
+                                !reportSession.UserInfo.IsValidToken(reportSession.UserInfo.AuthenticationToken))
                             {
                                 CurrentState = State.AuthenticationError;
                                 break;

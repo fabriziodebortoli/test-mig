@@ -1475,7 +1475,7 @@ namespace Microarea.RSWeb.WoormEngine
 			try
 			{
                 if (tbConnection == null)
-                {    //ANASTASIA PROVA POSTGRE
+                {    //SQLServer
                      tbConnection = new DBConnection(DBType.SQLSERVER, Engine.Report.ReportSession.CompanyDbConnection/*, TBDatabaseType.GetDBMSType(Engine.Report.ReportSession.Provider) TODO rsweb*/);
                     
                     //Npgsql

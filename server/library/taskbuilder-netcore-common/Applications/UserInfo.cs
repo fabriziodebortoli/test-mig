@@ -138,11 +138,6 @@ namespace Microarea.Common.Applications
 			throw new NotImplementedException();
 		}
 
-		public bool IsActivated(string v1, string v2)
-		{
-			return true;
-		}
-
 		public bool IsValidToken(string authenticationToken)
 		{
 			return this.AuthenticationToken == authenticationToken;
@@ -179,6 +174,10 @@ namespace Microarea.Common.Applications
 
 		public static LoginInfoMessage GetLoginInformation(string authtoken, string baseAddress = "http://localhost:5000/")
 		{
+            if (IsExternalAuth(authtoken))
+            {
+                return ExternalLoginInfo();
+            }
 			//prima era GetRemoteLoginInformation, ora unificata temporaneamente per togliere la conoscenza del base address di accountmanager
 			string loginInfo = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.GetJsonLoginInformation(authtoken);
 			if (loginInfo.IsNullOrEmpty())
@@ -188,7 +187,8 @@ namespace Microarea.Common.Applications
 			return msg;
 		}
 
-		public static async Task<string> GetRemoteLoginInformation(string authtoken, string baseAddress = "http://localhost:5000/")
+
+        public static async Task<string> GetRemoteLoginInformation(string authtoken, string baseAddress = "http://localhost:5000/")
 		{
 			using (var client = new HttpClient())
 			{
@@ -214,6 +214,29 @@ namespace Microarea.Common.Applications
 				}
 			}
 		}
-	}
+
+        //---------------------------------------------------------------------
+        private static LoginInfoMessage ExternalLoginInfo()
+        {
+            LoginInfoMessage loginInfoMessage = new LoginInfoMessage();
+            
+            loginInfoMessage.userName = "sa";
+            loginInfoMessage.admin = true;
+            loginInfoMessage.applicationLanguage = "it-IT";
+            loginInfoMessage.companyName = "Company_development";
+            loginInfoMessage.connectionString = "Data Source=USR-PARODISILV1;Initial Catalog='Company_development';User ID='sa';Password='';Connect Timeout=30;Pooling=false;";
+            loginInfoMessage.preferredLanguage = "en";
+            loginInfoMessage.providerName = "SQLOLEDB";
+            loginInfoMessage.userName = "sa";
+            loginInfoMessage.useUnicode = false;
+            return loginInfoMessage;
+        }
+
+        //---------------------------------------------------------------------
+        private static bool IsExternalAuth(string authtoken)
+        {
+            return authtoken.StartsWith("microarea");
+        }
+    }
 
 }
