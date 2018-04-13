@@ -4,13 +4,17 @@ import { CommonModule } from '@angular/common';
 import { TbKendoModule } from './kendo/kendo.module';
 export * from './kendo/kendo.module';
 
+import { NgxGalleryModule } from 'ngx-gallery';
+
 @NgModule({
   imports: [
     CommonModule,
-    TbKendoModule
+    TbKendoModule,
+    NgxGalleryModule
   ],
   exports: [
-    TbKendoModule
+    TbKendoModule,
+    NgxGalleryModule
   ]
 })
 export class TbLibsModule { }

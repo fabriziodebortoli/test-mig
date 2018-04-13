@@ -96,7 +96,8 @@ gulp.task('rollup:fesm', function() {
                 '@progress/kendo-angular-intl/locales/sr/numbers', '@progress/kendo-angular-intl/locales/sr/calendar', '@progress/kendo-angular-intl/locales/sr-Cyrl/numbers',
                 '@progress/kendo-angular-intl/locales/sr-Cyrl/calendar', '@progress/kendo-angular-intl/locales/sr-Latn/numbers', '@progress/kendo-angular-intl/locales/sr-Latn/calendar',
                 '@progress/kendo-angular-intl/locales/sl/numbers', '@progress/kendo-angular-intl/locales/sl/calendar', '@progress/kendo-angular-intl/locales/ru/numbers',
-                '@progress/kendo-angular-intl/locales/ru/calendar'
+                '@progress/kendo-angular-intl/locales/ru/calendar',
+                'ngx-gallery'
             ],
 
             output: {
@@ -149,7 +150,8 @@ gulp.task('rollup:umd', function() {
                 '@progress/kendo-angular-intl/locales/sr/numbers', '@progress/kendo-angular-intl/locales/sr/calendar', '@progress/kendo-angular-intl/locales/sr-Cyrl/numbers',
                 '@progress/kendo-angular-intl/locales/sr-Cyrl/calendar', '@progress/kendo-angular-intl/locales/sr-Latn/numbers', '@progress/kendo-angular-intl/locales/sr-Latn/calendar',
                 '@progress/kendo-angular-intl/locales/sl/numbers', '@progress/kendo-angular-intl/locales/sl/calendar', '@progress/kendo-angular-intl/locales/ru/numbers',
-                '@progress/kendo-angular-intl/locales/ru/calendar'
+                '@progress/kendo-angular-intl/locales/ru/calendar',
+                'ngx-gallery'
             ],
 
             output: {
@@ -173,7 +175,8 @@ gulp.task('rollup:umd', function() {
                     '@progress/kendo-angular-grid': 'kendoAngularGrid',
                     '@progress/kendo-angular-charts': 'kendoAngularCharts',
                     '@progress/kendo-angular-gauges': 'kendoAngularGauges',
-                    '@progress/kendo-angular-upload': 'kendoAngularUpload'
+                    '@progress/kendo-angular-upload': 'kendoAngularUpload',
+                    'ngx-gallery': 'ngxGallery'
                 },
 
                 // Format of generated bundle
