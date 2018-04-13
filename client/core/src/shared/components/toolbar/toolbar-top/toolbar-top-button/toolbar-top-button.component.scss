@@ -4,7 +4,7 @@
         margin-left: 3px;
         border-top-left-radius: 4px;
         border-bottom-left-radius: 4px;
-        //border-left: 1px solid $border-top-button-active;
+        border-left: 1px solid $border-top-button-active;
     }
     &:last-child tb-icon {
         margin-right: 3px;
@@ -16,7 +16,7 @@
         border-radius: 4px;
         margin-right: 3px;
         margin-left: 3px;
-        //border-left: 1px solid $border-top-button-active;
+        border-left: 1px solid $border-top-button-active;
     }
     &:hover {
         cursor: not-allowed;
@@ -40,6 +40,7 @@
                 flex-direction: row;
                 width: 100%;
                 text-align: center;
+                
             /*nella toolbar top non si deve mai vedere la spunta*/
             .checkmark{
                 visibility: hidden;
@@ -62,7 +63,7 @@
                 padding-top: 0;
                 box-shadow: none;
                 background-color: $color-light;
-                //border: 1px solid $border-top-button-active;
+                border: 1px solid $border-top-button-active;
                 border-left: none;
                 border-radius: none;
                 color: $darkblue;
@@ -110,7 +111,7 @@
    .top-button.checked.k-state-disabled {
         opacity: 1;
         background-color: $bkg-light;
-        //border: 1px solid $bkg-light;
+        border: 1px solid $bkg-light;
         transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
         
         .iconContainer tb-icon {
