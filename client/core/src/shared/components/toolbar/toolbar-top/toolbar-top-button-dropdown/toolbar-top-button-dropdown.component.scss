@@ -10,13 +10,14 @@
         height: 30px;
         min-width: 32px;
         border: 0;
-        background: none;
+        background: none; 
+        box-shadow: none;
 
     .ddbutton {
         display: flex;
         flex-direction: row;
         background:white;
-//        border: 1px solid  $border-top-button-active;
+        //padding: 3px 0px 0px 0px;
         border-left: none;
         width: 45px;
             &:hover {
@@ -30,6 +31,11 @@
                     color: $color-light;
                 }
             }
+            &:active {
+                background-color: $darkblue;
+                box-shadow: none;
+                color: $color-light;
+            }
         m4-icon.arrow{
             border: 0px;
             min-width: 1px;
@@ -37,29 +43,13 @@
             font-size: 11px;
             background-color:transparent;
             margin-top: 8px;
-            // &:hover {
-            //     transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
-            //     background-color: $darkblue;
-            //     border-color: $darkblue;
-            //     color: $color-light;
-            //     m4-icon.arrow,
-            //     tb-icon,
-            //     i {
-            //         color: $color-light;
-            //     }
-            // }
-            // &:active {
-            //     background-color: $blue;
-            //     box-shadow: none;
-            //     color: $color-light;
-            // }
         }
         m4-icon {
             min-width: 32px;
-            height: 30px;
+            height: 27px;
             font-size: 20px;
             margin: 0;
-            padding-top: 0;
+            padding-top: 3px;
             box-shadow: none;
             background-color: transparent;
             //border: 1px solid $border-top-button-active;
@@ -85,29 +75,19 @@
             // }
         }
     }
-         // &:first-child .ddbutton > m4-icon {
-        //     margin-left: 3px;
-        //     border-top-left-radius: 4px;
-        //     border-bottom-left-radius: 4px;
-        //     //border-left: 1px solid $border-top-button-active;
-        // }
-        // &:last-child .ddbutton > m4-icon {
-        //     margin-right: 3px;
-        //     border-top-right-radius: 4px;
-        //     border-bottom-right-radius: 4px;
-        //     border-left: none;
-        // }
-        // &:only-child .ddbutton > m4-icon {
-        //     border-radius: 4px;
-        //     margin-right: 3px;
-        //     margin-left: 3px;
-        //     //border-left: 1px solid $border-top-button-active;
-        // }
-        
-        &.k-state-disabled {
+
+    &:first-child .ddbutton, 
+    &:last-child .ddbutton, 
+    &:only-child .ddbutton  {
+        border-radius: 4px;
+        margin-right: 3px;
+        margin-left: 3px;
+        border: 1px solid $border-top-button-active;
+    }
+   
+     &.k-state-disabled {
             opacity: 1;
             background-color: $bkg-light;
-            
             transition: border-color 0.2s, color 0.2s, background-color 0.2s ease-in-out;
             .ddbutton {
                 padding: 3px 0px 0px 0px;
@@ -123,6 +103,11 @@
                 margin-top: 4px;
             }
         }
+    }
+    &:active,
+    &:focus
+    {
+        box-shadow: none;
     }
    
 }
