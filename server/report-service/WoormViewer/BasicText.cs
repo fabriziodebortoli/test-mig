@@ -72,14 +72,13 @@ namespace Microarea.RSWeb.Objects
         public string ToJson(string name = "font", bool bracket = false)
         {
            string s = name.ToJson() + ":{" +
-                                        Family.ToJson("face") + ',' +
-                                        Size.ToJson("size") + ',' +
-                                        (Italic ? Italic.ToJson("italic") + ',' : "") +
-                                        (Bold ? Bold.ToJson("bold") + ',' : "") +
-                                        (Underline ? Underline.ToJson("underline") + ',' : "") +
-                                        (FontColor != Color.Black ? FontColor.ToJson("fontcolor") : "") +
-                                        //',' +
-                                        //Strikeout.ToJson("strikeout") + 
+                                        Family.ToJson("face") +
+                                        ',' + Size.ToJson("size") +
+                                        (Italic ? ',' + Italic.ToJson("italic") : "") +
+                                        (Bold ? ',' + Bold.ToJson("bold") : "") +
+                                        (Underline ? ',' + Underline.ToJson("underline") : "") +
+                                        (FontColor != Color.Black ? ',' + FontColor.ToJson("fontcolor") : "") +
+                                        //',' + Strikeout.ToJson("strikeout") + 
                                      '}';
 
 

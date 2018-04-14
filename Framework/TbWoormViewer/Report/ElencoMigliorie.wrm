@@ -1,0 +1,142 @@
+﻿//==============================================================================
+// Woorm code behind
+//==============================================================================
+
+Release 7 Rect (73,1922,1008,3838) 
+FontStyles 
+	Begin
+		"CellText"  Facename "Calibri"  Size 12 Style (0,0,0,400,0,0,0,0,3,2,1,34,TextColor (0,0,0) ) ;
+		"ColumnTitle"  Facename "Calibri"  Size 14 Style (0,0,0,700,0,0,0,0,3,2,1,34,TextColor (0,0,0) ) ;
+		"TitoloReport"  Facename "Calibri"  Size 20 Style (0,0,0,700,0,0,0,0,3,2,1,34,TextColor (0,0,0) ) ;
+		"CellaStringaBold"  Facename "Calibri"  Size 12 Style (0,0,0,700,0,0,0,0,3,2,1,34,TextColor (0,0,0) ) ;
+	End
+
+PageLayout "default" 
+	Begin
+		Table (11,3) "Tabella_1" Alias 3  /* Table3 */ Origin (35,70) Heights (8,36,29,14) 
+		HideTitle
+		EasyView Color (223,239,255) 
+			Begin
+				"PRODOTTO" Alias 7  /* f_Prodotto */ BkgColor = rgb ( 239 , 239 , 239 ) Width 124 VMergeEqualCell ;
+				"PROGETTO" Alias 1  /* f_ProjectID */ Width 90 FormatStyle "Integer" ;
+				"DESCRIZIONE" Alias 2  /* f_DescriptionLOC */ Width 482 ;
+				Title Column (0,2)  TextColor (255,255,255) BkgColor (0,128,255) ;
+				ColTotal
+					Begin
+						Column (0)  FontStyle "CellaStringaBold"  ;
+						Column (1)  FontStyle "CellText"  Align 2149 ;
+						Column (2)  FontStyle "CellText"  ;
+					End
+
+				Body
+					Begin
+						Cell (0,0,10,0)  FontStyle "CellaStringaBold"  ;
+						Cell (0,1,10,1)  FontStyle "CellText"  Align 2149 ;
+					End
+
+			End
+
+
+		Field (22,18,62,758) Alias 11  /* e_Titolo */ 
+			Begin
+				TextColor (0,128,255) ;
+				FontStyle "TitoloReport" ;
+			End
+
+	End
+
+
+Report 
+	Begin NoName
+		Tables
+			Tabella_1 [11] Alias 3 ;
+		End
+
+		Variables
+			Integer      f_ProjectID [6] Alias 1  Column ;
+			String       f_DescriptionLOC [79] Alias 2  Column ;
+			Integer      Totf_ProjectID = Csum (f_ProjectID ) Alias 4  Hidden ;
+			String       AskProduct [15,1] Alias 5  Hidden  Input Init = "" ;
+			String       AskProductRelease [15,1] Alias 6  Hidden  Input Init = "" ;
+			String       f_Prodotto [17] Alias 7  Column ;
+			String       f_ReleaseNrExpected [12] Alias 10  Hidden ;
+			String       e_Titolo [15] Alias 11 ;
+		End
+
+		Rules
+			e_Titolo = "ELENCO MIGLIORIE APPORTATE IN RELEASE " + AskProductRelease ;
+		End
+
+
+		Events
+			FormFeed : Do
+				Before 
+					Begin
+						Display Totf_ProjectID ;
+						Reset Totf_ProjectID ;
+					End
+				After 
+					Begin
+					End
+
+			Report : Do
+				Always 
+					Begin
+						String prodotto = "" ;
+						While woorm.QueryRead ( "q_SelectPAIProjects" ) Do 
+								Begin
+									DisplayTableRow ;
+									If prodotto <> "" and prodotto <> f_Prodotto 
+										Then InterLine ;
+									prodotto = f_prodotto ;
+									NextLine ;
+								End ;
+					End
+				Before 
+					Begin
+					End
+				After 
+					Begin
+					End
+				Finalize 
+					Begin
+					End
+		End
+
+	Queries
+		Begin
+			Query  q_SelectPAIProjects
+			Begin
+				{
+					SELECT 
+					CASE 
+					WHEN FunctionalAreas = 'TBS-REPOSTU' THEN 'ReportingStudio' 
+					WHEN FunctionalAreas = 'TBS-EASYSTU' THEN 'EasyStudio' 
+					WHEN FunctionalAreas = 'FW-EASYSTU' THEN 'EasyStudio' ELSE FunctionalAreas END { COL f_Prodotto } , 
+					ReleaseNrExpected { COL f_ReleaseNrExpected } , 
+					ProjImprID { COL f_ProjectID } , 
+					DescriptionLOC { COL f_DescriptionLOC } 
+					FROM PAI_VwProjectsAndImprovementsProdRelease 
+					WHERE PAI_VwProjectsAndImprovementsProdRelease.ProductCode Like { IN AskProduct } 
+					and PAI_VwProjectsAndImprovementsProdRelease.ReleaseNrExpected Like { IN AskProductRelease }
+					and PAI_VwProjectsAndImprovementsProdRelease.Publishable = '1' 
+					ORDER BY FunctionalAreas , ProjImprID
+				}
+			End
+
+		End
+	Dialogs
+		Begin
+			Dialog NoName  
+				Begin
+					Controls
+						Begin
+							Begin   
+								AskProduct Prompt = "Seleziona un prodotto" /*HotLink PaiNet.PaiCore.Hlds.Products ( "" )*/ ;
+								AskProductRelease Prompt = "Scegli la release" /*HotLink PaiNet.PaiCore.Hlds.ProductsReleases ( AskProduct )*/ ;
+							End
+						End
+				End
+		End
+End
+
