@@ -25,12 +25,12 @@ namespace Microarea.RSWeb.Models
         static TbLoaderGateConfigParameters configParameters;
         public static TbLoaderGateConfigParameters ConfigParameters { get => configParameters; set => configParameters = value; }
 
-        private static JsonReportEngine CreateEngine(NamespaceMessage nsMsg, WebSocket webSocket, string tbIstanceID = "")
+        private static JsonReportEngine CreateEngine(NamespaceMessage nsMsg, WebSocket webSocket, string tbIstanceID = "", Microsoft.AspNetCore.Http.ISession hsession = null)
         {
             if (nsMsg == null || nsMsg.authtoken == null)
                 return null;   //TODO  gracefully expiration token message to client 
 
-            LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(nsMsg.authtoken);
+            LoginInfoMessage loginInfo = LoginInfoMessage.GetLoginInformation(hsession, nsMsg.authtoken);
             if (loginInfo == null)
                 return null;
  
@@ -143,7 +143,16 @@ namespace Microarea.RSWeb.Models
                 //check the request to find a tbloader associated. If exists, use the same istance (e.g. a report called from a tbloader document)
                 string tbIstanceID = nm.tbLoaderName;
 
-                JsonReportEngine jengine = CreateEngine(nm, webSocket, tbIstanceID);
+                Microsoft.AspNetCore.Http.ISession hsession = null;
+                try
+                {
+                    hsession = http.Session;
+                }
+                catch (Exception)
+                {
+                }
+
+                JsonReportEngine jengine = CreateEngine(nm, webSocket, tbIstanceID, hsession);
 
                 if (jengine == null)
                 {    /// handle errors

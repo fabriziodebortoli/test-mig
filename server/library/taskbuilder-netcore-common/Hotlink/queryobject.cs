@@ -707,9 +707,17 @@ namespace Microarea.Common.Hotlink
 
 			if (TbConnection == null)
 			{
-				TbConnection = new DBConnection(Provider.DBType.SQLSERVER, this.session.CompanyDbConnection /*, TBDatabaseType.GetDBMSType(this.session.Provider) TODO RSWEB*/);
-				TbConnection.Open();
-			}
+                try
+                {
+                    TbConnection = new DBConnection(Provider.DBType.SQLSERVER, this.session.CompanyDbConnection /*, TBDatabaseType.GetDBMSType(this.session.Provider) TODO RSWEB*/);
+                    TbConnection.Open();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                    return false;
+                }
+            }
 
             //------------------------------------------------------
             if (this.pageNumber != 0 && customSort.IsNullOrEmpty() && customWhere.IsNullOrEmpty())

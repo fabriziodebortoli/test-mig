@@ -17,6 +17,7 @@ using Microarea.Common.Generic;
 using Microarea.Common.NameSolver;
 using Microarea.Common.WebServicesWrapper;
 using Microsoft.AspNetCore.Http;
+using System.Diagnostics;
 
 namespace Microarea.Common.Applications
 {
@@ -68,9 +69,28 @@ namespace Microarea.Common.Applications
 			this.UserCulture = new CultureInfo(msg.applicationLanguage);
 		}
 
-		//---------------------------------------------------------------------
-		//modifica la stringa di connessione in modo da farle usare il connection pool
-		static private string AdjustConnectionString(string connectionString)
+        public LoginInfoMessage LoginInfoMessage
+        {
+            get
+            {
+                LoginInfoMessage msg = new LoginInfoMessage();
+
+                msg.userName = this.User;
+                msg.companyName = this.Company;
+                msg.admin = this.Admin;
+                msg.connectionString = this.CompanyDbConnection;
+                msg.providerName = this.Provider;
+                msg.useUnicode = this.UseUnicode;
+                msg.preferredLanguage = this.UserUICulture.Name;
+                msg.applicationLanguage = this.UserCulture.Name;
+
+                return msg;
+            }
+        }
+
+        //---------------------------------------------------------------------
+        //modifica la stringa di connessione in modo da farle usare il connection pool
+        static private string AdjustConnectionString(string connectionString)
 		{
 			string pattern = @"Pooling\s*=\s*false";
 			return Regex.Replace(connectionString, pattern, "Pooling=true", RegexOptions.IgnoreCase);
@@ -160,15 +180,38 @@ namespace Microarea.Common.Applications
 		{
 			//prima era GetRemoteLoginInformation, ora unificata temporaneamente per togliere la conoscenza del base address di accountmanager
 			string loginInfo = session != null ? session.GetString(authtoken) : string.Empty;
-			if (loginInfo.IsNullOrEmpty())
+            LoginInfoMessage msg = null;
+            if (loginInfo.IsNullOrEmpty())
 			{
-				loginInfo = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.GetJsonLoginInformation(authtoken);
+                if (IsExternalAuth(authtoken))
+                {
+                    msg = ExternalLoginInfo();
+
+                    if (session != null)
+                    {
+                        loginInfo = JsonConvert.SerializeObject(msg);
+                        try
+                        {
+                            if (!loginInfo.IsNullOrEmpty())
+                                session.SetString(authtoken, loginInfo);
+                        }
+                        catch (Exception ex)
+                        {
+                            //? alla prima request non si puo' modificare la session ... 
+                            Debug.WriteLine(ex);
+                        }
+                    }
+
+                    return msg;
+                }
+
+                loginInfo = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.GetJsonLoginInformation(authtoken);
 
 				if (session != null && !loginInfo.IsNullOrEmpty())
 					session.SetString(authtoken, loginInfo);
 			}
 
-			LoginInfoMessage msg = JsonConvert.DeserializeObject<LoginInfoMessage>(loginInfo);
+			msg = JsonConvert.DeserializeObject<LoginInfoMessage>(loginInfo);
 			return msg;
 		}
 
@@ -221,13 +264,17 @@ namespace Microarea.Common.Applications
             LoginInfoMessage loginInfoMessage = new LoginInfoMessage();
             
             loginInfoMessage.userName = "sa";
+            //loginInfoMessage.userName = "webuser"; 
             loginInfoMessage.admin = true;
             loginInfoMessage.applicationLanguage = "it-IT";
-            loginInfoMessage.companyName = "Company_development";
-            loginInfoMessage.connectionString = "Data Source=USR-PARODISILV1;Initial Catalog='Company_development';User ID='sa';Password='';Connect Timeout=30;Pooling=false;";
+            //loginInfoMessage.companyName = "Company_development";
+            loginInfoMessage.companyName = "MagoWeb_4.x"; 
+            //loginInfoMessage.connectionString = "Data Source=USR-PARODISILV1;Initial Catalog='Company_development';User ID='sa';Password='';Connect Timeout=30;Pooling=false;";
+            loginInfoMessage.connectionString = "Data Source=USR-TESTAMANUE;Initial Catalog='MagoWeb_4.x';User ID='sa';Password='';Connect Timeout=30;Pooling=false;";             
             loginInfoMessage.preferredLanguage = "en";
             loginInfoMessage.providerName = "SQLOLEDB";
-            loginInfoMessage.userName = "sa";
+            //loginInfoMessage.userName = "sa";
+            loginInfoMessage.userName = "webuser"; 
             loginInfoMessage.useUnicode = false;
             return loginInfoMessage;
         }
