@@ -2704,7 +2704,7 @@ namespace Microarea.RSWeb.Objects
         public string ToJsonColumns(bool template)
         {
             string s = "\"columns\":[";
-            bool first = true;
+            bool first = true; int firstCol = -1;
             for (int i = 0; i < Columns.Count; i++)
             {
                 Column column = this.Columns[i];
@@ -2712,17 +2712,25 @@ namespace Microarea.RSWeb.Objects
                 if (column.IsHidden && column.HideExpr == null)
                     continue;
 
-                if (first) first = false; else s += ',';
+                if (first)
+                {
+                    first = false;
+                }
+                else s += ',';
 
-                if (column.DynamicIsHidden && column.HideExpr != null)
+                if (!template && column.DynamicIsHidden && column.HideExpr != null)
                 {
                     s += column.ToJsonHiddenData();
                     continue;
                 }
+
+                if (firstCol == -1 && !column.DynamicIsHidden)
+                    firstCol = i;
+
                 s += template ?
-                    column.ToJsonTemplateHeader(i == 0, i)
+                    column.ToJsonTemplateHeader(i == firstCol, i)
                     :
-                    column.ToJsonDataHeader(i == 0, i);
+                    column.ToJsonDataHeader(i == firstCol, i);
             }
             s += ']';
 

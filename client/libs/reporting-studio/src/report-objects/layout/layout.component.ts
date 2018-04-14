@@ -18,7 +18,7 @@ import { title } from './../../models/title.model';
 import { gauge } from './../../models/gauge.model';
 import { TemplateItem } from '../../models/template-item.model';
 
-import { Component, OnInit, Input, OnChanges, SimpleChange, OnDestroy, Type } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChange, OnDestroy, Type, ElementRef, Renderer2 } from '@angular/core';
 import { Subscription } from "rxjs/Subscription";
 import { ReportObjectType } from '../../models/report-object-type.model';
 
@@ -45,11 +45,20 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
   public showAsk: boolean;
   public ROT = ReportObjectType;
 
-  constructor(public layoutService: LayoutService, public rsService: ReportingStudioService, public rsExportService: RsExportService) { }
+  constructor(public layoutService: LayoutService,
+     public rsService: ReportingStudioService,
+     public rsExportService: RsExportService, 
+     public elRef: ElementRef, 
+     public renderer: Renderer2) { }
 
   // -----------------------------------------------
   ngOnInit() {
-    this.viewHeightSubscription = this.layoutService.getViewHeight().subscribe((viewHeight) => this.viewHeight = viewHeight);
+    this.viewHeightSubscription = this.layoutService.getViewHeight().subscribe((viewHeight) => {
+      this.viewHeight = viewHeight;
+      if(this.elRef.nativeElement.firstElementChild !== null)
+        this.renderer.setStyle(this.elRef.nativeElement.firstElementChild, 'height', this.viewHeight-76 + 'px',);
+    });
+    
     this.rsExportService.imageLoaded.subscribe(()=> this.createPDF());
   }
 
@@ -371,14 +380,14 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
   setDocumentStyle(layout: any) {
 
     this.layoutStyle = {
-      'width': (layout.pageinfo.width) + 'mm',
-      'height': (layout.pageinfo.length) + 'mm',
+      'width': layout.pageinfo ? (layout.pageinfo.width) + 'mm': 'inherit',
+      'height': layout.pageinfo ? (layout.pageinfo.length) + 'mm': 'inherit',
       'background-color': 'white',
       'border': '1px solid #ccc',
       'position': 'relative',
       'margin': '5px auto',
-      'padding-top': (layout.pageinfo.margin.top) + 'px',
-      'padding-left': (layout.pageinfo.margin.left) + 'px',
+      'padding-top': layout.pageinfo ? (layout.pageinfo.margin.top) + 'px': '0px',
+      'padding-left': layout.pageinfo ? (layout.pageinfo.margin.left) + 'px': '0px' ,
     }
 
     if (this.rsExportService.pdfState === PdfType.NOPDF 
@@ -386,9 +395,10 @@ export class ReportLayoutComponent implements OnChanges, OnInit, OnDestroy {
       || this.rsExportService.pngState === PngType.NOPNG) {
       this.layoutBackStyle = {
         'width': '100%',
-        'height': this.viewHeight - 65 + 'px',
+        'height': this.viewHeight - 76+ 'px',
         'position': 'relative',
         'overflow': 'scroll',
+   
       }
     }
 
