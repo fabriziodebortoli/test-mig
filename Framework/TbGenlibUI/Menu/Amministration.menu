@@ -4,22 +4,17 @@
 		<Title localizable="true">TaskBuilder Framework</Title>
 		<Group name="FrameWork.Administration"  image_namespace="Image.Framework.TbFrameworkImages.Images.25x25\Tools.png" icon="erp-services">
 			<Title localizable="true">Tools</Title>
+
 			<Menu name="FrameWork.Administration.Tools" search_command_image="true">
 				<Title localizable="true">Tools</Title>
 				<Menu name="FrameWork.Administration.Tools.Tools" search_command_image="true">
 					<Title localizable="true">Tools</Title>
-          <Function>
-            <Title localizable="true">Document Reports Management</Title>
-            <Object>Framework.TbGes.TbGes.AdminDocumentReports</Object>
-          </Function>
+         
           <Function noweb="true">
             <Title localizable="true">Import and Copy files</Title>
             <Object>Framework.TbGenlibUI.TbGenlibUI.ExecManageFile</Object>
           </Function>
-          <!--<Function>
-            <Title localizable="true">PRIVATE Check Reports</Title>
-            <Object>Framework.TbWoormViewer.TbWoormViewer.ExecUpgradeReport</Object>
-          </Function>-->
+         
           <Function>
             <Title localizable="true">Font Styles</Title>
             <Object>Framework.TbGenlibUI.TbGenlibUI.ExecOpenFont</Object>
@@ -45,23 +40,33 @@
           </Function>
         </Menu>
       </Menu>
-	  
-     <Menu name="FrameWork.Administration.Tools.ReportingStudio" search_command_image="true" environment="desktop">
+	  <!-- environment="desktop" -->
+     <Menu name="FrameWork.Administration.Tools.ReportingStudio" search_command_image="true" >
         <Title localizable="true">Reporting Studio</Title>
-         <Function   noweb="true">
+       <Menu name="FrameWork.Administration.Tools.ReportingStudio" search_command_image="true" >
+         <Title localizable="true">Reporting Studio</Title>
+       <Function noweb="true">
+         <Title localizable="true">Document Reports Management</Title>
+         <Object>Framework.TbGes.TbGes.AdminDocumentReports</Object>
+       </Function>
+         <Function activation="!Framework.ReportEditor"  noweb="true">
           <Title localizable="true">Validate Pass-Key</Title>
           <Object>Framework.TbWoormViewer.TbWoormViewer.PassKeyLogin</Object>
         </Function>
-       <Function insert_after="all" activation="Framework.ReportEditor" noweb="true">
+       <Function  activation="!Framework.ReportEditor" noweb="true">
           <Title localizable="true">New Report</Title>
           <Object>Framework.TbWoormViewer.TbWoormViewer.ExecNewReport</Object>
         </Function>
-        <Function insert_after="all" noweb="true">
+        <Function activation="!Framework.ReportEditor" noweb="true">
           <Title localizable="true">Open an existing Report</Title>
           <Object>Framework.TbWoormViewer.TbWoormViewer.ExecOpenReport</Object>
         </Function>
+       <!--<Function activation="Framework.ReportEditor" noweb="true">
+            <Title localizable="true">PRIVATE Check Reports</Title>
+            <Object>Framework.TbWoormViewer.TbWoormViewer.ExecUpgradeReport</Object>
+          </Function>-->
       </Menu>
-      
+     </Menu>
 		</Group>
 	</Application>
 </AppMenu>
