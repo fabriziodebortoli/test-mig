@@ -199,13 +199,13 @@ namespace Microarea.Library.TBApplicationWrapper
        // public IHttpDocumentHandler HttpDocumentHandler { get { return tbAppProxy.HttpDocumentHandler; } }
 
 		//-----------------------------------------------------------------------
-		public override void StartTbLoader(String launcher, bool unattendedMode, bool clearCachedData)
+		public override void StartTbLoader(String launcher, bool unattendedMode, bool clearCachedData, string additionalArgs="")
 		{
-			StartTbLoader(launcher, unattendedMode, clearCachedData, -1);
+			StartTbLoader(launcher, unattendedMode, clearCachedData, -1, additionalArgs);
 		}
 
 		//-----------------------------------------------------------------------
-		public void StartTbLoader(String launcher, bool unattendedMode, bool clearCachedData, int tbPort)
+		public void StartTbLoader(String launcher, bool unattendedMode, bool clearCachedData, int tbPort, string additionalArgs = "")
 		{
 			//try first to attach to an existing tbapplication 
 			AttachTBLoader(tbPort);

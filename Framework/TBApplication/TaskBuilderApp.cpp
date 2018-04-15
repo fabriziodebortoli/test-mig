@@ -87,6 +87,10 @@ static const TCHAR* szLauncherParam				= _T("Launcher");
 static const TCHAR* szRegisterWCFNamespaces		= _T("RegisterWCFNamespaces");
 static const TCHAR* szTrue						= _T("true");
 static const TCHAR* szMenuHandleParam			= _T("MenuHandle");
+static const TCHAR* szInstanceNameParam			= _T("InstanceName");
+static const TCHAR* szConnectionStringParam		= _T("ConnectionString");
+static const TCHAR* szSubscriptionParam			= _T("Subscription");
+static const TCHAR* szMiddlewareUrlParam		= _T("MiddlewareUrl");
 
 //=============================================================================================
 class CStartLog : public CObject
@@ -328,6 +332,7 @@ int CTaskBuilderApp::Run()
 //-----------------------------------------------------------------------------
 BOOL CTaskBuilderApp::InitInstance()
 {
+	Sleep(10000);
 	s_pfExpFilter = (ExpFilterFunction*)&ExpFilter;
 	class CFreeWait
 	{
@@ -345,6 +350,12 @@ BOOL CTaskBuilderApp::InitInstance()
 
 	//imposto la funzione per la gestione degli errori sui parametri
 	_set_invalid_parameter_handler(TBInvalidParameterHandler);
+	
+	CApplicationContext *pContext = AfxGetApplicationContext();
+	pContext->m_strInstanceName = GetArgumentValue(szInstanceNameParam);
+	pContext->m_strSubscription = GetArgumentValue(szSubscriptionParam);
+	pContext->m_strConnectionString = GetArgumentValue(szConnectionStringParam);
+	pContext->m_strMiddlewareUrl = GetArgumentValue(szMiddlewareUrlParam);
 	
 	SetThreadName (-1, "CTaskBuilderApp-MainThread");
 	CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
@@ -404,7 +415,7 @@ BOOL CTaskBuilderApp::InitInstance()
 	// dummy main window (MFC needs a thread main window)
 	// moved here because must be done after api hooking (if any)
 	m_pMainWnd = new CThreadMainWindow(TRUE); 
-	AfxGetApplicationContext()->SetAppMainWnd(m_pMainWnd->m_hWnd);
+	pContext->SetAppMainWnd(m_pMainWnd->m_hWnd);
 
 
 	// I can trace only after settings load
@@ -456,7 +467,6 @@ BOOL CTaskBuilderApp::InitApplicationContext(const CString& strFileServer, const
 {
 	CApplicationContext *pContext = AfxGetApplicationContext();
 	pContext->SetInUnattendedMode(GetArgumentValue(szUnattendedModeParam).CompareNoCase(szTrue) == 0);
-
 	int handle = _ttoi(GetArgumentValue(szMenuHandleParam));
 	if (handle > 0)
 		pContext->SetMenuWindowHandle((HWND)handle);

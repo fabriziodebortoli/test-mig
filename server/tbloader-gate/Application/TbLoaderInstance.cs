@@ -35,7 +35,7 @@ namespace Microarea.TbLoaderGate
         internal async Task ExecuteAsync()
         {
             TBLoaderService svc = new TBLoaderService(Server, TbLoaderServicePort);
-            TBLoaderResponse response = await svc.ExecuteRemoteProcessAsync(Name);
+            TBLoaderResponse response = await svc.ExecuteRemoteProcessAsync(Name, "connection", "subscription", "http:\\localhost:5000");
             HttpPort = response.Port;
             ProcessId = response.ProcessId;
             Connected = response.Result;

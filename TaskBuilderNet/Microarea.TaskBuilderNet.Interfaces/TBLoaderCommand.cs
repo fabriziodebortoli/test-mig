@@ -11,7 +11,7 @@ namespace Microarea.TaskBuilderNet.Interfaces
 		public int ProcessId { get; set; }
 		public string ClientId { get; set; }
 		public CommandType Type { get; set; }
-	}
+    }
 
 	[Serializable]
 	public class TBLoaderResponse

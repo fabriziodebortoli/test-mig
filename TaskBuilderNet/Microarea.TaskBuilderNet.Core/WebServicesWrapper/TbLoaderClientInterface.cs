@@ -563,13 +563,16 @@ namespace Microarea.TaskBuilderNet.Core.WebServicesWrapper
 				args.Append(" ClearCache");
 			if (registerWCFNamespaces)
 				args.Append(" RegisterWCFNamespaces");
-			//args.Append(" HideMainWindow=true");
+            //args.Append(" HideMainWindow=true");
             if (!tbLoaderParams.IsNullOrEmpty())
-                args.AppendFormat(" {0}", tbLoaderParams);
+            {
+                args.Append(" ");
+                args.Append(tbLoaderParams);
+            }
 			return args.ToString();
 		}
 		//-----------------------------------------------------------------------
-		virtual public void StartTbLoader(string launcher, bool unattendedMode, bool clearCachedData)
+		virtual public void StartTbLoader(string launcher, bool unattendedMode, bool clearCachedData, string additionalArgs="")
 		{
 			try
 			{
@@ -582,7 +585,7 @@ namespace Microarea.TaskBuilderNet.Core.WebServicesWrapper
 						InitSoapInterfaceURL();
 					}
 					string language = InstallationData.ServerConnectionInfo.PreferredLanguage;
-					string args = BuildArguments(binding, tbPort, launcher, language, menuHandle, unattendedMode, clearCachedData, RegisterWCFNamespacesOnStart,string.Empty);
+					string args = BuildArguments(binding, tbPort, launcher, language, menuHandle, unattendedMode, clearCachedData, RegisterWCFNamespacesOnStart, additionalArgs);
 					InternalStartTBLoader(args);
 				}
 			}
@@ -2698,7 +2701,7 @@ namespace Microarea.TaskBuilderNet.Core.WebServicesWrapper
 		}
 
 		//-----------------------------------------------------------------------
-		public override void StartTbLoader(string launcher, bool unattendedMode, bool clearCachedData)
+		public override void StartTbLoader(string launcher, bool unattendedMode, bool clearCachedData, string additionalArgs)
 		{
 			try
 			{

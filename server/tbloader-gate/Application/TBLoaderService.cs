@@ -15,6 +15,7 @@ namespace Microarea.TbLoaderGate
         public CommandType Type { get; set; }
         public int ProcessId { get; set; }
         public string ClientId { get; set; }
+        public string Arguments { get; set; }
     }
 
     public class TBLoaderResponse
@@ -156,13 +157,24 @@ namespace Microarea.TbLoaderGate
         }
 
         //-----------------------------------------------------------------------
-        public async Task<TBLoaderResponse> ExecuteRemoteProcessAsync(string clientID)
+        public async Task<TBLoaderResponse> ExecuteRemoteProcessAsync(string clientID, string connectionString, string subscription, string middlewareUrl)
         {
             try
             {
                 TBLoaderCommand cmd = new TBLoaderCommand();
                 cmd.Type = TBLoaderCommand.CommandType.Start;
                 cmd.ClientId = clientID;
+                cmd.Arguments = string.Concat(
+                    "InstanceName=\"",
+                    clientID,
+                    "\" ConnectionString=\"",
+                    connectionString,
+                    "\" Subscription=\"",
+                    subscription,
+                    "\" MiddlewareUrl=\"",
+                    middlewareUrl,
+                    "\"");
+
                 return await SocketSendReceive(serviceComputerName, servicePort, cmd);
             }
             catch (Exception e)

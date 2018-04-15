@@ -89,7 +89,8 @@ namespace Microarea.TaskBuilderNet.TbLoaderService
 							Message("Starting new tbloader...", DiagnosticType.LogInfo);
 							tbInstance = new TBLoaderInstance() { ClientId = cmd.ClientId };
 							tbInstance.TbLoader = new TbLoaderClientInterface(BasePathFinder.BasePathFinderInstance, "");
-							tbInstance.TbLoader.StartTbLoader("TbLoaderService", true);
+
+                            tbInstance.TbLoader.StartTbLoader("TbLoaderService", true, false, cmd.Arguments);
 
 							Diagnostic tbDiagnostic = tbInstance.TbLoader.GetApplicationContextDiagnostic(true);
 							if (!tbInstance.TbLoader.Connected || tbDiagnostic.TotalErrors > 0)

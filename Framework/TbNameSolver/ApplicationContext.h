@@ -103,6 +103,10 @@ private:
 
 	BOOL						m_bMultiThreadedDocument;
 	BOOL						m_bMultiThreadedLogin;
+	CString						m_strInstanceName;
+	CString						m_strSubscription;
+	CString						m_strConnectionString;
+	CString						m_strMiddlewareUrl;
 
 	BOOL						m_bRemoteInterface = FALSE;
 
@@ -288,9 +292,6 @@ private:
 
 	void StartLockTracer(UINT nTBPort);
 	void StopLockTracer();
-
-
-	void		LoadBkgColor(COLORREF color);
 
 public:
 	void AttachDatabaseReleaesesTable(CObject* pObj)		{ delete m_pDeclaredDBReleasesTable; m_pDeclaredDBReleasesTable = pObj; }
