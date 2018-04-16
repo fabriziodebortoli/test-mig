@@ -2197,6 +2197,8 @@ BOOL CRSEditorToolDebugView::FillForDebug(CRSEditView* editView)
 // -----------------------------------------------------------------------------
 BOOL CRSEditorToolDebugView::FillBreakpoints(ActionObj* pCurrent)
 {
+	pCurrent = (GetFrame() && GetFrame()->m_pEditView && GetFrame()->m_pEditView->m_Context.m_pCurrActionObj == pCurrent ? pCurrent : NULL);
+
 	m_TreeCtrl.FillBreakpoints(pCurrent);
 
 	GetFrame()->m_pBreakpointsView->LoadBreakpoints(pCurrent);
@@ -2222,6 +2224,14 @@ void CRSEditorToolDebugView::ToggleBreakpoint(int nRow, BOOL bSet)
 			pActionChild->AddBreakpoint();
 		else 
 			pActionChild->RemoveBreakpoint();
+
+		
+		ASSERT_VALID(GetFrame());
+		ASSERT_VALID(GetFrame()->m_pEditView);
+		if (GetFrame()->m_pEditView)
+		{
+			GetFrame()->m_pEditView;
+		}
 
 		FillBreakpoints(bSet ? pActionChild : NULL);
 	}
