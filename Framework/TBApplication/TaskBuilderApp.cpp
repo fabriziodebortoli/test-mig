@@ -332,7 +332,6 @@ int CTaskBuilderApp::Run()
 //-----------------------------------------------------------------------------
 BOOL CTaskBuilderApp::InitInstance()
 {
-	Sleep(10000);
 	s_pfExpFilter = (ExpFilterFunction*)&ExpFilter;
 	class CFreeWait
 	{
