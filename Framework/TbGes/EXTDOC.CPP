@@ -5917,10 +5917,7 @@ void CAbstractFormDoc::BatchStart()
 
 	// La SetDefaultFocus dopo la OnBatchExecute solo se la bach è ancora il documento corrente attivo
 	// (se è stato lanciato un report il fuoco deve rimanere al report)
-	CWnd* pWndMain = AfxGetMainWnd();
-	CFrameWnd* pFrame = ((CMDIFrameWnd*)pWndMain)->MDIGetActive();
-	CDocument* pDoc = (NULL != pFrame) ? pFrame->GetActiveDocument() : NULL;
-	if (pDoc == this)
+	if (AfxGetMainWnd() == GetFrame())
 	{
 		SetDefaultFocus();
 		if (::GetFocus() == NULL && GetFrame())
