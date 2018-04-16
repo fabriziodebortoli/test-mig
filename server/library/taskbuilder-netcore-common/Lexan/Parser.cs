@@ -1186,16 +1186,18 @@ namespace Microarea.Common.Lexan
 
             bool ok = token == Token.NULL ? true : ParseTag(token);
 
-            ok = ok && ParseOpen();
-            if (!ok)
+            if (LookAhead() == Token.ID)
             {
+                ok = ok && ParseTag(Token.ID);
                 if (currentToken == Token.ID)
-                {
                     colorId = CurrentLexeme;
-                    return true;
-                }
+                else
+                    colorId = string.Empty;
+                 return ok;
             }
-            ok = ok && ParseByte(out nRed) &&
+
+            ok =  ok && ParseOpen() && 
+            ParseByte(out nRed) &&
             ParseComma() &&
             ParseByte(out nGreen) &&
             ParseComma() &&
