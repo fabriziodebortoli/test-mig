@@ -16,8 +16,6 @@ export type maskParts = { prefix: string, separator: string, body: string, suffi
 
 // COSA MANCA:
 // menu: insert in search - remove from search
-// state button
-// sistemare la posizione del context menu
 
 export class NumbererComponent extends ControlComponent {
     @Input('readonly') readonly = false;
@@ -64,8 +62,6 @@ export class NumbererComponent extends ControlComponent {
         this.enableLocalization();
     }
     ngOnInit() {
-        // this.currentState = this.model.stateData.invertState ? NumbererStateEnum.FreeInput : NumbererStateEnum.MaskedInput;
-        // this.icon = this.model.stateData.invertState ? this.tbEditIcon : this.tbExecuteIcon;
         super.ngOnInit();
 
         this.ctxMenuIndex = this.cc.contextMenu.length;
@@ -355,20 +351,14 @@ export class NumbererComponent extends ControlComponent {
         }
     }
 
-    changeModelValue(event: any) {
-        // if a mask with a fixed prefix is set, the textbox return as its value only the changeable part of it
-        // ex. i'm creating a new document with number '17/00001' (fixed part) and the user completes it with a suffix, so the number becomes '17/00001AD'
-        // the textbox return as its value only the suffix 'AD'. this compels me to read the entire value from the native element,
-        // stripping the underscore from it 
-
-        // this.model.value = value;
+    changeModelValue(value: any) {
         switch (this.eventData.model.FormMode.value) {
             case FormMode.FIND:
                 this.valueWasPadded = false;
 
             case FormMode.NEW:
             case FormMode.EDIT:
-                this.model.value = this.textbox.input.nativeElement.value.replace('_', ' ').trim();
+                this.model.value = value.trim();
                 this.valueWasPadded = false;
         }
     }

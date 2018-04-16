@@ -1,9 +1,9 @@
 <tb-control-container type="tb-numberer" [model]="model" [stateData]="stateData" [disableStateButton]="!stateDataEnabled"
     (stateInfo)='onStateInfo($event)' [contextMenuLocked]="contextMenuLocked">
     <tb-caption [captionWidth]="captionWidth" caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
-    <kendo-maskedtextbox #textbox [mask]="mask" [value]="model?.value" required="required" [disabled]="!model?.enabled || !ctrlEnabled"
+    <kendo-maskedtextbox #textbox [mask]="mask" [value]="model?.value | toUpper: model?.uppercase" required="required" [disabled]="!model?.enabled || !ctrlEnabled"
         (valueChange)="changeModelValue($event)" [style.width.px]="width" (keypress)="onKeyPress($event)" (keydown)="onKeyDown($event)"
-        prompt=" " (blur)="onBlur($event)">
+        prompt="" (blur)="onBlur($event)" includeLiterals="true">
     </kendo-maskedtextbox>
     <ng-template [ngIf]="hotLink">
         <ng-template [tbHotLink]="hotLink"></ng-template>
