@@ -26,8 +26,15 @@ $explorerbkg: white;
   background: $bkg-light;
   .k-button.k-upload-button {
     background: transparent;
-    border-width: 1px;
+    border-width: 0px;
+    width: auto;
   }
+  .k-button.k-upload-selected,
+  .k-button.k-clear-selected,
+  .k-button.k-upload-files {
+    width: auto;
+    height: auto;
+   }
   .k-upload .k-clear-selected,
   .k-upload .k-upload-selected {
     padding: 0;
@@ -60,6 +67,7 @@ $explorerbkg: white;
 .bread {
   display: flex;
   flex-flow: row nowrap;
+  min-width: 400px;
 }
 
 .path-part {
