@@ -93,6 +93,19 @@ export class ExplorerService {
     })).getOrDefault(false);
   }
 
+  async GetDescription(
+    objnameSpace: string,
+    user: string,
+    companyName: string,
+    culture: string
+  ): Promise<string> {
+    return (await this.tryGetMap({
+      method: 'GetDescription',
+      params: { objnameSpace, user, companyName, culture }
+    })).getOrDefault(false);
+  }
+
+
   async GetObjsByNamespace(namespace: string, type: ObjType): Promise<Item[]> {
     return [];
   }

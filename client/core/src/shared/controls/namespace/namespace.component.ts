@@ -32,7 +32,7 @@ export class NamespaceComponent extends ControlComponent implements OnChanges, O
   @Input('maxLength') maxLength: number = 524288;
 
   @Input('namespaceType') namespaceType: string = "Report";
-  @Input('defaultNs') defaultNs: string = "";
+  @Input('defaultNS') defaultNs: string = "";
   @Input() slice: any;
   @Input() selector: Selector<any, any>;
 
@@ -76,25 +76,16 @@ export class NamespaceComponent extends ControlComponent implements OnChanges, O
 
   ngAfterContentInit() { EventHandler.Attach(this); }
 
-  // onObjectTypeChanced(objtype: string) {
-  //   this.objectType = ObjType[objtype];
-  //   if (this.objectType === undefined)
-  //     console.log('Wrong objectType in ' + this.cmpId);
-  // }
-
-    search($event) {
-    this.explorer.open({ objType: this.objectType, upload: this.objectType == ObjType.Image || this.objectType == ObjType.Report})
+  search($event) {
+    this.explorer.open({ objType: this.objectType, upload: this.objectType == ObjType.Image || this.objectType == ObjType.Report })
       .subscribe(this.onsearch);
   }
 
   onsearch = async obj => {
     if (obj.items.length > 0) {
       this.model.value = ObjType[this.objectType] + '.' + obj.items[0].namespace;
-      // if (this.selector) {
-      //   const slice = await this.store.select(this.selector).take(1).toPromise();
-      //   if (slice.description)
-      //     slice.description.value = obj.items[0].name;
-      // }
+      this.showDescription(obj.items[0].name);
+      this.changeDetectorRef.detectChanges();
     }
   }
 
@@ -114,23 +105,50 @@ export class NamespaceComponent extends ControlComponent implements OnChanges, O
     this.blur.emit(this);
   }
 
+  async showDescription(name: string) {
+    if (this.store && this.selector && name != undefined) {
+      let slice = await this.store.select(this.selector).take(1).toPromise();
+      if (slice && slice.description)
+        slice.description.value = name;
+      this.changeDetectorRef.markForCheck();
+    }
+  }
+
   async validate(): Promise<boolean> {
     this.errorMessage = '';
     // Vuoto va bene !!!
     if (this.value === '')
+    {
+      this.showDescription("");
       return Promise.resolve(true);
+    }
 
     // Se non ci sono punti, non sono un namespace
     const elem: string = this.value.split('.');
     if (elem.length < 3)
+    {
+      this.showDescription("");
       return Promise.resolve(false);
+    }
 
     // Se il primo token non è nei predefiniti non sono un namespace valido
     if (ObjType[elem[0]] === undefined || ObjType[elem[0]] != this.objectType)
+    {
+      this.showDescription("");
       return Promise.resolve(false);
+    }
 
     // Guardo se trovo il file selezionato tramite le API
-    return await this.explorerService.ExistsObject(this.value, this.user, this.company, this.culture);
+    let ok = await this.explorerService.ExistsObject(this.value, this.user, this.company, this.culture);
+
+    // Se ho il selector allora decodifico l'oggetto
+    if (this.selector)
+    {
+      let desc = ok ? await this.explorerService.GetDescription(this.value, this.user, this.company, this.culture) : '';
+      this.showDescription(desc);
+    }
+
+    return Promise.resolve(ok);
   }
 
   // Metodo con OnChanges

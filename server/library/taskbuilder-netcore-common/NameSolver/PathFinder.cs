@@ -1618,6 +1618,39 @@ namespace Microarea.Common.NameSolver
 
             return (GetFileNameFromNamespace(objNameSpace, user, company, culture, false) != string.Empty);
         }
+
+
+        //----------------------------------------------------------------------
+        public string GetDescription(NameSpace objNameSpace, string culture)
+        {
+            if (!objNameSpace.IsValid())
+                return string.Empty;
+
+            switch (objNameSpace.NameSpaceType.Type)
+            {
+                case NameSpaceObjectType.Document:
+                    var moduleInfo = GetModuleInfo(objNameSpace);
+
+                    foreach (DocumentInfo doc in moduleInfo.DocumentObjectsInfo.Documents)
+                        if (string.Compare(doc.NameSpace.FullNameSpace, objNameSpace.FullNameSpace, true) == 0)
+                            return doc.Title;
+                    break;
+
+                case NameSpaceObjectType.Report:
+                    {
+                        //return GetReportDescriptionFromNameSpace(this, objNameSpace);
+                        var fileName = GetFileNameFromNamespace(objNameSpace, user, company, culture, true);
+                        return GetReportDescriptionFromFileName(fileName);
+                    }
+                default:
+                    {
+                        var fileName = GetFileNameFromNamespace(objNameSpace, user, company, culture, false);
+                        return Path.GetFileNameWithoutExtension(fileName);
+                    }
+            }
+            return string.Empty;
+        }
+
         //----------------------------------------------------------------------
         public string GetFileNameFromNamespace(NameSpace objNameSpace, string user, string company, string culture, bool forUpload)
         {
@@ -1633,7 +1666,7 @@ namespace Microarea.Common.NameSolver
             {
                 case NameSpaceObjectType.Report:
                     {
-                        var sFullFileName = GetCustomUserReportFile(company, user, objNameSpace, false);
+                        var sFullFileName = GetCustomUserReportFile(company, user, objNameSpace, true);
                         if (ExistFile(sFullFileName) || forUpload)
                             return sFullFileName;
 
@@ -2670,8 +2703,8 @@ namespace Microarea.Common.NameSolver
         private string GetJsonAllObjectsByType(ModuleInfo moduleInfo, Enum objType, Dictionary<string, string> elements = null)
         {
             // Il dictionary può essere passato dall'esterno o istanziato localmente
-            var objects = elements == null 
-                ? new Dictionary<string, string>() 
+            var objects = elements == null
+                ? new Dictionary<string, string>()
                 : elements;
 
             IList result = null;

@@ -49,7 +49,7 @@ namespace tbfs_service.Controllers
         }
 
         //---------------------------------------------------------------------
-        [Route("ExistObject")]//mauro
+        [Route("ExistObject")]
         public IActionResult ExistObject(string objnameSpace, string user, string companyName, string culture)
         {
             try
@@ -71,6 +71,31 @@ namespace tbfs_service.Controllers
                 return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
             }
         }
+
+        //---------------------------------------------------------------------
+        [Route("GetDescription")]
+        public IActionResult GetDescription(string objnameSpace, string user, string companyName, string culture)
+        {
+            try
+            {
+                var objNameSpace = new NameSpace(objnameSpace);
+
+                if (!objNameSpace.IsValid())
+                    return new ContentResult { StatusCode = 200, Content = string.Empty, ContentType = "application/json" };
+
+                var authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
+
+                var pf = new PathFinder(companyName, user);
+                var description = pf.GetDescription(objNameSpace, culture);
+
+                return new ContentResult { StatusCode = 200, Content = description.ToJson(), ContentType = "application/json" };
+            }
+            catch (Exception e)
+            {
+                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+            }
+        }
+
 
         //-------------------------------------------------------------------------------
         public IActionResult GetObjsByCustomizationLevel(Enum objType, string objNamespace, string userName, string company) //paolo
@@ -174,7 +199,7 @@ namespace tbfs_service.Controllers
         /// <returns></returns>
         [HttpPost("UploadObject")]
         [RequestSizeLimit(100_000_000)]
-        public IActionResult UploadObject(ICollection<IFormFile> files, ObjectType objectType, string currentNamespace, string user, bool forUpload) //applicazione moduleo e tipo ???
+        public IActionResult UploadObject(ICollection<IFormFile> files, ObjectType objectType, string currentNamespace, string user) //applicazione moduleo e tipo ???
         {
             var session = GetLoginInformation();
             if (session == null)
@@ -190,7 +215,7 @@ namespace tbfs_service.Controllers
                 {
                     var partialNamespace = $"{Enum.GetName(typeof(ObjectType), objectType)}.{currentNamespace}.{file.FileName}";
                     var fullNameSpace = new NameSpace(partialNamespace);
-                    var filename = pf.GetFileNameFromNamespace(fullNameSpace, user, session.Company, session.CompanyCulture.EnglishName, forUpload);
+                    var filename = pf.GetFileNameFromNamespace(fullNameSpace, user, session.Company, session.CompanyCulture.EnglishName, true);
 
                     if (objectType == ObjectType.Report)
                     {

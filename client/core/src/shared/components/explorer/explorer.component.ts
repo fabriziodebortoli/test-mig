@@ -138,6 +138,7 @@ export class ExplorerComponent extends ControlComponent implements OnInit {
   otherUsers = [];
   isCustom = false;
   saveHeaders;
+  currentUser = localStorage.getItem('_user');
   get users() {
     return [...this.baseUsers, ...this.otherUsers];
   }
@@ -255,7 +256,11 @@ export class ExplorerComponent extends ControlComponent implements OnInit {
   }
 
   uploadEventHandler(e) {
-    e.data = { currentNamespace: this.currentItem.namespace };
+    e.data = { 
+      objectType: this.options.objType,
+      currentNamespace: this.currentItem.namespace, 
+      user: this.currentUser
+    };
   }
 
   successEventHandler(e) {
