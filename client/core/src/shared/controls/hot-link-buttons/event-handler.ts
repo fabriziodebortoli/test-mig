@@ -26,6 +26,10 @@ export class TbHotlinkButtonsEventHandler {
             hlb.selectionTypeChanged(selectionType);
         });
 
+        Observable.fromEvent<KeyboardEvent>(this.getHotLinkElement(), 'blur',  {capture: true})
+        .pipe(untilDestroy(hlb))
+        .subscribe(_ => hlb.emitModelChange());
+
         Observable.fromEvent<MouseEvent>(document, 'click', { capture: true }).pipe(untilDestroy(hlb))
         .filter(e => ((hlb.popupHandler.tablePopupRef && !hlb.popupHandler.tablePopupRef.popupElement.contains(e.toElement) 
             && !findAnchestorByClass(e['target'], 'customisable-grid-filter')
