@@ -216,30 +216,30 @@ echo.
 %DevPath%\Apps\ClickOnceDeployer\ClickOnceDeployer.exe
 echo.
 
+set buildWeb=true
+IF [%~2]==[-skipM4Web] IF NOT [%~2]==[] set buildWeb=false
+if %buildWeb% == true (
 
-if "%~2"=="-skipM4Web" (goto other)
-
-echo Building Angular M4Web...
-echo.
-echo NON CHIUDETE QUESTA FINESTRA, OPERAZIONE MOLTO LUNGA IN CORSO...
-echo.
-node --max_old_space_size=9120 "node_modules\@angular\cli\bin\ng" build --preserve-symlinks --output-path="%DevPath%\Standard\TaskBuilder\WebFramework\M4Web" >> %DevPath%\7_ng_build-web.log
-echo.
-echo Build M4Web completed - See log: %DevPath%\7_ng_build-web.log
+    echo Building Angular M4Web...
+    echo.
+    echo NON CHIUDETE QUESTA FINESTRA, OPERAZIONE MOLTO LUNGA IN CORSO...
+    echo.
+    node --max_old_space_size=9120 "node_modules\@angular\cli\bin\ng" build --preserve-symlinks --output-path="%DevPath%\Standard\TaskBuilder\WebFramework\M4Web" >> %DevPath%\7_ng_build-web.log
+    echo.
+    echo Build M4Web completed - See log: %DevPath%\7_ng_build-web.log
 
 
-echo Copia in corso di config.json da M4Client a M4Web
-echo.
-robocopy %DevPath%\Standard\Taskbuilder\WebFramework\M4Client\assets\ %DevPath%\Standard\Taskbuilder\WebFramework\M4Web\assets\ config.json
-echo.
+    echo Copia in corso di config.json da M4Client a M4Web
+    echo.
+    robocopy %DevPath%\Standard\Taskbuilder\WebFramework\M4Client\assets\ %DevPath%\Standard\Taskbuilder\WebFramework\M4Web\assets\ config.json
+    echo.
 
-echo Copia in corso di web.config da web-form a M4Web
-echo.
-robocopy %DevPath%\Standard\Taskbuilder\client\web-form\ %DevPath%\Standard\Taskbuilder\WebFramework\M4Web\ web.config
-echo.
+    echo Copia in corso di web.config da web-form a M4Web
+    echo.
+    robocopy %DevPath%\Standard\Taskbuilder\client\web-form\ %DevPath%\Standard\Taskbuilder\WebFramework\M4Web\ web.config
+    echo.
 
-:other
-
+)
 
 echo.
 
@@ -291,6 +291,5 @@ IF EXIST %DevPath%\Standard\Taskbuilder\WebFramework\M4Client\ (
 		)
 
 ) ELSE (
-	rem se non trova m4client o m4server, qualcosa è andato storto, exit con error code 1
-	exit /b 1
+	rem se non trova m4client o m4server, qualcosa ï¿½ andato storto, exit con error code 	exit /b 1
 )
