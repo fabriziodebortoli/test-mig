@@ -207,8 +207,16 @@ namespace Microarea.Common.Applications
 
                 loginInfo = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.GetJsonLoginInformation(authtoken);
 
-				if (session != null && !loginInfo.IsNullOrEmpty())
-					session.SetString(authtoken, loginInfo);
+                if (session != null && !loginInfo.IsNullOrEmpty() && !session.GetString(authtoken).IsNullOrEmpty() )
+                {
+                    try
+                    {
+                        session.SetString(authtoken, loginInfo);
+                    }
+                    catch
+                    { 
+                    }
+                }
 			}
 
 			msg = JsonConvert.DeserializeObject<LoginInfoMessage>(loginInfo);
