@@ -35,8 +35,8 @@ export class TileManagerTabComponent implements AfterContentInit  {
     return this._title;
   }
   
-  @Input() public set title(value: string) {
-    this._title = value.replace("&", "");
+  @Input() public set title(title: any) {
+        this._title = title instanceof Object ? title.value.replace("&", "") : title.replace("&", "");
   }
   
   constructor(
