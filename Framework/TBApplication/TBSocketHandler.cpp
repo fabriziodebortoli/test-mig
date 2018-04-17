@@ -60,15 +60,15 @@ void CTBSocketHandler::OpenHyperLink(CJsonParser& json)
 	CString sName = json.ReadString(_T("name"));
 	HWND cmpId = ReadComponentId(json);
 	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd(cmpId);
-	
+
 	if (!pDoc) return;
 
 	HotKeyLink* pHkl = pDoc->GetHotLink(sName);
 	if (pHkl)
 	{
 		DataObj* pData = pHkl->GetDataObj();
-		if(pData) pHkl->BrowserLink(pData);
-	}	
+		if (pData) pHkl->BrowserLink(pData);
+	}
 }
 
 CString ConvertJsonValue(CJsonParser& json)
@@ -150,7 +150,7 @@ void CTBSocketHandler::OpenNewHyperLink(CJsonParser& json)
 	if (!pData) return;
 	CString sValue = ConvertJsonValue(json);
 	pData->AssignFromXMLString(sValue);
-	pHkl->DoCallLink(); 
+	pHkl->DoCallLink();
 }
 
 //--------------------------------------------------------------------------------
@@ -171,7 +171,7 @@ void RunDocumentOnThreadDocument(const CString& sNamespace, const CString& sArgu
 	}
 	AfxGetDiagnostic()->EndSession();
 	return;
-	
+
 	if (!sArguments.IsEmpty())
 	{
 		CFunctionDescription fd;
@@ -189,7 +189,7 @@ void CTBSocketHandler::RunDocument(CJsonParser& json)
 	{
 		return;
 	}
-	CDocumentThread* pThread = (CDocumentThread*) AfxGetTbCmdManager()->CreateDocumentThread();
+	CDocumentThread* pThread = (CDocumentThread*)AfxGetTbCmdManager()->CreateDocumentThread();
 	AfxInvokeThreadGlobalProcedure<const CString&, const CString&>(pThread->m_nThreadID, &RunDocumentOnThreadDocument, sNamespace, sArguments);
 }
 
@@ -218,7 +218,7 @@ void CTBSocketHandler::Execute(CString& sSocketName, CString& sMessage)
 
 		if (!tId)
 			tId = AfxGetApp()->m_nThreadID;
-		
+
 		AfxInvokeAsyncThreadProcedure<CTBSocketHandler, FUNCPTR, CJsonParser*>(tId, this, &CTBSocketHandler::ExecuteFunction, fn, pParser);
 
 	}
@@ -504,31 +504,31 @@ void CTBSocketHandler::DoCheckListBoxAction(CJsonParser& json)
 		return;
 
 	DWORD idc;
-	
+
 	int action = json.ReadInt(_T("action"));
 
 	switch (action)
 	{
-		case CLB_QUERY_LIST:
-		{
-			pushCheckListBoxItemSource(json, pDoc, controlId);
-			break;
-		}
-		case CLB_SET_VALUES:
-		case CLB_DBL_CLICK:
-		{
-			idc = AfxGetTBResourcesMap()->GetTbResourceID(controlId, TbControls);
-			if (!idc)
-				return;
+	case CLB_QUERY_LIST:
+	{
+		pushCheckListBoxItemSource(json, pDoc, controlId);
+		break;
+	}
+	case CLB_SET_VALUES:
+	case CLB_DBL_CLICK:
+	{
+		idc = AfxGetTBResourcesMap()->GetTbResourceID(controlId, TbControls);
+		if (!idc)
+			return;
 
-			CParsedCtrl* pCtrl = pDoc->GetLinkedParsedCtrl(idc);
-			if (!pCtrl || !pCtrl->GetControlBehaviour())
-				return;
+		CParsedCtrl* pCtrl = pDoc->GetLinkedParsedCtrl(idc);
+		if (!pCtrl || !pCtrl->GetControlBehaviour())
+			return;
 
-			pCtrl->GetControlBehaviour()->ReceiveInfo(json);
-			pushCheckListBoxItemSource(json, pDoc, controlId);
-			break;
-		}
+		pCtrl->GetControlBehaviour()->ReceiveInfo(json);
+		pushCheckListBoxItemSource(json, pDoc, controlId);
+		break;
+	}
 	}
 
 }
@@ -539,8 +539,8 @@ void CTBSocketHandler::pushCheckListBoxItemSource(CJsonParser& json, CAbstractFo
 	CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
 	if (!pSession)
 	{
-			ASSERT(FALSE);
-			return;
+		ASSERT(FALSE);
+		return;
 	}
 
 	if (json.BeginReadObject(_T("itemSource")))
@@ -554,9 +554,9 @@ void CTBSocketHandler::pushCheckListBoxItemSource(CJsonParser& json, CAbstractFo
 		if (!pItemSource)
 			return;
 
-			CJsonSerializer resp = pItemSource->GetJson(controlId);
+		CJsonSerializer resp = pItemSource->GetJson(controlId);
 
-			pSession->PushToClients(resp);	
+		pSession->PushToClients(resp);
 	}
 }
 
@@ -574,87 +574,101 @@ void CTBSocketHandler::DoFillListBox(CJsonParser& json)
 	json.TryReadString(_T("controlId"), controlId);
 	if (!controlId.IsEmpty())
 		idc = AfxGetTBResourcesMap()->GetTbResourceID(controlId, TbControls);
-
+	CString currentValue; //TODOLUCA
+	CStringArray descriptions;
+	DataArray values;
+	CStringArray strArray;
+	bool bDataFound = false;
+	IItemSource* pItemSource = NULL;
 	if (json.BeginReadObject(_T("itemSource")))
-       {
-             CString itemSourceName = json.ReadString(_T("name"));
-             CString itemSourceNamespace = json.ReadString(_T("namespace"));
-             CString itemSourceParameter = json.ReadString(_T("parameter"));
-             bool itemSourceUseProductLanguage = json.ReadBool(_T("useProductLanguage"));
-             bool itemSourceAllowChanges = json.ReadBool(_T("allowChanges"));             
-			 json.EndReadObject();
+	{
+		CString name = json.ReadString(_T("name"));
+		CString nameSpace = json.ReadString(_T("namespace"));
+		pItemSource = pDoc->GetItemSource(name, CTBNamespace(CTBNamespace::ITEMSOURCE, nameSpace));
+		json.EndReadObject();
+	}
+	else if (json.BeginReadObject(_T("controlBehaviour")))
+	{
+		bool isItemSource = false;
+		if (json.TryReadBool(_T("itemSource"), isItemSource) && isItemSource)
+		{
+			CString name = json.ReadString(_T("name"));
+			CString nameSpace = json.ReadString(_T("namespace"));
+			pItemSource = dynamic_cast<IItemSource*>(pDoc->GetControlBehaviour(name, CTBNamespace(CTBNamespace::CONTROL_BEHAVIOUR, nameSpace)));
+		}
+		json.EndReadObject();
+	}
 
-             CString currentValue; //TODOLUCA
-             CItemSource* pItemSource = pDoc->GetItemSource(itemSourceName, CTBNamespace(CTBNamespace::ITEMSOURCE, itemSourceNamespace));
-             if (pItemSource)
-             {
-                    CStringArray descriptions;
-                    DataArray values;
-					CStringArray strArray;
+	if (pItemSource)
+	{
 
-                    pItemSource->GetData(values, descriptions, currentValue);
-                    if (pItemSource->GetNoData())
-                    {
-							DataEnum* pEnum = NULL;   
-							if (idc)
-							{
-								CParsedCtrl* pCtrl = pDoc->GetLinkedParsedCtrl(idc);
-								if (pCtrl)
-									pEnum = dynamic_cast<DataEnum*> (pCtrl->GetCtrlData());
-							}
-                           if (!pEnum)
-                           {
-                                  ASSERT(FALSE);
-                                  return;
-                           }
+		pItemSource->GetData(values, descriptions, currentValue);
+		if (pItemSource->HasNoData())
+		{
+			DataEnum* pEnum = NULL;
+			if (idc)
+			{
+				CParsedCtrl* pCtrl = pDoc->GetLinkedParsedCtrl(idc);
+				if (pCtrl)
+					pEnum = dynamic_cast<DataEnum*> (pCtrl->GetCtrlData());
+			}
+			if (!pEnum)
+			{
+				ASSERT(FALSE);
+				return;
+			}
 
-						   int tag = pEnum->GetTagValue();
+			int tag = pEnum->GetTagValue();
 
-						   const EnumItemArray* pArray = AfxGetEnumsTable()->GetEnumItems(tag);
-						   if (!pArray)
-						   {
-                                  ASSERT(FALSE);
-                                  return;
-                           }
+			const EnumItemArray* pArray = AfxGetEnumsTable()->GetEnumItems(tag);
+			if (!pArray)
+			{
+				ASSERT(FALSE);
+				return;
+			}
 
-                           for (int i = 0; i < pArray->GetSize(); i++)
-                           {
-                                  EnumItem* pItem = pArray->GetAt(i);
-                                  if (!pItem)
-                                        continue;
+			for (int i = 0; i < pArray->GetSize(); i++)
+			{
+				EnumItem* pItem = pArray->GetAt(i);
+				if (!pItem)
+					continue;
 
-								  DataEnum current = DataEnum(pEnum->GetTagValue(), pItem->GetItemValue());
-								  
-								  if (pItemSource->IsValidItem(current))
-								  {
-										DataInt value = current.GetValue();
-										strArray.Add(value.ToString());
-										CString desc = pItem->GetItemName();
-										descriptions.Add(desc);
-								  }
-                           }
-					}
-					else
-					{
-						for (int i = 0; i < values.GetSize(); i++)
-						{
-							   DataObj* pObj = values.GetAt(i);
-							   if (pItemSource->IsValidItem(*pObj))
-									  strArray.Add(values.GetAt(i)->ToString());
-						}
-					}
+				DataEnum current = DataEnum(pEnum->GetTagValue(), pItem->GetItemValue());
 
-                    CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
-                    if (!pSession)
-                    {
-                           ASSERT(FALSE);
-                           return;
-                    }
+				if (pItemSource->IsValidItem(current))
+				{
+					DataInt value = current.GetValue();
+					strArray.Add(value.ToString());
+					CString desc = pItem->GetItemName();
+					descriptions.Add(desc);
+				}
+			}
+		}
+		else
+		{
+			for (int i = 0; i < values.GetSize(); i++)
+			{
+				DataObj* pObj = values.GetAt(i);
+				if (pItemSource->IsValidItem(*pObj))
+					strArray.Add(values.GetAt(i)->ToString());
+			}
+		}
+		bDataFound = true;
 
-                    pSession->PushItemSourceToClients(controlId, descriptions, strArray);
-             }
-       }
+	}
 
+	if (bDataFound)
+	{
+		CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
+		if (!pSession)
+		{
+			ASSERT(FALSE);
+			return;
+		}
+
+
+		pSession->PushItemSourceToClients(controlId, descriptions, strArray);
+	}
 
 	if (json.BeginReadObject(_T("hotLink")))
 	{
@@ -709,7 +723,7 @@ void CTBSocketHandler::BrowseRecord(CJsonParser& json)
 	pSession->SetJsonModel(json, cmpId);
 	//esecuzione comando
 	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)(GetDocumentFromHwnd(cmpId));
-	
+
 	ASSERT(pDoc);
 	pDoc->BrowseRecordByTBGuid(tbGuid);
 	//pSession->ResumePushToClient();
@@ -742,7 +756,7 @@ void CTBSocketHandler::GetDocumentData(CJsonParser& json)
 	CBaseDocument* pDoc = GetDocumentFromHwnd(cmpId);
 	ASSERT(pDoc);
 	if (pDoc && pDoc->IsKindOf(RUNTIME_CLASS(CAbstractFormDoc)))
-	{ 
+	{
 		((CAbstractFormDoc*)pDoc)->ResetJsonData(json);
 		pSession->PushDataToClients((CAbstractFormDoc*)pDoc);
 		pSession->PushMessageMapToClients(((CAbstractFormDoc*)pDoc));
@@ -772,7 +786,7 @@ void CTBSocketHandler::CheckMessageDialog(CJsonParser& json)
 		ASSERT(FALSE);
 		return;
 	}
-	
+
 	pSession->PushMessageToClients();//messagebox
 	pSession->PushDiagnosticToClients();//CMessages
 }

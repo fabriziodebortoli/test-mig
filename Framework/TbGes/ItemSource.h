@@ -18,6 +18,7 @@ class TB_EXPORT IItemSource
 
 public:
 	bool m_bAllowEmptyData = false;
+	bool m_bNoData = false;
 
 public:
 	IItemSource();
@@ -27,8 +28,9 @@ public:
 	virtual void SetControl(CParsedCtrl* pControl) = 0;
 	virtual bool GetShowDescription() { return FALSE; }
 
-	long		GetMaxItemsNo() { return m_nMaxItemsNo; }
-	void		SetMaxItemsNo(int nItems) { if (nItems != 0) m_nMaxItemsNo = nItems; }
+	bool		HasNoData()					{ return m_bNoData; }
+	long		GetMaxItemsNo()				{ return m_nMaxItemsNo; }
+	void		SetMaxItemsNo(int nItems)	{ if (nItems != 0) m_nMaxItemsNo = nItems; }
 
 };
 
@@ -41,7 +43,6 @@ protected:
        CString m_strName;
        CString m_strNamespace;
        bool m_bShowDescription = false;
-       bool m_bNoData = false;
 
 public:
        CItemSource();
@@ -50,7 +51,6 @@ public:
        void SetControl(CParsedCtrl* pControl);
        CAbstractFormDoc* GetDocument();
        void SetDocument(CAbstractFormDoc* pDoc);
-       bool GetNoData() { return m_bNoData; }
 
        //CParsedCtrl* GetControl() { return m_pControl; }
        DataObj* GetDataObj() { return m_pControl->GetCtrlData(); }
