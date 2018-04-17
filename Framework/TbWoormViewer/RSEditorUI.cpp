@@ -9813,7 +9813,7 @@ void CRSReportTreeView::OnDropAction(CRSTreeCtrl* sourceTreeCtrl, HTREEITEM sour
 					sName = sName.Left(idx);
 				}
 
-				sName = L"Query_" + sName;
+				sName = L"q_" + sName;
 				if (pQueries->Get(sName))
 				{
 					int n = 1;
