@@ -53,20 +53,19 @@ namespace Microarea.EasyBuilder.UI
 			this.currentCulture = culture;
 			InitializeComponent();
 			this.Text = Resources.LocalizationFormTitle;
-			//l'event handler va impostato solo dopo che è stato assegnato il data source e l'elemento corrente
 		}
 
-		//--------------------------------------------------------------------------------
-		private void Localization_Load(object sender, EventArgs e)
-		{
-			PopulateStrings(currentCulture);
+        //--------------------------------------------------------------------------------
+        /// <remarks/>
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
 
-			this.localizableStringBindingSource.ListChanged += new System.ComponentModel.ListChangedEventHandler(this.localizableStringBindingSource_ListChanged);
-			this.localizableControlBindingSource.ListChanged += new System.ComponentModel.ListChangedEventHandler(this.localizableStringBindingSource_ListChanged);
-		}
+            PopulateStrings(currentCulture);
+        }
 
-		//--------------------------------------------------------------------------------
-		internal void PopulateStrings(string culture)
+        //--------------------------------------------------------------------------------
+        internal void PopulateStrings(string culture)
 		{
 			List<LocalizableString> ls = formEditor.Sources.Localization.GetLocalizableStrings(culture);
 
@@ -83,9 +82,15 @@ namespace Microarea.EasyBuilder.UI
 			strings.Sort();
 			controls.Sort();
 
-			localizableStringBindingSource.DataSource = strings;
+            this.localizableStringBindingSource.ListChanged -= new System.ComponentModel.ListChangedEventHandler(this.LocalizableStringBindingSource_ListChanged);
+            this.localizableControlBindingSource.ListChanged -= new System.ComponentModel.ListChangedEventHandler(this.LocalizableStringBindingSource_ListChanged);
+
+            localizableStringBindingSource.DataSource = strings;
 			localizableControlBindingSource.DataSource = controls;
-		}
+
+            this.localizableStringBindingSource.ListChanged += new System.ComponentModel.ListChangedEventHandler(this.LocalizableStringBindingSource_ListChanged);
+            this.localizableControlBindingSource.ListChanged += new System.ComponentModel.ListChangedEventHandler(this.LocalizableStringBindingSource_ListChanged);
+        }
 		
 		//--------------------------------------------------------------------------------
 		internal void SaveStrings()
@@ -108,20 +113,20 @@ namespace Microarea.EasyBuilder.UI
 		}
 
 		//--------------------------------------------------------------------------------
-		private void localizableStringBindingSource_ListChanged(object sender, System.ComponentModel.ListChangedEventArgs e)
+		private void LocalizableStringBindingSource_ListChanged(object sender, System.ComponentModel.ListChangedEventArgs e)
 		{
 			SaveStrings();
 		}
 
 		//--------------------------------------------------------------------------------
-		private void dgStrings_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+		private void DgStrings_CellEndEdit(object sender, DataGridViewCellEventArgs e)
 		{
 			// Clear the row error in case the user presses ESC.   
 			dgStrings.Rows[e.RowIndex].ErrorText = String.Empty;
 		}
 
 		//--------------------------------------------------------------------------------
-		private void dgStrings_RowValidating(object sender, DataGridViewCellCancelEventArgs e)
+		private void DgStrings_RowValidating(object sender, DataGridViewCellCancelEventArgs e)
 		{
 			DataGridViewRow row = dgStrings.Rows[e.RowIndex];
 			
@@ -147,7 +152,7 @@ namespace Microarea.EasyBuilder.UI
 		}
 
 		//--------------------------------------------------------------------------------
-		private void dgStrings_RowEnter(object sender, DataGridViewCellEventArgs e)
+		private void DgStrings_RowEnter(object sender, DataGridViewCellEventArgs e)
 		{
 			DataGridViewCell cell = dgStrings.Rows[e.RowIndex].Cells[nameDataGridViewTextBoxColumn.Name];
 			string newName = cell.FormattedValue.ToString();

@@ -59,9 +59,9 @@
 			this.dgStrings.DataSource = this.localizableStringBindingSource;
 			resources.ApplyResources(this.dgStrings, "dgStrings");
 			this.dgStrings.Name = "dgStrings";
-			this.dgStrings.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgStrings_CellEndEdit);
-			this.dgStrings.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgStrings_RowEnter);
-			this.dgStrings.RowValidating += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.dgStrings_RowValidating);
+			this.dgStrings.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgStrings_CellEndEdit);
+			this.dgStrings.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgStrings_RowEnter);
+			this.dgStrings.RowValidating += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.DgStrings_RowValidating);
 			// 
 			// nameDataGridViewTextBoxColumn
 			// 
@@ -149,7 +149,6 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.Controls.Add(this.tabLocalization);
 			this.Name = "Localization";
-			this.Load += new System.EventHandler(this.Localization_Load);
 			((System.ComponentModel.ISupportInitialize)(this.dgStrings)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.localizableStringBindingSource)).EndInit();
 			this.tabLocalization.ResumeLayout(false);

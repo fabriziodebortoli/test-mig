@@ -1404,11 +1404,13 @@ namespace Microarea.EasyBuilder
 			DeleteObjectEventArgs args = new DeleteObjectEventArgs(ebComponent);
 			try
 			{
-				// i referenced component non possono rientrare nel meccanismo standard perchè
-				// non appartengono alla serializzazione del grappolo di classi del controller
-				// ma hanno una loro grammatica specifica nel ns addizionale e inoltre non hanno
-				// oggetti visivi da selezionare e aggiornare
-				ReferenceableComponent refComponent = ebComponent as ReferenceableComponent;
+                RemoveControlLocalizations(ebComponent, sources);
+
+                // i referenced component non possono rientrare nel meccanismo standard perchè
+                // non appartengono alla serializzazione del grappolo di classi del controller
+                // ma hanno una loro grammatica specifica nel ns addizionale e inoltre non hanno
+                // oggetti visivi da selezionare e aggiornare
+                ReferenceableComponent refComponent = ebComponent as ReferenceableComponent;
 				if (refComponent != null)
 				{
 					/*bool removeDeclaration = SafeMessageBox.Show(
@@ -1444,7 +1446,9 @@ namespace Microarea.EasyBuilder
 				container?.Remove(ebComponent);
 
 				if (sources != null)
-					EasyBuilderSerializer.RemoveClass(sources.CustomizationInfos.EbDesignerCompilationUnit, ebComponent);
+                {
+                    EasyBuilderSerializer.RemoveClass(sources.CustomizationInfos.EbDesignerCompilationUnit, ebComponent);
+                }
 
 				selections.RemoveSelection(window);
 				SelectionService.SetSelectedComponents(null);
@@ -1464,10 +1468,31 @@ namespace Microarea.EasyBuilder
 			catch (Exception) { }
 
 			OnComponentDeleted(args);
+
+            SetDirty(true);
 		}
 
-		//-----------------------------------------------------------------------------
-		void ContextMenuStrip_Opening(object sender, CancelEventArgs e)
+        //-----------------------------------------------------------------------------
+        private static void RemoveControlLocalizations(IComponent component, Sources sources)
+        {
+            Debug.Assert(component != null);
+            Debug.Assert(component.Site != null);
+            Debug.Assert(sources != null);
+            Debug.Assert(sources.Localization != null);
+
+            if (component is IWindowWrapperContainer container)
+            {
+                foreach (IComponent childComponent in container.Components)
+                {
+                    RemoveControlLocalizations(childComponent, sources);
+                }
+            }
+
+            sources?.Localization.RemoveControlLocalization(component.Site.Name);
+        }
+
+        //-----------------------------------------------------------------------------
+        void ContextMenuStrip_Opening(object sender, CancelEventArgs e)
 		{
 			Point p = MousePosition;
 
@@ -3003,16 +3028,28 @@ namespace Microarea.EasyBuilder
                     wrapper = CreateWindowWrapper(type, controlClass, dropObject.SourceNodeName, screenpoint);//screen coordinates
 				}
 
-				IDataBindingConsumer consumer = wrapper as IDataBindingConsumer;
-				{
-					if (consumer != null && consumer.CanAutoFillFromDataBinding)
-						consumer.AutoFillFromDataBinding(dropObject.DataBinding.Clone() as IDataBinding, false);//Clono perchè dropObject verrà disposato
-					else if (consumer != null)
-						consumer.DataBinding = dropObject.DataBinding.Clone() as IDataBinding;//Clono perchè dropObject verrà disposato
+				if (wrapper is IDataBindingConsumer consumer)
+                {
+                    if (consumer.CanAutoFillFromDataBinding)
+                    {
+                        consumer.AutoFillFromDataBinding(dropObject.DataBinding.Clone() as IDataBinding, false);//Clono perchè dropObject verrà disposato
 
-					OnComponentPropertyChanged(wrapper as IComponent, EasyBuilderSerializer.DataBindingPropertyName, null, consumer?.DataBinding);
+                        if (consumer is MBodyEdit bodyEdit)
+                        {
+                            //Fix an. 26620: dico che sono cambiati tutti i titoli delle colonne in modo che il localization manager aggiunga i titoli come stringe localizzabili
+                            foreach (var column in bodyEdit.ColumnsCollection)
+                            {
+                                OnComponentPropertyChanged(column, ReflectionUtils.GetPropertyName(() => column.ColumnTitle), string.Empty, column.ColumnTitle);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        consumer.DataBinding = dropObject.DataBinding.Clone() as IDataBinding;//Clono perchè dropObject verrà disposato
+                    }
+                    OnComponentPropertyChanged(wrapper as IComponent, EasyBuilderSerializer.DataBindingPropertyName, null, consumer?.DataBinding);
+                }
 
-				}
 				return wrapper;
 			}
 			finally
@@ -3159,19 +3196,19 @@ namespace Microarea.EasyBuilder
 
 				if (!controlCaption.IsNullOrEmpty())
 				{
-					//se si tratta di un parsed control e mi e stata passata una caption
-					//la imposto e ne forzo la serializzazione
-					MParsedControl parsedControl = wrapper as MParsedControl;
-					if (parsedControl != null)
-					{
-						parsedControl.Caption = controlCaption;
-						string captionPropertyName = ReflectionUtils.GetPropertyName(() => parsedControl.Caption);
-						//Segnalo che è cambiato il componente affinchè LocalizationManager possa aggiornare le risorse con la
-						//localizzaizone della proprietà Text.
-						OnComponentPropertyChanged(parsedControl, captionPropertyName, string.Empty, parsedControl.Caption);
+                    //se si tratta di un parsed control e mi e stata passata una caption
+                    //la imposto e ne forzo la serializzazione
+                    if (wrapper is MParsedControl parsedControl)
+                    {
+                        parsedControl.Caption = controlCaption;
+                        string captionPropertyName = ReflectionUtils.GetPropertyName(() => parsedControl.Caption);
+                        //Segnalo che è cambiato il componente affinchè LocalizationManager possa aggiornare le risorse con la
+                        //localizzaizone della proprietà Text.
+                        OnComponentPropertyChanged(parsedControl, captionPropertyName, string.Empty, parsedControl.Caption);
 
-					}
-				}
+                    }
+                }
+
                 wrapper.EndCreation = true;
 				return wrapper;
 			}

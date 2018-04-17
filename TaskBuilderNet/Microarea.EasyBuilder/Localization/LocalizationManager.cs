@@ -58,17 +58,7 @@ namespace Microarea.EasyBuilder.Localization
 
 			this.service = service;
 			service.ComponentChanged += new ComponentChangedEventHandler(ComponentChanged);
-            service.ComponentRemoved += new ComponentEventHandler(ComponentRemoved);
 		}
-
-        void ComponentRemoved(object sender, ComponentEventArgs e)
-        {
-            EasyBuilderComponent ctrl = e.Component as EasyBuilderComponent;
-            if (ctrl == null || ctrl.Site == null || !ctrl.Site.DesignMode)
-                return;
-
-            sources.Localization.RemoveControlLocalization(ctrl.Site.Name);
-        }
 
         //---------------------------------------------------------------------
         /// <summary>
@@ -83,7 +73,6 @@ namespace Microarea.EasyBuilder.Localization
 				return;
 
 			service.ComponentChanged -= new ComponentChangedEventHandler(ComponentChanged);
-            service.ComponentRemoved -= new ComponentEventHandler(ComponentRemoved);
         }
 
 		//---------------------------------------------------------------------
