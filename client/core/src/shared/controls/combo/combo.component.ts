@@ -17,7 +17,7 @@ import { HotLinkInfo } from './../../models/hotLinkInfo.model';
     changeDetection: ChangeDetectionStrategy.Default
 })
 
-export class ComboComponent extends ControlComponent implements OnChanges, DoCheck, OnDestroy {
+export class ComboComponent extends ControlComponent implements OnChanges, DoCheck, OnDestroy, AfterViewInit {
 
     @Input() decimals = 0; //todoluca, serve solo per far compilare, poi sarà da gestire
 
@@ -49,15 +49,6 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
 
         this.isReady = new BehaviorSubject(false).distinctUntilChanged();
 
-        if (this.dropdownlist) {
-            this.isReady.subscribe(ready => {
-                if (ready) {
-                    this.dropdownlist.toggle(true);
-                    (this.isReady as Subject<boolean>).next(false);
-                }
-            });
-        }
-
         this.itemSourceSub = this.webSocketService.itemSource.subscribe((result) => {
             if (result.itemSource) {
                 this.items = result.itemSource;
@@ -78,6 +69,18 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
                     this.selectedItem = this.oldValue;
                     break;
             }
+        }
+    }
+
+    ngAfterViewInit(){
+        super.ngAfterViewInit();
+        if (this.dropdownlist) {
+            this.isReady.subscribe(ready => {
+                if (ready) {
+                    this.dropdownlist.toggle(true);
+                    (this.isReady as Subject<boolean>).next(false);
+                }
+            });
         }
     }
 
