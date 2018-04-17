@@ -431,7 +431,7 @@ void CJsonContext::AttachControlBehaviour(CControlBehaviourDescription* pControl
 			}
 			else
 			{
-				ASSERT_TRACE1(FALSE, "Control behaviour %s is declared to be an item source but does not implement IItemSource interface", (LPCTSTR)sName);
+				ASSERT_TRACE1(FALSE, "Control behaviour %s is declared to be an item source but does not implement IItemSource interface\r\n", (LPCTSTR)sName);
 			}
 		}
 		if (pControlBehaviourDescription->m_bValidator)
@@ -443,7 +443,7 @@ void CJsonContext::AttachControlBehaviour(CControlBehaviourDescription* pControl
 			}
 			else
 			{
-				ASSERT_TRACE1(FALSE, "Control behaviour %s is declared to be a validator but does not implement IValidator interface", (LPCTSTR)sName);
+				ASSERT_TRACE1(FALSE, "Control behaviour %s is declared to be a validator but does not implement IValidator interface\r\n", (LPCTSTR)sName);
 			}
 
 		}
@@ -457,7 +457,7 @@ void CJsonContext::AttachControlBehaviour(CControlBehaviourDescription* pControl
 			}
 			else
 			{
-				ASSERT_TRACE1(FALSE, "Control behaviour %s is declared to be a data adapter but does not implement IDataAdapter interface", (LPCTSTR)sName);
+				ASSERT_TRACE1(FALSE, "Control behaviour %s is declared to be a data adapter but does not implement IDataAdapter interface\r\n", (LPCTSTR)sName);
 			}
 		}
 	}
@@ -660,14 +660,14 @@ bool CJsonContext::EvaluateExpression(CAbstractFormDoc* pDocument, const CString
 	TDataObj di;
 	if (!expr.Parse(parser, di.GetDataType(), TRUE))
 	{
-		TRACE1("Invalid expression: %s", (LPCTSTR)sBareText);
+		TRACE1("Invalid expression: %s\r\n", (LPCTSTR)sBareText);
 		return false; //un'espressione sintatticamente sbagliata non mi fa creare il campo
 
 	}
 
 	if (!expr.Eval(di))
 	{
-		TRACE1("Invalid expression: %s", (LPCTSTR)sBareText);
+		TRACE1("Invalid expression: %s\r\n", (LPCTSTR)sBareText);
 		return false; //un'espressione sintatticamente sbagliata non mi fa creare il campo
 	}
 
@@ -766,7 +766,7 @@ bool CJsonContext::CheckActivation(CString sActivation)
 
 		return TRUE == AfxIsActivated(activationApplicationName, activationModuleName);
 	}
-	TRACE1("Invalid activation tag: %s\n", (LPCTSTR)sActivation);
+	TRACE1("Invalid activation tag: %s\r\n", (LPCTSTR)sActivation);
 	ASSERT(FALSE);
 	return false;
 }
@@ -870,7 +870,7 @@ bool CJsonContext::CheckActivationExpression(const CString& activationExpression
 		return (bool)b;
 	}
 	ASSERT(FALSE);
-	TRACE1("Invalid activation expression: %s", (LPCTSTR)activationExpression);
+	TRACE1("Invalid activation expression: %s\r\n", (LPCTSTR)activationExpression);
 	return false;
 }
 
@@ -1052,7 +1052,7 @@ CJsonContextObj* CJsonFormEngine::CreateContext(const CJsonResource& sJsonResour
 			else
 			{
 				ASSERT(FALSE);
-				TRACE1("Cannot open file: %s", path);
+				TRACE1("Cannot open file: %s\r\n", path);
 			}
 		}
 	}
@@ -1196,7 +1196,7 @@ void CJsonTileDialog::InitializeFromContext()
 	CWndObjDescription* pDesc = (pContext ? pContext->m_pDescription : NULL);
 	if (!pDesc || !pDesc->IsKindOf(RUNTIME_CLASS(CWndTileDescription)))
 	{
-		TRACE("JSON description not found or not valid, be sure it is a tile object");
+		TRACE("JSON description not found or not valid, be sure it is a tile object\r\n");
 		ASSERT(FALSE);
 		return;
 	}
@@ -1274,7 +1274,7 @@ BOOL CJsonTileDialog::UseSplitters()
 	CWndObjDescription* pDesc = (pContext ? pContext->m_pDescription : NULL);
 	if (!pDesc || !pDesc->IsKindOf(RUNTIME_CLASS(CWndTileDescription)))
 	{
-		TRACE("JSON description not found or not valid, be sure it is a tile object");
+		TRACE("JSON description not found or not valid, be sure it is a tile object\r\n");
 		ASSERT(FALSE);
 		return FALSE;
 	}
@@ -1295,7 +1295,7 @@ void CJsonTileDialog::OnCreateSplitters(CCreateContext* pContext)
 	CWndObjDescription* pDesc = (pContext ? pJsonContext->m_pDescription : NULL);
 	if (!pDesc || !pDesc->IsKindOf(RUNTIME_CLASS(CWndTileDescription)))
 	{
-		TRACE("JSON description not found or not valid, be sure it is a tile object");
+		TRACE("JSON description not found or not valid, be sure it is a tile object\r\n");
 		ASSERT(FALSE);
 	}
 
@@ -1313,7 +1313,7 @@ BOOL CJsonTileDialog::OnInitDialog()
 	CWndObjDescription* pDesc = (GetJsonContext() ? GetJsonContext()->m_pDescription : NULL);
 	if (!pDesc || !pDesc->IsKindOf(RUNTIME_CLASS(CWndTileDescription)))
 	{
-		TRACE("JSON description not found or not valid, be sure it is a tile object");
+		TRACE("JSON description not found or not valid, be sure it is a tile object\r\n");
 	}
 	else if (((CWndTileDescription*)pDesc)->m_bHasStaticArea)
 	{
@@ -1349,7 +1349,7 @@ bool CJsonTileDialog::IsInitiallyPinned()
 	CWndObjDescription* pDesc = (GetJsonContext() ? GetJsonContext()->m_pDescription : NULL);
 	if (!pDesc || !pDesc->IsKindOf(RUNTIME_CLASS(CWndTileDescription)))
 	{
-		TRACE("JSON description not found or not valid, be sure it is a tile object");
+		TRACE("JSON description not found or not valid, be sure it is a tile object\r\n");
 		return true;
 	}
 	return ((CWndTileDescription*)pDesc)->m_bIsPinned;
@@ -1361,7 +1361,7 @@ TileDialogSize CJsonTileDialog::GetSize()
 	CWndObjDescription* pDesc = (GetJsonContext() ? GetJsonContext()->m_pDescription : NULL);
 	if (!pDesc || !pDesc->IsKindOf(RUNTIME_CLASS(CWndTileDescription)))
 	{
-		TRACE("JSON description not found or not valid, be sure it is a tile object");
+		TRACE("JSON description not found or not valid, be sure it is a tile object\r\n");
 		return TileDialogSize::TILE_STANDARD;
 	}
 	return ((CWndTileDescription*)pDesc)->m_Size;
@@ -1419,7 +1419,7 @@ HotFilterObj* CJsonContext::CreateHotFilter(UINT nHFID, CWndObjDescription* pDes
 	if (!pClass)
 	{
 		ASSERT(FALSE);
-		TRACE1("Cannot create hot filter %s, no class available", (LPCTSTR)pDesc->GetID());
+		TRACE1("Cannot create hot filter %s, no class available\r\n", (LPCTSTR)pDesc->GetID());
 		return NULL;
 	}
 
@@ -2035,7 +2035,7 @@ template <class T> void TBJsonBodyEditWrapper<T>::OnBeforeCustomize()
 						m_pContext->GetBindingInfo(pDesc1->GetID(), pDesc1->m_strName, pDesc1->m_pBindings, pDBT, pRec, pDataObj, sBindingName);
 						if (!pDataObj && !GetDocument()->IsInStaticDesignMode())
 						{
-							TRACE1("Invalid data source: %s\n", (LPCTSTR)pDesc1->m_pBindings->m_strDataSource);
+							TRACE2("Invalid data source: %s; id: %s\r\n", (LPCTSTR)pDesc1->m_pBindings->m_strDataSource, (LPCTSTR)pDesc1->GetID());
 							ASSERT(FALSE);
 							continue;
 						}
@@ -2149,7 +2149,7 @@ template <class T> void TBJsonBodyEditWrapper<T>::Customize()
 					pDataObj = m_pDBT->GetBindingData(m_pWndDesc->m_pBindings->m_strDataSource, pColDesc->m_pBindings->m_strDataSource, sFieldName, sBindingName, fieldFromHKL);
 					if (!pDataObj && !GetDocument()->IsInStaticDesignMode())
 					{
-						TRACE1("Invalid data source: %s\n", (LPCTSTR)pColDesc->m_pBindings->m_strDataSource);
+						TRACE2("Invalid data source: %s; id: %s\r\n", (LPCTSTR)pColDesc->m_pBindings->m_strDataSource, (LPCTSTR) pColDesc->GetID());
 						ASSERT(FALSE);
 						continue;
 					}
@@ -2187,7 +2187,7 @@ template <class T> void TBJsonBodyEditWrapper<T>::Customize()
 #ifdef DEBUG
 				if (!GetDocument()->IsInStaticDesignMode())
 				{
-					TRACE2("Invalid controlClass: '%s' for column: '%s", pColDesc->m_strControlClass, pColDesc->GetID());
+					TRACE2("Invalid controlClass: '%s' for column: '%s\r\n", (LPCTSTR)pColDesc->m_strControlClass, (LPCTSTR)pColDesc->GetID());
 					ASSERT(FALSE);
 				}
 #endif // DEBUG
@@ -2235,13 +2235,13 @@ template <class T> void TBJsonBodyEditWrapper<T>::Customize()
 						}
 						else
 						{
-							ASSERT_TRACE1(FALSE, "Invalid data source type for state data; data source: %s", (LPCTSTR)pColDesc->m_pStateData->m_pBindings->m_strDataSource);
+							ASSERT_TRACE2(FALSE, "Invalid data source type for state data; data source: %s; id:%s\r\n", (LPCTSTR)pColDesc->m_pStateData->m_pBindings->m_strDataSource, (LPCTSTR)pColDesc->GetID());
 						}
 
 					}
 					else
 					{
-						ASSERT_TRACE1(FALSE, "Data source not found: %s", (LPCTSTR)pColDesc->m_pStateData->m_pBindings->m_strDataSource);
+						ASSERT_TRACE2(FALSE, "Data source not found: %s; id:%s\r\n", (LPCTSTR)pColDesc->m_pStateData->m_pBindings->m_strDataSource, (LPCTSTR)pColDesc->GetID());
 					}
 				}
 			}
