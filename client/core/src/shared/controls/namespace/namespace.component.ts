@@ -19,6 +19,8 @@ import { FormMode, createSelector, createSelectorByPaths } from './../../../shar
 import { Selector } from './../../../shared/models/store.models';
 import { EventHandler } from './event-handler';
 
+import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryComponent } from 'ngx-gallery';
+
 @Component({
   selector: 'tb-namespace',
   templateUrl: './namespace.component.html',
@@ -45,6 +47,18 @@ export class NamespaceComponent extends ControlComponent implements OnChanges, O
 
   @ViewChild(ExplorerDialogComponent) explorer: ExplorerDialogComponent;
   @ViewChild('textArea') textArea: ElementRef;
+  @ViewChild('gal') gal: NgxGalleryComponent;
+
+  galleryImages: NgxGalleryImage[] = [];
+  galleryOptions: NgxGalleryOptions[] = [{
+    closeIcon: 'm4-icon m4-tb-closewindows-2',
+    previewCloseOnEsc: true,
+    previewCloseOnClick: true
+    image: false, 
+    thumbnails: false, 
+    width: "0px", 
+    height: "0px"
+  }];
 
   constructor(
     public eventData: EventDataService,
@@ -117,23 +131,20 @@ export class NamespaceComponent extends ControlComponent implements OnChanges, O
   async validate(): Promise<boolean> {
     this.errorMessage = '';
     // Vuoto va bene !!!
-    if (this.value === '')
-    {
+    if (this.value === '') {
       this.showDescription("");
       return Promise.resolve(true);
     }
 
     // Se non ci sono punti, non sono un namespace
     const elem: string = this.value.split('.');
-    if (elem.length < 3)
-    {
+    if (elem.length < 3) {
       this.showDescription("");
       return Promise.resolve(false);
     }
 
     // Se il primo token non è nei predefiniti non sono un namespace valido
-    if (ObjType[elem[0]] === undefined || ObjType[elem[0]] != this.objectType)
-    {
+    if (ObjType[elem[0]] === undefined || ObjType[elem[0]] != this.objectType) {
       this.showDescription("");
       return Promise.resolve(false);
     }
@@ -142,8 +153,7 @@ export class NamespaceComponent extends ControlComponent implements OnChanges, O
     let ok = await this.explorerService.ExistsObject(this.value, this.user, this.company, this.culture);
 
     // Se ho il selector allora decodifico l'oggetto
-    if (this.selector)
-    {
+    if (this.selector) {
       let desc = ok ? await this.explorerService.GetDescription(this.value, this.user, this.company, this.culture) : '';
       this.showDescription(desc);
     }
@@ -168,10 +178,26 @@ export class NamespaceComponent extends ControlComponent implements OnChanges, O
     }
   }
 
+  isImage(){
+    return this.objectType == ObjType.Image;
+  }
+
+  getImages(namespace: string) {
+    if (!this.isImage() || !namespace) return [];
+
+    return [
+      {
+        small: this.getImageUrl(namespace),
+        big: this.getImageUrl(namespace),
+        url: this.getImageUrl(namespace)
+      }
+    ];
+  }
+
   onClick() {
     switch (this.objectType) {
       case ObjType.Image:
-        window.open(this.getImageUrl(this.model.value), 'blank');
+        this.gal.openPreview(0);
         break;
       default:
         //this.menuService.runObject({ objectType: ObjType[this.objectType], target: this.model.value });

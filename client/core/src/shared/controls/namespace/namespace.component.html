@@ -14,6 +14,7 @@
             <m4-icon icon="tb-folderfind"></m4-icon>
         </button>
         <tb-explorer-dialog></tb-explorer-dialog>
+        <ngx-gallery [options]="galleryOptions" [images]="getImages(model?.value)" #gal *ngIf="isImage()"></ngx-gallery>
     </div>
     <div class="has-error">{{errorMessage}}</div>
 </tb-control-container>
