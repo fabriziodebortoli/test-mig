@@ -2701,15 +2701,23 @@ void CAbstractFormDoc::SetViewFocus(CView* pView, BOOL bActivate /*TRUE*/)
 //------------------------------------------------------------------------------
 void CAbstractFormDoc::SetDefaultFocus()
 {
+	// Può fare la SetDefaultFocus se il documento è ancora il documento correntemente attivo
+	// (p.e. se è stato lanciato un report il fuoco deve rimanere al report)
+	if (AfxGetMainWnd() != GetFrame())
+		return;
+	
 	// set focus for all view without activate frame and view
 	//
-	//SILVANO e BRUNA: commentato perche in caso di piu View non si ferma nel momento in cui trova il primo controllo focusable, ma cicla su tutte le 
-	//view, facendo scattare valuechanged
-/*	POSITION pos = GetFirstViewPosition();
-	while (pos != NULL)
-		SetViewFocus(GetNextView(pos), FALSE);*/
+	// SILVANO e BRUNA: commentato perche in caso di piu View non si ferma nel momento in cui trova il primo controllo focusable, ma cicla su tutte le 
+	// view, facendo scattare valuechanged
+	//
+	//POSITION pos = GetFirstViewPosition();
+	//while (pos != NULL)
+	//	SetViewFocus(GetNextView(pos), FALSE);
+
 	if (m_bNeedsUpdateDataView)
 		ExecuteUpdateDataView();
+	
 	// set focus for master view activating also frame and view
 	POSITION first = GetFirstViewPosition();
 	if (first != NULL)
@@ -5915,14 +5923,9 @@ void CAbstractFormDoc::BatchStart()
 		m_BatchRunningArea.Unlock();
 	}
 
-	// La SetDefaultFocus dopo la OnBatchExecute solo se la bach è ancora il documento corrente attivo
-	// (se è stato lanciato un report il fuoco deve rimanere al report)
-	if (AfxGetMainWnd() == GetFrame())
-	{
-		SetDefaultFocus();
-		if (::GetFocus() == NULL && GetFrame())
-			GetFrame()->SetFocus();
-	}
+	SetDefaultFocus();
+	if (::GetFocus() == NULL && GetFrame())
+		GetFrame()->SetFocus();
 }
 
 // permette al programmatore in caso di errore di interrompere l'elaborazione 
