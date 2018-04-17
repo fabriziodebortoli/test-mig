@@ -269,6 +269,7 @@ BOOL CTBWinThread::OnIdle(LONG lCount)
 		return FALSE;
 
 	AfxGetThreadContext()->ClearOldObjects();
+	AfxGetThreadContext()->GarbageUnusedSqlSession();
 
 	BOOL bContinueIdle = AfxGetThreadContext()->OnIdle(lCount);
 

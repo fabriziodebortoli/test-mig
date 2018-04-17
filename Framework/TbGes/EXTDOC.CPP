@@ -491,7 +491,7 @@ CAbstractFormDoc::CAbstractFormDoc()
 	m_pNumbererBinder(NULL),
 	m_bClassicRunFromExternalController(TRUE)
 {
-	AfxGetDefaultSqlConnection()->SetAlwaysConnected(true);
+	AfxGetDefaultSqlConnection()->ConnectToDatabase();
 	// Imposta il documento in modo BROWSE
 	CBaseDocument::SetFormMode(BROWSE);
 
@@ -3643,7 +3643,7 @@ SqlConnection* CAbstractFormDoc::GetDefaultSqlConnection()
 //-----------------------------------------------------------------------------
 BOOL CAbstractFormDoc::OnOpenDocument(LPCTSTR pObject)
 {
-	AfxGetDefaultSqlConnection()->SetAlwaysConnected(false);
+	AfxGetDefaultSqlConnection()->DisconnectFromDatabase();
 
 	if (!CAbstractDoc::OnOpenDocument(pObject))
 		return FALSE;
@@ -4463,6 +4463,9 @@ BOOL CAbstractFormDoc::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLE
 	BOOL bHandled = FALSE;
 	BOOL bBadCommand = IsBadCmdMsg(nID);
 	CClientDoc* pClientDoc = NULL;
+
+	/*if (!bBadCommand && nCode == CN_COMMAND && pExtra == NULL)
+		ConnectToDatabase();*/
 	//ruoto il messaggio prima
 	if (!bBadCommand)
 	{
@@ -4495,6 +4498,8 @@ BOOL CAbstractFormDoc::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLE
 			}
 		}
 	}
+	/*if (!bBadCommand && nCode == CN_COMMAND && pExtra == NULL)
+		DisconnectFromDatabase();*/
 
 	return bHandled;
 }
@@ -5289,16 +5294,22 @@ BOOL CAbstractFormDoc::BrowseRecord(BOOL bFocus/*= TRUE*/, BOOL bCreating/* = FA
 void CAbstractFormDoc::ConnectToDatabase(LPCTSTR pszActionName/*= NULL*/)
 {
 	//mi connetto al database
-	m_pTbContext->StartTime(TOTAL_TIME, pszActionName);
-	m_pTbContext->Connect();
+	//if (m_pTbContext)
+	//{
+	//	m_pTbContext->StartTime(TOTAL_TIME, pszActionName);
+	//	m_pTbContext->Connect();
+	//}
 }
 
 //--------------------------------------------------------------------------
 void CAbstractFormDoc::DisconnectFromDatabase()
 {
-	//mi disconnetto al database
-	m_pTbContext->Disconnect();
-	m_pTbContext->StopTime(TOTAL_TIME);
+	////mi disconnetto al database
+	//if (m_pTbContext)
+	//{
+	//	m_pTbContext->Disconnect();
+	//	m_pTbContext->StopTime(TOTAL_TIME);
+	//}
 }
 
 //--------------------------------------------------------------------------

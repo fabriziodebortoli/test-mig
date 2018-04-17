@@ -126,9 +126,6 @@ const TXEParameters* XEngineObject::GetXEParameters()
 //-------------------------------------------------------------------------------
 void XEngineObject::UpdateParameters(TXEParameters* pNewParams /*= NULL*/)
 {
-	SqlSession *pSession = AfxGetDefaultSqlSession();
-	if (!pSession) return;
-
 	if (!m_pXEParameters)
 	{
 		m_pXEParameters = new TXEParameters();

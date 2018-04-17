@@ -83,7 +83,7 @@ DataLng CCheckWorker::CreateWorker()
 	DataStr aName = _T("");
 	DataStr aLastName = _T("");
 	int aBlank = -1;
-	AfxGetDefaultSqlConnection()->SetAlwaysConnected(true);
+
 	SqlSession*	pSession = AfxGetDefaultSqlConnection()->GetNewSqlSession(AfxGetDefaultSqlConnection()->m_pContext);
 
 	CAutoincrementService* pAutoincrement;
@@ -110,6 +110,7 @@ DataLng CCheckWorker::CreateWorker()
 
 	TRY
 	{
+		pSession->ConnectToDatabase();
 		pSession->StartTransaction();
 
 		aTbl.Query();
@@ -135,30 +136,24 @@ DataLng CCheckWorker::CreateWorker()
 		aTbl.Close();
 		delete pAutoincrement;
 
-		if (pSession->CanClose())
-		{
-			pSession->Close();
-			delete pSession;
-		}
+		pSession->DisconnectFromDatabase();
+		delete pSession;
 	}
 	CATCH(SqlException, e)
 	{
 		if (pAutoincrement)
 			delete pAutoincrement;
-		if (aTbl.IsOpen()) aTbl.Close();
+		if (aTbl.IsOpen()) 
+			aTbl.Close();
+		
 		pSession->Abort();
-		if (pSession->CanClose())
-		{
-			pSession->Close();
-			delete pSession;
-		}
-		AfxGetDefaultSqlConnection()->SetAlwaysConnected(false);
+		pSession->DisconnectFromDatabase();
+		delete pSession;
 		aResult = UPDATE_FAILED;
 		e->ShowError();
 	}
 	END_CATCH
 	
-	AfxGetDefaultSqlConnection()->SetAlwaysConnected(false);
 	return (aResult == UPDATE_SUCCESS) ? aRec.f_WorkerID : 0;
 }
 

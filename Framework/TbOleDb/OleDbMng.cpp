@@ -57,7 +57,7 @@ public:
 			pConnection = GetAt(i);
 			pConnection->Close();
 		}
-	}	
+	}		
 };
 
 
@@ -67,11 +67,11 @@ public:
 //-----------------------------------------------------------------------------
 IMPLEMENT_DYNAMIC(COleDbManager, SqlObject)
 
-DECLARE_THREAD_VARIABLE
-(
-	ThreadSqlConnectionPool,
-	m_arThreadSqlConnections
-);
+//DECLARE_THREAD_VARIABLE
+//(
+//	ThreadSqlConnectionPool,
+//	m_arThreadSqlConnections
+//);
 
 //-----------------------------------------------------------------------------
 COleDbManager::COleDbManager()
@@ -81,12 +81,13 @@ COleDbManager::COleDbManager()
 	m_bUseLockManager				(TRUE),
 	m_DMSStatus						(DbInvalid)
 {
+	m_aConnectionPool.SetOwnConnection(false); //le connessioni sono di proprietà del thread
 }
 
 //-----------------------------------------------------------------------------
 COleDbManager::~COleDbManager()
 {
-	CloseAllConnections();
+	//CloseAllConnections();
 	m_aProviderInfoPool.RemoveAll();
 }
 
@@ -143,35 +144,48 @@ SqlSession* COleDbManager::GetDefaultSqlSession()
 //------------------------------------------------------------------------------
 void COleDbManager::SetDefaultSqlConnection(SqlConnection* pSqlConnection)
 {
-	if (AfxGetTBThread() && AfxGetTBThread()->IsDocumentThread())
+	//per prima cosa inserisco la connessione nel connectionpool di thread dove agirà il garbage per chiudere le connessioni non più utilizzate	
+	SqlConnectionPool* pSqlConnectionPool = (SqlConnectionPool*)AfxGetThreadContext()->GetSqlConnectionPool();
+	if (!pSqlConnectionPool)
 	{
-		GET_THREAD_VARIABLE(ThreadSqlConnectionPool, m_arThreadSqlConnections);
-		m_arThreadSqlConnections.SetPrimaryConnection(pSqlConnection);
+		pSqlConnectionPool = new SqlConnectionPool();
+		AfxGetThreadContext()->AttachSqlConnectionPool((SqlConnectionPoolObj*)pSqlConnectionPool);
 	}
+	pSqlConnectionPool->SetPrimaryConnection(pSqlConnection);
+
+	//se non sono nel thread di documento ma dell'applicazione allora inserisco nell'array m_aConnectionPool la connessione
+	//questo serve per poter effettuare la clonazione
+	if (!AfxGetTBThread() || !AfxGetTBThread()->IsDocumentThread())
+		m_aConnectionPool.SetPrimaryConnection(pSqlConnection);
 }
 
 
 //------------------------------------------------------------------------------
 SqlConnection* COleDbManager::GetDefaultSqlConnection()
 {
+	//se non sono nel thread di documento
 	if (AfxGetTBThread() && AfxGetTBThread()->IsDocumentThread())
 	{
-		GET_THREAD_VARIABLE(ThreadSqlConnectionPool, m_arThreadSqlConnections);
-		SqlConnection* pThreadPrimaryConnection = m_arThreadSqlConnections.GetPrimaryConnection();
-
+		SqlConnection* pThreadPrimaryConnection = NULL;	
+		SqlConnectionPool* pSqlConnectionPool = (SqlConnectionPool*)AfxGetThreadContext()->GetSqlConnectionPool();
+		if (!pSqlConnectionPool)
+		{
+			pSqlConnectionPool = new SqlConnectionPool();
+			AfxGetThreadContext()->AttachSqlConnectionPool((SqlConnectionPoolObj*)pSqlConnectionPool);
+		}
+		pThreadPrimaryConnection = pSqlConnectionPool->GetPrimaryConnection();
 		if (!pThreadPrimaryConnection)
 		{
 			SqlConnection* pPrimaryConnection = GetPrimaryConnection();
 			if (pPrimaryConnection)
 			{
 				pThreadPrimaryConnection = pPrimaryConnection->Clone();
-				m_arThreadSqlConnections.SetPrimaryConnection(pThreadPrimaryConnection);
+				pSqlConnectionPool->SetPrimaryConnection(pThreadPrimaryConnection);
 			}
 		}
 		return pThreadPrimaryConnection;
 	}
 	return GetPrimaryConnection();
-
 }
 
 //------------------------------------------------------------------------------
@@ -179,8 +193,15 @@ SqlConnection* COleDbManager::GetSecondarySqlConnection(const CString& strAlias)
 {
 	if (AfxGetTBThread() && AfxGetTBThread()->IsDocumentThread())
 	{
-		GET_THREAD_VARIABLE(ThreadSqlConnectionPool, m_arThreadSqlConnections);
-		SqlConnection* pThreadSqlConnection = m_arThreadSqlConnections.GetSqlConnectionByAlias(strAlias);
+		SqlConnection* pThreadSqlConnection = NULL;
+		SqlConnectionPool* pSqlConnectionPool = (SqlConnectionPool*)AfxGetThreadContext()->GetSqlConnectionPool();
+		if (!pSqlConnectionPool)
+		{
+			pSqlConnectionPool = new SqlConnectionPool();
+			AfxGetThreadContext()->AttachSqlConnectionPool((SqlConnectionPoolObj*)pSqlConnectionPool);
+		}
+		else
+			pThreadSqlConnection = pSqlConnectionPool->GetSqlConnectionByAlias(strAlias);
 
 		if (!pThreadSqlConnection)
 		{
@@ -188,7 +209,7 @@ SqlConnection* COleDbManager::GetSecondarySqlConnection(const CString& strAlias)
 			if (pSqlConnection)
 			{
 				pThreadSqlConnection = pSqlConnection->Clone();
-				m_arThreadSqlConnections.Add(pThreadSqlConnection);
+				pSqlConnectionPool->Add(pThreadSqlConnection);
 			}
 		}
 		return pThreadSqlConnection;
@@ -199,11 +220,15 @@ SqlConnection* COleDbManager::GetSecondarySqlConnection(const CString& strAlias)
 //------------------------------------------------------------------------------
 void COleDbManager::SetSecondarySqlConnection(SqlConnection* pSqlConnection)
 {
-	if (AfxGetTBThread() && AfxGetTBThread()->IsDocumentThread())
+	SqlConnectionPool* pSqlConnectionPool = (SqlConnectionPool*)AfxGetThreadContext()->GetSqlConnectionPool();
+	if (!pSqlConnectionPool)
 	{
-		GET_THREAD_VARIABLE(ThreadSqlConnectionPool, m_arThreadSqlConnections);
-		m_arThreadSqlConnections.Add(pSqlConnection);
+		pSqlConnectionPool = new SqlConnectionPool();
+		AfxGetThreadContext()->AttachSqlConnectionPool((SqlConnectionPoolObj*)pSqlConnectionPool);
 	}
+	pSqlConnectionPool->Add(pSqlConnection);
+	if (!m_aConnectionPool.GetSqlConnectionByAlias(pSqlConnection->m_strAlias))
+		m_aConnectionPool.Add(pSqlConnection);
 }
 
 //-----------------------------------------------------------------------------
@@ -261,13 +286,14 @@ SqlConnection* COleDbManager::GetNewConnection
 									(
 										LPCWSTR	szConnectionString, 
 										BOOL	bCheckRegisterTable /*=FALSE*/,
-										CBaseContext* pContext /*=NULL*/
+										CBaseContext* pContext /*=NULL*/,
+										const CString& strAlias /*= _T("")*/
 									)
 {
 	//	diagnostica di ausilio
 	TRACE1("COleDbManager::GetNewConnection: %s\r\n", szConnectionString);
 	TB_LOCK_FOR_WRITE();
-	SqlConnection* pSqlConnection = new SqlConnection(szConnectionString, bCheckRegisterTable, pContext);
+	SqlConnection* pSqlConnection = new SqlConnection(szConnectionString, bCheckRegisterTable, pContext, strAlias);
 	
 	bool bCompanyDB = (_tcscmp(szConnectionString, T2W((LPTSTR)((LPCTSTR)AfxGetLoginInfos()->m_strProviderCompanyConnectionString))) == 0);
 	if (bCompanyDB)
@@ -280,7 +306,8 @@ SqlConnection* COleDbManager::GetNewConnection
 	{
 		if (pSqlConnection->MakeConnection())
 		{
-			m_aConnectionPool.Add(pSqlConnection);
+			SetSecondarySqlConnection(pSqlConnection);
+			//m_aConnectionPool.Add(pSqlConnection);
 			/*if (bCompanyDB)
 				CheckLockManager(pSqlConnection);*/
 			return pSqlConnection;
@@ -351,7 +378,8 @@ BOOL COleDbManager::MakePrimaryConnection()
 
 	AfxSetStatusBarText(cwsprintf(_TB("Connecting to company {0-%s}..."), AfxGetLoginInfos()->m_strCompanyName));
 	
-	SqlConnection* pSqlConnection = new SqlConnection(AfxGetLoginInfos()->m_strNonProviderCompanyConnectionString, TRUE, m_pContext);
+	//SqlConnection* pSqlConnection = new SqlConnection(AfxGetLoginInfos()->m_strNonProviderCompanyConnectionString, TRUE, m_pContext);
+	SqlConnection* pSqlConnection = new SqlConnection(AfxGetLoginInfos()->m_strProviderCompanyConnectionString, TRUE, m_pContext, _T("PRIMARY"));
 	pSqlConnection->SetProviderId(AfxGetLoginInfos()->m_nProviderId);
 	pSqlConnection->SetUseUnicode(AfxGetLoginInfos()->m_bUseUnicode);
 
@@ -360,7 +388,7 @@ BOOL COleDbManager::MakePrimaryConnection()
 		// il check del database lo devo effettuare esternamente xché prima
 		// devo settare la connessione di default per poter istanziare correttamente
 		// sqlmark
-		m_aConnectionPool.SetPrimaryConnection(pSqlConnection);
+		SetDefaultSqlConnection(pSqlConnection);
 		if (!pSqlConnection->MakeConnection())
 		{
 			m_aConnectionPool.RemovePrimaryConnection();

@@ -18,6 +18,7 @@ class SqlCommandClient;
 class SqlDataReaderClient;
 class SqlDataTableClient;
 class SqlProcedureParameters;
+class SqlCloseTimer;
 
 //enum TB_EXPORT SqlMoveType { MoveFirst, MovePrev, MoveNext, MoveLast };
 enum TB_EXPORT MoveType { E_MOVE_REFRESH, E_MOVE_FIRST, E_MOVE_PREV, E_MOVE_NEXT, E_MOVE_LAST };
@@ -78,6 +79,8 @@ private:
 	CCounterElem		m_FetchSchemaTimeCounter;
 	CCounterElem		m_PrimaryKeyTimeCounter;
 
+public:
+	bool m_bClosing;
 
 public:
 	MSqlConnection();

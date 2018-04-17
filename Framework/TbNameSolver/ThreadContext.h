@@ -12,6 +12,17 @@ class CWorkersTableObj;
 
 
 
+//serve per il garbage delle SqlConnection
+//==================================================================================
+class TB_EXPORT SqlConnectionPoolObj : public CObArray
+{
+public:
+	virtual ~SqlConnectionPoolObj() {}
+
+public:
+	virtual void GarbageUnusedSqlSession() = 0;
+};
+
 //=============================================================================================
 class TB_EXPORT CThreadLocalStorage
 {
@@ -155,6 +166,8 @@ private:
 	time_t				m_nLastInteractionTime;  //last interaction Time in seconds since midnight (00:00:00), January 1, 1970, coordinated universal time (UTC).
 	time_t				m_nLastGetDescriptionTime; //last request for get window decription from remote interface. Time in seconds since midnight (00:00:00), January 1, 1970, coordinated universal time (UTC).
 	bool				m_bAllowDockableFrame;
+
+	SqlConnectionPoolObj*	m_pSqlConnectionPoolObj;
 public:
 	CDocumentSessionObj*m_pDocSession;
 	IntervalChecker		m_IntervalChecker;
@@ -173,7 +186,7 @@ public:
 
 	CThreadContext(void);	
 	~CThreadContext(void);
-
+	
 	CString				SetUICulture (const CString& strCulture)	
 							{ 
 								CString s = m_strUICulture; 
@@ -285,6 +298,12 @@ public:
 
 	time_t GetLastInteractionTime() { return m_nLastInteractionTime;  }
 	time_t GetLastGetDescriptionTime() { return  m_nLastGetDescriptionTime; }
+
+//gestione garbage sqlconnection
+	void	AttachSqlConnectionPool(SqlConnectionPoolObj* pSqlConnPoolObj) { m_pSqlConnectionPoolObj = pSqlConnPoolObj;	}
+	SqlConnectionPoolObj*	GetSqlConnectionPool() { return m_pSqlConnectionPoolObj; }
+	void GarbageUnusedSqlSession();
+
 private:
 	virtual CObject* InternalGetObject(GetMethod getMethod) { return ((this)->*getMethod)(); }
 	virtual BOOL IsValid() { return this != NULL; }

@@ -233,7 +233,8 @@ CThreadContext::CThreadContext(void)
 	m_pActiveDockableWnd(NULL),
 	m_pMainDocument(NULL),
 	m_bAllowDockableFrame(true),
-	m_pDocSession(NULL)
+	m_pDocSession(NULL),
+	m_pSqlConnectionPoolObj(NULL)
 {
 }
 
@@ -241,12 +242,16 @@ CThreadContext::CThreadContext(void)
 CThreadContext::~CThreadContext(void)
 {
 	ClearObjects();
+	
+	delete m_pSqlConnectionPoolObj;
+
 	if (m_pMenuWnd)
 	{
 		m_pMenuWnd->Detach();
 		delete m_pMenuWnd;
 	}
 	delete m_pDocSession;
+
 #ifdef DEBUG
 	POSITION pos = m_WriteLockMap.GetStartPosition();
 	while (pos)
@@ -688,6 +693,16 @@ HWND CThreadContext::GetCurrentModalWindow()
 		return NULL;
 	return m_arThreadModalWindows[m_arThreadModalWindows.GetUpperBound()];
 }
+
+
+//-----------------------------------------------------------------------------
+void CThreadContext::GarbageUnusedSqlSession()
+{
+	if (m_pSqlConnectionPoolObj)
+		m_pSqlConnectionPoolObj->GarbageUnusedSqlSession();
+
+}
+
 
 //Imposta l'istante in cui si e' avuta l'ultima interazione con l'utente
 //Time in seconds since midnight (00:00:00), January 1, 1970, coordinated universal time (UTC).

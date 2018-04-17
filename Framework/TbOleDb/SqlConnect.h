@@ -83,6 +83,7 @@ class TB_EXPORT SqlSession : public SqlObject
 	friend class CTransactionContext;
 	friend class SqlPerformanceManager;
 	friend class SqlRecoveryManager;
+	friend class SqlSessionPool;
 
 	DECLARE_DYNAMIC(SqlSession)
 
@@ -96,12 +97,16 @@ protected:
 	BOOL				m_bTxnInProgress;// TRUE se é aperta la transazione é in corso
 	BOOL				m_bOwnSession;	// TRUE se la sessione è stata aperta direttamente
 										// FALSE se il puntatore ci viene passato da fuori
-	BOOL			    m_bStayOpen;
+	BOOL				m_bOpenedForTrans;
 
 	//serve per la transazione. 
 	//In caso di SqlDataReader ancora attivi sulla sessione la transazione non andrà a buon fine
 	// devo nettamente dividere i command di lettura (che utilizzano quindi i SqlDataReader) da quelli di scrittura (con ExecuteNonQuery)
 	SqlSession*			m_pUpdatableSqlSession;
+
+	DWORD				m_dwLastOpenRequest;
+	DWORD				m_dwLastCloseRequest;
+
 
 public:
 	SqlConnection*		m_pSqlConnection;	// connessione che ha generato la sessione
@@ -141,13 +146,14 @@ public:
 
 public:
 	SqlConnection*		GetSqlConnection()	const { return m_pSqlConnection; }
-	MSqlConnection* GetSession() const { return m_pSession; }
+	MSqlConnection*		GetSession()		const { return m_pSession; }
 	BOOL				IsTxnInProgress()	const;
+	
+	void				ConnectToDatabase();
+	void				DisconnectFromDatabase();
 
 public:
 	virtual void		GetErrorString(HRESULT nResult, CString& m_strError);
-
-
 
 
 // diagnostics
@@ -176,6 +182,7 @@ public:
 public:
 	void RemoveSession(SqlSession*);
 	void ForceCloseSessions(); 
+	void GarbageUnusedSession();
 
 // diagnostics
 #ifdef _DEBUG
@@ -212,7 +219,6 @@ private:
 	BOOL				m_bCheckRegisterTable; 
 	SqlCatalog*			m_pCatalog;
 	SqlSessionPool		m_arSessionPool; // array di sessioni
-
 	BOOL				m_bValid;
 	BOOL				m_bTablesPresent;
 	BOOL				m_bOpen;
@@ -276,8 +282,15 @@ public:
 	BOOL		UseUnicode			() const { return m_bUseUnicode; }
 	BOOL		IsAlive				() const;
 
+
+	void		GarbageUnusedSession();
+	
 	bool		AlwaysConnected		()		const	{ return m_bAlwaysConnected; }
-	void		SetAlwaysConnected(bool bSet);
+
+	void		ConnectToDatabase();
+	void		DisconnectFromDatabase();
+
+	
 
 	SqlConnection* Clone();
 
@@ -378,18 +391,20 @@ public:
 //						SqlConnectionPool
 //////////////////////////////////////////////////////////////////////////////
 //=============================================================================
-class SqlConnectionPool : public Array
+class SqlConnectionPool : public SqlConnectionPoolObj
 {
 	DECLARE_DYNAMIC(SqlConnectionPool)
-
+private:
 	int		m_nPrimaryConnection;
+	bool	m_bOwnConnection;
 
 public:
 	SqlConnectionPool ();
+	~SqlConnectionPool();
 
 public:                                  
-  	SqlConnection* 	GetAt		(int nIndex) const	{ return (SqlConnection*) Array::GetAt(nIndex);	}
-	SqlConnection*&	ElementAt	(int nIndex)		{ return (SqlConnection*&) Array::ElementAt(nIndex); }
+  	SqlConnection* 	GetAt		(int nIndex) const	{ return (SqlConnection*)CObArray::GetAt(nIndex);	}
+	SqlConnection*&	ElementAt	(int nIndex)		{ return (SqlConnection*&)CObArray::ElementAt(nIndex); }
 	
 	SqlConnection* 	operator[]	(int nIndex) const	{ return GetAt(nIndex);	}
 	SqlConnection*&	operator[]	(int nIndex)		{ return ElementAt(nIndex);	}
@@ -400,16 +415,21 @@ public:
 	void SetPrimaryConnection	(SqlConnection*);
 	BOOL CanCloseAll() const;
 	void CloseAll();
-	
+	void SetOwnConnection(bool bSet) { m_bOwnConnection = bSet; }
+
 public:
 	SqlConnection* GetPrimaryConnection		();
 	SqlConnection* GetSqlConnectionByAlias(const CString& strAlias);
+
+public:
+	virtual void GarbageUnusedSqlSession();
+	
 
 // diagnostics
 #ifdef _DEBUG
 public:	
 	void Dump(CDumpContext& dc) const {	ASSERT_VALID(this); AFX_DUMP0(dc, " SqlConnectionPool\n"); }
-	void AssertValid() const{ Array::AssertValid(); }
+	void AssertValid() const{ CObArray::AssertValid(); }
 #endif //_DEBUG
 };
 

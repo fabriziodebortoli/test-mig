@@ -137,15 +137,7 @@ void SqlCommandPool::ReleaseAllCommands ()
 	}
 }	
 
-void SqlSessionPool::ForceCloseSessions()
-{
-	SqlSession* pSession;
-	for (int nIdx = 0; nIdx < GetSize(); nIdx++)
-	{
-		pSession = GetAt(nIdx);
-		pSession->ForceClose();
-	}
-}
+
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -163,7 +155,9 @@ SqlSession::SqlSession(SqlConnection* pConnection, CBaseContext* pContext /*=NUL
 	m_bForUpdate			(false),
 	m_bTxnInProgress		(FALSE),
 	m_bOwnSession			(TRUE),
-	m_bStayOpen				(FALSE)
+	m_bOpenedForTrans		(FALSE),
+	m_dwLastOpenRequest		(0),
+	m_dwLastCloseRequest	(0)
 {
 	m_pSession = new MSqlConnection();
 	CString strConnectionString = pConnection->m_strConnectionString;
@@ -171,6 +165,7 @@ SqlSession::SqlSession(SqlConnection* pConnection, CBaseContext* pContext /*=NUL
 		strConnectionString += _T(";MultipleActiveResultSets=True;");
 
 	m_pSession->SetConnectionString(strConnectionString);
+	GetMSqlConnection()->SetKeepOpen(pConnection->AlwaysConnected());
 }
 
 //-----------------------------------------------------------------------------
@@ -182,7 +177,9 @@ SqlSession::SqlSession(MSqlConnection* pSession, SqlConnection* pConnection, CBa
 	m_bForUpdate			(false),
 	m_bTxnInProgress		(FALSE),
 	m_bOwnSession			(FALSE),
-	m_bStayOpen				(FALSE)
+	m_bOpenedForTrans		(FALSE),
+	m_dwLastOpenRequest		(0),
+	m_dwLastCloseRequest	(0)
 {
 	m_pSession = pSession;	
 
@@ -190,7 +187,10 @@ SqlSession::SqlSession(MSqlConnection* pSession, SqlConnection* pConnection, CBa
 //-----------------------------------------------------------------------------
 SqlSession::~SqlSession()
 {
-	Close();	
+	if (IsTxnInProgress())
+		Commit();
+	
+	ForceClose();	
 	m_pSqlConnection->RemoveSession(this);
 
 	if (m_pUpdatableSqlSession)
@@ -230,7 +230,7 @@ BOOL SqlSession::CanClose() const
 //-----------------------------------------------------------------------------	
 void SqlSession::ReleaseCommands()
 {
-	if (IsTxnInProgress())
+	/*if (IsTxnInProgress())
 		Commit();
 
 	m_arCommandPool.ReleaseAllCommands();
@@ -238,7 +238,7 @@ void SqlSession::ReleaseCommands()
 	if (m_pUpdatableSqlSession)
 		m_pUpdatableSqlSession->ReleaseCommands();
 
-	m_pSession->Close ();
+	m_pSession->Close ();*/
 }
 
 //-----------------------------------------------------------------------------
@@ -270,6 +270,7 @@ void SqlSession::Open()
 			//se non è la DefaultSqlSession allora guardo lo stato di open della DefaultSqlSession
 			START_PROC_TIME(PROC_OPEN_CONNECTION)
 			m_pSession->Open(m_pSqlConnection->AlwaysConnected());
+			m_dwLastOpenRequest = GetTickCount();
 			STOP_PROC_TIME(PROC_OPEN_CONNECTION)
 			TRACE_SQL(_T("Open session"), this);
 			if (m_pUpdatableSqlSession)
@@ -295,39 +296,53 @@ void SqlSession::Open()
 void SqlSession::Close()
 {
 	//non faccio niente 
-	if (m_pSqlConnection->AlwaysConnected() || !m_pContext->IsOwnContext())
+	//if (m_pSqlConnection->AlwaysConnected() || !m_pContext->IsOwnContext())
+	
+	if (!m_pContext->IsOwnContext())
 		return;
 	
-	if (IsTxnInProgress())
+	if (IsTxnInProgress() && (m_pUpdatableSqlSession && !m_pUpdatableSqlSession->m_bOpenedForTrans))
 		Commit();
 
 	m_arCommandPool.ReleaseAllCommands();
 
-	if (m_pUpdatableSqlSession)
+	if (m_pUpdatableSqlSession && !m_pUpdatableSqlSession->m_bOpenedForTrans)
 		m_pUpdatableSqlSession->Close();
 	
-	START_PROC_TIME(PROC_CLOSE_CONNECTION)
-	m_pSession->Close();
-	STOP_PROC_TIME(PROC_CLOSE_CONNECTION)
+	m_dwLastCloseRequest = GetTickCount();
+	
+	//START_PROC_TIME(PROC_CLOSE_CONNECTION)
+	//m_pSession->Close();
+	//STOP_PROC_TIME(PROC_CLOSE_CONNECTION)
 	TRACE_SQL(_T("Close session"), this);
+}
+
+
+//-----------------------------------------------------------------------------	
+void SqlSession::ConnectToDatabase()
+{
+	//GetMSqlConnection()->SetKeepOpen(true);
+}
+
+//-----------------------------------------------------------------------------	
+void SqlSession::DisconnectFromDatabase()
+{
+	//GetMSqlConnection()->SetKeepOpen(false);
+	//ForceClose();
 }
 
 //-----------------------------------------------------------------------------	
 void SqlSession::ForceClose()
 {
-	if (!m_pContext->IsOwnContext()) // || m_arCommandPool.ExistConnectedCommands())
+	if (!m_pContext->IsOwnContext() || IsTxnInProgress())
 		return; 
 	
-	if (IsTxnInProgress())
-		Commit();
-
 	m_arCommandPool.ReleaseAllCommands();
 			
-	/*if (m_pUpdatableSqlSession)
-		m_pUpdatableSqlSession->ForceClose();*/
-
 	START_PROC_TIME(PROC_CLOSE_CONNECTION)
 	m_pSession->Close();
+	m_dwLastCloseRequest = 0;
+	m_dwLastOpenRequest = 0;
 	STOP_PROC_TIME(PROC_CLOSE_CONNECTION)
 	TRACE_SQL(_T("ForceClose session"), this);
 }
@@ -365,11 +380,12 @@ void SqlSession::StartTransaction()
 		if (!m_pUpdatableSqlSession)
 			m_pUpdatableSqlSession = CreateUpdatableSqlSession();
 
-		if (!m_pUpdatableSqlSession->IsOpen())
-			 m_pUpdatableSqlSession->Open();
-
+	if (!m_pUpdatableSqlSession->IsOpen())
+		m_pUpdatableSqlSession->Open();
+	
 		m_pUpdatableSqlSession->m_pSession->BeginTransaction();
 		m_pUpdatableSqlSession->m_bTxnInProgress = TRUE;
+		
 		m_bTxnInProgress = TRUE;
 	}
 		CATCH(MSqlException, e)
@@ -457,7 +473,8 @@ void SqlSession::RemoveCommand(SqlRowSet* pSqlCommand)
 	m_arCommandPool.RemoveCommand(pSqlCommand);
 
 	//chiudo la sessione nel caso in cui non ci sia più nessun sqlrowset aperto e nel caso in cui la connessione non sia forzata
-	if (!m_pSqlConnection->AlwaysConnected() && m_arCommandPool.GetSize() == 0 && !IsTxnInProgress())
+	//if (!m_pSqlConnection->AlwaysConnected() && m_arCommandPool.GetSize() == 0 && !IsTxnInProgress())
+	if (m_arCommandPool.GetSize() == 0 && !IsTxnInProgress())
 		Close();
 }
 
@@ -484,6 +501,35 @@ void SqlSessionPool::RemoveSession(SqlSession* pSession)
 	}
 }
 
+//-----------------------------------------------------------------------------
+void SqlSessionPool::ForceCloseSessions()
+{
+	SqlSession* pSession;
+	for (int nIdx = 0; nIdx < GetSize(); nIdx++)
+	{
+		pSession = GetAt(nIdx);
+		pSession->ForceClose();
+	}
+}
+
+
+//-----------------------------------------------------------------------------
+void SqlSessionPool::GarbageUnusedSession()
+{
+	SqlSession* pSession;
+	DWORD tickNow = GetTickCount();
+	for (int nIdx = 0; nIdx < GetSize(); nIdx++)
+	{
+		pSession = GetAt(nIdx);
+		//sto ancora usando la sessione
+		if ((pSession->m_dwLastOpenRequest > pSession->m_dwLastCloseRequest) || (pSession->m_dwLastOpenRequest == 0 && pSession->m_dwLastCloseRequest == 0))
+			continue;
+		//sono passati più di 500 millisecondi dall'ultima richiesta di chiusura
+		//allora chiudo la session
+		if (tickNow - pSession->m_dwLastCloseRequest >= 500)
+			pSession->ForceClose();
+	}
+}
 
 //////////////////////////////////////////////////////////////////////////////
 //					CDefaultSqlSessions Implementation
@@ -559,7 +605,7 @@ SqlConnection::~SqlConnection()
 {	
 	if (m_pLockManagerInterface)
 		delete m_pLockManagerInterface;
-
+	TB_LOCK_FOR_WRITE();
 	if (m_arSessionPool.GetSize() > 0)
 	{
 		ASSERT(FALSE);
@@ -570,7 +616,15 @@ SqlConnection::~SqlConnection()
 //-----------------------------------------------------------------------------
 void SqlConnection::SetConnectionString(const CString& strConnectionString)
 {
-	m_strConnectionString = strConnectionString;
+	int nPosStart = strConnectionString.Find(_T("Provider"), 0);
+	if (nPosStart >= 0)
+	{
+		m_strConnectionString = strConnectionString.Left(nPosStart);
+		int nPosEnd = strConnectionString.Find(_T(";"), nPosStart);
+		m_strConnectionString += strConnectionString.Right(strConnectionString.GetLength() - (nPosEnd + 1));
+	}
+	else
+		m_strConnectionString = strConnectionString;
 }
 
 //-----------------------------------------------------------------------------
@@ -593,6 +647,8 @@ void SqlConnection::Initialize()
 	pDataObj = AfxGetSettingValue(snsTbOleDb, szDataCaching, szOptimizeHotLinkQuery, DataBool(FALSE), szTbDefaultSettingFileName);
 	if (pDataObj)
 		m_bOptimizedHKL = *((DataBool*)pDataObj);
+
+	
 
 }
 
@@ -659,6 +715,7 @@ SqlSession* SqlConnection::GetDefaultSqlSession()
 	else
 	{
 		pSession = GetNewSqlSession();
+		TB_LOCK_FOR_WRITE();
 		m_arSessionPool[0] = pSession;
 	}
 	return pSession;
@@ -703,7 +760,6 @@ SqlSession* SqlConnection::GetNewSqlSession(CBaseContext* pContext, bool bUseMAR
 
 	TRY
 	{
-		pSession->GetMSqlConnection()->SetKeepOpen(m_bAlwaysConnected);
 		m_arSessionPool.Add(pSession);
 	}
 	CATCH(SqlException, e)	
@@ -762,41 +818,52 @@ void SqlConnection::Close()
 		pSession = m_arSessionPool.GetAt(nIdx);
 		if (pSession && !pSession->m_bForUpdate) //nel caso di pSession->m_bForUpdate = true sarà la sessione che l'ha istanziata che si preoccuperà di distruggerla
 		{
-			pSession->Close();
+			pSession->ForceClose();
 			delete pSession;			
 		}
 	}
 	m_arSessionPool.RemoveAll();
-
 }
 
 //-----------------------------------------------------------------------------
-void SqlConnection::SetAlwaysConnected(bool bSet)
-{ 
-	if (bSet)
+void SqlConnection::GarbageUnusedSession()
+{
+	TB_LOCK_FOR_WRITE();
+	TRY
 	{
-		if (m_nAlwaysConnectedRef == 0)
-		{
-			m_bAlwaysConnected = TRUE;
-			for (int nIdx = 0; nIdx < m_arSessionPool.GetSize(); nIdx++)
-				m_arSessionPool.GetAt(nIdx)->GetMSqlConnection()->SetKeepOpen(true);
-		}
-		m_nAlwaysConnectedRef++;
+		m_arSessionPool.GarbageUnusedSession();
 	}
-	else
+	CATCH(SqlException, e)
 	{
-		ASSERT(m_nAlwaysConnectedRef > 0);
-		m_nAlwaysConnectedRef = (m_nAlwaysConnectedRef > 0) ? m_nAlwaysConnectedRef - 1 : 0;
-		if (m_nAlwaysConnectedRef == 0)
-		{
-			m_bAlwaysConnected = FALSE;		
-			m_arSessionPool.ForceCloseSessions();
-			for (int nIdx = 0; nIdx < m_arSessionPool.GetSize(); nIdx++)
-				m_arSessionPool.GetAt(nIdx)->GetMSqlConnection()->SetKeepOpen(false);
-		}
+		m_pContext->ShowMessage(cwsprintf(_TB("Error closing connections: {0-%s}"), e->m_strError));
 	}
+	END_CATCH
+}
+//-----------------------------------------------------------------------------
+void SqlConnection::ConnectToDatabase()
+{
+	//if (m_nAlwaysConnectedRef == 0) //può essere chiamato più volte in modo annidato
+	//{
+	//	m_bAlwaysConnected = TRUE;
+	//	for (int nIdx = 0; nIdx < m_arSessionPool.GetSize(); nIdx++)
+	//		m_arSessionPool.GetAt(nIdx)->ConnectToDatabase();
+	//}
+	//m_nAlwaysConnectedRef++;
 }
 
+
+//-----------------------------------------------------------------------------
+void SqlConnection::DisconnectFromDatabase()
+{
+	/*ASSERT(m_nAlwaysConnectedRef > 0);
+	m_nAlwaysConnectedRef = (m_nAlwaysConnectedRef > 0) ? m_nAlwaysConnectedRef - 1 : 0;
+	if (m_nAlwaysConnectedRef == 0)
+	{
+		m_bAlwaysConnected = FALSE;
+		for (int nIdx = 0; nIdx < m_arSessionPool.GetSize(); nIdx++)
+			m_arSessionPool.GetAt(nIdx)->DisconnectFromDatabase();
+	}*/
+}
 
 
 // stringa di connessione
@@ -827,13 +894,12 @@ BOOL SqlConnection::MakeConnection()
 	}
 
 	m_bValid = FALSE;
-
+	SqlSession* pDefaultSqlSession = NULL;
 	TRY
 	{
-		
-		SqlSession* pDefaultSqlSession = GetDefaultSqlSession();
+		pDefaultSqlSession = GetDefaultSqlSession();
+		pDefaultSqlSession->ConnectToDatabase();
 
-		SetAlwaysConnected(true);
 		//apro la connessione
 		pDefaultSqlSession->Open(); //true = sono io che decido quando chiudere la connessione e non mi affido agli automatismi
 		m_strDBName = pDefaultSqlSession->m_pSession->GetDBName();
@@ -841,6 +907,8 @@ BOOL SqlConnection::MakeConnection()
 		m_strUserName = pDefaultSqlSession->m_pSession->GetDBUserName();
 		m_strDbmsName = pDefaultSqlSession->m_pSession->GetDbmsName();
 		m_strDbmsVersion = pDefaultSqlSession->m_pSession->DbmsVersion();
+		if (m_strAlias.IsEmpty())
+			m_strAlias = m_strDbmsName + cwsprintf(_T("%lp"), this);
 
 		m_bOpen = TRUE;	
 		
@@ -856,6 +924,7 @@ BOOL SqlConnection::MakeConnection()
 		if (m_pCatalog->DatabaseEmpty())
 		{
 			AddMessage(_TB("The database has not been created.\r\nPlease contact the program administrator."));
+			pDefaultSqlSession->DisconnectFromDatabase();
 			return FALSE;
 		}
 
@@ -878,7 +947,7 @@ BOOL SqlConnection::MakeConnection()
 		}
 		
 		//chiudo la connessione
-		SetAlwaysConnected(false);
+		pDefaultSqlSession->DisconnectFromDatabase();
 		//pDefaultSqlSession->ForceClose();
 
 		dStopTick = GetTickCount();
@@ -890,6 +959,8 @@ BOOL SqlConnection::MakeConnection()
 	{
 		AddMessage(e->m_strError);
 		m_bValid = FALSE;
+		if (pDefaultSqlSession)
+			pDefaultSqlSession->DisconnectFromDatabase();
 		return FALSE;
 	}
 	END_CATCH
@@ -1232,15 +1303,31 @@ BOOL SqlConnection::IsAlive () const
 //					SqlConnectionPool Implementation
 //////////////////////////////////////////////////////////////////////////////
 //-----------------------------------------------------------------------------
-IMPLEMENT_DYNAMIC(SqlConnectionPool, Array)
+IMPLEMENT_DYNAMIC(SqlConnectionPool, SqlConnectionPoolObj)
 
 //-----------------------------------------------------------------------------
 SqlConnectionPool::SqlConnectionPool ()
 	:
-	m_nPrimaryConnection (nNoPrimaryConnection)
+	m_nPrimaryConnection (nNoPrimaryConnection),
+	m_bOwnConnection(true)
 {
 }
 
+//-----------------------------------------------------------------------------
+SqlConnectionPool::~SqlConnectionPool()
+{
+	SqlConnection* pConnection = NULL;
+	for (int i = 0; i < GetSize(); i++)
+	{
+		pConnection = GetAt(i);
+		if (m_bOwnConnection)
+		{
+			pConnection->Close();
+			delete pConnection;
+		}
+	}
+	RemoveAll();
+}
 //-----------------------------------------------------------------------------
 BOOL SqlConnectionPool::CanCloseAll() const
 {
@@ -1306,7 +1393,6 @@ void SqlConnectionPool::SetPrimaryConnection(SqlConnection* pConnection)
 	if (!pConnection)
 		return;
 
-	pConnection->m_strAlias = _T("PRIMARY");
 	m_nPrimaryConnection = Add(pConnection);
 }
 
@@ -1333,3 +1419,14 @@ SqlConnection* SqlConnectionPool::GetSqlConnectionByAlias(const CString& strAlia
 	return NULL;
 }
 
+//-----------------------------------------------------------------------------
+void SqlConnectionPool::GarbageUnusedSqlSession()
+{
+	SqlConnection* pConnection = NULL;
+	for (int i = 0; i < GetSize(); i++)
+	{
+		pConnection = GetAt(i);
+		if (pConnection)
+			return pConnection->GarbageUnusedSession();
+	}
+}

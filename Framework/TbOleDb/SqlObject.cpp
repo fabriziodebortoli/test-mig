@@ -189,7 +189,6 @@ CBaseContext::CBaseContext(const CBaseContext& aBaseContext)
 	//m_bCanUnlock			(FALSE),
 	m_bCanDeleteLockMng		(FALSE),
 	m_bOptimisticLock		(NULL)
-
 {
 	m_pDiagnostic		= aBaseContext.m_pDiagnostic;
 	m_pDiagnosticPool	= aBaseContext.m_pDiagnosticPool;
@@ -210,7 +209,6 @@ CBaseContext::CBaseContext(CDiagnostic* pDiagnostic)
 	//m_bCanUnlock			(FALSE),	
 	m_bCanDeleteLockMng		(FALSE),
 	m_bOptimisticLock		(NULL)
-
 {
 	m_pDiagnostic = pDiagnostic;	
 	m_pDiagnosticPool = new CArray<CDiagnostic*, CDiagnostic*>;
@@ -237,7 +235,7 @@ CBaseContext::~CBaseContext()
 
 	//@@OPTIMISTICLOCK
 	if (m_bOwnedContext && m_bOptimisticLock)
-		delete m_bOptimisticLock;
+		delete m_bOptimisticLock;	
 }
 
 //-----------------------------------------------------------------------------
@@ -498,7 +496,7 @@ BOOL CTransactionContext::Connect()
 	TRY
 	{
 		if (m_bOwnedContext)
-			m_pSqlConnection->SetAlwaysConnected(true);
+			m_pSqlConnection->ConnectToDatabase();
 	
 	}
 	
@@ -519,7 +517,7 @@ BOOL CTransactionContext::Disconnect()
 	TRY
 	{
 		if (m_bOwnedContext)		
-			m_pSqlConnection->SetAlwaysConnected(false);
+			m_pSqlConnection->DisconnectFromDatabase();
 	}
 
 	CATCH(SqlException, e)

@@ -18,6 +18,7 @@
 
 class SqlRowSet;
 class SqlSession;
+class SqlSessionPool;
 class SqlObject;
 class CTBContext;
 
@@ -98,7 +99,6 @@ private:
 	//BOOL			m_bCanUnlock;
 	BOOL			m_bCanDeleteLockMng;
 		
-
 protected:
 	BOOL			m_bLocked;
 
@@ -169,6 +169,7 @@ public:
 	BOOL	IsTableKeyLocked		(SqlTable* pTable, SqlRecord* pRec, const CString& sContextKey = _T(""));
 
 	BOOL	UnlockAllLockContextKeys(const CString& sLockContextKey, SqlTable* pTable);
+
 };
 
 /////////////////////////////////////////////////////////////////////////////

@@ -80,10 +80,12 @@ public:
 		BOOL bUserLockMng = FALSE,
 		BOOL bCheckRegisterTable = FALSE,
 		CString strDbOwner = _T(""),
-		CBaseContext* pContext = NULL
+		CBaseContext* pContext = NULL,
+		const CString& strAlias = _T("")
+
 	) 
 	{
-		return GetNewConnection(szConnectionString, bCheckRegisterTable, pContext);
+		return GetNewConnection(szConnectionString, bCheckRegisterTable, pContext, strAlias);
 	}
 
 
@@ -91,7 +93,8 @@ public:
 				(
 					LPCWSTR szConnectionString, 
 					BOOL bCheckRegisterTable = FALSE,
-					CBaseContext* pContext = NULL
+					CBaseContext* pContext = NULL,
+					const CString& strAlias = _T("")
 				);
 
 

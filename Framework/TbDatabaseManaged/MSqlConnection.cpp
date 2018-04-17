@@ -16,6 +16,9 @@ using namespace System::Data;
 using namespace System::Text;
 using namespace System::Data::SqlClient;
 using namespace System::Runtime::InteropServices;
+//using namespace System::Security::Permissions;
+using namespace System::Threading;
+
 
 //---------------------------------------------------------------------------
 CString AddSquareWhenNeeds(CString name)
@@ -28,6 +31,7 @@ CString AddSquareWhenNeeds(CString name)
 
 	return ::cwsprintf(L"[%s]", name);
 }
+
 
 //===========================================================================
 //	SqlExceptionClient
@@ -172,6 +176,7 @@ public:
 	gcroot<System::Data::SqlClient::SqlTransaction^> mSqlTransaction;
 };
 
+
 //===========================================================================
 //	MSqlConnection
 //===========================================================================
@@ -182,6 +187,7 @@ MSqlConnection::MSqlConnection()
 	m_pSqlConnectionClient(NULL),
 	m_pSqlTransactionClient(NULL),
 	m_bKeepOpen (false),
+	m_bClosing(false),
 	m_QuerySchemaTimeCounter(0, _T("QuerySchema")),
 	m_FetchSchemaTimeCounter(1, _T("FetchSchema")),
 	m_PrimaryKeyTimeCounter(2, _T("PrimaryKey"))
@@ -203,6 +209,9 @@ void MSqlConnection::Open(bool keepOpen)
 	if (String::IsNullOrEmpty(m_pSqlConnectionClient->mSqlConnection->ConnectionString))
 		return throw(gcnew Exception("Connection string empty"));
 	
+	if (m_pSqlConnectionClient->mSqlConnection->State == ConnectionState::Open)
+		return;
+
 	SqlCommand^ command = nullptr;
 	try
 	{
@@ -2421,16 +2430,17 @@ int MSqlCommand::ExecuteNonQuery(bool bPrepared /*=false*/)
 		ASSERT(FALSE);
 		return 0;
 	}
-
+	ConnectionState state = ConnectionState::Closed;
 	try
 	{
-		
+
+		state = m_pSqlConnection->m_pSqlConnectionClient->mSqlConnection->State;
 		m_pSqlCommandClient->mSqlCommand->Connection = m_pSqlConnection->m_pSqlConnectionClient->mSqlConnection;
 		m_pSqlCommandClient->mSqlCommand->CommandText = gcnew String(m_strCommandText);
 
 		if (m_pSqlConnection->m_pSqlTransactionClient)
 			m_pSqlCommandClient->mSqlCommand->Transaction = m_pSqlConnection->m_pSqlTransactionClient->mSqlTransaction;
-		
+
 		if (bPrepared)
 			m_pSqlCommandClient->mSqlCommand->Prepare();
 
@@ -2438,13 +2448,13 @@ int MSqlCommand::ExecuteNonQuery(bool bPrepared /*=false*/)
 		return m_lRecordCounts;
 	}
 	catch (SqlException^ sqlE)
-	{		
+	{
 		throw(new MSqlException(new SqlExceptionClient(sqlE)));
 	}
 	catch (Exception^ e)
-	{		
+	{
 		throw(new MSqlException(CString(e->ToString())));
-	}	
+	}
 }
 
 
