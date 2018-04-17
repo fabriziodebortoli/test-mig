@@ -430,7 +430,7 @@ BOOL HotKeyLink::ExistData(DataObj* pData)
 	FindResult res = FindRecord(pData, IsEnabledAddOnFly(), TRUE);
 	BOOL bFound = res == FOUND || res == EMPTY;
 
-	if (bFound && m_pDocument && AfxIsRemoteInterface())
+	if (m_pDocument && AfxIsRemoteInterface())
 		m_pDocument->UpdateDataView();
 
 	return bFound;
@@ -1380,6 +1380,13 @@ void HotKeyLink::OnFormRecordAvailable()
 }
 
 //-----------------------------------------------------------------------------
+void HotKeyLink::SetWebCallinkInfo(CString sRequestID, HWND sDocumentId)
+{
+	m_strWebCallLinkDocumentId = sDocumentId;
+	m_strWebCallLinkRequestId = sRequestID;
+}
+
+//-----------------------------------------------------------------------------
 void HotKeyLink::OnFormDied()
 {
 	SetRunningMode(GetRunningMode() & ~CALL_LINK_MODE);
@@ -1402,6 +1409,21 @@ void HotKeyLink::OnFormDied()
 			// Si segnala anche che la CallLink si sta chiudendo
 			EnableCtrl(TRUE);
 		}
+
+
+
+		if (AfxIsRemoteInterface())
+		{
+			CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
+			if (pSession)
+			{
+				pSession->PushExistDataCompletedToClient(m_strWebCallLinkDocumentId, pOwnerCtrl->GetCtrlData(), m_bRecordAvailable == TRUE, this->IsMustExistData() == TRUE, m_strWebCallLinkRequestId);
+				m_strWebCallLinkDocumentId = NULL;
+				m_strWebCallLinkRequestId = _T("");
+			}
+		}
+
+
 	}
 }
 
@@ -2000,6 +2022,9 @@ SqlParamArray* HotKeyLink::GetQuery(SelectionType nQuerySelection, CString& sQue
 		pData->AssignFromXMLString(sFilter);
 		DoPrepareQuery(pData, nQuerySelection);
 		m_pTable->BuildSelect();
+		sQuery = m_pTable->ToString(FALSE, FALSE, TRUE); 
+
+		m_pTable->Close();
 	}
 	CATCH(SqlException, e)
 	{
@@ -2007,7 +2032,7 @@ SqlParamArray* HotKeyLink::GetQuery(SelectionType nQuerySelection, CString& sQue
 	}
 	END_CATCH
 
-	sQuery = m_pTable->ToString(FALSE, FALSE, TRUE);
+	
 
 	// per avere i parametri devo tenere la tabella ancora
 	// aperta. Chi usa questa funzione dovrà ricordarsi di

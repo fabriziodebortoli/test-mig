@@ -56,6 +56,7 @@ export class EmailComponent extends ControlComponent implements OnInit, OnChange
   }
 
   ngAfterViewInit(): void {
+    super.ngAfterViewInit();
     if (this.modelValid()) {
       this.onUpdateNgModel(this.model.value);
     }

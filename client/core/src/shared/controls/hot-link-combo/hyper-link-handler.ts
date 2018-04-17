@@ -13,17 +13,21 @@ export class TbHotlinkComboHyperLinkHandler {
             if(searchBar) return (searchBar.getElementsByClassName('k-input') as HTMLCollection).item(0) as HTMLElement;
             return undefined; 
         }
-        hlc.hyperLinkService.start(
+        hlc.hyperLinkService.start(hlc,
             () => this.getHotLinkElement(),
             null, 
             { name: hlc.hotLinkInfo.name,
               cmpId: hlc.documentService.mainCmpId, 
+              controlId: hlc.modelComponent.cmpId,
               enableAddOnFly: hlc.hotLinkInfo.enableAddOnFly, 
               mustExistData: hlc.hotLinkInfo.mustExistData,
               model: hlc.modelComponent.model 
             },
             hlc.slice$, hlc.afterNoAddOnFly, hlc.afterAddOnFly, hlc.onControlFocusLost);
 
-        hlc.comboInputTyping$.pipe(untilDestroy(hlc)).subscribe(model => hlc.hyperLinkService.workingValue = model.value);
+        hlc.queryTrigger.pipe(untilDestroy(hlc)).subscribe(p => { 
+            hlc.hyperLinkService.workingValue = p.model;
+            hlc.hyperLinkService.workingType = hlc.state.selectionType;
+        });
     }
 }

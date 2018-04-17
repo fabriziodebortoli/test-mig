@@ -17,8 +17,6 @@ import { Store } from './../../../core/services/store.service';
 })
 export class CheckListBoxComponent extends ControlComponent implements OnInit {
 
-  @Input() hotLink: any;
-
   public gridData: any[];
   public mySelection: string[] = [];
   public mySelectionKey: string;

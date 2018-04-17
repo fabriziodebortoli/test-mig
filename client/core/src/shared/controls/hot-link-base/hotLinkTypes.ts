@@ -1,10 +1,11 @@
 import { State } from './../../components/customisable-grid/customisable-grid.component';
 import { HotLinkInfo } from './../../models/hotLinkInfo.model';
 
-export type HlComponent = { width?: number, model: any, slice$?: any, cmpId: string, isCombo?: boolean, hotLink: HotLinkInfo };
+export type HlComponent = { width?: number, model: any, slice$?: any, cmpId: string, isCombo?: boolean, hotLink: HotLinkInfo, insideBodyEditDirective?: any };
 export const DefaultHotLinkSelectionType = 'code';
 export const HotLinkComboSelectionType = 'combo';
 export const DescriptionHotLinkSelectionType = 'description';
+export const DirectHotLinkSelectionType = 'direct';
 
 export class HotLinkState extends State {
   readonly selectionColumn: string;

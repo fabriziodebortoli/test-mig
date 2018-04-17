@@ -114,6 +114,8 @@ public:
 	CStringArray		m_arContextMenuSearches;
 
 private:
+	CString				m_strWebCallLinkRequestId;
+	HWND				m_strWebCallLinkDocumentId;
 	BOOL				m_bSkipEmptyDataObj;
 	int					m_nCustomSearch;
 	//TBROWSECURITY
@@ -139,7 +141,8 @@ public:
 	BOOL				IsDoCallLinkDisable	() const				{ return m_bDisableDoCallLink; }
 	void				SetDoCallLinkDisable(const BOOL& bDisable)	{ m_bDisableDoCallLink = bDisable; }
 	void				SetForceQuery		(BOOL bForce = TRUE )	{ m_bForceQuery = bForce;	}
-	
+	void				SetWebCallinkInfo	(CString sRequestID, HWND sDocumentId);
+
 	const CString&		GetName				() const	{ return m_sName;	}
 	void				SetName				(const CString& sName);
 	const int			GetCustomSearch		() const	{ return m_nCustomSearch; }

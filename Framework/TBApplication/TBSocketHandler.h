@@ -33,7 +33,6 @@ private:
 	void BrowseRecord(CJsonParser& json);
 	void OpenHyperLink(CJsonParser& json);
 	void QueryHyperLink(CJsonParser& json);
-	void OpenNewHyperLink(CJsonParser& json);
 	void DoControlCommand(CJsonParser& json);
 	void DoActivateClientContainer(CJsonParser& json);
 	void DoPinUnpin(CJsonParser& json);

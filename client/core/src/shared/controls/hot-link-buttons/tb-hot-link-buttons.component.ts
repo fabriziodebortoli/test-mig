@@ -9,6 +9,7 @@ import { PaginatorService, ServerNeededParams, GridData } from '../../../core/se
 import { FilterService, combineFilters, combineFiltersMap } from '../../../core/services/filter.service';
 import { HyperLinkService, HyperLinkInfo } from '../../../core/services/hyperlink.service';
 import { HttpService } from './../../../core/services/http.service';
+import { WebSocketService } from './../../../core/services/websocket.service';
 
 import { GridDataResult, PageChangeEvent, PagerComponent, } from '@progress/kendo-angular-grid';
 import { FilterDescriptor, CompositeFilterDescriptor } from '@progress/kendo-data-query';
@@ -40,7 +41,7 @@ const HotlinkButtonHeight = 16;
   selector: 'tb-hotlink-buttons',
   templateUrl: './tb-hot-link-buttons.component.html',
   styleUrls: ['./tb-hot-link-buttons.component.scss'],
-  providers: [PaginatorService, FilterService, HyperLinkService, ComponentMediator, StorageService]
+  providers: [PaginatorService, FilterService, ComponentMediator, StorageService]
 })
 export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements OnDestroy, OnInit {
 
@@ -68,7 +69,8 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
 
   public get isDisabled(): boolean { if (!this.model) { return true; } return !this.model.enabled; }
 
-  constructor(protected httpService: HttpService,
+  constructor(protected webSocketService: WebSocketService,
+    protected httpService: HttpService,
     protected enumService: EnumsService,
     protected paginatorService: PaginatorService,
     protected filterer: FilterService,
@@ -76,15 +78,16 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
     protected tablePopupService: PopupService,
     protected documentService: DocumentService,
     protected vcr: ViewContainerRef,
-    protected mediator: ComponentMediator,
-    protected hyperLinkService: HyperLinkService) {
-    super(mediator.layout, documentService, mediator.changeDetectorRef, paginatorService, filterer, hyperLinkService, mediator.eventData, httpService);
+    protected mediator: ComponentMediator
+    ) {
+    
+    super(mediator.layout, webSocketService, documentService, mediator.changeDetectorRef, paginatorService, filterer, mediator.eventData, httpService);
   }
 
   ngOnInit() {
     this.popupHandler = TbHotlinkButtonsPopupHandler.Attach(this, this.start);
     TbHotlinkButtonsEventHandler.Attach(this);
-    TbHotlinkButtonsHyperLinkHandler.Attach(this);
+    if(this.modelComponent.insideBodyEditDirective === undefined) TbHotlinkButtonsHyperLinkHandler.Attach(this);
     TbHotlinkButtonsContextMenuHandler.Attach(this);
   }
 

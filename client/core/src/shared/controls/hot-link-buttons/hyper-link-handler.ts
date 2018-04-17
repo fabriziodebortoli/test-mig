@@ -17,12 +17,13 @@ export class TbHotlinkButtonsHyperLinkHandler {
         // fix for themes css conflict in form.scss style 
         if (hlb.modelComponent) {
             hlb.mediator.storage.options.componentInfo.cmpId = hlb.modelComponent.cmpId;
-            hlb.hyperLinkService.start(
+            hlb.hyperLinkService.start(hlb,
                 this.getHotLinkElement,
                 hlb.hotLinkButtonTemplate.nativeElement,
                 {
                     name: hlb.hotLinkInfo.name,
                     cmpId: hlb.documentService.mainCmpId,
+                    controlId: hlb.modelComponent.cmpId,
                     enableAddOnFly: hlb.hotLinkInfo.enableAddOnFly,
                     mustExistData: hlb.hotLinkInfo.mustExistData,
                     model: hlb.modelComponent.model

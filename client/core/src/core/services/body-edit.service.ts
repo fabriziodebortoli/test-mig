@@ -180,7 +180,6 @@ export class BodyEditService {
   changeDBTRange(skip: number, rowsToTake: number, desiredRow: number) {
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
     this.isLoading = true;
-    console.log("skip, rowsToTake, rowSelected", skip, rowsToTake, desiredRow)
     let sub = this.httpService.getDBTSlaveBufferedModel(docCmpId, this.bodyEditName, skip, rowsToTake, desiredRow).subscribe((res) => {
       sub.unsubscribe();
     });

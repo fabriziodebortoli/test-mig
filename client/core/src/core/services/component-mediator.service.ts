@@ -1,3 +1,6 @@
+import { LoadingService } from './loading.service';
+import { LoadingComponent } from './../../shared/components/loading/loading.component';
+import { TabberService } from './tabber.service';
 import { Injectable, ChangeDetectorRef, ElementRef, Optional, Injector } from '@angular/core';
 import { LayoutService } from './layout.service';
 import { TbComponentService } from './tbcomponent.service';
@@ -22,6 +25,8 @@ export class ComponentMediator {
         public eventData: EventDataService,
         public data: DataService,
         public storage: StorageService,
+        public tabber:TabberService,
+        public loading: LoadingService,
         @Optional() public injector: Injector,
     ) {
         this.log = tbComponent.logger;

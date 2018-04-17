@@ -79,6 +79,7 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
 
     this.subscriptions.push(this.componentService.componentInfoCreated.subscribe(arg => {
       if (arg.activate) {
+        this.tabberService.currentIndex = arg.index + 1;
         this.kendoTabStripInstance.selectTab(arg.index + 1);
       }
     }));
@@ -90,7 +91,10 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
       //eventualmente altre chiusure??? TODOLUCA
     }));
 
-    this.subscriptions.push(this.tabberService.tabSelected$.subscribe((index: number) => this.kendoTabStripInstance.selectTab(index)));
+    this.subscriptions.push(this.tabberService.tabSelected$.subscribe((index: number) => {
+         this.tabberService.currentIndex = index;
+      this.kendoTabStripInstance.selectTab(index);
+    }));
 
     this.subscriptions.push(this.tabberService.tabMenuSelected$.subscribe(() => {
       //TODOLUCA, serve qualcosa che permetta la seleziona di tab by name o id, e non index
@@ -99,12 +103,12 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
     }));
 
     this.subscriptions.push(this.componentService.componentInfoRemoved.subscribe(cmp => {
-      
+
       // let idx = this.kendoTabStripInstance.tabs._results.findIndex((t) => t.active);
       // this.kendoTabStripInstance.selectTab(idx===this.kendoTabStripInstance.tabs.length-1 ? --idx : idx);
-
-      this.kendoTabStripInstance.selectTab(0);
-      
+      if (this.tabberService.currentIndex >= this.componentService.components.length)
+        this.tabberService.currentIndex = this.componentService.components.length;
+      this.kendoTabStripInstance.selectTab(this.tabberService.currentIndex);
     }));
 
     this.subscriptions.push(this.componentService.componentCreationError.subscribe(reason => {
@@ -143,6 +147,8 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
 
     this.subscriptions.push(this.sidenavService.sidenavPinned$.subscribe((pinned) => this.sidenavPinned = pinned));
     this.subscriptions.push(this.sidenavService.sidenavOpened$.subscribe((opened) => {
+      this.subscriptions.push(this.kendoTabStripInstance.tabSelect.subscribe((event) => { this.tabberService.currentIndex = event.index; }));
+
       this.sidenavOpened = opened;
 
       if (opened) {
@@ -214,6 +220,7 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
 
     let len = this.kendoTabStripInstance.tabs.toArray().length;
     setTimeout(() => {
+      this.tabberService.currentIndex = len;
       this.kendoTabStripInstance.selectTab(len); //
     }, 1);
   }

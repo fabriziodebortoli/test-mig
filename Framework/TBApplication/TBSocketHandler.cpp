@@ -41,7 +41,6 @@ CTBSocketHandler::CTBSocketHandler()
 	functionMap[_T("browseRecord")] = &CTBSocketHandler::BrowseRecord;
 	functionMap[_T("openHyperLink")] = &CTBSocketHandler::OpenHyperLink;
 	functionMap[_T("queryHyperLink")] = &CTBSocketHandler::QueryHyperLink;
-	functionMap[_T("openNewHyperLink")] = &CTBSocketHandler::OpenNewHyperLink;
 	functionMap[_T("doControlCommand")] = &CTBSocketHandler::DoControlCommand;
 	functionMap[_T("updateTitle")] = &CTBSocketHandler::DoUpdateTitle;
 	functionMap[_T("activateContainer")] = &CTBSocketHandler::DoActivateClientContainer;
@@ -117,40 +116,36 @@ CString ConvertJsonValue(CJsonParser& json)
 //--------------------------------------------------------------------------------
 void CTBSocketHandler::QueryHyperLink(CJsonParser& json)
 {
-	CString sName = json.ReadString(_T("name"));
-	HWND cmpId = ReadComponentId(json);
-	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd(cmpId);
-	if (!pDoc) return;
+	CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
+	if (pSession)
+	{
+		CString sName = json.ReadString(_T("name"));
+		CString sRequestID = json.ReadString(_T("requestId"));
+		CString sControlId = json.ReadString(_T("controlId"));
+		HWND cmpId = ReadComponentId(json);
+		CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd(cmpId);
+		if (!pDoc) return;
 
-	HotKeyLink* pHkl = pDoc->GetHotLink(sName);
-	if (!pHkl) return;
-	DataObj* pData = pHkl->GetDataObj()->Clone();
-	if (!pData) return;
+		HotKeyLink* pHkl = pDoc->GetHotLink(sName);
+		if (!pHkl) return;
+		DataObj* pData = pHkl->GetDataObj()->Clone();
+		if (!pData) return;
 
-	//CString sValue = ConvertJsonValue(json);
-	CString sValue = json.ReadString(_T("value"));
-	pData->AssignFromXMLString(sValue);
-	pHkl->ExistData(pData);
+		//CString sValue = ConvertJsonValue(json);
+		CString sValue = json.ReadString(_T("value"));
+		pData->AssignFromXMLString(sValue);
 
-	SAFE_DELETE(pData);
-}
-
-//--------------------------------------------------------------------------------
-void CTBSocketHandler::OpenNewHyperLink(CJsonParser& json)
-{
-	CString sName = json.ReadString(_T("name"));
-	HWND cmpId = ReadComponentId(json);
-	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd(cmpId);
-
-	if (!pDoc) return;
-
-	HotKeyLink* pHkl = pDoc->GetHotLink(sName);
-	if (!pHkl) return;
-	DataObj* pData = pHkl->GetDataObj();
-	if (!pData) return;
-	CString sValue = ConvertJsonValue(json);
-	pData->AssignFromXMLString(sValue);
-	pHkl->DoCallLink();
+		pHkl->SetWebCallinkInfo(sRequestID, cmpId);
+		BOOL ok = pHkl->ExistData(pData);
+		if (ok)
+		{
+			pSession->PushExistDataCompletedToClient(cmpId, pData,  ok == TRUE, pHkl->IsMustExistData() == TRUE, sRequestID);
+			pHkl->SetWebCallinkInfo(NULL, NULL);
+		}
+		
+		TRACE(_T("requestId: %s controlId: %s \r\n"), sRequestID, sControlId);
+		SAFE_DELETE(pData);
+	}
 }
 
 //--------------------------------------------------------------------------------
@@ -268,7 +263,7 @@ void CTBSocketHandler::DoCommand(CJsonParser& json)
 		ASSERT(FALSE);
 		return;
 	}
-	//non sospendo la push, perché il comando potrebbe bloccarmi con una dialog modale, 
+	//non sospendo la push, perchï¿½ il comando potrebbe bloccarmi con una dialog modale, 
 	//e non potrei chiudere con la ResumePushToClient
 	//pSession->SuspendPushToClient();
 	CString sId = json.ReadString(_T("id"));
@@ -304,7 +299,7 @@ void CTBSocketHandler::DoControlCommand(CJsonParser& json)
 		return;
 	}
 
-	//non sospendo la push, perché il comando potrebbe bloccarmi con una dialog modale, 
+	//non sospendo la push, perchï¿½ il comando potrebbe bloccarmi con una dialog modale, 
 	//e non potrei chiudere con la ResumePushToClient
 	//pSession->SuspendPushToClient();
 	CString sId = json.ReadString(_T("id"));
@@ -358,7 +353,7 @@ void CTBSocketHandler::DoUpdateTitle(CJsonParser& json)
 		return;
 	}
 
-	//non sospendo la push, perché il comando potrebbe bloccarmi con una dialog modale, 
+	//non sospendo la push, perchï¿½ il comando potrebbe bloccarmi con una dialog modale, 
 	//e non potrei chiudere con la ResumePushToClient
 	//pSession->SuspendPushToClient();
 	CString sId = json.ReadString(_T("id"));
@@ -384,7 +379,7 @@ void CTBSocketHandler::DoPinUnpin(CJsonParser& json)
 		return;
 	}
 
-	//non sospendo la push, perché il comando potrebbe bloccarmi con una dialog modale, 
+	//non sospendo la push, perchï¿½ il comando potrebbe bloccarmi con una dialog modale, 
 	//e non potrei chiudere con la ResumePushToClient
 	//pSession->SuspendPushToClient();
 	CString sId = json.ReadString(_T("id"));
@@ -424,7 +419,7 @@ void CTBSocketHandler::DoValueChanged(CJsonParser& json)
 		return;
 	}
 
-	//non sospendo la push, perché il comando potrebbe bloccarmi con una dialog modale, 
+	//non sospendo la push, perchï¿½ il comando potrebbe bloccarmi con una dialog modale, 
 	//e non potrei chiudere con la ResumePushToClient
 	//pSession->SuspendPushToClient();
 	CString sId = json.ReadString(_T("id"));
@@ -711,7 +706,7 @@ void CTBSocketHandler::BrowseRecord(CJsonParser& json)
 		return;
 	}
 
-	//non sospendo la push, perché il comando potrebbe bloccarmi con una dialog modale, 
+	//non sospendo la push, perchï¿½ il comando potrebbe bloccarmi con una dialog modale, 
 	//e non potrei chiudere con la ResumePushToClient
 	//pSession->SuspendPushToClient();
 	CString sId = json.ReadString(_T("id"));

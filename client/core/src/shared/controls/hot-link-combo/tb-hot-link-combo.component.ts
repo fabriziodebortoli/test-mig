@@ -3,6 +3,7 @@ import { DocumentService } from './../../../core/services/document.service';
 import { EnumsService } from './../../../core/services/enums.service';
 import { EventDataService } from './../../../core/services/eventdata.service';
 import { LayoutService } from './../../../core/services/layout.service';
+import { WebSocketService } from './../../../core/services/websocket.service';
 import { StorageService } from './../../../core/services/storage.service';
 import { TbHotLinkBaseComponent } from './../hot-link-base/tb-hot-link-base.component';
 import { HttpService } from './../../../core/services/http.service';
@@ -32,29 +33,38 @@ declare var document: any;
   selector: 'tb-hotlink-combo',
   templateUrl: './tb-hot-link-combo.component.html',
   styleUrls: ['./tb-hot-link-combo.component.scss'],
-  providers: [PaginatorService, FilterService, HyperLinkService, ComponentMediator, StorageService]
+  providers: [PaginatorService, FilterService, ComponentMediator, StorageService]
 })
 export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements OnDestroy, OnInit, AfterViewInit {
   @ViewChild('combobox') public combobox: any;
-  get width(): number { 
-    return this.modelComponent.width; 
+  get width(): number {
+    return this.modelComponent.width;
   }
 
   comboInputTyping$: Subject<any> = new Subject<any>();
   comboExplicitRequest$: Subject<any> = new Subject<any>();
+  
 
   constructor(layoutService: LayoutService,
+    protected webSocketService: WebSocketService,
     protected httpService: HttpService,
     protected documentService: DocumentService,
     protected changeDetectorRef: ChangeDetectorRef,
     protected eventDataService: EventDataService,
     public paginatorService: PaginatorService,
-    protected filterer: FilterService, 
-    protected hyperLinkService: HyperLinkService,
+    protected filterer: FilterService,
     protected vcr: ViewContainerRef,
     protected mediator: ComponentMediator
   ) {
-    super(layoutService, documentService, changeDetectorRef, paginatorService, filterer, hyperLinkService, eventDataService, httpService);
+    super(
+      layoutService,
+      webSocketService,
+      documentService,
+      changeDetectorRef,
+      paginatorService,
+      filterer,
+      eventDataService,
+      httpService);
   }
 
   openDropDown(ev) {
@@ -77,15 +87,16 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
   get enablePager(): boolean { return !this.disablePager; }
 
   protected get queryTrigger(): Observable<ServerNeededParams> {
-    return this.comboInputTyping$.pipe(debounceFirst(200)).merge(this.comboExplicitRequest$).map(x => ({ model: x }))
+    return this.comboInputTyping$.pipe(debounceFirst(200))
+            .filter(x => !x.isFirst).map(x => x.value).merge(this.comboExplicitRequest$).map(x => ({ model: x }));
   }
 
   start() {
     this.defaultPageCounter = 0;
     this.filterer.start(200);
-    this.paginatorService.start(1, this.pageSize, this.queryTrigger ,this.queryServer);
+    this.paginatorService.start(1, this.pageSize, this.queryTrigger, this.queryServer);
     this.paginatorService.clientData.subscribe((d) => {
-      this.state = this.state.with({ selectionColumn: d.key, gridData: GridData.new({ data: d.rows, total: d.total, columns: d.columns })});
+      this.state = this.state.with({ selectionColumn: d.key, gridData: GridData.new({ data: d.rows, total: d.total, columns: d.columns }) });
       if (!this.combobox.isOpen) this.combobox.toggle(true);
     });
 
@@ -113,7 +124,7 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
   }
 
   onFilterChange(filter: string): void {
-    if(this.modelComponent &&  this.modelComponent.model) {
+    if (this.modelComponent && this.modelComponent.model) {
       this.modelComponent.model.value = this.modelComponent.model.uppercase ? filter.toUpperCase() : filter;
       this.comboInputTyping$.next(filter);
     }
@@ -129,7 +140,7 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
 
   valueNormalizer = (text$: Observable<string>) => text$.map(text => (new ComboBoxData({ id: text, displayString: '' })));
 
-  setSelectionType(t: string) { this.state = this.state.with({selectionType: t}); }
+  setSelectionType(t: string) { this.state = this.state.with({ selectionType: t }); }
 
   ngOnInit() {
     this.mediator.storage.options.componentInfo.cmpId = this.modelComponent.cmpId;
@@ -137,7 +148,7 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
   }
 
   ngAfterViewInit() {
-    TbHotlinkComboHyperLinkHandler.Attach(this);
+    if (this.modelComponent.insideBodyEditDirective === undefined) TbHotlinkComboHyperLinkHandler.Attach(this);
     TbHotlinkComboEventHandler.Attach(this);
   }
 

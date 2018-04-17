@@ -74,7 +74,6 @@ export class DockpaneContainerComponent implements AfterContentInit, OnDestroy {
       let dockpanes = this.dockpanes.toArray();
       let internalTabComponents = [];
       for (let i = 0; i < dockpanes.length; i++) {
-        // console.log("Dock: ", dockpanes[i].title, " - activated: ", dockpanes[i].activated, " - ", dockpanes[i]);
         if (dockpanes[i].activated)
           internalTabComponents.push(dockpanes[i].tabComponent);
       }

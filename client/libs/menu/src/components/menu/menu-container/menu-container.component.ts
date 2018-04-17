@@ -69,7 +69,6 @@ export class MenuContainerComponent extends TbComponent implements AfterContentI
   calcTileClass(time: number = 250) {
     setTimeout(() => {
       let menuContentWidth = this.menuContent ? this.menuContent.nativeElement.offsetWidth : 1024;
-      //console.log("menuContentWidth", menuContentWidth)
 
       if (menuContentWidth > 768 && menuContentWidth <= 1200)
         this.tileClass = "tile-2";

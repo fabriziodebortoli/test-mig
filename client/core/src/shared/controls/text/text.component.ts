@@ -18,7 +18,6 @@ import { Subscription } from '../../../rxjs.imports';
 export class TextComponent extends ControlComponent implements OnChanges, OnInit {
 
   @Input('readonly') readonly: boolean = false;
-  @Input() public hotLink: { namespace: string, name: string };
   @Input('rows') rows: number = 0;
   @Input('chars') chars: number = 0;
   @Input('textLimit') textlimit: number = 0;

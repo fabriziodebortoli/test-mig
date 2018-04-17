@@ -20,8 +20,8 @@ export class TimeInputComponent extends ControlComponent implements OnChanges, A
     public eventData: EventDataService,
     layoutService: LayoutService,
     tbComponentService: TbComponentService,
-    changeDetectorRef:ChangeDetectorRef) {
-    super(layoutService, tbComponentService,changeDetectorRef);
+    changeDetectorRef: ChangeDetectorRef) {
+    super(layoutService, tbComponentService, changeDetectorRef);
   }
 
   public onChange(val: any) {
@@ -38,6 +38,7 @@ export class TimeInputComponent extends ControlComponent implements OnChanges, A
   }
 
   ngAfterViewInit(): void {
+    super.ngAfterViewInit();
     if (this.modelValid()) {
       this.onUpdateNgModel(this.model.value);
     }

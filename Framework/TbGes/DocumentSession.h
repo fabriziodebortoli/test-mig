@@ -68,6 +68,7 @@ public:
 	void CloseMessageBoxDialog(CJsonParser& json);
 	void CloseDiagnosticDialog(CJsonParser& json);
 	void PushWindowStringsToClients(HWND cmpId, const CString& sCulture);
+	void PushExistDataCompletedToClient(HWND cmpId,  DataObj *pValue, bool found, bool mustExist, CString requestId);
 	void PushWindowsToClients();
 	void PushDiagnosticToClients();
 	void PushRunErrorToClients();

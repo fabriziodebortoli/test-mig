@@ -9,12 +9,14 @@ import { Observable, Subject } from '../../rxjs.imports';
 @Injectable()
 export class TabberService {
 
+  public currentIndex: number;
   public tabSelectedSource = new Subject<number>();
   public tabMenuSelectedSource = new Subject<number>();
   tabSelected$: Observable<number> = this.tabSelectedSource.asObservable();
   tabMenuSelected$: Observable<any> = this.tabMenuSelectedSource.asObservable();
 
   selectTab(index: number) {
+    this.currentIndex = index;
     this.tabSelectedSource.next(index);
   }
 

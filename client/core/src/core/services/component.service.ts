@@ -133,13 +133,13 @@ export class ComponentService {
     this.activateComponent = activate;
     this.router.navigate([{ outlets: { dynamic: 'proxy/' + url }, skipLocationChange: false, replaceUrl: false }])
       .then(
-      success => {
-        this.router.navigate([{ outlets: { dynamic: null }, skipLocationChange: false, replaceUrl: false }]).then(() => {
-          this.currentComponent = undefined;
-          this.createNextComponent();
-        });
+        success => {
+          this.router.navigate([{ outlets: { dynamic: null }, skipLocationChange: false, replaceUrl: false }]).then(() => {
+            this.currentComponent = undefined;
+            this.createNextComponent();
+          });
 
-      }
+        }
       )
       .catch(reason => {
         this.logger.warn(reason);

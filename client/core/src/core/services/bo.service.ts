@@ -11,6 +11,7 @@ import { EventDataService } from './eventdata.service';
 import { DocumentService } from './document.service';
 import { WebSocketService } from './websocket.service';
 import { addModelBehaviour, isDataObj } from './../../shared/models/control.model';
+import * as _ from 'lodash';
 
 @Injectable()
 export class BOService extends DocumentService {
@@ -352,10 +353,13 @@ export class BOService extends DocumentService {
     public doChange(id: string) {
         if (this.isServerSideCommand(id)) {
             const patch = this.getPatchedData();
+
+            if (_.isEmpty(patch)) {
+                return;
+            }
             this.webSocketService.doValueChanged(this.mainCmpId, id, patch);
         }
     }
-
 
     onCommand(id: string): boolean | Observable<boolean> {
         if (this.boClients.length === 0) {

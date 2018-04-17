@@ -26,7 +26,7 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
     private oldValue: any;
     public itemSourceSub: Subscription;
     @Input() public itemSource: any = undefined;
-    @Input() public hotLink: HotLinkInfo;
+    
     @Input() propagateSelectionChange = false;
     @ViewChild("ddl") public dropdownlist: any;
 

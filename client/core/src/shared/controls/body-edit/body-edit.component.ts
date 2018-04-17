@@ -1,3 +1,8 @@
+import { TabberService } from './../../../core/services/tabber.service';
+import { HotLinkInfo } from './../../models/hotLinkInfo.model';
+import { WebSocketService } from './../../../core/services/websocket.service';
+import { Subject } from 'rxjs/Subject';
+import { HyperLinkService, HyperLinkInfo } from './../../../core/services/hyperlink.service';
 import { Observable } from 'rxjs/Rx';
 import { Component, OnInit, Input, OnDestroy, QueryList, ContentChildren, HostListener, ChangeDetectorRef, ViewChild, AfterContentInit, AfterViewInit, ChangeDetectionStrategy, Directive, ElementRef, ViewEncapsulation, SkipSelf } from '@angular/core';
 import { Subscription, BehaviorSubject } from '../../../rxjs.imports';
@@ -43,6 +48,7 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   subscriptions = [];
 
   private numberOfColumns: number = 0;
+  private preventLoseFocus: boolean = false;
 
   public pageSizes = false;
   public previousNext = true;
@@ -52,18 +58,20 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
   constructor(
     public cdr: ChangeDetectorRef,
     public layoutService: LayoutService,
+    public wsService: WebSocketService,
     public tbComponentService: TbComponentService,
     public httpService: HttpService,
     public store: Store,
     private eventData: EventDataService,
-    public bodyEditService: BodyEditService
+    public bodyEditService: BodyEditService,
+    public tabberService: TabberService
   ) {
     super(layoutService, tbComponentService, cdr);
     this.selectableSettings = { checkboxOnly: false, mode: "single" };
   }
 
   //-----------------------------------------------------------------------------------------------
-  @HostListener('window:keydown', ['$event'])
+  @HostListener('keydown', ['$event'])
   public keyup(event: KeyboardEvent): void {
     if ((event.shiftKey && event.keyCode == 9) || event.keyCode == 37) {
       this.editPreviousCell();
@@ -159,13 +167,13 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
   //-----------------------------------------------------------------------------------------------
   ngAfterViewInit() {
+    super.ngAfterViewInit();
     this.changeDetectorRef.markForCheck();
   }
 
   //-----------------------------------------------------------------------------------------------
   public cellClickHandler({ sender, rowIndex, columnIndex, dataItem, isEdited }) {
     if (!isEdited) {
-
       let colComponent = this.grid.columns.toArray()[columnIndex];
       let colName = colComponent.field;
       let isEnabled = this.bodyEditService.currentRow[colName].enabled && this.bodyEditService.enabled
@@ -179,6 +187,9 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
 
   //-----------------------------------------------------------------------------------------------
   public cellCloseHandler(args: any) {
+    if (this.preventLoseFocus) {
+      args.preventDefault();
+    }
     // this.lastEditedRowIndex = -1;
     // this.lastEditedColumnIndex = -1;
   }
@@ -197,8 +208,6 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
     let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
 
     let tempCount = this.bodyEditService.currentDbtRowIdx + 1;
-    //let skip = (Math.ceil(tempCount / this.bodyEditService.pageSize) * this.bodyEditService.pageSize) - this.bodyEditService.pageSize;
-
     let sub = this.httpService.addRowDBTSlaveBuffered(docCmpId, this.bodyEditName, this.bodyEditService.skip, this.bodyEditService.pageSize, tempCount).subscribe((res) => {
       sub.unsubscribe();
     });
@@ -286,10 +295,52 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       this.bodyEditService.nextRow();
     }
 
-    console.log("currentComponent", this.bodyEditService.currentActiveControlComponent);
+    if (!this.bodyEditService.currentActiveControlComponent)
+      return;
 
-    this.grid.editCell(this.bodyEditService.lastEditedRowIndex, this.bodyEditService.lastEditedColumnIndex);
-    this.focusCell(this.bodyEditService.lastEditedColumnIndex);
+    //se non ho hotlink, edito la nextcell
+    if (!this.bodyEditService.currentActiveControlComponent.hotLink) {
+      this.grid.editCell(this.bodyEditService.lastEditedRowIndex, this.bodyEditService.lastEditedColumnIndex);
+      this.focusCell(this.bodyEditService.lastEditedColumnIndex);
+      return;
+    }
+
+    this.preventLoseFocus = true;
+    let destroyer = { ngOnDestroy() { } };
+    let hls = HyperLinkService.New(this.wsService, this.eventData);
+    let elem = document.activeElement;
+    let docCmpId = (this.tbComponentService as DocumentService).mainCmpId;
+    hls.workingValue = this.bodyEditService.currentActiveControlComponent.model.value;
+    const lastTabberIndex = this.tabberService.currentIndex;
+    const tempModel = this.bodyEditService.currentActiveControlComponent.model;
+    const controlId = this.bodyEditService.currentActiveControlComponent.cmpId;
+    //let hlInfo =  as HyperLinkInfo;
+    hls.start(destroyer,
+      () => { return elem as HTMLElement },
+      null,
+      { ...(this.bodyEditService.currentActiveControlComponent as any).hotLink, cmpId: docCmpId, controlId: this.bodyEditService.currentActiveControlComponent.cmpId, mustExistData: true, model: this.bodyEditService.currentActiveControlComponent.model },
+      Observable.of({ value: hls.workingValue, selector: '', type: 'direct', enabled: tempModel.enabled }),
+      (_, __) => {
+        console.log("givefocus");
+        destroyer.ngOnDestroy();
+        hls.stop();
+        this.eventData.change.emit(controlId);
+        this.preventLoseFocus = false;
+      },
+      value => {
+
+        this.tabberService.selectTab(lastTabberIndex);
+        tempModel.value = value;
+        this.eventData.change.emit(controlId);
+
+        this.preventLoseFocus = false;
+        this.grid.editCell(this.bodyEditService.lastEditedRowIndex, this.bodyEditService.lastEditedColumnIndex);
+        this.focusCell(this.bodyEditService.lastEditedColumnIndex);
+        destroyer.ngOnDestroy();
+        hls.stop();
+        this.changeDetectorRef.detectChanges();
+
+      });
   }
 
   //-----------------------------------------------------------------------------------------------
@@ -307,8 +358,6 @@ export class BodyEditComponent extends ControlComponent implements AfterContentI
       this.bodyEditService.lastEditedRowIndex--;
       this.bodyEditService.prevRow();
     }
-
-    
 
     this.grid.editCell(this.bodyEditService.lastEditedRowIndex, this.bodyEditService.lastEditedColumnIndex);
     this.focusCell(this.bodyEditService.lastEditedColumnIndex);

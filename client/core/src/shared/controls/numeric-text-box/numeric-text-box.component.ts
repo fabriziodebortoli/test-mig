@@ -26,8 +26,6 @@ export class NumericTextBoxComponent extends ControlComponent implements OnChang
   @Input() minValue: number = 2.2250738585072014e-308;
   @Input() maxValue: number = 1.7976931348623158e+308;
 
-  @Input() public hotLink: any = undefined;
-
   formatterProps: any;
   controlDecimals = 0;
   oldValue: number = null;
@@ -123,6 +121,8 @@ export class NumericTextBoxComponent extends ControlComponent implements OnChang
   }
 
   ngAfterViewInit(): void {
+    super.ngAfterViewInit();
+    
     if (this.modelValid()) {
       this.selectedValue = this.model.value;
     }

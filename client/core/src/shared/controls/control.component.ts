@@ -1,4 +1,5 @@
-﻿import { TbInsideBodyEditDirective } from './../directives/tb-inside-bodyedit.directive';
+﻿import { HotLinkInfo } from './../models/hotLinkInfo.model';
+import { TbInsideBodyEditDirective } from './../directives/tb-inside-bodyedit.directive';
 import { BodyEditService } from './../../core/services/body-edit.service';
 import { EventDataService } from './../../core/services/eventdata.service';
 import { TbComponentService } from './../../core/services/tbcomponent.service';
@@ -37,6 +38,8 @@ export class ControlComponent extends TbComponent implements OnDestroy, AfterVie
         return this._caption;
     }
 
+    @Input() 
+    public hotLink: HotLinkInfo;
     @Input()
     contextMenu: ContextMenuItem[] = [];
     @Input()

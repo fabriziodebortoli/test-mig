@@ -47,6 +47,7 @@ export class LinkComponent extends ControlComponent implements OnInit, OnChanges
   }
 
   ngAfterViewInit(): void {
+        super.ngAfterViewInit();
     if (this.modelValid()) {
       this.onUpdateNgModel(this.model.value);
     }

@@ -34,7 +34,7 @@ export class WebSocketService extends LocalizationService {
     public connectionStatus = new EventEmitter<ConnectionStatus>();
     public windowStrings = new EventEmitter<any>();
     public behaviours = new EventEmitter<any>();
-    public addOnFly = new EventEmitter<{ name: string, value: string }>();
+    public existDataCompleted = new EventEmitter<{ found: boolean, mustExist: boolean, value: string, requestId: string }>();
 
     constructor(
         public infoService: InfoService,
@@ -85,7 +85,8 @@ export class WebSocketService extends LocalizationService {
                         case 'ItemSource': $this.itemSource.emit(obj.args); break;
                         case 'ItemSourceExtended': $this.itemSourceExtended.emit(obj.args); break;
                         case 'ServerCommands': $this.serverCommands.emit(obj.args); break;
-                        case 'AddOnFly': $this.addOnFly.emit({ name: obj.args['name'], value: obj.args['value'] }); break;
+                        case 'ExistDataCompleted': $this.existDataCompleted.emit({ found: obj.args['found'], value: obj.args['value'],
+                        mustExist: obj.args['mustExist'], requestId: obj.args['requestId'] }); break;
                         // when tbloader has connected to gate, I receive this message; then I can
                         // request the list of opened windows
                         case 'MessageDialog': $this.message.emit(obj.args); break;
@@ -174,15 +175,11 @@ export class WebSocketService extends LocalizationService {
         return this.safeSend(data);
     }
 
-    openNewHyperLink(name: string, cmpId: string, currentValue: any, currentType: number): Promise<void> {
-        let value = JSON.stringify(currentValue);
-        const data = { cmd: 'openNewHyperLink', cmpId: cmpId, name: name, value: value, type: currentType };
-        return this.safeSend(data);
-    }
-
-    queryHyperLink(name: string, cmpId: string, currentValue: any, currentType: number): Promise<void> {
-        const data = { cmd: 'queryHyperLink', cmpId: cmpId, name: name, value: currentValue, type: currentType };
-        return this.safeSend(data);
+    existData(name: string, cmpId: string, controlId: string, currentValue: any, currentType: string): Observable<{existData: boolean, value: string}> {
+        let requestId = Math.floor(Math.random() * 1000000).toString();
+        const data = { cmd: 'queryHyperLink', cmpId: cmpId, controlId: controlId, name: name, value: currentValue, type: currentType , requestId: requestId};
+        this.safeSend(data);
+        return this.existDataCompleted.filter(x => x.requestId === requestId).map(x => ({existData: !x.mustExist || (x.mustExist && x.found), value: x.value})).take(1);
     }
 
     doFillListBox(cmpId: String, obj: any): void {

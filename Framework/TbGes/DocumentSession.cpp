@@ -316,6 +316,19 @@ void CDocumentSession::PushWindowStringsToClients(HWND cmpId, const CString& sCu
 	PushToClients(resp);
 }
 
+//----------------------------------------------------------------------------
+void CDocumentSession::PushExistDataCompletedToClient(HWND cmpId, DataObj* pValue, bool found, bool mustExist, CString requestId)
+{
+	BEGIN_JSON_RESPONSE(ExistDataCompleted);
+
+	resp.WriteBool(_T("found"), found);
+	resp.WriteBool(_T("mustExist"), mustExist);
+	resp.WriteString(_T("requestId"), requestId);
+	resp.WriteString(_T("value"), pValue->FormatDataForXML());
+	END_JSON_RESPONSE();
+	PushToClients(resp);
+}
+
 //-----------------------------------------------------------------------------
 int CDocumentSession::MessageBoxDialog(LPCTSTR lpszText, UINT nType)
 {
