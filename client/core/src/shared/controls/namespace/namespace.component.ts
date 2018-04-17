@@ -53,7 +53,7 @@ export class NamespaceComponent extends ControlComponent implements OnChanges, O
   galleryOptions: NgxGalleryOptions[] = [{
     closeIcon: 'm4-icon m4-tb-closewindows-2',
     previewCloseOnEsc: true,
-    previewCloseOnClick: true
+    previewCloseOnClick: true,
     image: false, 
     thumbnails: false, 
     width: "0px", 
