@@ -9,19 +9,19 @@ class Queue<T> {
     pop(): T | undefined { return this._store.shift(); }
 }
 
-// export const createIterator: <T>(e: T) => { next: (value: any) => IteratorResult<T> } = (e) => ({ next: (value: any) => {
-//   return {done: true, value: null };
-// }});
-
 export class DisplayHelper {
-    static backGroundZIndex = '-1';
-    static foreGroundZIndex = '10';
+    static readonly backGroundZIndex = '-1';
+    static readonly foreGroundZIndex = '10';
+    static readonly maxPopupWidth = 800;
+    static readonly defaultPopupWidthDelta = 17;
 
     private static thereIsMoreSpaceToTheLeft(anchorX: number, wholeWidth: number): boolean { return anchorX < (wholeWidth / 2); }
     private static thereIsMoreSpaceToTheTop(anchorY: number, wholeHeight: number): boolean { return anchorY < (wholeHeight / 2); }
 
-    public static needsRightMargin(align: Align, e: any): boolean {
-      return align.horizontal === 'left' && ((e.offsetLeft + 1000) >= window.innerWidth);
+    public static getMaxWidth(desired: number, actualOffset: number): number {
+      return actualOffset - desired > 0 ? 
+        desired :
+        actualOffset - this.defaultPopupWidthDelta;  
     }
 
     public static getAnchorAlign(anchor: any): Align {
@@ -41,14 +41,17 @@ export class DisplayHelper {
     }
 
     static getDimension(v: string, scale: string = 'px') : number {
-      if(v.includes(scale))
-        return +v.replace(scale,'');
-      return 0;
+      return !v ? 0 :
+      v.includes(scale) ?
+      +v.replace(scale,'') :
+      0;
     }
 
     static getScaledDimension(n: number, scale: string = 'px') : string {
       return JSON.stringify(n) + 'px';
     }
+
+    static getOffsetLeftRec(e: any) : number { return !e ? 0 : e.offsetLeft + this.getOffsetLeftRec(e.offsetParent); }
 }
 
 export class TablePopupTransformer extends DeferredBuilder< HTMLElement, TablePopupTransformer> {
@@ -63,7 +66,6 @@ export class TablePopupTransformer extends DeferredBuilder< HTMLElement, TablePo
   withZIndex(value: string): TablePopupTransformer { return this.with('zIndex', value) as TablePopupTransformer; }
   withMaxWidth(value: number): TablePopupTransformer { return this.with('maxWidth', DisplayHelper.getScaledDimension(value)) as TablePopupTransformer; }
   withMinWidth(value: number): TablePopupTransformer { return this.with('minWidth', DisplayHelper.getScaledDimension(value)) as TablePopupTransformer; }
-  withMaxHeight(value: number): TablePopupTransformer { return this.with('maxHeight', DisplayHelper.getScaledDimension(value)) as TablePopupTransformer; }
   withRight(value: number): TablePopupTransformer { return this.with('right', DisplayHelper.getScaledDimension(value)) as TablePopupTransformer; }
   withLeft(value: number): TablePopupTransformer { return this.with('left', DisplayHelper.getScaledDimension(value)) as TablePopupTransformer; }
 }

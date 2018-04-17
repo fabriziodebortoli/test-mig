@@ -74,3 +74,15 @@ export module Dom {
         return el;
     }
 }
+
+export module Iteration {
+    export type IteratorPredicate = () => boolean;
+    export type IteratorIncrementer<T> = () => T;
+    export const createIterator: <T>(pred: IteratorPredicate, incr: IteratorIncrementer<T>, v: T) => any = 
+                (pred, incr, v) => { return { [Symbol.iterator]: function* () { while(pred()) yield incr(); } }; }
+    export const createNumberIterator: (n: number) => any = n => {
+        let idx = 0;
+        createIterator<number>(() => idx < n, () => { idx = idx++; return idx; }, n);
+    };
+    export const unfold: (n: number) => number[] = n => [...createNumberIterator(n)];
+}

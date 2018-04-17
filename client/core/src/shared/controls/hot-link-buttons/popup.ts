@@ -25,6 +25,7 @@ export class TbHotlinkButtonsPopupHandler {
   declareOptionsPopupVisible: () => void = () => { this.isOptionsPopupVisible = true; } 
   declareOptionsPopupHidden: () => void = () => { this.isOptionsPopupVisible = false; } 
   optionOffset: {top: number, left: number};
+  getTableHeight: () => number;
 
   private searchOrExitSubj$ = new BehaviorSubject(false);
   private showOptionsSubj$ = new BehaviorSubject(false);
@@ -43,18 +44,13 @@ export class TbHotlinkButtonsPopupHandler {
   readonly showGridPupup: () => void;
   readonly getHotLinkElement: () => HTMLElement;
   get optionsPopupStyle(): any { return { 'background': 'whitesmoke', 'border': '1px solid rgba(0,0,0,.05)' }; }
-
+  tableHeight: number;
   private constructor (hlb: any, onSearch: OnSearch) {
+    this.tableHeight = hlb.state.rows.lenght * 23;
     this.getHotLinkElement = () => (hlb.vcr.element.nativeElement.parentNode.getElementsByClassName('k-textbox') as HTMLCollection).item(0) as HTMLElement;
     this.onHklExit = () => { this.closeOptions(); this.searchOrExitSubj$.next(false); hlb.stop(); }
     this.resizeTablePopup = () => TablePopupTransformer.On(this.tablePopupRef.popupElement)
-      .withMaxHeight(400)
-      .withMaxWidth(1000)
-      .if()
-        .isTrue(builder => 
-          DisplayHelper.needsRightMargin(DisplayHelper.getAnchorAlign(hlb.hotLinkButtonTemplate.nativeElement), hlb.hotLinkButtonTemplate.nativeElement))
-        .then()
-        .withRight(30)
+      .withMaxWidth(DisplayHelper.getMaxWidth(DisplayHelper.maxPopupWidth, DisplayHelper.getOffsetLeftRec(hlb.hotLinkButtonTemplate.nativeElement)))
       .build();
     this.showGridPupup = () => {
       let anchorAlign = DisplayHelper.getAnchorAlign(hlb.hotLinkButtonTemplate.nativeElement);

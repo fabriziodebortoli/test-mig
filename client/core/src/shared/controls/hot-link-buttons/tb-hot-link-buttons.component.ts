@@ -53,7 +53,10 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
   readonly start: () => void = () => {
     this.filterer.start(200, () => this.popupHandler.tablePopupRef.popup.location);
     this.paginatorService.start(1, this.pageSize, this.queryTrigger, this.queryServer);
-    this.paginatorService.clientData.subscribe(d => this.state = this.state.with({ selectionColumn: d.key, gridData: GridData.new({ data: d.rows, total: d.total, columns: d.columns }) }));
+    this.paginatorService.clientData.subscribe(d => {
+      this.state = this.state.with({ selectionColumn: d.key, gridData: GridData.new({ data: d.rows, total: d.total, columns: d.columns }) });
+      this.filterer.restoreFocus();
+    });
     this.firstStateChange$.pipe(untilDestroy(this)).subscribe(_ => this.popupHandler.showGridPupup());
   }
 
