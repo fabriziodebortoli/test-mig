@@ -11,6 +11,7 @@ using System.Security.Authentication;
 using Microarea.Common.Generic;
 using TaskBuilderNetCore.Interfaces;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace tbfs_service.Controllers
 {
@@ -240,6 +241,30 @@ namespace tbfs_service.Controllers
             {
                 return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
             }
+        }
+
+        [Route("GetImage")]
+        public IActionResult GetImage(string nameSpace, string user, string company, string culture)
+        {
+            var pf = new PathFinder(company, user);
+
+            var filename = pf.GetFileNameFromNamespace(nameSpace, user, company, culture, false);
+            if (!string.IsNullOrEmpty(filename))
+            {
+                var ext = $"image/{Path.GetExtension(filename).Mid(1)}";
+                var stream = pf.GetStream(filename, true);
+                stream.Seek(0, SeekOrigin.Begin);
+                try
+                {
+                    return File(stream, ext);
+                }
+                catch (Exception e)
+                {
+                    return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                }
+            }
+
+            return new ContentResult { StatusCode = 502, Content = "File not found", ContentType = "text/plain" };
         }
     }
 }

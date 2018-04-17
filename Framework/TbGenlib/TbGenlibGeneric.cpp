@@ -1080,8 +1080,6 @@ bool GetImageBytes(LPCTSTR iconSource, CImageBuffer &imageBuffer)
 	CString sUser;
 	if (AfxGetLoginContext())
 		sUser = AfxGetLoginInfos()->m_strUserName;
-	else
-		sUser = L"sa";
 
 	CString	sImagePath = AfxGetPathFinder()->GetFileNameFromNamespace(CTBNamespace(strImageNS), sUser);
 

@@ -233,6 +233,20 @@ export class InfoService {
         return url;
     }
 
+    gettbfsServiceURL() {
+        const url = this.getBaseUrl() + '/tbfs-service/';
+        return url;
+    }
+
+    public getUrlImage(namespace: string) : string {
+        let url = this.gettbfsServiceURL()+'getImage/';
+        url = url + `?namespace=${namespace}`;
+        url = url + `&user=${localStorage.getItem('_user')}`;
+        url = url + `&company=${localStorage.getItem('_company')}`;
+        url = url + `&culture=${this.culture.value}`;
+        return url;
+    }
+
     request(url: string, data: Object): Observable<any> {
         const headers = new Headers();
         headers.append('Content-Type', 'application/x-www-form-urlencoded');

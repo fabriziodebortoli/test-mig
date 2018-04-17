@@ -1,18 +1,19 @@
 import { Component, Input, ChangeDetectorRef } from '@angular/core';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryImageSize } from 'ngx-gallery';
 
-import { TbComponentService } from './../../../core/services/tbcomponent.service';
-import { LayoutService } from './../../../core/services/layout.service';
-import { InfoService } from './../../../core/services/info.service';
+import { TbComponentService } from "./../../../core/services/tbcomponent.service";
+import { LayoutService } from "./../../../core/services/layout.service";
+import { InfoService } from "./../../../core/services/info.service";
 
-import { ControlComponent } from './../control.component';
+import { ControlComponent } from "./../control.component";
 
 @Component({
-  selector: 'tb-image',
-  templateUrl: './image.component.html',
-  styleUrls: ['./image.component.scss']
+  selector: "tb-image",
+  templateUrl: "./image.component.html",
+  styleUrls: ["./image.component.scss"]
 })
 export class ImageComponent extends ControlComponent {
+  @Input() title: string = "";
 
   @Input() title: string = '';
 
@@ -30,10 +31,11 @@ export class ImageComponent extends ControlComponent {
   }];
 
   constructor(
-    public infoService: InfoService,
+    private infoService: InfoService,
     layoutService: LayoutService,
     tbComponentService: TbComponentService,
-    changeDetectorRef: ChangeDetectorRef) {
+    changeDetectorRef: ChangeDetectorRef
+  ) {
     super(layoutService, tbComponentService, changeDetectorRef);
   }
 
@@ -58,8 +60,12 @@ export class ImageComponent extends ControlComponent {
     ];
   }
 
-  getImageUrl(namespace: string) {
-    return this.infoService.getDocumentBaseUrl() + 'getImage/?src=' + namespace;
-  }
+  // getImage(){
+  //   return ["http://localhost:5000/tbloader/api/tb/document/getImage/?src=Image.TBF.TBFModule.images.SplashConsole_90.jpg"];
+  //   // return [this.getImageUrl(this.model.value)];
+  // }
 
+  getImageUrl(namespace: string): string {
+    return this.infoService.getUrlImage(namespace);
+  }
 }

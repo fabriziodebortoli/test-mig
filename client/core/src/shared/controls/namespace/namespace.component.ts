@@ -99,6 +99,8 @@ export class NamespaceComponent extends ControlComponent implements OnChanges, O
     if (obj.items.length > 0) {
       this.model.value = ObjType[this.objectType] + '.' + obj.items[0].namespace;
       this.showDescription(obj.items[0].name);
+      this.eventData.change.emit(this.cmpId);
+
       this.changeDetectorRef.detectChanges();
     }
   }
@@ -205,8 +207,8 @@ export class NamespaceComponent extends ControlComponent implements OnChanges, O
     }
   }
 
-  getImageUrl(namespace: string) {
-    return this.infoService.getDocumentBaseUrl() + 'getImage/?src=' + namespace;
+  getImageUrl(namespace: string): string {
+    return this.infoService.getUrlImage(namespace);
   }
 
 }
