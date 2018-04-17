@@ -27,6 +27,9 @@
 		{
 			"name": "reporting-studio",
 			"path": "libs\\reporting-studio\\src"
+		},
+		{
+			"path": "C:\\development\\Standard\\TaskBuilder\\script"
 		}
 	],
 	"settings": {
