@@ -146,6 +146,7 @@ namespace Microarea.TbJson
                     {
                         this.htmlWriter = writer;
                         this.indent = 0;
+                        writer.WriteLine(string.Format("<!--\r\nAutomatically generated from file\r\n{0}\r\n-->", tbJsonFile));
                         GenerateHtml(jRoot, WndObjType.Undefined, false, slave);
                     }
                 }

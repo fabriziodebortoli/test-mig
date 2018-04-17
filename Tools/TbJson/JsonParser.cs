@@ -362,25 +362,19 @@ namespace Microarea.TbJson
                     {
                         foreach (JObject child in jRoot.Parent)
                         {
-                            if (child != jRoot)
+                            if (child != jRoot && child.MatchId(id))
                             {
-                                List<JObject> list = new List<JObject>();
-                                child.FindAll(id, list);
-                                if (list.Count > 0)
+                                jRoot.Remove();
+                                string existingActivation = jRoot.GetFlatString(Constants.activation);
+                                if (!string.IsNullOrEmpty(existingActivation))
                                 {
-                                    jRoot.Remove();
-                                    string existingActivation = jRoot.GetFlatString(Constants.activation);
-                                    if (!string.IsNullOrEmpty(existingActivation))
-                                    {
-                                        jRoot.Remove(Constants.activation);
-                                        //se sono in un href con attivazione, tutti gli elementi referenziati ereditano l'attivazione
-                                        foreach (JObject item in jRoot.GetItems())
-                                            AddActivationAttribute(existingActivation, item);
-                                    }
-                                    foreach (JObject jObj in list)
-                                        Merge(jObj, (JObject)jRoot.DeepClone(), activation);
-                                    break;
+                                    jRoot.Remove(Constants.activation);
+                                    //se sono in un href con attivazione, tutti gli elementi referenziati ereditano l'attivazione
+                                    foreach (JObject item in jRoot.GetItems())
+                                        AddActivationAttribute(existingActivation, item);
                                 }
+                                Merge(child, (JObject)jRoot.DeepClone(), activation);
+                                break;
                             }
                         }
                     }
