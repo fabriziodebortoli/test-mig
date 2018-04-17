@@ -15,8 +15,6 @@ import { ControlComponent } from "./../control.component";
 export class ImageComponent extends ControlComponent {
   @Input() title: string = "";
 
-  @Input() title: string = '';
-
   imgStyles = {};
 
   images: NgxGalleryImage[] = [];
@@ -40,9 +38,7 @@ export class ImageComponent extends ControlComponent {
   }
 
   getStyles() {
-
     if (this.width) this.imgStyles['max-width'] = this.width + 'px';
-
     if (this.height) this.imgStyles['max-height'] = this.height + 'px';
 
     return this.imgStyles;
