@@ -2167,7 +2167,7 @@ BOOL CRSEditorToolDebugView::FillForDebug(CRSEditView* editView)
 	}
 
 	//problema per le AskDialog: sono eseguite sul document thread 
-	m_TreeCtrl.FillDialogsForDebug(pBlock);
+	//m_TreeCtrl.FillDialogsForDebug(pBlock);
 
 	m_TreeCtrl.FillRulesForDebug(pBlock);
 	m_TreeCtrl.FillTupleRulesForDebug(pBlock);
@@ -3195,7 +3195,7 @@ void CRSEditorDiagnosticView::OnInitialUpdate()
 	__super::OnInitialUpdate();
 	
 	ShowScrollBar(SB_BOTH, FALSE);
-	m_edtErrors.ShowScrollBar(SB_BOTH, FALSE);
+	m_edtErrors.ShowScrollBar(SB_BOTH, TRUE);
 	m_edtErrors.SetTextColor(0);
 }
 

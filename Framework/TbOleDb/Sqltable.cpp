@@ -5151,7 +5151,7 @@ CString SqlTable::ToString(BOOL bFormat/* = FALSE*/, BOOL bAddTagIn /*=FALSE*/, 
 						found = TRUE;
 					}
 					
-					ASSERT_TRACE1(found, "Binded parameter placeholder %s was not found\n", bindName);
+					//ASSERT_TRACE1(found, "Binded parameter placeholder %s was not found\n", bindName);
 				}
 			}
 		}

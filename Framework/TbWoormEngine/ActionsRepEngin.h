@@ -162,6 +162,7 @@ public:
 	void			AddBreakpoint	(BOOL bStepOver = FALSE);
 	void			RemoveBreakpoint();
 	void			DeletePtrBreakpoint() { SAFE_DELETE(m_pBreakpoint); }
+	void			ResetPtrBreakpoint () { m_pBreakpoint = NULL; }
 
 // diagnostics
 #ifdef _DEBUG

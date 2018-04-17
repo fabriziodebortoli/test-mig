@@ -2732,6 +2732,11 @@ int DataTableRule::GetSelFieldsNum () const
 
 IMPLEMENT_DYNAMIC(DebugBlock, Block);
 
+DebugBlock::~DebugBlock()
+{
+	ResetPtrBreakpoint();
+}
+
 BOOL DebugBlock::Exec(CObject* pOwner/* = NULL*/)
 {
 	if (pOwner && HasBreakpoint() && GetBreakpoint()->m_nTraceRows)

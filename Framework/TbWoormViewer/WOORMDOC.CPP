@@ -8860,6 +8860,8 @@ l_skiprun:
 	m_bEngineRunning = FALSE;
 	m_bIsExporting = FALSE;
 
+	m_bDebugging = FALSE;
+
 	// set timer for ReRun
 	StartReRunTimer();
 }

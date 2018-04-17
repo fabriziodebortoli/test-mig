@@ -136,7 +136,7 @@ public:
 		Block(NULL, NULL, pEngine, FALSE)
 		{}
 
-	//virtual ~DebugBlock() {}
+	virtual ~DebugBlock();
 
 	BOOL	Exec(CObject* pOwner = NULL);
 };
