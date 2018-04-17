@@ -93,7 +93,7 @@ namespace Microarea.TbJson
             }
 
             //JToken jToken = parser.Parse(standardFolder, tbJsonFile, true);
-            JsonParserInfo jsonParseInfo = parser.Parse(standardFolder, tbJsonFile, false);
+            JsonParserInfo jsonParseInfo = parser.Parse(standardFolder, tbJsonFile, true);
             JToken jToken = jsonParseInfo.JRoot;
 
             parser.mostRecentFileDate = jsonParseInfo.MostRecentFileDate;

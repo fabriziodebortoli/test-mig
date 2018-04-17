@@ -482,6 +482,15 @@ namespace Microarea.TbJson
             foreach (JProperty pExternal in jHref.Properties())
             {
                 JToken t = jRoot[pExternal.Name];
+                //potrebbe non esistere nell'oggetto di partenza: solo se si tratta di array o oggetti complessi, li aggiungo
+                //le proprietà singole non si riescono a gestire in presenza di tag di attivazione
+                if (t == null)
+                {
+                    if (pExternal.Value.Type == JTokenType.Array)
+                        t = jRoot[pExternal.Name] = new JArray();
+                    else if (pExternal.Value.Type == JTokenType.Object)
+                        t = jRoot[pExternal.Name] = new JObject();
+                }
                 if (pExternal.Name == Constants.rowViewForm)
                 {
                     //il form di row view non va mergiato ma sostituito integralmente, per simmetria
