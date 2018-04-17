@@ -1,5 +1,1 @@
-<div [title]="title">
-    <img id="{{cmpId}}" [src]="(model?.value) ? getImageUrl(model?.value) : '' " *ngIf="model" class="tb-static-component" [ngStyle]="getStyles()" />
-
-    <!-- <ngx-gallery [options]="options" [images]="getImage()"></ngx-gallery> -->
-</div>
+<ngx-gallery *ngIf="model?.value" id="{{cmpId}}"  [options]="options" [images]="getImages(model?.value)" [ngStyle]="getStyles()"></ngx-gallery>
