@@ -144,6 +144,7 @@ public:
 
 protected:
 	TDisposablePtr<CBusinessServiceProviderObj>	m_pBSP;
+	void OnUpdateTitle(UINT nDialogId);
 
 };
 
@@ -250,7 +251,7 @@ public:
 	inline void DeclareVariable(const CString& sName, DataObj* pDataObj);
 	inline void DeclareVariable(const CString& sName, DataObj& aDataObj);
 	virtual void EnableBEButtonUI(BOOL bEnabled);
-
+	virtual void OnUpdateTitle(UINT nDialogId) {}
 	// retrieve the BSP underneath the passed view (must be CBusinessServiceProviderView or CBusinessServiceProviderPaneView)
 	static CBusinessServiceProviderObj* GetBSP		(CWnd* pView);
 

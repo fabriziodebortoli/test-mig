@@ -424,6 +424,7 @@ protected:
 	virtual void OnPinUnpin				(CBaseTileDialog* pTileDialog) {}
 	virtual void OnPinUnpin				(UINT nDialogId, bool isPinned) {}
 	virtual void OnUpdateTitle			(CBaseTileDialog* pTileDialog) {}
+	virtual void OnUpdateTitle			(UINT nDialogId) {}
 	virtual void OnPropertyCreated		(CTBProperty* pProperty) {}
 	virtual	BOOL OnGetToolTipProperties	(CBETooltipProperties* pTooltip) {return FALSE;}
 	virtual void EnableBodyEditButtons	(CBodyEdit* pBodyEdit) {}
@@ -830,6 +831,7 @@ protected:
 	void OnPinUnpin				(CBaseTileDialog* pTileDialog);
 	void OnPinUnpin				(UINT nDialogId, bool isPinned);
 	void OnUpdateTitle			(CBaseTileDialog* pTileDialog);
+	void OnUpdateTitle			(UINT nDialogId);
 	void OnPropertyCreated		(CTBProperty * pProperty);
 	BOOL OnGetToolTipProperties	(CBETooltipProperties* pTooltip);
 	void EnableBodyEditButtons	(CBodyEdit* pBodyEdit);

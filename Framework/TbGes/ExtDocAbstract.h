@@ -945,6 +945,7 @@ public:
 	virtual void OnPrepareAuxData				(CTileGroup*);
 	virtual void OnPrepareAuxData				(CTileDialog*);
 	virtual void OnUpdateTitle					(CTileDialog*);
+	virtual void DoUpdateTitle					(UINT nID);
 	virtual void OnUpdateTitle					(UINT nID){}
 	virtual CString OnGetCaption(CAbstractFormView*) { return _T(""); }
 	virtual void OnManageAfterBatchExecute		() {}

@@ -3275,7 +3275,7 @@ BOOL CAbstractFormDoc::DispatchPrepareAuxData(BOOL bOnlyDocument/* = FALSE*/)
 		DWORD id = m_arWebActiveContainers[i];
 		OnPrepareAuxData(id);
 		m_pClientDocs->OnPrepareAuxData(id);
-		OnUpdateTitle(id);
+		DoUpdateTitle(id);
 	}
 	FireBehaviour(bhe_OnPrepareAuxData, TRUE);
 
@@ -4534,7 +4534,7 @@ void CAbstractFormDoc::ActivateWebClientContainer(UINT nID, bool bActivate)
 	if (bActivate)
 	{
 		m_arWebActiveContainers.Add(nID);
-		OnUpdateTitle(nID);
+		DoUpdateTitle(nID);
 		OnPrepareAuxData(nID); 
 	}
 }
@@ -4658,9 +4658,15 @@ void CAbstractFormDoc::OnBuildDataControlLinks(CTileDialog* pTile)
 	m_pClientDocs->OnInitializeUI(pTile->GetNamespace());
 }
 //-----------------------------------------------------------------------------
+void CAbstractFormDoc::DoUpdateTitle(UINT nID)
+{
+	OnUpdateTitle(nID);
+	m_pClientDocs->OnUpdateTitle(nID);
+}
+//-----------------------------------------------------------------------------
 void CAbstractFormDoc::OnUpdateTitle(CTileDialog* pTileDlg)
 {
-	OnUpdateTitle(pTileDlg->GetDialogID());
+	DoUpdateTitle(pTileDlg->GetDialogID());
 	if (pTileDlg->IsKindOf(RUNTIME_CLASS(CJsonTileDialog)))
 	{
 		CJsonTileDialog* pJsonTile = ((CJsonTileDialog*)pTileDlg);

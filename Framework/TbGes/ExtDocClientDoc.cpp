@@ -808,6 +808,14 @@ void CClientDocArray::OnUpdateTitle(CBaseTileDialog* pTileDialog)
 		GetAt(i)->OnUpdateTitle(pTileDialog);
 }
 //-----------------------------------------------------------------------------
+void CClientDocArray::OnUpdateTitle(UINT nDialogId)
+{
+	if (this == NULL)
+		return;
+	for (int i = 0; i <= GetUpperBound(); i++)
+		GetAt(i)->OnUpdateTitle(nDialogId);
+}
+//-----------------------------------------------------------------------------
 void CClientDocArray::OnSetCurrentRow(DBTSlaveBuffered* pDBT)
 {
 	for (int i = 0; i <= GetUpperBound(); i++)

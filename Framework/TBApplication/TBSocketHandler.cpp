@@ -366,7 +366,7 @@ void CTBSocketHandler::DoUpdateTitle(CJsonParser& json)
 	CUpdateDataViewLevel _upd(pDoc);
 	if (pDoc)
 	{
-		pDoc->OnUpdateTitle(id);
+		pDoc->DoUpdateTitle(id);
 	}
 }
 //--------------------------------------------------------------------------------

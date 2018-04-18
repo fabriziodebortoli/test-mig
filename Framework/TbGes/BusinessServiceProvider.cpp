@@ -52,6 +52,13 @@ CBusinessServiceProviderClientDocObj::CBusinessServiceProviderClientDocObj(CBusi
 	m_hResourceModule = GetDllInstance(m_pBSP->GetRuntimeClass());
 }
 
+//-----------------------------------------------------------------------------
+void CBusinessServiceProviderClientDocObj::OnUpdateTitle(UINT nDialogId)
+{
+	if (m_pBSP)
+		m_pBSP->OnUpdateTitle(nDialogId);
+}
+
 //TODO PERASSO verificare necessita di distinguere fra numerazione di TB e ERP
 //per ora non distinguo
 #define MIN_CONTROL_IDC MinTbControl
