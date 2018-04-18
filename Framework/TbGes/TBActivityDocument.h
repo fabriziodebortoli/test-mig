@@ -274,11 +274,13 @@ private:	//private members
 	BOOL						m_bHeaderTitleBold;
 	DataStr						m_HeaderSubTitle;
 	BOOL						m_bHeaderSubTitleBold;
-	DataStr						m_FiltersPanelText;
-	DataStr						m_ActionsPanelText;
-	DataStr						m_FooterPanelText;
 	long						m_nStep;
 	BOOL						m_bGoToStart;
+
+protected:
+	DataStr						m_FiltersPanelText;	// Titoli dei pannelli (es. Filtri/Azioni) potrebbero essere modificati dalle classi derivate
+	DataStr						m_ActionsPanelText;
+	DataStr						m_FooterPanelText;
 	
 protected:
 	//{{AFX_MSG(CActivityDocument)
