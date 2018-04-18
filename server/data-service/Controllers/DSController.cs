@@ -108,15 +108,15 @@ namespace DataService.Controllers
             Datasource ds = new Datasource(session);
             if (!ds.PrepareQueryAsync(HttpContext.Request.Query, selectionType).Result)
             {
-                return new ErrorResult {  Content = "It fails to load" };
+                return new ContentResult {StatusCode = 500,  Content = "It fails to load", ContentType = "application/text" };
             }
             string records;
             if (!ds.GetRowsJson(out records))
             {
-                return new ErrorResult { Content = "It fails to execute" };
+                return new ContentResult {StatusCode = 500, Content = "It fails to execute", ContentType = "application/text" };
             }
             //---------------------
-            return new SuccessResult { Content = records };
+            return new ContentResult { Content = records, ContentType = "application/json" };
         }
 
         /*
