@@ -16,24 +16,29 @@ namespace Microarea.TbLoaderGate
         //-----------------------------------------------------------------------------------------
         private static TBLoaderInstance GetTbLoader(string name)
         {
-           using (Locker l = new Locker(rwLock, false))
+            using (Locker l = new Locker(rwLock, false))
 
-            for (int i = tbloaders.Count - 1; i >= 0; i--)
-            {
-                TBLoaderInstance item = tbloaders[i];
-                if (item == null)
-                    continue;
+                for (int i = tbloaders.Count - 1; i >= 0; i--)
+                {
+                    TBLoaderInstance item = tbloaders[i];
+                    if (item == null)
+                        continue;
 
-        
 
-                if (item.Name == name)
-                    return item;
-            }
+
+                    if (item.Name == name)
+                        return item;
+                }
             return null;
         }
 
         //-----------------------------------------------------------------------------------------
-        internal static TBLoaderInstance GetTbLoader(string server, int port, string name, out bool newInstance)
+        internal static TBLoaderInstance GetTbLoader(string server, int port, string name)
+        {
+            return GetTbLoader(server, port, name, "", out bool dummy);
+        }
+        //-----------------------------------------------------------------------------------------
+        internal static TBLoaderInstance GetTbLoader(string server, int port, string name, string middlewareUrl, out bool newInstance)
         {
             newInstance = false;
             var tbLoader = GetTbLoader(name);
@@ -53,7 +58,7 @@ namespace Microarea.TbLoaderGate
                     if (tbLoader == null)
                     {
                         tbLoader = new TBLoaderInstance(server, port, name);
-                        tbLoader.ExecuteAsync().Wait();
+                        tbLoader.ExecuteAsync(middlewareUrl).Wait();
                         tbloaders.Add(tbLoader);
                     }
                 }

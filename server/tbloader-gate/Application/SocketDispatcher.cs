@@ -175,7 +175,7 @@ namespace Microarea.TbLoaderGate
                                     continue;
                                 }
                                 string tbName = jName.ToString();
-                                TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(options.TbLoaderServiceHost, options.TbLoaderServicePort, tbName, out bool dummy);
+                                TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(options.TbLoaderServiceHost, options.TbLoaderServicePort, tbName);
                                 if (tb != null)
                                 {
                                     couple = GetWebCouple(coupleName);

@@ -78,7 +78,8 @@ namespace Microarea.TbLoaderGate
                 {
 
                     bool newInstance;
-                    TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(options.TbLoaderServiceHost, options.TbLoaderServicePort, tbName, out newInstance);
+                    string host = string.Concat(HttpContext.Request.Scheme, "://", HttpContext.Request.Host);
+                    TBLoaderInstance tb = TBLoaderEngine.GetTbLoader(options.TbLoaderServiceHost, options.TbLoaderServicePort, tbName, host, out newInstance);
                     if (tb == null || !tb.Connected)
                     {
                         TBLoaderResult res = new TBLoaderResult() { message = "TBLoader not connected", success = false };
