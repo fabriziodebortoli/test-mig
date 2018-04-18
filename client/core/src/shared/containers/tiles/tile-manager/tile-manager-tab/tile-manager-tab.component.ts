@@ -9,7 +9,7 @@ import { EventDataService } from './../../../../../core/services/eventdata.servi
   templateUrl: './tile-manager-tab.component.html',
   styleUrls: ['./tile-manager-tab.component.scss']
 })
-export class TileManagerTabComponent implements AfterContentInit  {
+export class TileManagerTabComponent implements AfterContentInit {
 
   subscriptions = [];
 
@@ -24,28 +24,28 @@ export class TileManagerTabComponent implements AfterContentInit  {
   set icon(icon: any) {
     this._icon = icon instanceof Object ? icon.value : icon;
   }
-  
+
   get icon() {
     return this._icon;
   }
-  
+
   private _title: string;
-  
-  public get title(): string {
+
+  public get title() {
     return this._title;
   }
-  
+
   @Input() public set title(title: any) {
-        this._title = title instanceof Object ? title.value.replace("&", "") : title.replace("&", "");
+    this._title = title instanceof Object ? title.value.replace("&", "") : title.replace("&", "");
   }
-  
+
   constructor(
-    private eventData:EventDataService,
+    private eventData: EventDataService,
     private cdr: ChangeDetectorRef
   ) { }
 
   ngAfterContentInit() {
-    this.subscriptions.push(this.eventData.activationChanged.subscribe(() => this.cdr.markForCheck() ));
+    this.subscriptions.push(this.eventData.activationChanged.subscribe(() => this.cdr.markForCheck()));
   }
 
   ngOnDestroy() {
