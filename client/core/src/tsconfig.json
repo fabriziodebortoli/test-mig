@@ -23,6 +23,9 @@
             ],
             "ngx-gallery/*": [
                 "../../web-form/node_modules/ngx-gallery/*"
+            ],
+            "lodash/*": [
+                "../../web-form/node_modules/lodash/*"
             ]
         }
     }
