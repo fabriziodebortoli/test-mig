@@ -164,15 +164,15 @@ void RunDocumentOnThreadDocument(const CString& sNamespace, const CString& sArgu
 			pSession->PushRunErrorToClients();
 		}
 	}
-	AfxGetDiagnostic()->EndSession();
-	return;
-
+	
 	if (!sArguments.IsEmpty())
 	{
 		CFunctionDescription fd;
 		if (fd.ParseArguments(sArguments))
 			pDoc->GoInBrowserMode(&fd);
 	}
+
+	AfxGetDiagnostic()->EndSession();
 }
 //--------------------------------------------------------------------------------
 void CTBSocketHandler::RunDocument(CJsonParser& json)
