@@ -26,14 +26,14 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
     private oldValue: any;
     public itemSourceSub: Subscription;
     @Input() public itemSource: any = undefined;
-    
+
     @Input() propagateSelectionChange = false;
     @ViewChild("ddl") public dropdownlist: any;
 
     //TODOLUCA, qua non dovrebbero proprio esserci, 
     @Input('rows') rows: number = 0;
     @Input('chars') chars: number = 0;
-    
+
 
     public isCombo = true;
     private isReady: Observable<boolean>;
@@ -50,9 +50,10 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
         this.isReady = new BehaviorSubject(false).distinctUntilChanged();
 
         this.itemSourceSub = this.webSocketService.itemSource.subscribe((result) => {
-            if (result.itemSource) {
-                this.items = result.itemSource;
-            };
+            if (!result.itemSource || result.cmpId !== this.cmpId)
+                return;
+
+            this.items = result.itemSource;
             if (this.dropdownlist) (this.isReady as Subject<boolean>).next(true);
         });
     }
@@ -72,7 +73,7 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
         }
     }
 
-    ngAfterViewInit(){
+    ngAfterViewInit() {
         super.ngAfterViewInit();
         if (this.dropdownlist) {
             this.isReady.subscribe(ready => {
