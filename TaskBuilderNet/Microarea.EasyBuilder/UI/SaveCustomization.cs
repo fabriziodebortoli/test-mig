@@ -83,7 +83,7 @@ namespace Microarea.EasyBuilder.UI
 			ref NameSpace ns,
 			ref bool publish,
 			out bool isDefault,
-            bool saveForWeb,
+            ref bool saveForWeb,
             SaveWindowButtons buttons = SaveWindowButtons.YesNoCancel
             )
 		{

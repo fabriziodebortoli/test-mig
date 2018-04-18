@@ -565,7 +565,7 @@ static BaseWindowWrapper::BaseWindowWrapper()
 	eyeImgByteArray = gcnew array<System::Byte>(System::Convert::ToInt32(controlClassImageStream->Length));
 
 	controlClassImageStream->Read(eyeImgByteArray, 0, eyeImgByteArray->Length);
-
+	
 	delete controlClassImageStream;
 }
 
@@ -630,11 +630,11 @@ BaseWindowWrapper::BaseWindowWrapper(IWindowWrapperContainer^ parentWindow, Syst
 	if (parentComponent->DesignModeType != EDesignMode::Static)
 	{
 		// da questa richiesta passa sia quando è non ancora istanziato,sia quando viene wrappato in edit dalla perosnalizzazione in memoria
-		DeleteChangeRequest^ delRequest = gcnew DeleteChangeRequest(Refactor::ChangeSubject::Class, gcnew NameSpace(gcnew String(aFullNs.ToString())), parentComponent->Document->Namespace, this->Version);
+		DeleteChangeRequest^ delRequest = gcnew DeleteChangeRequest(Refactor::ChangeSubject::Class, gcnew NameSpace(gcnew String(aFullNs.ToString())), parentComponent->Document->Namespace, ((MDocument^)parentComponent->Document)->Version);
 		bHasBeenDeleted = BaseCustomizationContext::ApplicationChanges->IsDeletedObject(delRequest);
 		delete delRequest;
 
-		RenameChangeRequest^ request = gcnew RenameChangeRequest(Refactor::ChangeSubject::Class, parentWindow->Namespace, parentComponent->Document->Namespace, String::Empty, gcnew String(aFullNs.ToString()), this->Version);
+		RenameChangeRequest^ request = gcnew RenameChangeRequest(Refactor::ChangeSubject::Class, parentWindow->Namespace, parentComponent->Document->Namespace, String::Empty, gcnew String(aFullNs.ToString()), ((MDocument^)parentComponent->Document)->Version);
 		String^ newName = BaseCustomizationContext::ApplicationChanges->GetNewNameOf(request);
 		delete request;
 		aFullNs.SetNamespace((CString)newName);
@@ -675,7 +675,9 @@ BaseWindowWrapper::BaseWindowWrapper(IWindowWrapperContainer^ parentWindow, Syst
 			gcnew System::String(aFullNs.ToString()) + System::Environment::NewLine +
 			"Parent Object Type : " + parentComponent->GetType()->ToString() + System::Environment::NewLine +
 			"Parent Object Name : " + parentWindow->Namespace->ToString() + System::Environment::NewLine +
-			"Document : " + parentComponent->Document->Namespace->ToString() + System::Environment::NewLine
+			"Document : " + parentComponent->Document->Namespace->ToString() + System::Environment::NewLine + 
+			"Version Assembly: " + this->Version->ToString() + System::Environment::NewLine +
+			"Current Version: " + System::Reflection::Assembly::GetExecutingAssembly()->GetName()->Version->ToString()
 		);
 		throw gcnew ApplicationException(message);
 	}
@@ -832,8 +834,8 @@ void BaseWindowWrapper::UpdateAttributesForJson(CWndObjDescription* pParentDescr
 	//initialize common default attributes
 	jsonDescription->m_X = NULL_COORD;
 	jsonDescription->m_Y = NULL_COORD;
-	jsonDescription->m_Width = NULL_COORD;
-	jsonDescription->m_Height = NULL_COORD;
+	jsonDescription->m_Width = 0;
+	jsonDescription->m_Height = 0;
 	jsonDescription->m_strName = this->Name;
 	jsonDescription->m_strIds.Add(this->Id);
 	jsonDescription->m_strText = this->Text;
@@ -2730,6 +2732,7 @@ MParsedControl::MParsedControl(System::IntPtr handleWndPtr)
 	controlClass = gcnew ControlClass(this);
 	components = gcnew List<IComponent^>();
 	showHotLinkButton = true;
+	isDirty = false;
 }
 
 
@@ -2749,7 +2752,7 @@ MParsedControl::MParsedControl(IWindowWrapperContainer^ parentWindow, System::St
 
 	Location = location;
 	showHotLinkButton = true;
-
+	isDirty = false;
 }
 
 //----------------------------------------------------------------------------
@@ -2821,7 +2824,7 @@ void MParsedControl::UpdateAttributesForJson(CWndObjDescription* pParentDescript
 		return;
 
 	if (!this->HasCodeBehind)
-	{
+	{//new parsed control created with ES
 		jsonDescription = pParentDescription->AddChildWindow(this->GetWnd(), this->Name);
 
 		ASSERT(jsonDescription);
@@ -2870,8 +2873,75 @@ void MParsedControl::UpdateAttributesForJson(CWndObjDescription* pParentDescript
 	}
 	else
 	{
-		//TODO: serializze differences
+		//existing parsed control (Mago) only if dirty
+		//serializze differences - here are the base common attributes for all parsed controls
+		//manage isDirty
+		isDirty = this->ChangedEventsCount > 0 || this->ChangedPropertiesCount > 0;/* || this->ReferencesCount > 0 || this->IsChanged*/;
+
+		if (!isDirty)
+			return;
+
+		UpdateChangesForJson(pParentDescription, NULL);
 	}
+}
+
+//------------------------------------------------------------------------------------------------------
+void MParsedControl::UpdateChangesForJson(CWndObjDescription* pParentDescription, CWndObjDescription* pParsedDescription)
+{
+	if (!pParsedDescription)
+		pParsedDescription = new CWndObjDescription(NULL);
+
+	ASSERT(pParsedDescription);
+	if (!pParsedDescription)
+		return;
+
+	//do not change Type attribute
+	pParsedDescription->m_Type = CWndObjDescription::WndObjType::Undefined;
+	pParsedDescription->m_strIds.Add(this->Id);
+
+	//only modified properties
+	for each (String^ prop in this->ChangedProperties)
+	{
+		if (prop->CompareTo(gcnew String(_T("Caption"))) == 0)
+		{
+			pParsedDescription->m_strControlCaption = this->Caption;
+			continue;
+		}
+
+		if (prop->CompareTo(gcnew String(_T("Visible"))) == 0)
+		{
+			pParsedDescription->m_bVisible = this->Visible;
+			continue;
+		}
+
+		if (prop->CompareTo(gcnew String(_T("Size"))) == 0)
+		{
+			pParsedDescription->m_Width = ((BaseWindowWrapper^)this)->Size.Width;
+			pParsedDescription->m_Height = ((BaseWindowWrapper^)this)->Size.Height;
+			continue;
+		}
+
+		if (prop->CompareTo(gcnew String(_T("Location"))) == 0)
+		{
+			pParsedDescription->m_sAnchor = GetHorizontalIdAnchor();
+			continue;
+		}
+
+		if (prop->CompareTo(gcnew String(_T("Enabled"))) == 0)
+		{
+			pParsedDescription->m_bEnabled = this->Enabled;
+			continue;
+		}
+
+		if (prop->CompareTo(gcnew String("Text")) == 0)
+		{
+			pParsedDescription->m_strText = this->Text;
+			continue;
+		}
+	}
+
+	pParentDescription->m_Children.Add(pParsedDescription);
+
 }
 
 //-----------------------------------------------------------------------------------------------------
@@ -4566,6 +4636,34 @@ void MParsedEdit::Resizable::set(EResizableControl value)
 	pControl->InitSizeInfo(GetWnd());
 }
 
+//----------------------------------------------------------------------------------------------------------------
+void MParsedEdit::UpdateChangesForJson(CWndObjDescription* pParentDescription, CWndObjDescription* pParsedDescription)
+{
+	SAFE_DELETE(pParsedDescription);
+
+	CWndColoredObjDescription* pParsedColoredDescription = new CWndColoredObjDescription(NULL);
+
+	//only modified properties
+	for each (String^ prop in this->ChangedProperties)
+	{
+		if (prop->CompareTo(gcnew String(_T("BackColor"))) == 0)
+		{
+			COLORREF colorRef = System::Drawing::ColorTranslator::ToWin32(this->BackColor);
+			pParsedColoredDescription->m_crBkgColor = colorRef;
+			continue;
+		}
+
+		if (prop->CompareTo(gcnew String(_T("ForeColor"))) == 0)
+		{
+			COLORREF colorRef = System::Drawing::ColorTranslator::ToWin32(this->ForeColor);
+			pParsedColoredDescription->m_crTextColor = colorRef;
+			continue;
+		}
+	}
+
+	__super::UpdateChangesForJson(pParentDescription, pParsedColoredDescription);
+}
+
 //----------------------------------------------------------------------------
 bool MParsedEdit::WndProc(Message% m)
 {
@@ -4658,6 +4756,34 @@ void MParsedStatic::LinePosition::set(ELinePos value)
 	CLabelStatic* pStatic = dynamic_cast<CLabelStatic*>(m_pControl);
 	if (pStatic)
 		pStatic->SetLinePosition((CLabelStatic::ELinePos)value);
+}
+
+//----------------------------------------------------------------------------------------------------------------
+void MParsedStatic::UpdateChangesForJson(CWndObjDescription* pParentDescription, CWndObjDescription* pParsedDescription)
+{
+	SAFE_DELETE(pParsedDescription);
+
+	CWndColoredObjDescription* pParsedColoredDescription = new CWndColoredObjDescription(NULL);
+
+	//only modified properties
+	for each (String^ prop in this->ChangedProperties)
+	{
+		if (prop->CompareTo(gcnew String(_T("BackColor"))) == 0)
+		{
+			COLORREF colorRef = System::Drawing::ColorTranslator::ToWin32(this->BackColor);
+			pParsedColoredDescription->m_crBkgColor = colorRef;
+			continue;
+		}
+
+		if (prop->CompareTo(gcnew String(_T("ForeColor"))) == 0)
+		{
+			COLORREF colorRef = System::Drawing::ColorTranslator::ToWin32(this->ForeColor);
+			pParsedColoredDescription->m_crTextColor = colorRef;
+			continue;
+		}
+	}
+
+	__super::UpdateChangesForJson(pParentDescription, pParsedColoredDescription);
 }
 
 //----------------------------------------------------------------------------

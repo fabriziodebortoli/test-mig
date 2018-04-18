@@ -223,7 +223,7 @@ MBodyEditColumn::MBodyEditColumn(MBodyEdit^ parentWindow, System::String^ name, 
 	{
 		if (BodyEdit->DesignModeType != EDesignMode::Static)
 		{
-			RenameChangeRequest^ request = gcnew RenameChangeRequest(Refactor::ChangeSubject::Class, BodyEdit->Namespace, BodyEdit->Document->Namespace, String::Empty, name, this->Version);
+			RenameChangeRequest^ request = gcnew RenameChangeRequest(Refactor::ChangeSubject::Class, BodyEdit->Namespace, BodyEdit->Document->Namespace, String::Empty, name, ((MDocument^)BodyEdit->Document)->Version);
 			name = BaseCustomizationContext::ApplicationChanges->GetNewNameOf(request);
 			delete request;
 		}
@@ -236,7 +236,10 @@ MBodyEditColumn::MBodyEditColumn(MBodyEdit^ parentWindow, System::String^ name, 
 			System::String^ message = gcnew System::String(
 				"This customization is not compatibile with new document view model due to column: " + name + System::Environment::NewLine +
 				"Parent Object Name : " + BodyEdit->Namespace->ToString() + System::Environment::NewLine +
-				"Document : " + BodyEdit->Document->Namespace->ToString() + System::Environment::NewLine);
+				"Document : " + BodyEdit->Document->Namespace->ToString() + System::Environment::NewLine + 
+				"Version Assembly: " + this->Version->ToString() + System::Environment::NewLine +
+				"Current Version: " + System::Reflection::Assembly::GetExecutingAssembly()->GetName()->Version->ToString()
+			);
 			throw gcnew ApplicationException(message);
 			return;
 		}

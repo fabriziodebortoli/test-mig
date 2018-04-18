@@ -113,7 +113,8 @@ namespace Microarea.TaskBuilderNet.Core.EasyBuilder.Refactor
         {
             Version vXML = new Version(currentVersion);
 
-            //return String.IsNullOrEmpty(oldVersion)/*oldVersion == string.Empty*/ || String.Compare(oldVersion, currentVersion, true) <= 0; /*Convert.ToDouble(oldVersion) <= Convert.ToDouble(currentVersion)*/
+            // questa istruzione ritorna se la versione del file changes
+            // e' maggiore di quella dell assembly del controller che sta processando 
             return vXML.CompareTo(oldVersion) > 0;
         }
 

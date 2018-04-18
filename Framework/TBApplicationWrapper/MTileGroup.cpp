@@ -295,8 +295,8 @@ void MTileGroup::GenerateSerialization(CWndObjDescription* pParentDescription, L
 				)
 			);
 
-			SAFE_DELETE(jsonDescription);
 		}
+		SAFE_DELETE(jsonDescription);
 	}
 	
 	__super::GenerateSerialization(pParentDescription, serialization);

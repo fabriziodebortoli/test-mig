@@ -3442,7 +3442,7 @@ namespace Microarea.EasyBuilder
 					if (newDocument)//nuovo documento: non devo chiedere ulteriori informazioni, sono già implicite nel nome documento
 						res = DialogResult.Yes;
 					else//l'applicazione è in chiusura: chiedo all'utente se voglio salvare ed il nome della customizzazione
-						res = SaveCustomization.SaveNewCustomization(this, Resources.SaveCustomization, Resources.SaveChanges, ref ns, ref publish, out isActive, saveForWeb);
+						res = SaveCustomization.SaveNewCustomization(this, Resources.SaveCustomization, Resources.SaveChanges, ref ns, ref publish, out isActive, ref saveForWeb);
 				}
 
                 switch (res)

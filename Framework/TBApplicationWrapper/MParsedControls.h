@@ -576,8 +576,8 @@ namespace Microarea {
 /// <summary>
 /// Gets or Sets the location for the current control
 /// </summary>
-				[LocalizedCategory("GraphicsCategory", EBCategories::typeid), TBPropertyFilter(TBPropertyFilters::DesignerRuntime | TBPropertyFilters::ComponentState),
-					System::ComponentModel::DesignerSerializationVisibility(System::ComponentModel::DesignerSerializationVisibility::Hidden)]
+				[LocalizedCategory("GraphicsCategory", EBCategories::typeid), TBPropertyFilter(TBPropertyFilters::DesignerRuntime | TBPropertyFilters::ComponentState)/*,
+					System::ComponentModel::DesignerSerializationVisibility(System::ComponentModel::DesignerSerializationVisibility::Hidden)*/]
 				property System::Drawing::Point Location { virtual System::Drawing::Point get(); virtual void set(System::Drawing::Point value); }
 
 				/// <summary>
@@ -1108,7 +1108,8 @@ namespace Microarea {
 				CParsedCtrl*		m_pControl;
 				IDataBinding^		dataBinding;
 				ControlClass^		controlClass;
-
+				bool				isDirty;
+				
 				System::Collections::Generic::List<System::ComponentModel::IComponent^>^				components;
 
 			public:
@@ -1354,7 +1355,7 @@ namespace Microarea {
 				/// <summary>
 				/// Sets the desired location for the current control
 				/// </summary>
-				[LocalizedCategory("GraphicsCategory", EBCategories::typeid), System::ComponentModel::DesignerSerializationVisibility(System::ComponentModel::DesignerSerializationVisibility::Hidden)]
+				[LocalizedCategory("GraphicsCategory", EBCategories::typeid), System::ComponentModel::DesignerSerializationVisibility(System::ComponentModel::DesignerSerializationVisibility::Visible)]
 				property System::Drawing::Point Location { virtual void set(System::Drawing::Point value) override; }
 
 				/// <summary>
@@ -1420,6 +1421,11 @@ namespace Microarea {
 				///Updates needed attributes for json serialization 
 				///</summary>
 				virtual void UpdateAttributesForJson(CWndObjDescription* pParentDescription) override;
+
+				///<summary>
+				///Update attributes from ChangedProperties for parsed controls with CodeBehind = TRUE
+				///</summary>
+				virtual void UpdateChangesForJson(CWndObjDescription* pParentDescription, CWndObjDescription* pParsedDescription);
 
 				///<summary>
 				///Generate json for children
@@ -1633,6 +1639,11 @@ namespace Microarea {
 				/// </summary>
 				[ExcludeFromIntellisense]
 				virtual	bool WndProc(System::Windows::Forms::Message% m) override;
+
+				///<summary>
+				///Update attributes from ChangedProperties for parsed controls with CodeBehind = TRUE
+				///</summary>
+				virtual void UpdateChangesForJson(CWndObjDescription* pParentDescription, CWndObjDescription* pParsedDescription) override;
 			};
 
 			/// <summary>
@@ -1707,6 +1718,11 @@ namespace Microarea {
 
 
 				virtual bool CanChangeProperty(System::String^ propertyName) override;
+
+				///<summary>
+				///Update attributes from ChangedProperties for parsed controls with CodeBehind = TRUE
+				///</summary>
+				virtual void UpdateChangesForJson(CWndObjDescription* pParentDescription, CWndObjDescription* pParsedDescription) override;
 			};
 
 			/// <summary>

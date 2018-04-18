@@ -277,20 +277,16 @@ void MTileDialog::GenerateSerialization(CWndObjDescription* pParentDescription, 
 				true
 			)
 		);
-
-		//non sono sul papà
-		SAFE_DELETE(jsonDescription);
 	}
-
+		
 	//clear parent
 	for (int i = pParentDescription->m_Children.GetUpperBound(); i >= 0; i--)
 	{
 		if (pParentDescription->m_Children.GetAt(i) == jsonDescription)
-		{
-			SAFE_DELETE(pParentDescription->m_Children.GetAt(i));
 			pParentDescription->m_Children.RemoveAt(i);
-		}
 	}
+
+	SAFE_DELETE(jsonDescription);
 }
 
 //----------------------------------------------------------------------------
