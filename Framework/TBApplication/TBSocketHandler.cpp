@@ -645,7 +645,7 @@ void CTBSocketHandler::DoFillListBox(CJsonParser& json)
 			{
 				DataObj* pObj = values.GetAt(i);
 				if (pItemSource->IsValidItem(*pObj))
-					strArray.Add(values.GetAt(i)->ToString());
+					strArray.Add(pObj->Str());
 			}
 		}
 		bDataFound = true;
