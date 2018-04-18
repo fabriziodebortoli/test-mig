@@ -50,7 +50,11 @@ export class TbHotlinkButtonsPopupHandler {
     this.getHotLinkElement = () => (hlb.vcr.element.nativeElement.parentNode.getElementsByClassName('k-textbox') as HTMLCollection).item(0) as HTMLElement;
     this.onHklExit = () => { this.closeOptions(); this.searchOrExitSubj$.next(false); hlb.stop(); }
     this.resizeTablePopup = () => TablePopupTransformer.On(this.tablePopupRef.popupElement)
-      .withMaxWidth(DisplayHelper.getMaxWidth(DisplayHelper.maxPopupWidth, DisplayHelper.getOffsetLeftRec(hlb.hotLinkButtonTemplate.nativeElement)))
+      .withMaxWidth(DisplayHelper.getMaxWidth(
+        DisplayHelper.getAnchorAlign(hlb.hotLinkButtonTemplate.nativeElement),
+        DisplayHelper.maxPopupWidth,
+        window.outerWidth,
+        DisplayHelper.getOffsetLeftRec(hlb.hotLinkButtonTemplate.nativeElement)))
       .build();
     this.showGridPupup = () => {
       let anchorAlign = DisplayHelper.getAnchorAlign(hlb.hotLinkButtonTemplate.nativeElement);

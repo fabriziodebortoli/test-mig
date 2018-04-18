@@ -18,10 +18,14 @@ export class DisplayHelper {
     private static thereIsMoreSpaceToTheLeft(anchorX: number, wholeWidth: number): boolean { return anchorX < (wholeWidth / 2); }
     private static thereIsMoreSpaceToTheTop(anchorY: number, wholeHeight: number): boolean { return anchorY < (wholeHeight / 2); }
 
-    public static getMaxWidth(desired: number, actualOffset: number): number {
-      return actualOffset - desired > 0 ? 
-        desired :
-        actualOffset - this.defaultPopupWidthDelta;  
+    public static getMaxWidth(align: Align, desired: number, windowWidth: number, actualOffset: number): number {
+      return align.horizontal === 'left' ?
+      (actualOffset + desired) < windowWidth ?
+      desired :
+      desired - ((actualOffset + desired) - windowWidth + 30) :
+      actualOffset - desired > 0 ? 
+      desired :
+      actualOffset - this.defaultPopupWidthDelta;
     }
 
     public static getAnchorAlign(anchor: any): Align {
