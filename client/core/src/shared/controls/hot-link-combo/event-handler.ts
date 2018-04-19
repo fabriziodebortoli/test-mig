@@ -2,8 +2,34 @@ import { untilDestroy } from '../../commons/untilDestroy';
 import { Observable } from '../../../rxjs.imports';
 import { TbHotlinkComboComponent } from './tb-hot-link-combo.component';
 import { findAnchestorByClass } from '../../commons/u';
-import { TriggerData, NewComboF8TriggerData, NewComboF9TriggerData } from './../hot-link-base/hotLinkTypes';
+import { TriggerData, NewComboF8TriggerData, NewComboF9TriggerData, ValueTriggerDataFactory, NewComboOpeningTriggerData } from './../hot-link-base/hotLinkTypes';
 import { get } from 'lodash';
+
+type FunctionTriggerFactory = (destroyer: any, elem: HTMLElement) => Observable<ValueTriggerDataFactory>;
+
+
+const onF8OrF9$: FunctionTriggerFactory =
+    (destroyer, elem) => Observable.fromEvent<KeyboardEvent>(elem, 'keyup',  {capture: true})
+    .pipe(untilDestroy(destroyer))
+    .filter(e => e.key === 'F8' || e.key === 'F9')
+    .map(e => e.key === 'F8' ? NewComboF8TriggerData : NewComboF9TriggerData);
+
+const onClick$: FunctionTriggerFactory =
+    (destroyer, elem) => Observable.fromEvent<MouseEvent>(elem, 'click',  {capture: false})
+    .pipe(untilDestroy(destroyer))
+    .map(e => NewComboOpeningTriggerData);
+
+const onCtrlDownArrow$: FunctionTriggerFactory =
+    (destroyer, elem) => Observable.fromEvent<KeyboardEvent>(elem, 'keyup',  {capture: false})
+    .pipe(untilDestroy(destroyer))
+    .filter(e => e.key === 'ArrowDown' && e.ctrlKey)
+    .do(console.log)
+    .do(e => e.preventDefault())
+    .do(console.log)
+    .map(e => NewComboOpeningTriggerData);
+
+const merge: <T>(...fts: Observable<T>[]) => Observable<T> = (...fts) => fts.reduce((a, b)=> a.merge(b));
+    
 
 export class TbHotlinkComboEventHandler {
     static Attach(hlc: TbHotlinkComboComponent): TbHotlinkComboEventHandler {
@@ -11,6 +37,7 @@ export class TbHotlinkComboEventHandler {
     }
 
     readonly getHotLinkElement: () => HTMLElement;
+    readonly getHotLinkSelectElement: () => HTMLElement;
     readonly setUppercase: (hlb: any) => void = hlb => {
         let uppercase = get(hlb, 'modelComponent.model.uppercase');
         if(uppercase) {
@@ -23,16 +50,16 @@ export class TbHotlinkComboEventHandler {
         (elem as any).maxLength = maxLenght;
     };
     private constructor (hlb: any) {
-        this.getHotLinkElement = () => {
-            return hlb.combobox.wrapper.getElementsByClassName('k-input')[0] as HTMLElement;
-        }
-        Observable.fromEvent<KeyboardEvent>(this.getHotLinkElement(), 'keyup',  {capture: true})
-        .pipe(untilDestroy(hlb))
-        .filter(e => e.key === 'F8' || e.key === 'F9')
-        .map(e => e.key === 'F8' ? NewComboF8TriggerData : NewComboF9TriggerData)
+        this.getHotLinkElement = () => hlb.combobox.wrapper.getElementsByClassName('k-input')[0] as HTMLElement;
+        this.getHotLinkSelectElement = () => hlb.combobox.wrapper.getElementsByClassName('k-select')[0] as HTMLElement;
+        
+        merge(onF8OrF9$(hlb, this.getHotLinkElement()),
+            onClick$(hlb, this.getHotLinkSelectElement()),
+            onCtrlDownArrow$(hlb, this.getHotLinkElement()))
         .subscribe(triggerDataFactory => {
+            hlb.start();
+            hlb.combobox.toggle(true);
             hlb.emitQueryTrigger(triggerDataFactory)
-            if (!hlb.combobox.isOpen) hlb.combobox.toggle(true);
         });
 
         hlb.slice$

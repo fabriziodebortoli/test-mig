@@ -7,6 +7,9 @@ export class TbHotlinkComboHyperLinkHandler {
     }
 
     private getHotLinkElement: () => HTMLElement;
+    private onControlFocusLost: (hlc: any) => () => void = 
+    (hlc) => () => hlc.eventDataService.change.emit(hlc.modelComponent.cmpId);
+
     private constructor (hlc: any) {
         this.getHotLinkElement = () => {
             let searchBar = (hlc.vcr.element.nativeElement.parentNode.getElementsByClassName('k-searchbar') as HTMLCollection).item(0) as HTMLElement;
@@ -23,8 +26,8 @@ export class TbHotlinkComboHyperLinkHandler {
               mustExistData: hlc.hotLinkInfo.mustExistData,
               model: hlc.modelComponent.model 
             },
-            hlc.slice$, hlc.afterNoAddOnFly, hlc.afterAddOnFly, hlc.onControlFocusLost);
+            hlc.slice$, hlc.afterNoAddOnFly, hlc.afterAddOnFly, this.onControlFocusLost(hlc));
 
-        hlc.queryTrigger.pipe(untilDestroy(hlc)).subscribe(p => hlc.hyperLinkService.workingValue = p.model);
+        hlc.queryTrigger$.pipe(untilDestroy(hlc)).subscribe(p => hlc.hyperLinkService.workingValue = p.model);
     }
 }

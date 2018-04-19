@@ -15,7 +15,6 @@ import { FilterDescriptor, CompositeFilterDescriptor } from '@progress/kendo-dat
 import { PopupService, PopupSettings, PopupRef } from '@progress/kendo-angular-popup';
 import { Subject, BehaviorSubject, Subscription, Observable, debounceFirst } from '../../../rxjs.imports';
 import { PaginatorService, ServerNeededParams, GridData } from '../../../core/services/paginator.service';
-import { FilterService, combineFilters, combineFiltersMap } from '../../../core/services/filter.service';
 import { HyperLinkService, HyperLinkInfo } from '../../../core/services/hyperlink.service';
 import { HotLinkInfo } from './../../models/hotLinkInfo.model';
 import { untilDestroy } from './../../commons/untilDestroy';
@@ -36,7 +35,7 @@ const updateSelectionType: (self: TbHotlinkComboComponent) => (source: Observabl
   selector: 'tb-hotlink-combo',
   templateUrl: './tb-hot-link-combo.component.html',
   styleUrls: ['./tb-hot-link-combo.component.scss'],
-  providers: [PaginatorService, FilterService, ComponentMediator, StorageService]
+  providers: [PaginatorService, ComponentMediator, StorageService]
 })
 export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements OnDestroy, OnInit, AfterViewInit {
   @ViewChild('combobox') public combobox: any;
@@ -51,9 +50,12 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
       (t as ValueTriggerDataFactory)(this.modelComponent.model.value) : 
       t as TriggerData;
 
-    (tdata.selectionType === ComboFilteringSelectionType ? 
-    this.comboInputTypingSubj$  : 
-    this.comboExplicitRequestSubj$).next(tdata);
+    let eimitter$ = 
+      tdata.selectionType === ComboFilteringSelectionType ?
+      this.comboInputTypingSubj$ : 
+      this.comboExplicitRequestSubj$;
+
+    eimitter$.next(tdata)
   }
   private get comboInputTyping$(): Observable<string>
   { return this.comboInputTypingSubj$.pipe(untilDestroy(this), updateSelectionType(this)).map(t => t.value); }
@@ -70,25 +72,16 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
     protected changeDetectorRef: ChangeDetectorRef,
     protected eventDataService: EventDataService,
     public paginatorService: PaginatorService,
-    protected filterer: FilterService,
     protected vcr: ViewContainerRef,
     protected mediator: ComponentMediator
   ) {
-    super(
-      layoutService,
-      webSocketService,
-      documentService,
-      changeDetectorRef,
-      paginatorService,
-      filterer,
-      eventDataService,
-      httpService);
+    super(layoutService, webSocketService, documentService, changeDetectorRef,
+      paginatorService, null, eventDataService, httpService);
   }
 
   openDropDown(ev) {
     ev.preventDefault();
-    this.start();
-    this.emitQueryTrigger(NewComboFilteringTriggerData(this.modelComponent.model.value));
+    //this.emitQueryTrigger(NewComboFilteringTriggerData(this.modelComponent.model.value));
   }
 
   closeDropDown() {
@@ -96,26 +89,21 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
     this.disablePager = true;
   }
 
-  onControlFocusLost: () => void = () => {
-    this.eventDataService.change.emit(this.modelComponent.cmpId);
-  };
+  protected get queryTrigger$(): Observable<ServerNeededParams> {
+    return this.comboInputTyping$.pipe(debounceFirst(200))
+            .filter(x => !x.isFirst).map(x => x.value)
+            .distinctUntilChanged()
+            .merge(this.comboExplicitRequest$)
+            .map(value => ({ model: value }));
+  }
 
   disablePager: boolean = true;
   get enablePager(): boolean { return !this.disablePager; }
 
-  protected get queryTrigger(): Observable<ServerNeededParams> {
-    return this.comboInputTyping$.pipe(debounceFirst(200))
-            .filter(x => !x.isFirst).map(x => x.value).merge(this.comboExplicitRequest$)
-            .distinctUntilChanged()
-            .do(console.log)
-            .do(_ => console.log('QUERYTRIGGER - FIRED'))
-            .map(value => ({ model: value }));
-  }
-
   start() {
+    this.stop();
     this.defaultPageCounter = 0;
-    this.filterer.start(200);
-    this.paginatorService.start(1, this.pageSize, this.queryTrigger, this.queryServer);
+    this.paginatorService.start(1, this.pageSize, this.queryTrigger$, this.queryServer);
     this.paginatorService.clientData.subscribe((d) => {
       this.state = this.state.with({ selectionColumn: d.key, gridData: GridData.new({ data: d.rows, total: d.total, columns: d.columns }) });
       if (!this.combobox.isOpen) this.combobox.toggle(true);

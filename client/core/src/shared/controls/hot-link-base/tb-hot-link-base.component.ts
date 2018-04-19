@@ -19,7 +19,7 @@ import { HlComponent, HotLinkState } from './hotLinkTypes';
 import { HotLinkInfo } from './../../models/hotLinkInfo.model';
 
 import { PaginatorService, ServerNeededParams } from '../../../core/services/paginator.service';
-import { FilterService, combineFilters, combineFiltersMap } from '../../../core/services/filter.service';
+import { FilterService, combineFilters, combineFiltersMap, CompositeFilter } from '../../../core/services/filter.service';
 import { HyperLinkService, HyperLinkInfo } from '../../../core/services/hyperlink.service';
 import { URLSearchParamsBuilder } from './../../commons/builder';
 
@@ -84,7 +84,7 @@ export class TbHotLinkBaseComponent extends ControlComponent {
         this.hyperLinkService = HyperLinkService.New(webSocketService, eventDataService);
     }
 
-    stop() { this.paginatorService.stop(); this.filterer.stop(); }
+    stop() { this.paginatorService.stop(); if(this.filterer) this.filterer.stop(); }
 
     protected emitModelChange() {
         // setTimeout to avoid ExpressionChangedAfterItHasBeenCheckedError
@@ -114,8 +114,11 @@ export class TbHotLinkBaseComponent extends ControlComponent {
             .withCustomSort(srvParams.customSort).withDisabled('0').withPage(pageNumber + 1).withRowsPerPage(serverPageSize).build();
 
 
-    protected get queryTrigger(): Observable<ServerNeededParams> {
-        return Observable.combineLatest(this.slice$, this.filterer.filterChanged$, this.filterer.sortChanged$,
+    protected get queryTrigger$(): Observable<ServerNeededParams> {
+        let filterTrigger$ = this.filterer ? this.filterer.filterChanged$ : Observable.never<CompositeFilter>();
+        let sortTrigger$ = this.filterer ? this.filterer.sortChanged$ : Observable.never<any[]>();
+
+        return Observable.combineLatest(this.slice$, filterTrigger$, sortTrigger$,
             (slice, filter, sort) => ({ model: slice.value, customFilters: filter, customSort: sort }));
     }
     readonly queryServer: (page: number, rowsPerPage: number, srvParams: ServerNeededParams) => Observable<any> = (pageNumber, serverPageSize, srvParams) => {
