@@ -70,7 +70,7 @@ namespace Microarea.AccountManager.Controllers
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -97,7 +97,7 @@ namespace Microarea.AccountManager.Controllers
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -109,7 +109,7 @@ namespace Microarea.AccountManager.Controllers
             {
                 string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
                 if (string.IsNullOrEmpty(authtoken))
-                    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
+                    return new NoAuthResult("missing authentication token");
 
                 bool.TryParse(AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.IsDesktop), out bool isDesktop);
 
@@ -120,7 +120,7 @@ namespace Microarea.AccountManager.Controllers
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -135,14 +135,14 @@ namespace Microarea.AccountManager.Controllers
                 bool.TryParse(AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.IsDesktop), out bool isDesktop);
 
                 if (string.IsNullOrEmpty(authtoken))
-                    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
+                    return new NoAuthResult("missing authentication token");
 
                 string json = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.GetJsonLoginInformation(authtoken);
-                return new ContentResult { Content = json, ContentType = "application/json" };
+                return new SuccessResult(json);
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -177,7 +177,7 @@ namespace Microarea.AccountManager.Controllers
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -220,11 +220,11 @@ namespace Microarea.AccountManager.Controllers
                 jsonWriter.WriteEndObject();
 
                 string s = sb.ToString();
-                return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
+                return new SuccessResult(sb.ToString());
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -239,7 +239,7 @@ namespace Microarea.AccountManager.Controllers
 
 
                 if (string.IsNullOrEmpty(authtoken))
-                    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
+                    return new NoAuthResult("missing authentication token");
 
                 //string json = "{\"Modules\": { \"Module\": [{ \"name\": \"erp.Manufacturing\" },{\"name\": \"erp.MRP\" }] }}";
                 var modules = Microarea.Common.WebServicesWrapper.LoginManager.LoginManagerInstance.GetModules();
@@ -270,11 +270,11 @@ namespace Microarea.AccountManager.Controllers
                     jsonWriter.WriteEndObject();
                     jsonWriter.WriteEndObject();
                 }
-                return new ContentResult { Content = sb.ToString(), ContentType = "application/json" };
+                return new SuccessResult(sb.ToString());
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -282,7 +282,7 @@ namespace Microarea.AccountManager.Controllers
         [Route("isServerUp")]
         public IActionResult IsServerUp()
         {
-            return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
+            return new SuccessResult();
         }
 
         //-----------------------------------------------------------------------------------------
@@ -309,11 +309,11 @@ namespace Microarea.AccountManager.Controllers
                 jsonWriter.WriteEndObject();
 
                 string content = sb.ToString();
-                return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
+                return new SuccessResult(content);
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
     }

@@ -72,7 +72,7 @@ namespace Microarea.RSWeb.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new NoAuthResult("Not authenticated");
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
             session.TbBaseAddress = tbBaseAddress;
@@ -105,7 +105,7 @@ namespace Microarea.RSWeb.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new NoAuthResult("Not authenticated");
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
             session.TbBaseAddress = tbBaseAddress;
@@ -141,7 +141,7 @@ namespace Microarea.RSWeb.Controllers
 
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new NoAuthResult("Not authenticated");
 
             string filename = nameSpace;
             if (!PathFinder.PathFinderInstance.ExistFile(filename))
@@ -181,7 +181,7 @@ namespace Microarea.RSWeb.Controllers
         {
          /*UserInfo ui = GetLoginInformation();
            if (ui == null)
-               return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };*/
+               return new NoAuthResult("Not authenticated");*/
 
             string path = Path.GetTempPath();
             string pathComplete = path + filename;
@@ -220,7 +220,7 @@ namespace Microarea.RSWeb.Controllers
 
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new NoAuthResult("Not authenticated");
 
             if (!PathFinder.PathFinderInstance.ExistFile(pathComplete))
                 return new ContentResult { Content = "File does not exists " + filename, ContentType = "application/text" };
@@ -249,7 +249,7 @@ namespace Microarea.RSWeb.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new NoAuthResult("Not authenticated");
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
             session.TbBaseAddress = tbBaseAddress;
@@ -269,7 +269,7 @@ namespace Microarea.RSWeb.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new NoAuthResult("Not authenticated");
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
             session.TbBaseAddress = tbBaseAddress;
@@ -288,7 +288,7 @@ namespace Microarea.RSWeb.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new NoAuthResult("Not authenticated");
             
             string s = ExtractSnapshot(ui, nameSpace);
             
@@ -300,7 +300,7 @@ namespace Microarea.RSWeb.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new NoAuthResult("Not authenticated");
 
             TbReportSession session = new TbReportSession(ui, nameSpace);
             session.TbBaseAddress = tbBaseAddress;

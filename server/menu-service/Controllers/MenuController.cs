@@ -52,11 +52,11 @@ namespace Microarea.Menu.Controllers
             try
             {
                 string json =  DefaultTheme.GetAllThemesJson();
-                return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
+                return new SuccessResult(json);
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -72,7 +72,7 @@ namespace Microarea.Menu.Controllers
                 string company = value["company"]?.Value<string>();
 
                 string content = NewMenuLoader.LoadMenuWithFavoritesAsJson(user, company, authtoken, true);
-                //return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
+               
                 return new SuccessResult (content);
             }
             catch (Exception e)
@@ -111,7 +111,7 @@ namespace Microarea.Menu.Controllers
                 string preferenceValue = value["value"]?.Value<string>();
 
                 bool result = NewMenuSaver.SetPreference(preferenceName, preferenceValue, user, company);
-                return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
+                return new SuccessResult();
             }
             catch (Exception e)
             {
@@ -127,7 +127,7 @@ namespace Microarea.Menu.Controllers
             {
                 string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
                 if (string.IsNullOrEmpty(authtoken))
-                    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
+                    return new NoAuthResult("missing authentication token");
 
                 string content = NewMenuLoader.GetJsonMenuSettings(authtoken);
                 return new SuccessResult(content);
@@ -146,7 +146,7 @@ namespace Microarea.Menu.Controllers
             {
                 string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
                 if (string.IsNullOrEmpty(authtoken))
-                    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
+                    return new NoAuthResult("missing authentication token");
 
                 string content = NewMenuLoader.GetConnectionInformation(authtoken);
                 return new SuccessResult(content);
@@ -165,7 +165,7 @@ namespace Microarea.Menu.Controllers
             {
                 string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
                 if (string.IsNullOrEmpty(authtoken))
-                    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
+                    return new NoAuthResult("missing authentication token");
 
                 string user = value["user"]?.Value<string>();
                 string company = value["company"]?.Value<string>();
@@ -204,7 +204,7 @@ namespace Microarea.Menu.Controllers
             {
                 string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
                 if (string.IsNullOrEmpty(authtoken))
-                    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
+                    return new NoAuthResult("missing authentication token");
 
                 string user = value["user"]?.Value<string>();
                 string company = value["company"]?.Value<string>();
@@ -227,7 +227,7 @@ namespace Microarea.Menu.Controllers
             {
                 string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
                 if (string.IsNullOrEmpty(authtoken))
-                    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
+                    return new NoAuthResult("missing authentication token");
 
                 string user = value["user"]?.Value<string>();
                 string company = value["company"]?.Value<string>();
@@ -254,8 +254,7 @@ namespace Microarea.Menu.Controllers
 
                 //potrebbe arrivarmi vuoto, se non sono ancora connesso, allora ritorno solo informazioni parziali
                 string json = NewMenuLoader.GetJsonProductInfo(authtoken);
-                
-                return new SuccessResult(json);
+
                 return new SuccessResult(json);
             }
             catch (Exception e)
@@ -305,7 +304,7 @@ namespace Microarea.Menu.Controllers
             string fullImagePath = Path.Combine(PathFinder.PathFinderInstance.GetStandardPath, imageFile);
 
             if (!PathFinder.PathFinderInstance.ExistFile(fullImagePath))
-                return new ContentResult { Content = "File does not exists " + fullImagePath, ContentType = "text/plain" };
+                return new FileNotFoundResult("File does not exists: " + fullImagePath);
 
             string ext = System.IO.Path.GetExtension(fullImagePath);
 
@@ -319,7 +318,7 @@ namespace Microarea.Menu.Controllers
             {
             }
 
-            return new ContentResult { Content = "Cannot access file " + fullImagePath, ContentType = "text/plan" };
+            return new ForbiddenResult("Cannot access file: " + fullImagePath);
         }
 
         //---------------------------------------------------------------------
@@ -349,7 +348,7 @@ namespace Microarea.Menu.Controllers
             {
                 string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
                 if (string.IsNullOrEmpty(authtoken))
-                    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
+                    return new NoAuthResult("missing authentication token");
 
                 string user = value["user"]?.Value<string>();
                 string company = value["company"]?.Value<string>();
@@ -375,7 +374,7 @@ namespace Microarea.Menu.Controllers
             {
                 string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
                 if (string.IsNullOrEmpty(authtoken))
-                    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
+                    return new NoAuthResult("missing authentication token");
 
                 string user = value["user"]?.Value<string>();
                 string company = value["company"]?.Value<string>();
@@ -401,7 +400,7 @@ namespace Microarea.Menu.Controllers
             {
                 string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
                 if (string.IsNullOrEmpty(authtoken))
-                    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
+                    return new NoAuthResult("missing authentication token");
 
                 string user = value["user"]?.Value<string>();
                 string company = value["company"]?.Value<string>();
@@ -423,7 +422,7 @@ namespace Microarea.Menu.Controllers
             {
                 string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
                 if (string.IsNullOrEmpty(authtoken))
-                    return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
+                    return new NoAuthResult("missing authentication token");
 
                 //BasePathFinder.BasePathFinderInstance.ResetApplicationsInfo();
                 PathFinder.PathFinderInstance.RefreshEasyStudioApps(TaskBuilderNetCore.Interfaces.ApplicationType.Customization);

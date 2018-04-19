@@ -151,7 +151,7 @@ namespace Microarea.Common.MenuLoader
 		internal static string GetAngularJSSafeJson(XmlDocument documMenu)
 		{
 			string allJson = Newtonsoft.Json.JsonConvert.SerializeXmlNode(documMenu, Newtonsoft.Json.Formatting.None);
-			return Jsonizer(allJson);
+            return Jsonizer(allJson);
 		}
 
 		//---------------------------------------------------------------------------------

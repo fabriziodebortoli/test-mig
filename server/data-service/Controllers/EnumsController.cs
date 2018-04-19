@@ -22,8 +22,8 @@ namespace DataService.Controllers
 		public IActionResult GetEnumsTable()
 		{
 			string content = Enums.GetJsonEnumsTable();
-			return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
-		}
+			return new SuccessResult(content);
+        }
 	}
 
     [Route("formatters-service")]
@@ -57,7 +57,7 @@ namespace DataService.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new NoAuthResult("missing authentication token");
 
             TbSession session = new TbSession(ui, null);
 
@@ -65,7 +65,7 @@ namespace DataService.Controllers
             formatStyles.Load();
 
             string content = formatStyles.GetJsonFormattersTable();
-            return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
+            return new SuccessResult(content);
         }
     }
 

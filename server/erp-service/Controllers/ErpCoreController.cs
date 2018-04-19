@@ -70,7 +70,7 @@ namespace ErpService.Controllers
         {
             var ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 401, Content = "no auth" };
+                return new NoAuthResult("Not authenticated");
             var connection = new SqlConnection(ui.CompanyDbConnection);
             using (var reader = ExecuteReader(connection, System.Data.CommandType.Text,
                 "select * from MA_CustSupp where TaxIdNumber = @p1", new[] { new SqlParameter("p1", vat) }))
@@ -87,7 +87,7 @@ namespace ErpService.Controllers
 
             var ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 401, Content = "no auth" };
+                return new NoAuthResult("Not authenticated");
 
             var zone = jsonValue["zone"]?.Value<string>();
             var storage = jsonValue["storage"]?.Value<string>();
@@ -112,7 +112,7 @@ namespace ErpService.Controllers
 
             var ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 401, Content = "no auth" };
+                return new NoAuthResult("Not authenticated");
 
             var connection = new SqlConnection(ui.CompanyDbConnection);
             using (var reader = GetItemsSearchReader(connection, queryType))

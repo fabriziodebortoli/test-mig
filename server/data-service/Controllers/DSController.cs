@@ -73,9 +73,9 @@ namespace DataService.Controllers
 
             string list;
             if (!ds.GetSelectionTypes(out list))
-                return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
+                return new ErrorResult("It fails to execute");
 
-            return new ContentResult { Content = list, ContentType = "application/json" };
+            return new SuccessResult(list);
         }
 
         //---------------------------------------------------------------------
@@ -108,15 +108,15 @@ namespace DataService.Controllers
             Datasource ds = new Datasource(session);
             if (!ds.PrepareQueryAsync(HttpContext.Request.Query, selectionType).Result)
             {
-                return new ContentResult {StatusCode = 500,  Content = "It fails to load", ContentType = "application/text" };
+                return new ErrorResult("It fails to load");
             }
             string records;
             if (!ds.GetRowsJson(out records))
             {
-                return new ContentResult {StatusCode = 500, Content = "It fails to execute", ContentType = "application/text" };
+                return new ErrorResult("It fails to execute");
             }
             //---------------------
-            return new ContentResult { Content = records, ContentType = "application/json" };
+            return new SuccessResult(records);
         }
 
         /*
@@ -125,20 +125,20 @@ namespace DataService.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 401, Content = "non sei autenticato!", ContentType = "application/text" };
+                return new NoAuthResult("Not authenticated");
 
             TbSession session = new TbSession(ui, nameSpace);
 
             Datasource ds = new Datasource(session);
 
             if (!ds.PrepareQuery(HttpContext.Request.Query, selectionType))
-                return new ContentResult { Content = "It fails to load", ContentType = "application/text" };
+                return new ErrorResult("It fails to load");
 
             string columns;
             if (!ds.GetColumns(out columns))
-                return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
+                return new ErrorResult("It fails to execute");
 
-            return new ContentResult { Content = columns, ContentType = "application/json" };
+            return new SuccessResult(columns);
         }
 
         [Route("getparameters/{namespace}")]
@@ -146,7 +146,7 @@ namespace DataService.Controllers
         {
             UserInfo ui = GetLoginInformation();
             if (ui == null)
-                return new ContentResult { StatusCode = 401, Content = "no auth", ContentType = "application/text" };
+                return new NoAuthResult("Not authenticated");
 
             TbSession session = new TbSession(ui, nameSpace);
 
@@ -154,9 +154,9 @@ namespace DataService.Controllers
 
             string list;
             if (!ds.GetParameters(out list))
-                return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
+                return new ErrorResult("It fails to execute");
 
-            return new ContentResult { Content = list, ContentType = "application/json" };
+            return new SuccessResult(list);
         }*/
 
 
@@ -191,21 +191,21 @@ namespace DataService.Controllers
 
             ResponseRadarInfo responseRadarInfo = ds.PrepareRadar(HttpContext.Request.Query/*nsDoc, , name*/).Result;
             if (responseRadarInfo == null)
-                return new ContentResult { Content = "It fails to load", ContentType = "application/text" };
+                return new ErrorResult("It fails to load");
 
             string records;
             if (!ds.GetRowsJson(out records, responseRadarInfo.radarInfo.recordKeys))
-                return new ContentResult { Content = "It fails to execute", ContentType = "application/text" };
+                return new ErrorResult("It fails to execute");
 
             //---------------------
-            return new ContentResult { Content = records, ContentType = "application/json" };
+            return new SuccessResult(records);
         }
 
 
         //---------------------------------------------------------------------
         private IActionResult GetAuthenticationErrorResponse()
         {
-            return new ContentResult { StatusCode = 401, Content = "Authentication needed", ContentType = "application/text" };
+            return new NoAuthResult("Not authenticated");
         }
     }
 }

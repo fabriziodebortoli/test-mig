@@ -41,11 +41,11 @@ namespace tbfs_service.Controllers
                 string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
                 //potrebbe arrivarmi vuoto, se non sono ancora connesso, allora ritorno solo informazioni parziali
                 string json = PathFinder.PathFinderInstance.GetJsonAllApplications(authtoken);
-                return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
+                return new SuccessResult(json);
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -58,18 +58,18 @@ namespace tbfs_service.Controllers
                 NameSpace objNameSpace = new NameSpace(objnameSpace);
 
                 if (!objNameSpace.IsValid())
-                    return new ContentResult { StatusCode = 200, Content = string.Empty, ContentType = "application/json" };
-
+                    return new SuccessResult(string.Empty);
+                
                 string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
 
                 PathFinder pf = new PathFinder(companyName, user);
                 bool exist = pf.ExistObject(objNameSpace, user, companyName, culture);
 
-                return new ContentResult { StatusCode = 200, Content = exist.ToJson(), ContentType = "application/json" };
+                return new SuccessResult(exist.ToJson());
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -82,18 +82,18 @@ namespace tbfs_service.Controllers
                 var objNameSpace = new NameSpace(objnameSpace);
 
                 if (!objNameSpace.IsValid())
-                    return new ContentResult { StatusCode = 200, Content = string.Empty, ContentType = "application/json" };
+                    return new SuccessResult(string.Empty);
 
                 var authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
 
                 var pf = new PathFinder(companyName, user);
                 var description = pf.GetDescription(objNameSpace, culture);
 
-                return new ContentResult { StatusCode = 200, Content = description.ToJson(), ContentType = "application/json" };
+                return new SuccessResult(description.ToJson());
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -107,11 +107,11 @@ namespace tbfs_service.Controllers
                 //potrebbe arrivarmi vuoto, se non sono ancora connesso, allora ritorno solo informazioni parziali
                 PathFinder pf = new PathFinder(company, userName);
                 string json = pf.GetJsonAllObjectsByTypeAndCustomizationLevel(authtoken, objNamespace, userName, company, objType);
-                return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
+                return new SuccessResult(json);
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -123,17 +123,17 @@ namespace tbfs_service.Controllers
             {
                 NameSpace objNameSpace = new NameSpace(objnameSpace);
                 if (!objNameSpace.IsValid())
-                    return new ContentResult { StatusCode = 200, Content = string.Empty, ContentType = "application/json" };
+                    return new SuccessResult(string.Empty);
 
                 string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
 
                 PathFinder pf = new PathFinder(company, user);
                 string json = pf.GetFileNameFromNamespace(objNameSpace, user, company, culture, false);
-                return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
+                return new SuccessResult(json);
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -146,11 +146,11 @@ namespace tbfs_service.Controllers
                 string authtoken = AutorizationHeaderManager.GetAuthorizationElement(HttpContext.Request, UserInfo.AuthenticationTokenKey);
                 //potrebbe arrivarmi vuoto, se non sono ancora connesso, allora ritorno solo informazioni parziali
                 string json = PathFinder.PathFinderInstance.GetJsonAllModulesByApplication(authtoken, appName);
-                return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
+                return new SuccessResult(json);
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -167,11 +167,11 @@ namespace tbfs_service.Controllers
 
                 var ns = $"{appName}.{modulesName}";
                 string json = pathFinder.GetObjsByCustomizationLevel(authtoken, appName, modulesName, objType, NameSolverStrings.AllUsers);
-                return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
+                return new SuccessResult(json);
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -239,7 +239,7 @@ namespace tbfs_service.Controllers
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -260,11 +260,11 @@ namespace tbfs_service.Controllers
                 }
                 catch (Exception e)
                 {
-                    return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                    return new ErrorResult(e.Message);
                 }
             }
 
-            return new ContentResult { StatusCode = 502, Content = "File not found", ContentType = "text/plain" };
+            return new FileNotFoundResult("File not found");
         }
     }
 }

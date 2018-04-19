@@ -6,22 +6,8 @@ using System.Threading.Tasks;
 
 namespace Microarea.Common
 {
-    public class ErrorResult : ActionResult
+    public class ErrorResult : ContentResult
     {
-
-        //
-        // Summary:
-        //     Gets or set the content representing the body of the response.
-        public string Content { get; set; }
-        //
-        // Summary:
-        //     Gets or sets the Content-Type header for the response.
-        public string ContentType { get; }
-        //
-        // Summary:
-        //     Gets or sets the HTTP status code.
-        public int? StatusCode { get; }
-
         public ErrorResult(string content = "")
         {
             this.Content = content;
@@ -31,22 +17,8 @@ namespace Microarea.Common
         }
     }
 
-    public class SuccessResult : ActionResult
+    public class SuccessResult : ContentResult
     {
-
-        //
-        // Summary:
-        //     Gets or set the content representing the body of the response.
-        public string Content { get; set; }
-        //
-        // Summary:
-        //     Gets or sets the Content-Type header for the response.
-        public string ContentType { get; }
-        //
-        // Summary:
-        //     Gets or sets the HTTP status code.
-        public int? StatusCode { get; }
-
         public SuccessResult(string content = "")
         {
             this.Content = content;
@@ -60,22 +32,8 @@ namespace Microarea.Common
         }
     }
 
-    public class NoAuthResult : ActionResult
+    public class NoAuthResult : ContentResult
     {
-
-        //
-        // Summary:
-        //     Gets or set the content representing the body of the response.
-        public string Content { get; set; }
-        //
-        // Summary:
-        //     Gets or sets the Content-Type header for the response.
-        public string ContentType { get; }
-        //
-        // Summary:
-        //     Gets or sets the HTTP status code.
-        public int? StatusCode { get; }
-
         public NoAuthResult(string content = "")
         {
             this.Content = content;
@@ -85,27 +43,24 @@ namespace Microarea.Common
         }
     }
 
-    public class ForbiddenResult : ActionResult
+    public class ForbiddenResult : ContentResult
     {
-
-        //
-        // Summary:
-        //     Gets or set the content representing the body of the response.
-        public string Content { get; set; }
-        //
-        // Summary:
-        //     Gets or sets the Content-Type header for the response.
-        public string ContentType { get; }
-        //
-        // Summary:
-        //     Gets or sets the HTTP status code.
-        public int? StatusCode { get; }
-
         public ForbiddenResult(string content = "")
         {
             this.Content = content;
 
             this.StatusCode = 403;
+            this.ContentType = "application/json";
+        }
+    }
+
+    public class FileNotFoundResult : ContentResult
+    {
+        public FileNotFoundResult(string content = "")
+        {
+            this.Content = content;
+
+            this.StatusCode = 404;
             this.ContentType = "application/json";
         }
     }
