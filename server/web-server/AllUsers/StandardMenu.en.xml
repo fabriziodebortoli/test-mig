@@ -882,7 +882,7 @@
                   <Title localizable="true" original_title="Fast DD Slip">Fast DD Slip</Title>
                   <Object>ERP.AP_AR.Documents.FDDSlip</Object>
                 </Function>
-                <Function sub_type="Report">
+                <Function sub_type="Report" activation="!ERP.MasterData_CH">
                   <Title localizable="true" original_title="Bill of Exchange Slip">Bill of Exchange Slip</Title>
                   <Object>ERP.AP_AR.Documents.BillOExchangeSlip</Object>
                 </Function>
@@ -2105,6 +2105,37 @@
                   <Object>ERP.Jobs.JobsGroups</Object>
                 </Report>
               </Menu>
+              <Menu name="Product Lines" insert_after="Jobs">
+                <Title localizable="true" original_title="Product Lines">Product Lines</Title>
+                <Document>
+                  <Title localizable="true" original_title="Product Lines">Product Lines</Title>
+                  <Object>ERP.ProductLines.Documents.ProductLines</Object>
+                </Document>
+                <Document>
+                  <Title localizable="true" original_title="Product Line Groups">Product Line Groups</Title>
+                  <Object>ERP.ProductLines.Documents.ProductLineGroups</Object>
+                </Document>
+                <Batch>
+                  <Title localizable="true" original_title="Product Lines Navigation">Product Lines Navigation</Title>
+                  <Object>ERP.CostAccounting.Documents.ProductLinesNavigation</Object>
+                </Batch>
+                <Report>
+                  <Title localizable="true" original_title="Product Lines by Code">Product Lines by Code</Title>
+                  <Object>ERP.ProductLines.ProductLinesByCode</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Items by Product Lines">Items by Product Lines</Title>
+                  <Object>ERP.ProductLines.ItemsByProductLines</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Product Lines by Group">Product Lines by Group</Title>
+                  <Object>ERP.ProductLines.ProductLinesByGroup</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Product Lines Groups">Product Lines Groups</Title>
+                  <Object>ERP.ProductLines.ProductLinesGroups</Object>
+                </Report>
+              </Menu>
               <Menu name="Chart of Accounts">
                 <Title localizable="true" original_title="Chart of Accounts">Chart of Accounts</Title>
                 <Document activation="ERP.Accounting">
@@ -2135,6 +2166,10 @@
                   <Title localizable="true" original_title="Spreading Templates by Jobs">Spreading Templates by Jobs</Title>
                   <Object>ERP.CostAccounting.JobsTemplates</Object>
                 </Report>
+                <Report insert_after="Spreading Templates by Jobs">
+                  <Title localizable="true" original_title="Spreading Templates by Product Lines">Spreading Templates by Product Lines</Title>
+                  <Object>ERP.ProductLines.ProductLinesTemplates</Object>
+                </Report>
               </Menu>
               <Menu name="Analytical Entries">
                 <Title localizable="true" original_title="Analytical Entries">Analytical Entries</Title>
@@ -2162,6 +2197,14 @@
                   <Title localizable="true" original_title="Posting from Depreciation">Posting from Depreciation</Title>
                   <Object>ERP.CostAccounting.Documents.CostAccEntriesFromDepreciation</Object>
                 </Batch>
+                <Document activation="ERP.CostAccountingTransfer">
+                  <Title localizable="true" original_title="Transfer Templates">Transfer Templates</Title>
+                  <Object>ERP.CostAccounting.Documents.TransferTpl</Object>
+                </Document>
+                <Batch activation="ERP.CostAccountingTransfer">
+                  <Title localizable="true" original_title="Automatic Transfer">Automatic Transfer</Title>
+                  <Object>ERP.CostAccounting.Documents.Transfer</Object>
+                </Batch>
               </Menu>
               <Menu name="Analytical Entries Reports">
                 <Title localizable="true" original_title="Analytical Entries Reports">Analytical Entries Reports</Title>
@@ -2188,6 +2231,10 @@
                 <Report>
                   <Title localizable="true" original_title="Non-Registered Jobs Used in Entries">Non-Registered Jobs Used in Entries</Title>
                   <Object>ERP.CostAccounting.Non-RegJobsInEntries</Object>
+                </Report>
+                <Report insert_after="Non-Registered Jobs Used in Entries">
+                  <Title localizable="true" original_title="Non-Registered Product Lines Used in Entries">Non-Registered Product Lines Used in Entries</Title>
+                  <Object>ERP.ProductLines.Non-RegProductLinesInEntries</Object>
                 </Report>
                 <Report>
                   <Title localizable="true" original_title="Non-Registered Accounts Used in Entries">Non-Registered Accounts Used in Entries</Title>
@@ -2232,6 +2279,18 @@
                   <Title localizable="true" original_title="Summary Account Sheets by Jobs">Summary Account Sheets by Jobs</Title>
                   <Object>ERP.CostAccounting.AccountsJobsSheets</Object>
                 </Report>
+                <Report>
+                  <Title localizable="true" original_title="Product Lines Sheets">Product Lines Sheets</Title>
+                  <Object>ERP.ProductLines.ProductLinesSheets-Det</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Summary Product Lines Sheets">Summary Product Lines Sheets</Title>
+                  <Object>ERP.ProductLines.ProductLinesSheets</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Summary Account Sheets by Product Lines">Summary Account Sheets by Product Lines</Title>
+                  <Object>ERP.ProductLines.AccountsProductLinesSheets</Object>
+                </Report>
               </Menu>
               <Menu name="Balance Sheets">
                 <Title localizable="true" original_title="Balance Sheets">Balance Sheets</Title>
@@ -2242,6 +2301,10 @@
                 <Batch>
                   <Title localizable="true" original_title="Balance Sheets by Jobs">Balance Sheets by Jobs</Title>
                   <Object>ERP.CostAccounting.Documents.BalanceSheetJobs</Object>
+                </Batch>
+                <Batch activation="ERP.ProductLines">
+                  <Title localizable="true" original_title="Balance Sheets by Product Lines">Balance Sheets by Product Lines</Title>
+                  <Object>ERP.CostAccounting.Documents.BalanceSheetProductLines</Object>
                 </Batch>
                 <Report>
                   <Title localizable="true" original_title="Cost Centers Balances By Value">Cost Centers Balances By Value</Title>
@@ -2259,6 +2322,14 @@
                   <Title localizable="true" original_title="Jobs Balances By Quantity">Jobs Balances By Quantity</Title>
                   <Object>ERP.CostAccounting.JobsQtyBal</Object>
                 </Report>
+                <Report>
+                  <Title localizable="true" original_title="Product Lines Balances By Value">Product Lines Balances By Value</Title>
+                  <Object>ERP.ProductLines.ProductLinesBal</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Product Lines Balances By Quantity">Product Lines Balances By Quantity</Title>
+                  <Object>ERP.ProductLines.ProductLinesQtyBalances</Object>
+                </Report>
               </Menu>
               <Menu name="Budget/Actual Analysis">
                 <Title localizable="true" original_title="Budget/Actual Analysis">Budget/Actual Analysis</Title>
@@ -2269,6 +2340,10 @@
                 <Batch>
                   <Title localizable="true" original_title="Monthly Budget/Actual by Jobs">Monthly Budget/Actual by Jobs</Title>
                   <Object>ERP.CostAccounting.Documents.BudgetMonthlyAnalysisJobs</Object>
+                </Batch>
+                <Batch insert_after="Monthly Budget/Actual by Jobs">
+                  <Title localizable="true" original_title="Monthly Budget/Actual by Product Lines">Monthly Budget/Actual by Product Lines</Title>
+                  <Object>ERP.CostAccounting.Documents.BudgetMonthlyAnalysisProductLines</Object>
                 </Batch>
                 <Batch>
                   <Title localizable="true" original_title="Monthly Budget/Actual by Chart of Accounts">Monthly Budget/Actual by Chart of Accounts</Title>
@@ -2281,6 +2356,10 @@
                 <Batch>
                   <Title localizable="true" original_title="Budget/Actual by Jobs">Budget/Actual by Jobs</Title>
                   <Object>ERP.CostAccounting.Documents.BudgetAnalysisJobs</Object>
+                </Batch>
+                <Batch insert_after="Budget/Actual by Jobs">
+                  <Title localizable="true" original_title="Budget/Actual by Product Lines">Budget/Actual by Product Lines</Title>
+                  <Object>ERP.CostAccounting.Documents.BudgetAnalysisProductLines</Object>
                 </Batch>
                 <Batch>
                   <Title localizable="true" original_title="Budget/Actual by Chart of Accounts">Budget/Actual by Chart of Accounts</Title>
@@ -2324,6 +2403,10 @@
                   <Title localizable="true" original_title="Accounting - Analytical Balances Cross-Check by Jobs">Accounting - Analytical Balances Cross-Check by Jobs</Title>
                   <Object>ERP.CostAccounting.AccountsJobsBal</Object>
                 </Report>
+                <Report insert_after="Accounting - Analytical Balances Cross-Check by Jobs">
+                  <Title localizable="true" original_title="Accounting - Analytical Balances Cross-Check by Product Lines">Accounting - Analytical Balances Cross-Check by Product Lines</Title>
+                  <Object>ERP.ProductLines.AccountsProductLinesBal</Object>
+                </Report>
                 <Report>
                   <Title localizable="true" original_title="Accounting - Analytical Balances Cross-Check By Cost Centers and Jobs">Accounting - Analytical Balances Cross-Check By Cost Centers and Jobs</Title>
                   <Object>ERP.CostAccounting.AccountsCostCentersJobsBal</Object>
@@ -2347,6 +2430,10 @@
                   <Title localizable="true" original_title="Non-Registered Jobs Used in Templates">Non-Registered Jobs Used in Templates</Title>
                   <Object>ERP.CostAccounting.Non-RegJobsInTpl</Object>
                 </Report>
+                <Report insert_after="Non-Registered Jobs Used in Templates">
+                  <Title localizable="true" original_title="Non-Registered Product Lines Used in Templates">Non-Registered Product Lines Used in Templates</Title>
+                  <Object>ERP.ProductLines.Non-RegProductLinesInTpl</Object>
+                </Report>
                 <Report>
                   <Title localizable="true" original_title="Disabled Centers Used in Templates">Disabled Centers Used in Templates</Title>
                   <Object>ERP.CostAccounting.DisabledCostCentersInTpl</Object>
@@ -2354,6 +2441,10 @@
                 <Report>
                   <Title localizable="true" original_title="Disabled Jobs used in Templates">Disabled Jobs used in Templates</Title>
                   <Object>ERP.CostAccounting.DisabledJobsInTpl</Object>
+                </Report>
+                <Report insert_after="Disabled Jobs Used in Templates">
+                  <Title localizable="true" original_title="Disabled Product Lines Used in Templates">Disabled Product Lines Used in Templates</Title>
+                  <Object>ERP.ProductLines.DisabledProductLinesInTpl</Object>
                 </Report>
               </Menu>
             </Menu>
@@ -2454,6 +2545,38 @@
                 </Report>
               </Menu>
             </Menu>
+            <Menu name="Connectors" activation="ERP.FiscoAziendaConnector" insert_after="all">
+              <Title localizable="true" original_title="Connectors">Connectors</Title>
+              <Menu name="Magix Fisco Azienda">
+                <Title localizable="true" original_title="Magix Fisco Azienda">Magix Fisco Azienda</Title>
+                <Batch>
+                  <Title localizable="true" original_title="Magix Balances Export">Magix Balances Export</Title>
+                  <Object>ERP.Accounting.BatchDocuments.MagixExport</Object>
+                </Batch>
+                <Report>
+                  <Title localizable="true" original_title="Balances to be exported to Magix">Balances to be exported to Magix</Title>
+                  <Object>ERP.Accounting.MagixExport</Object>
+                </Report>
+              </Menu>
+              <Menu name="Payroll">
+                <Title localizable="true" original_title="Payroll">Payroll</Title>
+                <Batch sub_type="Wizard" insert_after="all">
+                  <Title localizable="true" original_title="Payroll Import">Payroll Import</Title>
+                  <Object>ERP.PayrollImport.BatchDocuments.PayrollImport</Object>
+                </Batch>
+              </Menu>
+              <Menu name="BeO">
+                <Title localizable="true" original_title="B&amp;O">B&amp;O</Title>
+                <Batch>
+                  <Title localizable="true" original_title="B&amp;O Balances Export">B&amp;O Balances Export</Title>
+                  <Object>ERP.BalanceAnalysis.Documents.PrintFileForBeO</Object>
+                </Batch>
+                <Report>
+                  <Title localizable="true" original_title="B&amp;O Reclassifications List">B&amp;O Reclassifications List</Title>
+                  <Object>ERP.BalanceAnalysis.BeOReclassification</Object>
+                </Report>
+              </Menu>
+            </Menu>
             <Menu name="OldDeclarations" insert_after="all">
               <Title localizable="true" original_title="Old Declarations">Old Declarations</Title>
               <Menu name="Multipurpose Communication" activation="ERP.BlackList2014 | ERP.TaxCommunication | ERP.SanMarinoPurchases">
@@ -2495,16 +2618,6 @@
                 <Batch activation="ERP.770">
                   <Title localizable="true" original_title="770 On File">770 On File</Title>
                   <Object>ERP.Payees.Documents.770OnFile</Object>
-                </Batch>
-              </Menu>
-            </Menu>
-            <Menu name="Connectors" insert_after="all" activation="ERP.PayrollImport">
-              <Title localizable="true" original_title="Connectors">Connectors</Title>
-              <Menu name="Payroll">
-                <Title localizable="true" original_title="Payroll">Payroll</Title>
-                <Batch sub_type="Wizard" insert_after="all">
-                  <Title localizable="true" original_title="Payroll Import">Payroll Import</Title>
-                  <Object>ERP.PayrollImport.BatchDocuments.PayrollImport</Object>
                 </Batch>
               </Menu>
             </Menu>
@@ -2653,6 +2766,40 @@
                   <Title localizable="true" original_title="Ordered by Item Totals">Ordered by Item Totals</Title>
                   <Object>ERP.SaleOrders.OrderedByItem</Object>
                 </Report>
+              </Menu>
+              <Menu name="Open Orders">
+                <Title localizable="true" original_title="Open Orders">Open Orders</Title>
+                <Document>
+                  <Title localizable="true" original_title="Confirmation Levels">Confirmation Levels</Title>
+                  <Object>ERP.OpenOrders.Documents.ConfirmationLevels</Object>
+                </Document>
+                <Document>
+                  <Title localizable="true" original_title="Programmable Customer Contracts">Programmable Customer Contracts</Title>
+                  <Object>ERP.OpenOrders.Documents.CustomerContracts</Object>
+                </Document>
+                <Batch>
+                  <Title localizable="true" original_title="Delivery Schedules">Delivery Schedules</Title>
+                  <Object>ERP.OpenOrders.Documents.DeliverySchedules</Object>
+                </Batch>
+                <Batch>
+                  <Title localizable="true" original_title="Unit Value Recalculation">Unit Value Recalculation</Title>
+                  <Object>ERP.OpenOrders.Documents.RecalculateUnitValue</Object>
+                </Batch>
+                <Report>
+                  <Title localizable="true" original_title="Delivery Schedules List">Delivery Schedules List</Title>
+                  <Object>ERP.OpenOrders.DeliverySchedulePrint</Object>
+                </Report>
+                <Report activation="ERP.MRPAdvanced &amp; ERP.MRP">
+                  <Title localizable="true" original_title="Supplier Delivery Schedules List">Supplier Delivery Schedules List</Title>
+                  <Object>ERP.OpenOrders.DeliverySchedule</Object>
+                </Report>
+              </Menu>
+              <Menu name="Sale Customer Contracts">
+                <Title localizable="true" original_title="Sales Customer Contracts">Sales Customer Contracts</Title>
+                <Document>
+                  <Title localizable="true" original_title="Sale Customer Contracts">Sale Customer Contracts</Title>
+                  <Object>ERP.OpenOrders.Documents.CustContractsSale</Object>
+                </Document>
               </Menu>
             </Menu>
             <Menu name="Sales Documents">
@@ -4172,6 +4319,10 @@
                   <Title localizable="true" original_title="PreShipping for InterStorage Movement">PreShipping for InterStorage Movement</Title>
                   <Object>ERP.WMS.Documents.PreShippingForInterStorageMovement</Object>
                 </Document>
+                <Document activation="ERP.SingleStepRouting">
+                  <Title localizable="true" original_title="PreShipping for Subcontracting">PreShipping for Subcontracting</Title>
+                  <Object>ERP.WMS.Documents.PreShippingForSubcontractor</Object>
+                </Document>
                 <Batch>
                   <Title localizable="true" original_title="Transfer Order Generation from PreShipping">Transfer Order Generation from PreShipping</Title>
                   <Object>ERP.WMS.BatchDocuments.TOFromPreShipping</Object>
@@ -4253,6 +4404,14 @@
                   <Title localizable="true" original_title="Continuous Inventory">Continuous Inventory</Title>
                   <Object>ERP.WMS.BatchDocuments.WMSContinuousInventory</Object>
                 </Batch>
+                <Batch sub_type="Wizard" activation="ERP.WMSMobile  &amp; ERP.InventoryWithBinAssignment">
+                  <Title localizable="true" original_title="Inventory with Bin Assignment Planning">Inventory with Bin Assignment Planning</Title>
+                  <Object>ERP.WMSMobile.BatchDocuments.WMSInventoryBinPlanning</Object>
+                </Batch>
+                <Batch sub_type="Wizard" activation="ERP.WMSMobile  &amp; ERP.InventoryWithBinAssignment">
+                  <Title localizable="true" original_title="Inventory with Bin Assignment Management">Inventory with Bin Assignment Management</Title>
+                  <Object>ERP.WMSMobile.BatchDocuments.WMSInventoryBinManagement</Object>
+                </Batch>
                 <Batch>
                   <Title localizable="true" original_title="Check Differences between Inventory and WMS">Check Differences between Inventory and WMS</Title>
                   <Object>ERP.WMS.BatchDocuments.CheckWMSInventory</Object>
@@ -4280,6 +4439,48 @@
                   <Title localizable="true" original_title="Sales Orders Navigation">Sales Orders Navigation</Title>
                   <Object>ERP.WMS.BatchDocuments.SaleOrdersNavigation</Object>
                 </Batch>
+              </Menu>
+              <Menu name="Manufacturing">
+                <Title localizable="true" original_title="Manufacturing">Manufacturing</Title>
+                <Batch insert_before="Transfer Order Management" activation="ERP.WMS">
+                  <Title localizable="true" original_title="Transfer Requests Development">Transfer Requests Development</Title>
+                  <Object>ERP.WarMan.Documents.BDTOGeneration</Object>
+                </Batch>
+                <Batch activation="ERP.SingleStepRouting">
+                  <Title localizable="true" original_title="Manufacturing Receipts Putaway">Manufacturing Receipts Putaway</Title>
+                  <Object>ERP.WMS.BatchDocuments.TwoStepsPutawayMan</Object>
+                </Batch>
+                <Report insert_after="List of Transfer Orders" activation="ERP.WMS">
+                  <Title localizable="true" original_title="List of Transfer Orders generated by Transfer Requests">List of Transfer Orders generated by Transfer Requests</Title>
+                  <Object>erp.warman.TOGeneratedbyTRList</Object>
+                </Report>
+                <Report activation="ERP.WMS">
+                  <Title localizable="true" original_title="Orphan Transfer Orders for Manufacturing Picking List">Orphan Transfer Orders for Manufacturing Picking List</Title>
+                  <Object>ERP.WarMan.OrphanTOsList</Object>
+                </Report>
+              </Menu>
+              <Menu name="WMS Mobile" insert_after="all">
+                <Title localizable="true" original_title="WMS Mobile">WMS Mobile</Title>
+                <Batch>
+                  <Title localizable="true" original_title="WMS Mobile Monitor">WMS Mobile Monitor</Title>
+                  <Object>ERP.WMSMobile.BatchDocuments.WTMonitor</Object>
+                </Batch>
+                <Batch activation="!ERP.MasterData_BR">
+                  <Title localizable="true" original_title="WMS Mobile Goods Receipt Monitor ">WMS Mobile Goods Receipt Monitor </Title>
+                  <Object>ERP.WMSMobile.BatchDocuments.WTMonitorGR</Object>
+                </Batch>
+                <Batch sub_type="Wizard">
+                  <Title localizable="true" original_title="WMS Mobile Management">WMS Mobile Management</Title>
+                  <Object>ERP.WMSMobile.BatchDocuments.WTManagement</Object>
+                </Batch>
+                <Batch>
+                  <Title localizable="true" original_title="Inventory Entries automatic generation for Load/Unload TOs">Inventory Entries automatic generation for Load/Unload TOs</Title>
+                  <Object>ERP.WMSMobile.BatchDocuments.InvEntryFromLoadUnloadTO</Object>
+                </Batch>
+                <Report>
+                  <Title localizable="true" original_title="List of Transfer Orders syncronized with errors">List of Transfer Orders syncronized with errors</Title>
+                  <Object>ERP.WMSMobile.TOSyncError</Object>
+                </Report>
               </Menu>
               <Menu name="Print Labels" insert_after="all">
                 <Title localizable="true" original_title="Print Labels">Print Labels</Title>
@@ -4493,6 +4694,48 @@
                   <Object>ERP.Shippings.Documents.ShippingReasons</Object>
                 </Document>
               </Menu>
+              <Menu activation="ERP.FactoryStorages" name="Factories" insert_after="Shipping">
+                <Title localizable="true" original_title="Factories">Factories</Title>
+                <Document>
+                  <Title localizable="true" original_title="Factories">Factories</Title>
+                  <Object>ERP.Routing.Documents.Factories</Object>
+                </Document>
+                <Report>
+                  <Title localizable="true" original_title="Factories">Factories</Title>
+                  <Object>ERP.Routing.Factories</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Factories List">Factories List</Title>
+                  <Object>ERP.Routing.FactoriesList</Object>
+                </Report>
+              </Menu>
+              <Menu name="Tables" insert_after="Factories">
+                <Title localizable="true" original_title="Quality Inspection">Quality Inspection</Title>
+                <Document>
+                  <Title localizable="true" original_title="Analysis Method">Analysis Method</Title>
+                  <Object>ERP.QualityInspection.Documents.AnalysisMethod</Object>
+                </Document>
+                <Document>
+                  <Title localizable="true" original_title="Analysis Area">Analysis Area</Title>
+                  <Object>ERP.QualityInspection.Documents.AnalysisArea</Object>
+                </Document>
+                <Document>
+                  <Title localizable="true" original_title="Analysis Parameters">Analysis Parameters</Title>
+                  <Object>ERP.QualityInspection.Documents.AnalysisParameters</Object>
+                </Document>
+                <Document>
+                  <Title localizable="true" original_title="Results">Results</Title>
+                  <Object>ERP.QualityInspection.Documents.Results</Object>
+                </Document>
+                <Document>
+                  <Title localizable="true" original_title="Non Conformity Reasons">Non Conformity Reasons</Title>
+                  <Object>ERP.QualityInspection.Documents.NonConformityReason</Object>
+                </Document>
+                <Document>
+                  <Title localizable="true" original_title="Technical Data Definition">Technical Data Definition</Title>
+                  <Object>ERP.QualityInspection.Documents.TechnicalDataDefinition</Object>
+                </Document>
+              </Menu>
               <Menu name="WMS General" insert_after="all">
                 <Title localizable="true" original_title="WMS General">WMS General</Title>
                 <Document>
@@ -4556,33 +4799,6 @@
                 </Report>
               </Menu>
               <OtherTitle>Quality Inspection</OtherTitle>
-              <Menu name="Tables" insert_after="Factories">
-                <Title localizable="true" original_title="Quality Inspection">Quality Inspection</Title>
-                <Document>
-                  <Title localizable="true" original_title="Analysis Method">Analysis Method</Title>
-                  <Object>ERP.QualityInspection.Documents.AnalysisMethod</Object>
-                </Document>
-                <Document>
-                  <Title localizable="true" original_title="Analysis Area">Analysis Area</Title>
-                  <Object>ERP.QualityInspection.Documents.AnalysisArea</Object>
-                </Document>
-                <Document>
-                  <Title localizable="true" original_title="Analysis Parameters">Analysis Parameters</Title>
-                  <Object>ERP.QualityInspection.Documents.AnalysisParameters</Object>
-                </Document>
-                <Document>
-                  <Title localizable="true" original_title="Results">Results</Title>
-                  <Object>ERP.QualityInspection.Documents.Results</Object>
-                </Document>
-                <Document>
-                  <Title localizable="true" original_title="Non Conformity Reasons">Non Conformity Reasons</Title>
-                  <Object>ERP.QualityInspection.Documents.NonConformityReason</Object>
-                </Document>
-                <Document>
-                  <Title localizable="true" original_title="Technical Data Definition">Technical Data Definition</Title>
-                  <Object>ERP.QualityInspection.Documents.TechnicalDataDefinition</Object>
-                </Document>
-              </Menu>
             </Menu>
           </Group>
           <Group name="ERP.Manufacturing" image_namespace="Image.ERP.Core.Images.25x25\Manufacturing.png" icon="erp-manufacturing">
@@ -4599,51 +4815,25 @@
                   <Title localizable="true" original_title="Bill of Materials Navigation">Bill of Materials Navigation</Title>
                   <Object>ERP.BillOfMaterials.Documents.BOMNavigation</Object>
                 </Batch>
-                <Document activation="!ERP.SingleStepRouting" insert_after="Bill of Materials Navigation">
-                  <Title localizable="true" original_title="Operations">Operations</Title>
-                  <Object>ERP.Routing.Documents.Operations</Object>
-                </Document>
                 <Report>
                   <Title localizable="true" original_title="Bill of Materials List">Bill of Materials List</Title>
                   <Object>ERP.BillOfMaterials.BillOfMaterialsList</Object>
-                </Report>
-                <Report activation="!ERP.SingleStepRouting" insert_after="Bill of Materials List">
-                  <Title localizable="true" original_title="Operations List">Operations List</Title>
-                  <Object>ERP.Routing.OperationsList</Object>
                 </Report>
                 <Report>
                   <Title localizable="true" original_title="Bill of Materials Sheet">Bill of Materials Sheet</Title>
                   <Object>ERP.BillOfMaterials.BOMStructure</Object>
                 </Report>
-              </Menu>
-              <Menu activation="!ERP.SingleStepRouting" name="Planning">
-                <Title localizable="true" original_title="Planning">Planning</Title>
-                <Batch activation="!ERP.SingleStepRouting">
-                  <Title localizable="true" original_title="Production Plans Generation">Production Plans Generation</Title>
-                  <Object>ERP.BillOfMaterials.Documents.ProductionPlanGeneration</Object>
-                </Batch>
-                <Document activation="!ERP.SingleStepRouting">
-                  <Title localizable="true" original_title="Production Plans">Production Plans</Title>
-                  <Object>ERP.BillOfMaterials.Documents.ProductionPlan</Object>
-                </Document>
-                <Batch activation="!ERP.SingleStepRouting">
-                  <Title localizable="true" original_title="Producibility Analysis">Producibility Analysis</Title>
-                  <Object>ERP.BillOfMaterials.Documents.ProducibilityAnalysis</Object>
-                </Batch>
+                <Report activation="ERP.MultiStepRouting" insert_after="Bill of Materials Sheet">
+                  <Title localizable="true" original_title="Routings Sheet">Routings Sheet</Title>
+                  <Object>ERP.BillOfMaterials.RoutingsSheet</Object>
+                </Report>
+                <Report activation="ERP.MultiStepRouting" insert_after="Routings Sheet">
+                  <Title localizable="true" original_title="Routings Labour Sheet">Routings Labour Sheet</Title>
+                  <Object>ERP.BillOfMaterials.RoutingsLabourSheet</Object>
+                </Report>
               </Menu>
               <Menu name="Manufacturing Planning Reports">
                 <Title localizable="true" original_title="Manufacturing Planning Reports">Manufacturing Planning Reports</Title>
-                <Report activation="!ERP.SingleStepRouting">
-                  <Title localizable="true" original_title="Production Plans List">Production Plans List</Title>
-                  <Object>ERP.BillOfMaterials.ProductionPlans</Object>
-                </Report>
-              </Menu>
-              <Menu activation="!ERP.SingleStepRouting" name="Manufacturing">
-                <Title localizable="true" original_title="Manufacturing">Manufacturing</Title>
-                <Batch activation="!ERP.SingleStepRouting" sub_type="Wizard">
-                  <Title localizable="true" original_title="Production Run and Confirmation">Production Run and Confirmation</Title>
-                  <Object>ERP.BillOfMaterials.Documents.BOMProduction</Object>
-                </Batch>
               </Menu>
               <Menu name="Procedures">
                 <Title localizable="true" original_title="Procedures">Procedures</Title>
@@ -4658,6 +4848,14 @@
                 <Batch>
                   <Title localizable="true" original_title="Bill of Materials Costing">Bill of Materials Costing</Title>
                   <Object>ERP.BillOfMaterials.Documents.BOMCosting</Object>
+                </Batch>
+                <Document activation="ERP.BOMCostSimulation">
+                  <Title localizable="true" original_title="Bill of Materials Costing Simulations">Bill of Materials Costing Simulations</Title>
+                  <Object>ERP.BillOfMaterials.Documents.BOMCostSimulations</Object>
+                </Document>
+                <Batch activation="ERP.BOMCostSimulation">
+                  <Title localizable="true" original_title="Bill of Materials Costing Simulations Deletion">Bill of Materials Costing Simulations Deletion</Title>
+                  <Object>ERP.BillOfMaterials.Documents.BOMSimulationCostDeletion</Object>
                 </Batch>
                 <Batch sub_type="Wizard">
                   <Title localizable="true" original_title="Bill of Materials Components Maintenance">Bill of Materials Components Maintenance</Title>
@@ -4678,12 +4876,675 @@
                   <Title localizable="true" original_title="Bill of Materials Costing">Bill of Materials Costing</Title>
                   <Object>ERP.BillOfMaterials.StandaloneExplosionCosting</Object>
                 </Report>
+                <Report activation="ERP.BOMCostSimulation">
+                  <Title localizable="true" original_title="Bill of Material Detailed Costing">Bill of Material Detailed Costing</Title>
+                  <Object>ERP.BillOfMaterials.DetailedCosting</Object>
+                </Report>
+                <Report activation="ERP.BOMCostSimulation">
+                  <Title localizable="true" original_title="Bill of Material Grouped Costing">Bill of Material Grouped Costing</Title>
+                  <Object>ERP.BillOfMaterials.SummarizedCosting</Object>
+                </Report>
               </Menu>
               <Menu name="Resources">
                 <Title localizable="true" original_title="Resources">Resources</Title>
+                <Document activation="ERP.SingleStepRouting">
+                  <Title localizable="true" original_title="Operations">Operations</Title>
+                  <Object>ERP.Routing.Documents.Operations</Object>
+                </Document>
+                <Document activation="ERP.MultiStepRouting">
+                  <Title localizable="true" original_title="Work Centers">Work Centers</Title>
+                  <Object>ERP.Routing.Documents.WC</Object>
+                </Document>
+                <Document activation="ERP.MRPAdvanced">
+                  <Title localizable="true" original_title="Work Center Families">Work Center Families</Title>
+                  <Object>ERP.Routing.Documents.WCFamilies</Object>
+                </Document>
+                <Document insert_after="all">
+                  <Title localizable="true" original_title="Drawings">Drawings</Title>
+                  <Object>ERP.Routing.Documents.Drawings</Object>
+                </Document>
               </Menu>
-              <Menu name="Resources Reports">
+              <Menu activation="ERP.MultiStepRouting" insert_after="all" name="Resources Reports">
                 <Title localizable="true" original_title="Resources Reports">Resources Reports</Title>
+                <Report activation="ERP.SingleStepRouting">
+                  <Title localizable="true" original_title="Operations List">Operations List</Title>
+                  <Object>ERP.Routing.OperationsList</Object>
+                </Report>
+                <Report activation="ERP.MultiStepRouting">
+                  <Title localizable="true" original_title="Operation's Labour List">Operation's Labour List</Title>
+                  <Object>ERP.Routing.OperationsLabourList</Object>
+                </Report>
+                <Report activation="ERP.MultiStepRouting">
+                  <Title localizable="true" original_title="Work Centers Sheet">Work Centers Sheet</Title>
+                  <Object>ERP.Routing.WCSheet</Object>
+                </Report>
+                <Report activation="ERP.MultiStepRouting">
+                  <Title localizable="true" original_title="Work Centers List">Work Centers List</Title>
+                  <Object>ERP.Routing.WCList</Object>
+                </Report>
+                <Report activation="ERP.MRPAdvanced">
+                  <Title localizable="true" original_title="Work Center Families List">Work Center Families List</Title>
+                  <Object>ERP.Routing.WCFamiliesList</Object>
+                </Report>
+                <Report activation="ERP.MRPAdvanced">
+                  <Title localizable="true" original_title="Work Center Families Sheet">Work Center Families Sheet</Title>
+                  <Object>ERP.Routing.WCFamiliesSheet</Object>
+                </Report>
+                <Report insert_after="all" activation="DrawingsAsItemAlias">
+                  <Title localizable="true" original_title="Drawings List">Drawings List</Title>
+                  <Object>ERP.BillOfMaterialsPlus.DrawingsListPlus</Object>
+                </Report>
+                <Report insert_after="all" activation="DrawingsAsItemAlias">
+                  <Title localizable="true" original_title="Drawings Sheet">Drawings Sheet</Title>
+                  <Object>ERP.BillOfMaterialsPlus.DrawingsSheetPlus</Object>
+                </Report>
+              </Menu>
+              <Menu insert_after="all" activation="ERP.ECO" name="Engineering Change Orders">
+                <Title localizable="true" original_title="Engineering Change Orders">Engineering Change Orders</Title>
+                <Document>
+                  <Title localizable="true" original_title="Engineering Change Orders">Engineering Change Orders</Title>
+                  <Object>ERP.BillOfMaterialsPlus.Documents.ECO</Object>
+                </Document>
+                <Batch>
+                  <Title localizable="true" original_title="Engineering Change Orders Confirmation">Engineering Change Orders Confirmation</Title>
+                  <Object>ERP.BillOfMaterialsPlus.Documents.ECOConfirmation</Object>
+                </Batch>
+                <Batch>
+                  <Title localizable="true" original_title="Engineering Change Orders Deletion">Engineering Change Orders Deletion</Title>
+                  <Object>ERP.BillOfMaterialsPlus.Documents.ECODeletion</Object>
+                </Batch>
+                <Report>
+                  <Title localizable="true" original_title="Engineering Change Orders List">Engineering Change Orders List</Title>
+                  <Object>ERP.BillOfMaterialsPlus.ECOList</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Engineering Change Orders Sheet">Engineering Change Orders Sheet</Title>
+                  <Object>ERP.BillOfMaterialsPlus.ECOSheet</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Bill Of Materials Changes List">Bill Of Materials Changes List</Title>
+                  <Object>ERP.BillOfMaterialsPlus.BOMChangesList</Object>
+                </Report>
+                <Report activation="ERP.Variants">
+                  <Title localizable="true" original_title="Variants Changes List">Variants Changes List</Title>
+                  <Object>ERP.BillOfMaterialsPlus.VariantsChangesList</Object>
+                </Report>
+              </Menu>
+            </Menu>
+            <Menu name="Manufacturing">
+              <Title localizable="true" original_title="Manufacturing">Manufacturing</Title>
+              <Menu name="Manufacturing Planning">
+                <Title localizable="true" original_title="Manufacturing Planning">Manufacturing Planning</Title>
+                <Batch>
+                  <Title localizable="true" original_title="Production Plans Generation">Production Plans Generation</Title>
+                  <Object>ERP.BillOfMaterials.Documents.ProductionPlanGeneration</Object>
+                </Batch>
+                <Document>
+                  <Title localizable="true" original_title="Production Plan">Production Plan</Title>
+                  <Object>ERP.BillOfMaterials.Documents.ProductionPlan</Object>
+                </Document>
+                <Batch insert_before="Supplier Reorder for Materials Requirements">
+                  <Title localizable="true" original_title="Producibility Analysis">Producibility Analysis</Title>
+                  <Object>ERP.BillOfMaterials.Documents.ProducibilityAnalysis</Object>
+                </Batch>
+                <Batch activation="ERP.PurchaseOrders">
+                  <Title localizable="true" original_title="Supplier Reorder for Materials Requirements">Supplier Reorder for Materials Requirements</Title>
+                  <Object>ERP.BillOfMaterials.Documents.ReorderMaterialsToSupplier</Object>
+                </Batch>
+                <Batch insert_after="Supplier Reorder for Materials Requirements">
+                  <Title localizable="true" original_title="Production Reorder For Semifinished Requirements">Production Reorder For Semifinished Requirements</Title>
+                  <Object>ERP.Manufacturing.Documents.ReorderMaterialsToProduction</Object>
+                </Batch>
+              </Menu>
+              <Menu name="Manufacturing Planning Reports">
+                <Title localizable="true" original_title="Manufacturing Planning Reports">Manufacturing Planning Reports</Title>
+                <Report>
+                  <Title localizable="true" original_title="Production Plans">Production Plans</Title>
+                  <Object>ERP.BillOfMaterials.ProductionPlans</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Production Plans Sheet">Production Plans Sheet</Title>
+                  <Object>ERP.BillOfMaterials.ProductionPlanSheet</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Production Plans with MO details">Production Plans with MO details</Title>
+                  <Object>ERP.Manufacturing.PlanList</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Availability Prospect">Availability Prospect</Title>
+                  <Object>ERP.Manufacturing.AvailabilityAnalysis</Object>
+                </Report>
+              </Menu>
+              <Menu name="Manufacturing Orders">
+                <Title localizable="true" original_title="Manufacturing Orders">Manufacturing Orders</Title>
+                <Document>
+                  <Title localizable="true" original_title="Manufacturing Order">Manufacturing Order</Title>
+                  <Object>ERP.Manufacturing.Documents.MO</Object>
+                </Document>
+                <Batch insert_after="Manufacturing Order">
+                  <Title localizable="true" original_title="Manufacturing Orders Gantt">Manufacturing Orders Gantt</Title>
+                  <Object>ERP.CRP.Documents.MOActualGantt</Object>
+                </Batch>
+                <Document activation="ERP.MultiStepRouting">
+                  <Title localizable="true" original_title="Picking List">Picking List</Title>
+                  <Object>ERP.Manufacturing.Documents.PickingList</Object>
+                </Document>
+                <Batch activation="ERP.MultiStepRouting">
+                  <Title localizable="true" original_title="Missing Materials Search">Missing Materials Search</Title>
+                  <Object>ERP.Manufacturing.Documents.MaterialRequirementsPicking</Object>
+                </Batch>
+                <Batch activation="ERP.SingleStepLifoFifo">
+                  <Title localizable="true" original_title="Missing Materials Picking">Missing Materials Picking</Title>
+                  <Object>ERP.Manufacturing.Documents.PickingMissingMaterials</Object>
+                </Batch>
+                <Report>
+                  <Title localizable="true" original_title="Detailed Manufacturing Orders Sheet">Detailed Manufacturing Orders Sheet</Title>
+                  <Object>ERP.Manufacturing.ManufacturingOrderSheet</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Manufacturing Orders Sheet">Manufacturing Orders Sheet</Title>
+                  <Object>ERP.Manufacturing.ManufacturingOrder</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Manufacturing Orders List">Manufacturing Orders List</Title>
+                  <Object>ERP.Manufacturing.ManufacturingOrdersList</Object>
+                </Report>
+              </Menu>
+              <Menu name="Reports">
+                <Title localizable="true" original_title="Reports">Reports</Title>
+                <Report activation="ERP.MultiStepRouting">
+                  <Title localizable="true" original_title="Picking Lists">Picking Lists</Title>
+                  <Object>ERP.Manufacturing.PickingLists</Object>
+                </Report>
+                <Report activation="ERP.MultiStepRouting">
+                  <Title localizable="true" original_title="Job Tickets List">Job Tickets List</Title>
+                  <Object>ERP.Manufacturing.JobTicketsList</Object>
+                </Report>
+                <Report activation="ERP.MultiStepRouting">
+                  <Title localizable="true" original_title="Job Tickets List (with Routing detail)">Job Tickets List (with Routing detail)</Title>
+                  <Object>ERP.Manufacturing.DetailedStepJobTicketsList</Object>
+                </Report>
+                <Report activation="ERP.MultiStepRouting">
+                  <Title localizable="true" original_title="Job Tickets Sheet">Job Tickets Sheet</Title>
+                  <Object>ERP.Manufacturing.JobTicketSheet</Object>
+                </Report>
+                <Report activation="ERP.MultiStepRouting">
+                  <Title localizable="true" original_title="Job Tickets Inventory Entries">Job Tickets Inventory Entries</Title>
+                  <Object>ERP.Manufacturing.JobTickets-InventoryEntries</Object>
+                </Report>
+              </Menu>
+              <Menu name="Manufacturing">
+                <Title localizable="true" original_title="Manufacturing">Manufacturing</Title>
+                <Batch insert_before="Production Development">
+                  <Title localizable="true" original_title="Manufacturing Control Panel">Manufacturing Control Panel</Title>
+                  <Object>ERP.ManufacturingPlus.Documents.ControlPanel</Object>
+                </Batch>
+                <Batch sub_type="Wizard">
+                  <Title localizable="true" original_title="Production Development">Production Development</Title>
+                  <Object>ERP.Manufacturing.Documents.ProductionDevelopment</Object>
+                </Batch>
+                <Batch sub_type="Wizard" activation="ERP.MultiStepRouting">
+                  <Title localizable="true" original_title="Production Run">Production Run</Title>
+                  <Object>ERP.Manufacturing.Documents.ProductionRun</Object>
+                </Batch>
+                <Batch>
+                  <Title localizable="true" original_title="MO Confirmation">MO Confirmation</Title>
+                  <Object>ERP.Manufacturing.Documents.MOConfirmation</Object>
+                </Batch>
+                <Batch>
+                  <Title localizable="true" original_title="Shop Papers Print">Shop Papers Print</Title>
+                  <Object>ERP.Manufacturing.Documents.ShopPapersPrint</Object>
+                </Batch>
+                <Batch activation="ERP.MultiStepRouting">
+                  <Title localizable="true" original_title="Materials in Production">Materials in Production</Title>
+                  <Object>ERP.Manufacturing.Documents.InProcessingRawMaterials</Object>
+                </Batch>
+                <Report activation="ERP.MultiStepRouting">
+                  <Title localizable="true" original_title="Materials in Progress">Materials in Progress</Title>
+                  <Object>ERP.Manufacturing.ProcessingMaterialsList</Object>
+                </Report>
+              </Menu>
+              <Menu name="Procedures">
+                <Title localizable="true" original_title="Procedures">Procedures</Title>
+                <Batch>
+                  <Title localizable="true" original_title="Routing Steps Maintenance">Routing Steps Maintenance</Title>
+                  <Object>ERP.Manufacturing.Documents.MOModification</Object>
+                </Batch>
+                <Batch activation="ERP.MultiStepRouting">
+                  <Title localizable="true" original_title="Manufacturing Orders Rollback">Manufacturing Orders Rollback</Title>
+                  <Object>ERP.Manufacturing.Documents.MORollback</Object>
+                </Batch>
+                <Batch>
+                  <Title localizable="true" original_title="MO Components Replacement">MO Components Replacement</Title>
+                  <Object>ERP.Manufacturing.Documents.MOComponentsReplacement</Object>
+                </Batch>
+                <Batch>
+                  <Title localizable="true" original_title="Actual Costs Calculation">Actual Costs Calculation</Title>
+                  <Object>ERP.Manufacturing.Services.ActualCosts</Object>
+                </Batch>
+                <Batch sub_type="Wizard" activation="ERP.MultiStepRouting">
+                  <Title localizable="true" original_title="Shop Papers Deleting">Shop Papers Deleting</Title>
+                  <Object>ERP.Manufacturing.Documents.ShopPapersDeleting</Object>
+                </Batch>
+                <Batch activation="ERP.MultiStepRouting">
+                  <Title localizable="true" original_title="Production Lead Time Calculation">Production Lead Time Calculation</Title>
+                  <Object>ERP.Manufacturing.Documents.CalculateProductionLeadTime</Object>
+                </Batch>
+                <Batch activation="ERP.MultiStepRouting">
+                  <Title localizable="true" original_title="Manufacturing Orders and Bill of Materials Components Comparison">Manufacturing Orders and Bill of Materials Components Comparison</Title>
+                  <Object>ERP.Manufacturing.Services.BOM_MOComparison</Object>
+                </Batch>
+              </Menu>
+              <Menu name="BOMProcedures">
+                <Title localizable="true" original_title="BOM Procedures">BOM Procedures</Title>
+                <Batch activation="ERP.SingleStepRouting" sub_type="Wizard">
+                  <Title localizable="true" original_title="Production Run and Confirmation">Production Run and Confirmation</Title>
+                  <Object>ERP.BillOfMaterials.Documents.BOMProduction</Object>
+                </Batch>
+                <Batch>
+                  <Title localizable="true" original_title="BOM Posting Transactions">BOM Posting Transactions</Title>
+                  <Object>ERP.Manufacturing.Documents.BOMPosting</Object>
+                </Batch>
+                <Report>
+                  <Title localizable="true" original_title="BOM Posting List">BOM Posting List</Title>
+                  <Object>ERP.Manufacturing.BOMPostingList</Object>
+                </Report>
+                <Batch>
+                  <Title localizable="true" original_title="BOM Posting Deletion">BOM Posting Deletion</Title>
+                  <Object>ERP.Manufacturing.Services.BOMPostingDeletion</Object>
+                </Batch>
+              </Menu>
+              <Menu activation="ERP.WMS" name="WMS">
+                <Title localizable="true" original_title="WMS">WMS</Title>
+                <Document>
+                  <Title localizable="true" original_title="Transfer Requests">Transfer Requests</Title>
+                  <Object>ERP.WarMan.Documents.TransferRequest</Object>
+                </Document>
+                <Batch>
+                  <Title localizable="true" original_title="Transfer Requests Run">Transfer Requests Run</Title>
+                  <Object>ERP.WarMan.Documents.BDTRRun</Object>
+                </Batch>
+                <Report>
+                  <Title localizable="true" original_title="Transfer Requests Lists">Transfer Requests Lists</Title>
+                  <Object>ERP.WarMan.TransferRequestList</Object>
+                </Report>
+                <Batch>
+                  <Title localizable="true" original_title="WMS Materials Reorder">WMS Materials Reorder</Title>
+                  <Object>ERP.WarMan.Documents.BDWMSMaterialsReorder</Object>
+                </Batch>
+              </Menu>
+              <Menu insert_after="all" name="Manufacturing Reports">
+                <Title localizable="true" original_title="Manufacturing Reports">Manufacturing Reports</Title>
+                <Report activation="ERP.MultiStepRouting &amp; ERP.SingleStepLifoFifo">
+                  <Title localizable="true" original_title="Summarized Manufacturing Orders Actual Costs Variance">Summarized Manufacturing Orders Actual Costs Variance</Title>
+                  <Object>ERP.Manufacturing.Summarized-MO-ActualCostsDeviation</Object>
+                </Report>
+                <Report activation="ERP.MultiStepRouting &amp; ERP.SingleStepLifoFifo">
+                  <Title localizable="true" original_title="Cascade Manufacturing Orders Actual Costs Variance">Cascade Manufacturing Orders Actual Costs Variance</Title>
+                  <Object>ERP.Manufacturing.Cascade-MO-ActualCostsDeviation</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Manufacturing Orders and Bill of Materials Components Comparison List">Manufacturing Orders and Bill of Materials Components Comparison List</Title>
+                  <Object>ERP.Manufacturing.MO-BOMComponentsComparison</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Manufacturing Costs for Item ">Manufacturing Costs for Item </Title>
+                  <Object>ERP.Manufacturing.MOItemCosts</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Customer Orders Schedule">Customer Orders Schedule</Title>
+                  <Object>ERP.Manufacturing.SaleOrdersSchedule</Object>
+                </Report>
+                <Function sub_type="Report">
+                  <Title localizable="true" original_title="Production Status Analysis">Production Status Analysis</Title>
+                  <Object>ERP.Manufacturing.Documents.ProductionProgressAnalysis</Object>
+                </Function>
+                <Report>
+                  <Title localizable="true" original_title="Job Costs Analysis">Job Costs Analysis</Title>
+                  <Object>ERP.Manufacturing.JobCostAnalysis</Object>
+                </Report>
+              </Menu>
+            </Menu>
+            <Menu insert_after="Manufacturing" name="Manufacturing Mobile">
+              <Title localizable="true" original_title="Manufacturing Mobile">Manufacturing Mobile</Title>
+              <Menu name="Manufacturing Mobile">
+                <Title localizable="true" original_title="Manufacturing Mobile">Manufacturing Mobile</Title>
+                <Batch>
+                  <Title localizable="true" original_title="Reorder Items to Production from Mobile">Reorder Items to Production from Mobile</Title>
+                  <Object>ERP.ManufacturingMobile.Documents.MBProductionReorder</Object>
+                </Batch>
+                <Batch>
+                  <Title localizable="true" original_title="Manufacturing Mobile Monitor">Manufacturing Mobile Monitor</Title>
+                  <Object>ERP.ManufacturingMobile.Documents.MBMonitor</Object>
+                </Batch>
+                <Report>
+                  <Title localizable="true" original_title="Item, Center Cost Labels 16 per page">Item, Center Cost Labels 16 per page</Title>
+                  <Object>ERP.ManufacturingMobile.ItemCostCenter16GR</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Manufacturing Orders Labels 16 per page">Manufacturing Orders Labels 16 per page</Title>
+                  <Object>ERP.ManufacturingMobile.MONumber16GR</Object>
+                </Report>
+              </Menu>
+            </Menu>
+            <Menu insert_after="Open Orders" name="MRP">
+              <Title localizable="true" original_title="MRP">MRP</Title>
+              <Menu name="MRP">
+                <Title localizable="true" original_title="MRP">MRP</Title>
+                <Document activation="ERP.MRPAdvanced">
+                  <Title localizable="true" original_title="Simulations">Simulations</Title>
+                  <Object>ERP.MRP.Documents.MRPSimulation</Object>
+                </Document>
+                <Document activation="ERP.MRPAdvanced">
+                  <Title localizable="true" original_title="Sales Forecasts">Sales Forecasts</Title>
+                  <Object>ERP.MRP.Documents.SaleForecasts</Object>
+                </Document>
+                <Batch sub_type="Wizard" activation="ERP.MRPAdvanced">
+                  <Title localizable="true" original_title="Advanced MRP">Advanced MRP</Title>
+                  <Object>ERP.MRP.Documents.MRPWiz</Object>
+                </Batch>
+                <Batch activation="ERP.MRPAdvanced">
+                  <Title localizable="true" original_title="Schedulable MRP">Schedulable MRP</Title>
+                  <Object>ERP.MRP.Documents.MRPSchedulable</Object>
+                </Batch>
+                <Batch>
+                  <Title localizable="true" original_title="Set Default Data for MRP">Set Default Data for MRP</Title>
+                  <Object>ERP.MRP.Documents.MRPDefaultAssignation</Object>
+                </Batch>
+                <Report>
+                  <Title localizable="true" original_title="MRP Alerts">MRP Alerts</Title>
+                  <Object>ERP.MRP.MRPWarningsMessages</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Availability Forecast">Availability Forecast</Title>
+                  <Object>ERP.MRP.AvailabilityForecast</Object>
+                </Report>
+              </Menu>
+              <Menu name="MRP MO">
+                <Title localizable="true" original_title="Proposed Manufacturing Orders">Proposed Manufacturing Orders</Title>
+                <Document>
+                  <Title localizable="true" original_title="Proposed Manufacturing Orders">Proposed Manufacturing Orders</Title>
+                  <Object>ERP.Manufacturing.Documents.MRPMO</Object>
+                </Document>
+                <Report>
+                  <Title localizable="true" original_title="Proposed Manufacturing Orders List">Proposed Manufacturing Orders List</Title>
+                  <Object>ERP.MRP.ProposedMO</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Analysis of Crtical Manufacturing Orders">Analysis of Crtical Manufacturing Orders</Title>
+                  <Object>ERP.MRP.MOFeasabilityAnalysis</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Links between Manufacturing Orders (by Parent)">Links between Manufacturing Orders (by Parent)</Title>
+                  <Object>ERP.MRP.ParentMOList</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Links between Manufacturing Orders (by Child)">Links between Manufacturing Orders (by Child)</Title>
+                  <Object>ERP.MRP.ChildMOList</Object>
+                </Report>
+                <Batch>
+                  <Title localizable="true" original_title="Proposed Manufacturing Orders Confirmation">Proposed Manufacturing Orders Confirmation</Title>
+                  <Object>ERP.MRP.Documents.MRPMOConfirmation</Object>
+                </Batch>
+              </Menu>
+              <Menu name="MRP PR">
+                <Title localizable="true" original_title="Purchase Requests">Purchase Requests</Title>
+                <Document>
+                  <Title localizable="true" original_title="Purchase Requests">Purchase Requests</Title>
+                  <Object>ERP.MRP.Documents.PurchaseRequest</Object>
+                </Document>
+                <Report>
+                  <Title localizable="true" original_title="Purchase Requests Sheet">Purchase Requests Sheet</Title>
+                  <Object>ERP.MRP.PurchaseRequestSheet</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Purchase Requests List">Purchase Requests List</Title>
+                  <Object>ERP.MRP.PurchaseRequestList</Object>
+                </Report>
+                <Batch>
+                  <Title localizable="true" original_title="Purchase Orders Generation from Purchase Requests">Purchase Orders Generation from Purchase Requests</Title>
+                  <Object>ERP.MRP.Documents.PurchaseOrdFromPurchaseReq</Object>
+                </Batch>
+              </Menu>
+            </Menu>
+            <Menu name="CRP">
+              <Title localizable="true" original_title="CRP">CRP</Title>
+              <Menu name="CRP">
+                <Title localizable="true" original_title="CRP">CRP</Title>
+                <Batch>
+                  <Title localizable="true" original_title="CRP (Infinite Capacity Planning)">CRP (Infinite Capacity Planning)</Title>
+                  <Object>ERP.CRP.Documents.CRP</Object>
+                </Batch>
+                <Batch>
+                  <Title localizable="true" original_title="Work Center Histograms">Work Center Histograms</Title>
+                  <Object>ERP.CRP.Documents.WCChart</Object>
+                </Batch>
+                <Batch>
+                  <Title localizable="true" original_title="Manufacturing Orders Gantt">Manufacturing Orders Gantt</Title>
+                  <Object>ERP.CRP.Documents.MOGantt</Object>
+                </Batch>
+                <Batch>
+                  <Title localizable="true" original_title="MO Routing Steps Gantt">MO Routing Steps Gantt</Title>
+                  <Object>ERP.CRP.Documents.RtgStepsGantt</Object>
+                </Batch>
+                <Batch>
+                  <Title localizable="true" original_title="Manufacturing Orders Confirmation">Manufacturing Orders Confirmation</Title>
+                  <Object>ERP.CRP.Documents.ConfirmationCRPMO</Object>
+                </Batch>
+              </Menu>
+              <Menu name="Reports">
+                <Title localizable="true" original_title="Reports">Reports</Title>
+                <Report>
+                  <Title localizable="true" original_title="Forecasted Stock Trend">Forecasted Stock Trend</Title>
+                  <Object>ERP.CRP.AvailabilityForecastCRP</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Work Centers Load Profile">Work Centers Load Profile</Title>
+                  <Object>ERP.CRP.WCLoad</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Work Centers Plan">Work Centers Plan</Title>
+                  <Object>ERP.CRP.WCPlan</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Teams Plan">Teams Plan</Title>
+                  <Object>ERP.CRP.TeamsPlan</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Manufacturing Orders Dates Forecast">Manufacturing Orders Dates Forecast</Title>
+                  <Object>ERP.CRP.MOCRPDatesEstimate</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Manufacturing Orders Progress Status">Manufacturing Orders Progress Status</Title>
+                  <Object>ERP.CRP.MOProductionProgress</Object>
+                </Report>
+              </Menu>
+            </Menu>
+            <Menu name="Variants">
+              <Title localizable="true" original_title="Variants">Variants</Title>
+              <Menu name="Variants">
+                <Title localizable="true" original_title="Variants">Variants</Title>
+                <Document>
+                  <Title localizable="true" original_title="Variants">Variants</Title>
+                  <Object>ERP.Variants.Documents.Variants</Object>
+                </Document>
+                <Report>
+                  <Title localizable="true" original_title="Variants List">Variants List</Title>
+                  <Object>ERP.Variants.VariantsList</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Variants List by Item">Variants List by Item</Title>
+                  <Object>ERP.Variants.ItemVariantsList</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Variants Components List">Variants Components List</Title>
+                  <Object>ERP.Variants.ComponentsVariantsList</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Variants Components Sheet">Variants Components Sheet</Title>
+                  <Object>ERP.Variants.ComponentsVariantsSheet</Object>
+                </Report>
+                <Report activation="ERP.SingleStepRouting">
+                  <Title localizable="true" original_title="Variants Routings List">Variants Routings List</Title>
+                  <Object>ERP.Variants.RoutingVariantsList</Object>
+                </Report>
+                <Report activation="ERP.SingleStepRouting">
+                  <Title localizable="true" original_title="Variants Routings Sheet">Variants Routings Sheet</Title>
+                  <Object>ERP.Variants.RoutingVariantSheet</Object>
+                </Report>
+                <Report activation="ERP.MultiStepRouting">
+                  <Title localizable="true" original_title="Variants Routings Labour Sheet">Variants Routings Labour Sheet</Title>
+                  <Object>ERP.Variants.VariantRoutingsLabourSheet</Object>
+                </Report>
+              </Menu>
+              <Menu activation="ERP.Variants" name="Procedures">
+                <Title localizable="true" original_title="Procedures">Procedures</Title>
+                <Batch>
+                  <Title localizable="true" original_title="Variants Consistency Check">Variants Consistency Check</Title>
+                  <Object>ERP.Variants.Documents.VariantCheck</Object>
+                </Batch>
+              </Menu>
+            </Menu>
+            <Menu insert_after="Variants" name="Configurator">
+              <Title localizable="true" original_title="Configurator">Configurator</Title>
+              <Menu name="Configurator">
+                <Title localizable="true" original_title="Configurator">Configurator</Title>
+                <Document>
+                  <Title localizable="true" original_title="Questions &amp; Answers">Questions &amp; Answers</Title>
+                  <Object>ERP.Configurator.Documents.Questions</Object>
+                </Document>
+                <Document>
+                  <Title localizable="true" original_title="Configurations">Configurations</Title>
+                  <Object>ERP.Configurator.Documents.Configuration</Object>
+                </Document>
+                <Report>
+                  <Title localizable="true" original_title="Questions &amp; Answers Sheet">Questions &amp; Answers Sheet</Title>
+                  <Object>ERP.Configurator.QuestionSheet</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Incompatible Questions &amp; Answers List">Incompatible Questions &amp; Answers List</Title>
+                  <Object>ERP.Configurator.IncompatQuestionsAnswers</Object>
+                </Report>
+              </Menu>
+            </Menu>
+            <Menu name="Tools" activation="ERP.MultiStepRouting">
+              <Title localizable="true" original_title="Tools">Tools</Title>
+              <Menu name="Tools">
+                <Title localizable="true" original_title="Tools">Tools</Title>
+                <Document>
+                  <Title localizable="true" original_title="Tools">Tools</Title>
+                  <Object>ERP.ToolsManagement.Documents.Tools</Object>
+                </Document>
+                <Document>
+                  <Title localizable="true" original_title="Tools Families">Tools Families</Title>
+                  <Object>ERP.ToolsManagement.Documents.ToolsFamilies</Object>
+                </Document>
+                <Report>
+                  <Title localizable="true" original_title="Tools List">Tools List</Title>
+                  <Object>ERP.ToolsManagement.ToolsList</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Tool Sheet">Tool Sheet</Title>
+                  <Object>ERP.ToolsManagement.ToolSheet</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Tools Families List">Tools Families List</Title>
+                  <Object>ERP.ToolsManagement.ToolsFamiliesList</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Tool Family Sheet">Tool Family Sheet</Title>
+                  <Object>ERP.ToolsManagement.ToolsFamiliesSheet</Object>
+                </Report>
+              </Menu>
+              <Menu name="Tools Procedures">
+                <Title localizable="true" original_title="Tools Procedures">Tools Procedures</Title>
+                <Batch>
+                  <Title localizable="true" original_title="Tools Analysis">Tools Analysis</Title>
+                  <Object>ERP.ToolsManagement.Documents.ToolsAnalysis</Object>
+                </Batch>
+                <Batch>
+                  <Title localizable="true" original_title="Tools Inspection">Tools Inspection</Title>
+                  <Object>ERP.ToolsManagement.Documents.ToolsInspection</Object>
+                </Batch>
+                <Batch>
+                  <Title localizable="true" original_title="Tools Reconditioning">Tools Reconditioning</Title>
+                  <Object>ERP.ToolsManagement.Documents.ToolsRegeneration</Object>
+                </Batch>
+                <Batch sub_type="Wizard">
+                  <Title localizable="true" original_title="Tools Management">Tools Management</Title>
+                  <Object>ERP.ToolsManagement.Documents.ToolsManagement</Object>
+                </Batch>
+                <Batch>
+                  <Title localizable="true" original_title="Tools Copy">Tools Copy</Title>
+                  <Object>ERP.ToolsManagement.Documents.ToolsCopy</Object>
+                </Batch>
+              </Menu>
+              <Menu name="Tools Reports">
+                <Title localizable="true" original_title="Tools Reports">Tools Reports</Title>
+                <Report>
+                  <Title localizable="true" original_title="Tools To Be Inspected">Tools To Be Inspected</Title>
+                  <Object>ERP.ToolsManagement.ToolsToBeInspect</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Tools Under Inspection">Tools Under Inspection</Title>
+                  <Object>ERP.ToolsManagement.ToolsUnderInspection</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Tools To be Reconditioned Or Under Maintenance">Tools To be Reconditioned Or Under Maintenance</Title>
+                  <Object>ERP.ToolsManagement.ToolsReconditioning</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Tools Exhausted Or Out of Order">Tools Exhausted Or Out of Order</Title>
+                  <Object>ERP.ToolsManagement.ToolsExhausted</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Tools History">Tools History</Title>
+                  <Object>ERP.ToolsManagement.ToolsHistory</Object>
+                </Report>
+              </Menu>
+            </Menu>
+            <Menu insert_after="Manufacturing Mobile" name="Subcontracting">
+              <Title localizable="true" original_title="Subcontracting">Subcontracting</Title>
+              <Menu name="Subcontractor Orders">
+                <Title localizable="true" original_title="Subcontractor Orders">Subcontractor Orders</Title>
+                <Batch activation="ERP.PurchaseOrders">
+                  <Title localizable="true" original_title="Subcontractor Orders Generation">Subcontractor Orders Generation</Title>
+                  <Object>ERP.Subcontracting.Documents.SubcontractorOrdGeneration</Object>
+                </Batch>
+                <Document activation="ERP.PurchaseOrders">
+                  <Title localizable="true" original_title="Subcontractor Order">Subcontractor Order</Title>
+                  <Object>ERP.Subcontracting.AddOnsPurchaseOrders.SubcontractorOrd</Object>
+                </Document>
+                <Report activation="ERP.PurchaseOrders">
+                  <Title localizable="true" original_title="Subcontractor Orders List">Subcontractor Orders List</Title>
+                  <Object>ERP.Subcontracting.SubcontractorOrderList</Object>
+                </Report>
+              </Menu>
+              <Menu name="Subcontractor Delivery Notes">
+                <Title localizable="true" original_title="Subcontractor Delivery Notes">Subcontractor Delivery Notes</Title>
+                <Batch activation="ERP.Sales &amp; !ERP.MasterData_BR">
+                  <Title localizable="true" original_title="Subcontractor Delivery Notes Generation">Subcontractor Delivery Notes Generation</Title>
+                  <Object>ERP.Subcontracting.Documents.SubcontractorDNGeneration</Object>
+                </Batch>
+                <Document activation="ERP.Sales &amp; !ERP.MasterData_BR">
+                  <Title localizable="true" original_title="Subcontractor Delivery Note">Subcontractor Delivery Note</Title>
+                  <Object>ERP.Subcontracting.AddOnsSales.SubcontractorDN</Object>
+                </Document>
+              </Menu>
+              <Menu name="Subcontractor Bill of Lading">
+                <Title localizable="true" original_title="Subcontractor Bill of Ladings">Subcontractor Bill of Ladings</Title>
+                <Document activation="ERP.Purchases &amp; !ERP.MasterData_BR">
+                  <Title localizable="true" original_title="Subcontractor Bill of Lading">Subcontractor Bill of Lading</Title>
+                  <Object>ERP.Subcontracting.AddOnsPurchases.SubcontractorBoL</Object>
+                </Document>
+                <Report>
+                  <Title localizable="true" original_title="Materials at the Supplier List">Materials at the Supplier List</Title>
+                  <Object>ERP.Subcontracting.MaterialSuppliedToSubcntList</Object>
+                </Report>
+                <Report>
+                  <Title localizable="true" original_title="Subcontractor Analysis">Subcontractor Analysis</Title>
+                  <Object>ERP.Subcontracting.SubcontratorAnalysis</Object>
+                </Report>
               </Menu>
             </Menu>
           </Group>
@@ -4921,7 +5782,7 @@
                   <Title localizable="true" original_title="Temporary Accounting Closing">Temporary Accounting Closing</Title>
                   <Object>ERP.Accounting.Services.TemporaryClosing</Object>
                 </Batch>
-                <Batch activation="!ERP.MonthlyClosing">
+                <Batch activation="!ERP.MonthlyClosing &amp; !ERP.MasterData_DE">
                   <Title localizable="true" original_title="Profit and Loss Account Closing">Profit and Loss Account Closing</Title>
                   <Object>ERP.Accounting.Services.ProfitAndLossClosing</Object>
                 </Batch>
@@ -5155,6 +6016,10 @@
                   <Title localizable="true" original_title="Interim Zones Analysis">Interim Zones Analysis</Title>
                   <Object>ERP.WMS.Services.WMSInterimAnalysis</Object>
                 </Batch>
+                <Batch activation="ERP.WMS" insert_after="Interim Zones Analysis">
+                  <Title localizable="true" original_title="Manufacturing Interim Zones Analysis">Manufacturing Interim Zones Analysis</Title>
+                  <Object>ERP.WarMan.Documents.BDWarManInterimAnalysis</Object>
+                </Batch>
                 <Batch>
                   <Title localizable="true" original_title="Snapshots Creation Procedure">Snapshots Creation Procedure</Title>
                   <Object>ERP.WMS.BatchDocuments.SnapshotCreate</Object>
@@ -5163,6 +6028,29 @@
                   <Title localizable="true" original_title="Deletion of Stocks from Interim">Deletion of Stocks from Interim</Title>
                   <Object>ERP.WMS.Services.DeleteStocksFromInterim</Object>
                 </Batch>
+              </Menu>
+              <Menu name="WMS Mobile" insert_after="WMS">
+                <Title localizable="true" original_title="WMS Mobile">WMS Mobile</Title>
+                <Batch>
+                  <Title localizable="true" original_title="Unset used in WMS Mobile Option in Items Master">Unset used in WMS Mobile Option in Items Master</Title>
+                  <Object>ERP.WMS.Services.UnsetUsedInWMSMobile</Object>
+                </Batch>
+                <Batch>
+                  <Title localizable="true" original_title="Transfer Orders Deletion from Monitor WMS Mobile">Transfer Orders Deletion from Monitor WMS Mobile</Title>
+                  <Object>ERP.WMSMobile.BatchDocuments.WTDeletePendingTO</Object>
+                </Batch>
+                <Batch>
+                  <Title localizable="true" original_title="Mobile Forms Configuration">Mobile Forms Configuration</Title>
+                  <Object>ERP.WMSMobile.Services.MobileConfiguration</Object>
+                </Batch>
+                <Batch>
+                  <Title localizable="true" original_title="Mobile Database Creation">Mobile Database Creation</Title>
+                  <Object>ERP.WMSMobile.Services.WTOnBoardDBCreator</Object>
+                </Batch>
+                <Document>
+                  <Title localizable="true" original_title="WMS Mobile Web Services">WMS Mobile Web Services</Title>
+                  <Object>ERP.WMSMobile.Services.WMSMobileWebServices</Object>
+                </Document>
               </Menu>
               <Menu name="Rebuildings" insert_after="all">
                 <Title localizable="true" original_title="Rebuildings">Rebuildings</Title>
@@ -5588,7 +6476,7 @@
                 </Report>
                 <OtherTitle>Items</OtherTitle>
               </Menu>
-              <Menu name="WMS" insert_after="Inventory">
+              <Menu name="WMS">
                 <Title localizable="true" original_title="WMS">WMS</Title>
                 <Document>
                   <Title localizable="true" original_title="WMS Parameters">WMS Parameters</Title>
@@ -5602,6 +6490,14 @@
                   <Title localizable="true" original_title="WMS Default Codes by User">WMS Default Codes by User</Title>
                   <Object>ERP.UserDefault.Documents.UserDefaultWMS</Object>
                 </Document>
+                <Document insert_after="all">
+                  <Title localizable="true" original_title="WMS Mobile Parameters">WMS Mobile Parameters</Title>
+                  <Object>ERP.WMSMobile.Services.WMSMobileParameters</Object>
+                </Document>
+                <Document insert_after="all">
+                  <Title localizable="true" original_title="WMS Mobile Parameters for TOs transfer to handhelds">WMS Mobile Parameters for TOs transfer to handhelds</Title>
+                  <Object>ERP.WMSMobile.Services.WTParametersInProgrSet</Object>
+                </Document>
               </Menu>
             </Menu>
             <Menu name="Manufacturing">
@@ -5611,6 +6507,27 @@
                 <Document>
                   <Title localizable="true" original_title="Bill of Material Parameters">Bill of Material Parameters</Title>
                   <Object>ERP.BillOfMaterials.Services.BOMParameters</Object>
+                </Document>
+              </Menu>
+              <Menu name="Manufacturing">
+                <Title localizable="true" original_title="Manufacturing">Manufacturing</Title>
+                <Document>
+                  <Title localizable="true" original_title="Manufacturing Parameters">Manufacturing Parameters</Title>
+                  <Object>ERP.Manufacturing.Services.ManufacturingParameters</Object>
+                </Document>
+              </Menu>
+              <Menu name="Manufacturing Mobile">
+                <Title localizable="true" original_title="Manufacturing Mobile Parameters">Manufacturing Mobile Parameters</Title>
+                <Document>
+                  <Title localizable="true" original_title="Manufacturing Mobile Parameters">Manufacturing Mobile Parameters</Title>
+                  <Object>ERP.ManufacturingMobile.Services.ManMobileParameters</Object>
+                </Document>
+              </Menu>
+              <Menu name="Configurator">
+                <Title localizable="true" original_title="Configurator">Configurator</Title>
+                <Document>
+                  <Title localizable="true" original_title="Configurator Parameters">Configurator Parameters</Title>
+                  <Object>ERP.Configurator.Services.ConfiguratorParameters</Object>
                 </Document>
               </Menu>
             </Menu>
@@ -5626,247 +6543,13 @@
             </Menu>
           </Group>
         </Application>
-        <Application name="TBS" image_namespace="Image.TBS.TBSModule.Images.LogoTBS.png">
-          <Title localizable="true" original_title="TaskBuilder Studio">TaskBuilder Studio</Title>
-          <Group name="TBS.EasyBuilder" activation="Extensions.EasyStudioDesigner" icon="tbs-easybuilder" image_file="C:\Dev4\Standard\Applications\TBS\TBSModule\Menu\TBS.EasyBuilder.png">
-            <Title localizable="true" original_title="Easy Studio">Easy Studio</Title>
-            <Menu name="TBS.EasyBuilder.TbEasyBuilder" search_command_image="true">
-              <Title localizable="true" original_title="Easy Studio">Easy Studio</Title>
-              <Menu name="TBS.EasyBuilder.TbEasyBuilder" search_command_image="true">
-                <Title localizable="true" original_title="Easy Studio">Easy Studio</Title>
-                <Document noweb="true" activation="Extensions.EasyStudioDesigner" noeasystudio="true" search_command_image="true">
-                  <Title localizable="true" original_title="Create a new document...">Create a new document...</Title>
-                  <Object>Extensions.EasyBuilder.TbEasyBuilder.NewDocument</Object>
-                </Document>
-                <Document noweb="true" activation="Extensions.EasyStudioDesigner" noeasystudio="true" search_command_image="true">
-                  <Title localizable="true" original_title="Create a new batch document...">Create a new batch document...</Title>
-                  <Object>Extensions.EasyBuilder.TbEasyBuilder.NewBatchDocument</Object>
-                </Document>
-                <Document noweb="true" activation="Extensions.EasyStudioDesigner &amp; TBS.DevelopmentEd" noeasystudio="true" search_command_image="true">
-                  <Title localizable="true" original_title="Easy Studio JSON Designer">Easy Studio JSON Designer</Title>
-                  <Object>Extensions.EasyBuilder.TbEasyBuilder.EasyStudioDesigner</Object>
-                </Document>
-                <Function noweb="true" activation="Extensions.EasyStudioDesigner" search_command_image="true">
-                  <Title localizable="true" original_title="Open Easy Studio settings form">Open Easy Studio settings form</Title>
-                  <Object>Extensions.EasyBuilder.TbEasyBuilder.OpenEasyBuilderSettings</Object>
-                </Function>
-                <Function noweb="true" activation="Extensions.EasyStudioDesigner" search_command_image="true">
-                  <Title localizable="true" original_title="Open Menu Editor">Open Menu Editor</Title>
-                  <Object>Extensions.EasyBuilder.TbEasyBuilder.OpenMenuEditor</Object>
-                </Function>
-                <Function noweb="true" activation="Extensions.EasyStudioDesigner" search_command_image="true">
-                  <Title localizable="true" original_title="Setup Studio">Setup Studio</Title>
-                  <Object>Extensions.EasyBuilder.TbEasyBuilder.OpenCustomizationManager</Object>
-                </Function>
-              </Menu>
-            </Menu>
-          </Group>
-          <Group name="TBS.ReportingService" search_command_image="true" activation="Framework.ReportEditor" icon="tbs-reportingservice" image_file="C:\Dev4\Standard\Applications\TBS\TBSModule\Menu\TBS.ReportingService.png">
-            <Title localizable="true" original_title="Reporting Studio">Reporting Studio</Title>
-            <Menu name="TBS.ReportingService.ReportingServices" search_command_image="true">
-              <Title localizable="true" original_title="Reporting Studio">Reporting Studio</Title>
-              <Menu name="TBS.ReportingService.ReportingServices.Woorm" search_command_image="true" environment="desktop">
-                <Title localizable="true" original_title="Reporting Studio">Reporting Studio</Title>
-                <Function insert_after="all" activation="Framework.ReportEditor" noweb="true" search_command_image="true">
-                  <Title localizable="true" original_title="New Report">New Report</Title>
-                  <Object>Framework.TbWoormViewer.TbWoormViewer.ExecNewReport</Object>
-                </Function>
-                <Function insert_after="all" noweb="true" search_command_image="true">
-                  <Title localizable="true" original_title="Open an existing Report">Open an existing Report</Title>
-                  <Object>Framework.TbWoormViewer.TbWoormViewer.ExecOpenReport</Object>
-                </Function>
-              </Menu>
-              <Menu name="TBS.ReportingService.ReportingServices.Tools" search_command_image="true" environment="desktop">
-                <Title localizable="true" original_title="Tools">Tools</Title>
-                <Function search_command_image="true" image_file="C:\Dev4\Standard\Applications\TBS\TBSModule\Menu\Framework.TbGenlibUI.TbGenlibUI.ExecOpenFont.gif">
-                  <Title localizable="true" original_title="Font Styles">Font Styles</Title>
-                  <Object>Framework.TbGenlibUI.TbGenlibUI.ExecOpenFont</Object>
-                </Function>
-                <Function search_command_image="true" image_file="C:\Dev4\Standard\Applications\TBS\TBSModule\Menu\Framework.TbGenlibUI.TbGenlibUI.ExecOpenFormatter.gif">
-                  <Title localizable="true" original_title="Format Styles">Format Styles</Title>
-                  <Object>Framework.TbGenlibUI.TbGenlibUI.ExecOpenFormatter</Object>
-                </Function>
-                <Function search_command_image="true" image_file="C:\Dev4\Standard\Applications\TBS\TBSModule\Menu\Framework.TbGenlibUI.TbGenlibUI.EnumsViewer.gif">
-                  <Title localizable="true" original_title="Enums Viewer">Enums Viewer</Title>
-                  <Object>Framework.TbGenlibUI.TbGenlibUI.EnumsViewer</Object>
-                </Function>
-              </Menu>
-              <Menu name="TestReports" hidden="GetSetting('Framework.TbWoormViewer', 'WoormRunningOptions','ShowRSBetaFeatures', FALSE) == TRUE" search_command_image="true">
-                <Title localizable="true" original_title="Test Reports">Test Reports</Title>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="Chart test">Chart test</Title>
-                  <Object>Framework.TbWoormViewer.RS_ChartTableTest</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="Align Field">Align Field</Title>
-                  <Object>Framework.TbWoormViewer.RS_FieldsAlign</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="Font Size">Font Size</Title>
-                  <Object>Framework.TbWoormViewer.RS_FontSize</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="Totale portafoglio clienti - tabella colorata">Totale portafoglio clienti - tabella colorata</Title>
-                  <Object>Framework.TbWoormViewer.RSW_Test1</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="tabella con attributi dinamici e immagini">tabella con attributi dinamici e immagini</Title>
-                  <Object>Framework.TbWoormViewer.RSW_Test2</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="Allineamento immagini  e campi immagine">Allineamento immagini  e campi immagine</Title>
-                  <Object>Framework.TbWoormViewer.RS_Immagini</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="Allineamento immagini in tabella">Allineamento immagini in tabella</Title>
-                  <Object>Framework.TbWoormViewer.RS_ImgTable</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="Test campi allineati ed ancorati a tabella">Test campi allineati ed ancorati a tabella</Title>
-                  <Object>Framework.TbWoormViewer.RS_FieldAlignTableTest</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="semplici links">semplici links</Title>
-                  <Object>Framework.TbWoormViewer.RSW_Links</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="askdialog 1">askdialog 1</Title>
-                  <Object>Framework.TbWoormViewer.RS_AskDialog1</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="askdialog 2">askdialog 2</Title>
-                  <Object>Framework.TbWoormViewer.RS_AskDialog2</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="Multi AskDialogs">Multi AskDialogs</Title>
-                  <Object>Framework.TbWoormViewer.RS_MultiAskDialogs</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="hotlink con dataservice">hotlink con dataservice</Title>
-                  <Object>Framework.TbWoormViewer.RS_hkl_DS_itemssimple</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="hotlink con multiselezione">hotlink con multiselezione</Title>
-                  <Object>Framework.TbWoormViewer.RS_PaymentTerms_hms</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="mini html">mini html</Title>
-                  <Object>Framework.TbWoormViewer.RS_MiniHtml</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="mini html advanced">mini html advanced</Title>
-                  <Object>Framework.TbWoormViewer.RS_MiniHtmlAdv</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="Custom title">Custom title</Title>
-                  <Object>Framework.TbWoormViewer.RS_CustomersAddressBook</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="Repeater sample">Repeater sample</Title>
-                  <Object>Framework.TbWoormViewer.RS_repeater</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="Repeater as table">Repeater as table</Title>
-                  <Object>Framework.TbWoormViewer.RS_repeater_table</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="chart samples">chart samples</Title>
-                  <Object>Framework.TbWoormViewer.RS_Chart2</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="chart range samples">chart range samples</Title>
-                  <Object>Framework.TbWoormViewer.RS_Chart_Range</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="chart scatter samples">chart scatter samples</Title>
-                  <Object>Framework.TbWoormViewer.RS_Chart_Scatter</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="chart stacked samples">chart stacked samples</Title>
-                  <Object>Framework.TbWoormViewer.RS_Charts_Stacked</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="chart various samples">chart various samples</Title>
-                  <Object>Framework.TbWoormViewer.RS_Charts_Various</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="Items with picture">Items with picture</Title>
-                  <Object>Framework.TbWoormViewer.RS_Items</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="Barcode example">Barcode example</Title>
-                  <Object>Framework.TbWoormViewer.RS_Barcode_Example</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="Barcode test">Barcode test</Title>
-                  <Object>Framework.TbWoormViewer.RS_Barcode_Test</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="Text File test">Text File test</Title>
-                  <Object>Framework.TbWoormViewer.RS_TextFile_test</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="Titles by Named-Query Rule">Titles by Named-Query Rule</Title>
-                  <Object>Framework.TbWoormViewer.RS_Titles_NamedQuery</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="Loop Rule with grouping">Loop Rule with grouping</Title>
-                  <Object>Framework.TbWoormViewer.RS_LoopRule_with_grouping</Object>
-                </Report>
-                <Report hidden="!IsWeb()" search_command_image="true">
-                  <Title localizable="true" original_title="Gauge test1">Gauge test1</Title>
-                  <Object>Framework.TbWoormViewer.RS_Gauge_test1</Object>
-                </Report>
-                <Report hidden="!IsWeb()" search_command_image="true">
-                  <Title localizable="true" original_title="PDF Copy Number test">PDF Copy Number test</Title>
-                  <Object>Framework.TbWoormViewer.TestCurrentCopyNumber</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="Dynamic Expression Test">Dynamic Expression Test</Title>
-                  <Object>Framework.TbWoormViewer.TestDynamicExpression</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="Table with hidden columns and anchored fields">Table with hidden columns and anchored fields</Title>
-                  <Object>Framework.TbWoormViewer.RS_TableWithDynamicLayout</Object>
-                </Report>
-              </Menu>
-              <Menu name="ExampleReports" hidden="GetSetting('Framework.TbWoormViewer', 'WoormRunningOptions','ShowRSBetaFeatures', FALSE) == TRUE" search_command_image="true">
-                <Title localizable="true" original_title="Example Reports">Example Reports</Title>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="External functions test">External functions test</Title>
-                  <Object>Framework.TbWoormViewer.ExternalFunctionsTest</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="Alignments - Multi layouts">Alignments - Multi layouts</Title>
-                  <Object>Framework.TbWoormViewer.RS_TextAlignments</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="Background color and Transparency">Background color and Transparency</Title>
-                  <Object>Framework.TbWoormViewer.RS_BackgroundColorTransparency</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="Borders">Borders</Title>
-                  <Object>Framework.TbWoormViewer.RS_Borders</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="Shading">Shading</Title>
-                  <Object>Framework.TbWoormViewer.RS_Shading</Object>
-                </Report>
-                <Report search_command_image="true">
-                  <Title localizable="true" original_title="Customer Labels with repeater">Customer Labels with repeater</Title>
-                  <Object>Framework.TbWoormViewer.RS_Labels_Repeater</Object>
-                </Report>
-              </Menu>
-            </Menu>
-          </Group>
-        </Application>
       </AppMenu>
     </MenuXmlDoc>
   </AppsMenuXmlParser>
   <EnvironmentXmlParser>
     <MenuXmlDoc>
       <AppMenu>
-        <Application name="Framework" image_namespace="Image.TBF.TBFModule.Images.LogoTBF.png" image_file="C:\Dev4\Standard\TaskBuilder\Framework\TbGenlibUI\Menu\Framework.gif">
+        <Application name="Framework" image_namespace="Image.TBF.TBFModule.Images.LogoTBF.png" image_file="C:\development\Standard\TaskBuilder\Framework\TbGenlibUI\Menu\Framework.gif">
           <Title localizable="true" original_title="TaskBuilder Framework">TaskBuilder Framework</Title>
           <Group name="Extensions.EasyAttachment" image_namespace="Image.Extensions.ExtensionsImages.Images.25x25\DMS.png" icon="tb-dms">
             <Title localizable="true" original_title="DMS">DMS</Title>
@@ -5938,11 +6621,11 @@
               <Title localizable="true" original_title="Mail Connector">Mail Connector</Title>
               <Menu name="Extensions.TbMailer.Settings" search_command_image="true">
                 <Title localizable="true" original_title="Settings">Settings</Title>
-                <Function search_command_image="true" image_file="C:\Dev4\Standard\TaskBuilder\Extensions\TbMailer\Menu\Extensions.TbMailer.TbMailer.ConfigureSmtpParameter.gif">
+                <Function search_command_image="true" image_file="C:\development\Standard\TaskBuilder\Extensions\TbMailer\Menu\Extensions.TbMailer.TbMailer.ConfigureSmtpParameter.gif">
                   <Title localizable="true" original_title="Set SMTP connection ">Set SMTP connection </Title>
                   <Object>Extensions.TbMailer.TbMailer.ConfigureSmtpParameter</Object>
                 </Function>
-                <Function search_command_image="true" image_file="C:\Dev4\Standard\TaskBuilder\Extensions\TbMailer\Menu\Extensions.TbMailer.TbMailer.ConfigureMailParameters.gif">
+                <Function search_command_image="true" image_file="C:\development\Standard\TaskBuilder\Extensions\TbMailer\Menu\Extensions.TbMailer.TbMailer.ConfigureMailParameters.gif">
                   <Title localizable="true" original_title="Set Mail Parameters">Set Mail Parameters</Title>
                   <Object>Extensions.TbMailer.TbMailer.ConfigureMailParameters</Object>
                 </Function>
@@ -5963,10 +6646,6 @@
                   <Title localizable="true" original_title="Framework Settings">Framework Settings</Title>
                   <Object>Framework.TbGes.TbGes.TBFSettings</Object>
                 </Document>
-                <Function insert_after="all" noweb="true" search_command_image="true">
-                  <Title localizable="true" original_title="Validate Pass-Key">Validate Pass-Key</Title>
-                  <Object>Framework.TbWoormViewer.TbWoormViewer.PassKeyLogin</Object>
-                </Function>
               </Menu>
             </Menu>
           </Group>
@@ -6056,23 +6735,19 @@
               <Title localizable="true" original_title="Tools">Tools</Title>
               <Menu name="FrameWork.Administration.Tools.Tools" search_command_image="true">
                 <Title localizable="true" original_title="Tools">Tools</Title>
-                <Function search_command_image="true">
-                  <Title localizable="true" original_title="Document Reports Management">Document Reports Management</Title>
-                  <Object>Framework.TbGes.TbGes.AdminDocumentReports</Object>
-                </Function>
-                <Function noweb="true" search_command_image="true" image_file="C:\Dev4\Standard\TaskBuilder\Framework\TbGenlibUI\Menu\Framework.TbGenlibUI.TbGenlibUI.ExecManageFile.gif">
+                <Function noweb="true" search_command_image="true" image_file="C:\development\Standard\TaskBuilder\Framework\TbGenlibUI\Menu\Framework.TbGenlibUI.TbGenlibUI.ExecManageFile.gif">
                   <Title localizable="true" original_title="Import and Copy files">Import and Copy files</Title>
                   <Object>Framework.TbGenlibUI.TbGenlibUI.ExecManageFile</Object>
                 </Function>
-                <Function search_command_image="true" image_file="C:\Dev4\Standard\TaskBuilder\Framework\TbGenlibUI\Menu\Framework.TbGenlibUI.TbGenlibUI.ExecOpenFont.gif">
+                <Function search_command_image="true" image_file="C:\development\Standard\TaskBuilder\Framework\TbGenlibUI\Menu\Framework.TbGenlibUI.TbGenlibUI.ExecOpenFont.gif">
                   <Title localizable="true" original_title="Font Styles">Font Styles</Title>
                   <Object>Framework.TbGenlibUI.TbGenlibUI.ExecOpenFont</Object>
                 </Function>
-                <Function search_command_image="true" image_file="C:\Dev4\Standard\TaskBuilder\Framework\TbGenlibUI\Menu\Framework.TbGenlibUI.TbGenlibUI.ExecOpenFormatter.gif">
+                <Function search_command_image="true" image_file="C:\development\Standard\TaskBuilder\Framework\TbGenlibUI\Menu\Framework.TbGenlibUI.TbGenlibUI.ExecOpenFormatter.gif">
                   <Title localizable="true" original_title="Format Styles">Format Styles</Title>
                   <Object>Framework.TbGenlibUI.TbGenlibUI.ExecOpenFormatter</Object>
                 </Function>
-                <Function search_command_image="true" image_file="C:\Dev4\Standard\TaskBuilder\Framework\TbGenlibUI\Menu\Framework.TbGenlibUI.TbGenlibUI.EnumsViewer.gif">
+                <Function search_command_image="true" image_file="C:\development\Standard\TaskBuilder\Framework\TbGenlibUI\Menu\Framework.TbGenlibUI.TbGenlibUI.EnumsViewer.gif">
                   <Title localizable="true" original_title="Enums Viewer">Enums Viewer</Title>
                   <Object>Framework.TbGenlibUI.TbGenlibUI.EnumsViewer</Object>
                 </Function>
@@ -6085,6 +6760,28 @@
                 <Function noweb="true" search_command_image="true">
                   <Title localizable="true" original_title="Setup Studio">Setup Studio</Title>
                   <Object>Extensions.EasyBuilder.TbEasyBuilder.OpenCustomizationManager</Object>
+                </Function>
+              </Menu>
+            </Menu>
+            <Menu name="FrameWork.Administration.Tools.ReportingStudio" search_command_image="true">
+              <Title localizable="true" original_title="Reporting Studio">Reporting Studio</Title>
+              <Menu name="FrameWork.Administration.Tools.ReportingStudio" search_command_image="true">
+                <Title localizable="true" original_title="Reporting Studio">Reporting Studio</Title>
+                <Function noweb="true" search_command_image="true">
+                  <Title localizable="true" original_title="Document Reports Management">Document Reports Management</Title>
+                  <Object>Framework.TbGes.TbGes.AdminDocumentReports</Object>
+                </Function>
+                <Function activation="!Framework.ReportEditor" noweb="true" search_command_image="true">
+                  <Title localizable="true" original_title="Validate Pass-Key">Validate Pass-Key</Title>
+                  <Object>Framework.TbWoormViewer.TbWoormViewer.PassKeyLogin</Object>
+                </Function>
+                <Function activation="!Framework.ReportEditor" noweb="true" search_command_image="true">
+                  <Title localizable="true" original_title="New Report">New Report</Title>
+                  <Object>Framework.TbWoormViewer.TbWoormViewer.ExecNewReport</Object>
+                </Function>
+                <Function activation="!Framework.ReportEditor" noweb="true" search_command_image="true">
+                  <Title localizable="true" original_title="Open an existing Report">Open an existing Report</Title>
+                  <Object>Framework.TbWoormViewer.TbWoormViewer.ExecOpenReport</Object>
                 </Function>
               </Menu>
             </Menu>
@@ -6101,7 +6798,7 @@
         <ModuleMenuInfo>
           <Name>EasyAttachment</Name>
           <MenuViewOrder>25</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\TaskBuilder\Extensions\EasyAttachment\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\TaskBuilder\Extensions\EasyAttachment\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>EasyAttachment.menu</string>
           </StandardMenuFiles>
@@ -6109,7 +6806,7 @@
         <ModuleMenuInfo>
           <Name>XEngine</Name>
           <MenuViewOrder>2147483647</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\TaskBuilder\Extensions\XEngine\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\TaskBuilder\Extensions\XEngine\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>TBXMLTransfer.menu</string>
           </StandardMenuFiles>
@@ -6127,7 +6824,7 @@
         <ModuleMenuInfo>
           <Name>TbMailer</Name>
           <MenuViewOrder>2147483647</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\TaskBuilder\Extensions\TbMailer\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\TaskBuilder\Extensions\TbMailer\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>TbMailer.menu</string>
           </StandardMenuFiles>
@@ -6140,7 +6837,7 @@
         <ModuleMenuInfo>
           <Name>TbDataSynchroClient</Name>
           <MenuViewOrder>2147483647</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\TaskBuilder\Extensions\TbDataSynchroClient\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\TaskBuilder\Extensions\TbDataSynchroClient\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>DataSynchro.menu</string>
           </StandardMenuFiles>
@@ -6169,7 +6866,7 @@
         <ModuleMenuInfo>
           <Name>TbWoormViewer</Name>
           <MenuViewOrder>2147483647</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\TaskBuilder\Framework\TbWoormViewer\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\TaskBuilder\Framework\TbWoormViewer\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>TbWoormViewer.menu</string>
           </StandardMenuFiles>
@@ -6192,7 +6889,7 @@
         <ModuleMenuInfo>
           <Name>TbResourcesMng</Name>
           <MenuViewOrder>2147483647</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\TaskBuilder\Framework\TbResourcesMng\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\TaskBuilder\Framework\TbResourcesMng\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>TbResourcesMng.menu</string>
           </StandardMenuFiles>
@@ -6225,7 +6922,7 @@
         <ModuleMenuInfo>
           <Name>TbGes</Name>
           <MenuViewOrder>2147483647</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\TaskBuilder\Framework\TbGes\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\TaskBuilder\Framework\TbGes\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>TbGes.menu</string>
           </StandardMenuFiles>
@@ -6233,7 +6930,7 @@
         <ModuleMenuInfo>
           <Name>TbGenlibUI</Name>
           <MenuViewOrder>2147483647</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\TaskBuilder\Framework\TbGenlibUI\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\TaskBuilder\Framework\TbGenlibUI\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>Amministration.menu</string>
           </StandardMenuFiles>
@@ -6282,7 +6979,7 @@
         <ModuleMenuInfo>
           <Name>PaymentTerms</Name>
           <MenuViewOrder>10</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\PaymentTerms\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\PaymentTerms\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4PaymentTerms.menu</string>
           </StandardMenuFiles>
@@ -6290,7 +6987,7 @@
         <ModuleMenuInfo>
           <Name>CustomersSuppliers</Name>
           <MenuViewOrder>10</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\CustomersSuppliers\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\CustomersSuppliers\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4CustomersSuppliers.menu</string>
           </StandardMenuFiles>
@@ -6298,7 +6995,7 @@
         <ModuleMenuInfo>
           <Name>Currencies</Name>
           <MenuViewOrder>10</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\Currencies\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\Currencies\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4Currencies.menu</string>
           </StandardMenuFiles>
@@ -6306,7 +7003,7 @@
         <ModuleMenuInfo>
           <Name>Contacts</Name>
           <MenuViewOrder>15</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\Contacts\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\Contacts\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4Contacts.menu</string>
           </StandardMenuFiles>
@@ -6314,7 +7011,7 @@
         <ModuleMenuInfo>
           <Name>Company</Name>
           <MenuViewOrder>15</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\Company\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\Company\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4Company.menu</string>
           </StandardMenuFiles>
@@ -6322,7 +7019,7 @@
         <ModuleMenuInfo>
           <Name>Accounting</Name>
           <MenuViewOrder>20</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\Accounting\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\Accounting\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4Accounting.menu</string>
           </StandardMenuFiles>
@@ -6330,7 +7027,7 @@
         <ModuleMenuInfo>
           <Name>SpecialTax</Name>
           <MenuViewOrder>21</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\SpecialTax\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\SpecialTax\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4SpecialTax.menu</string>
           </StandardMenuFiles>
@@ -6338,7 +7035,7 @@
         <ModuleMenuInfo>
           <Name>ForecastAccounting</Name>
           <MenuViewOrder>25</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\ForecastAccounting\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\ForecastAccounting\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4ForecastAccounting.menu</string>
           </StandardMenuFiles>
@@ -6346,7 +7043,7 @@
         <ModuleMenuInfo>
           <Name>Accounting_IT</Name>
           <MenuViewOrder>25</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\Accounting_IT\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\Accounting_IT\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4Accounting_IT.menu</string>
           </StandardMenuFiles>
@@ -6354,7 +7051,7 @@
         <ModuleMenuInfo>
           <Name>AP_AR</Name>
           <MenuViewOrder>28</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\AP_AR\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\AP_AR\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4AP_AR.menu</string>
           </StandardMenuFiles>
@@ -6362,7 +7059,7 @@
         <ModuleMenuInfo>
           <Name>Banks</Name>
           <MenuViewOrder>30</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\Banks\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\Banks\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4Banks.menu</string>
           </StandardMenuFiles>
@@ -6370,7 +7067,7 @@
         <ModuleMenuInfo>
           <Name>Payees</Name>
           <MenuViewOrder>31</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\Payees\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\Payees\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4Payees.menu</string>
           </StandardMenuFiles>
@@ -6378,7 +7075,7 @@
         <ModuleMenuInfo>
           <Name>Intrastat</Name>
           <MenuViewOrder>32</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\Intrastat\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\Intrastat\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4Intrastat.menu</string>
           </StandardMenuFiles>
@@ -6386,7 +7083,7 @@
         <ModuleMenuInfo>
           <Name>AP_AR_Plus</Name>
           <MenuViewOrder>35</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\AP_AR_Plus\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\AP_AR_Plus\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4AP_AR_Plus.menu</string>
           </StandardMenuFiles>
@@ -6399,7 +7096,7 @@
         <ModuleMenuInfo>
           <Name>FixedAssets</Name>
           <MenuViewOrder>40</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\FixedAssets\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\FixedAssets\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4FixedAssets.menu</string>
           </StandardMenuFiles>
@@ -6407,7 +7104,7 @@
         <ModuleMenuInfo>
           <Name>PayrollImport</Name>
           <MenuViewOrder>50</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\PayrollImport\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\PayrollImport\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4PayrollImport.menu</string>
           </StandardMenuFiles>
@@ -6415,7 +7112,7 @@
         <ModuleMenuInfo>
           <Name>Jobs</Name>
           <MenuViewOrder>50</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\Jobs\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\Jobs\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4Jobs.menu</string>
           </StandardMenuFiles>
@@ -6423,15 +7120,23 @@
         <ModuleMenuInfo>
           <Name>CostAccounting</Name>
           <MenuViewOrder>50</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\CostAccounting\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\CostAccounting\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4CostAccounting.menu</string>
           </StandardMenuFiles>
         </ModuleMenuInfo>
         <ModuleMenuInfo>
+          <Name>ProductLines</Name>
+          <MenuViewOrder>55</MenuViewOrder>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\ProductLines\Menu</StandardMenuPath>
+          <StandardMenuFiles>
+            <string>M4ProductLines.menu</string>
+          </StandardMenuFiles>
+        </ModuleMenuInfo>
+        <ModuleMenuInfo>
           <Name>CustomerQuotations</Name>
           <MenuViewOrder>55</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\CustomerQuotations\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\CustomerQuotations\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4CustomerQuotations.menu</string>
           </StandardMenuFiles>
@@ -6439,7 +7144,7 @@
         <ModuleMenuInfo>
           <Name>BalanceAnalysis</Name>
           <MenuViewOrder>56</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\BalanceAnalysis\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\BalanceAnalysis\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4BalanceAnalysis.menu</string>
           </StandardMenuFiles>
@@ -6447,7 +7152,7 @@
         <ModuleMenuInfo>
           <Name>Basel_II</Name>
           <MenuViewOrder>57</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\Basel_II\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\Basel_II\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4Basel_II.menu</string>
           </StandardMenuFiles>
@@ -6455,7 +7160,7 @@
         <ModuleMenuInfo>
           <Name>XBRL</Name>
           <MenuViewOrder>58</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\XBRL\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\XBRL\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4XBRL.menu</string>
           </StandardMenuFiles>
@@ -6463,7 +7168,7 @@
         <ModuleMenuInfo>
           <Name>SaleOrders</Name>
           <MenuViewOrder>60</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\SaleOrders\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\SaleOrders\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4SaleOrders.menu</string>
           </StandardMenuFiles>
@@ -6471,7 +7176,7 @@
         <ModuleMenuInfo>
           <Name>Sales</Name>
           <MenuViewOrder>70</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\Sales\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\Sales\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4Sales.menu</string>
           </StandardMenuFiles>
@@ -6479,7 +7184,7 @@
         <ModuleMenuInfo>
           <Name>SupplierQuotations</Name>
           <MenuViewOrder>78</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\SupplierQuotations\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\SupplierQuotations\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4SupplierQuotations.menu</string>
           </StandardMenuFiles>
@@ -6487,7 +7192,7 @@
         <ModuleMenuInfo>
           <Name>PurchaseOrders</Name>
           <MenuViewOrder>78</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\PurchaseOrders\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\PurchaseOrders\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4PurchaseOrders.menu</string>
           </StandardMenuFiles>
@@ -6495,7 +7200,7 @@
         <ModuleMenuInfo>
           <Name>Purchases</Name>
           <MenuViewOrder>80</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\Purchases\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\Purchases\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4Purchases.menu</string>
           </StandardMenuFiles>
@@ -6503,7 +7208,7 @@
         <ModuleMenuInfo>
           <Name>Items</Name>
           <MenuViewOrder>85</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\Items\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\Items\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4Items.menu</string>
           </StandardMenuFiles>
@@ -6511,7 +7216,7 @@
         <ModuleMenuInfo>
           <Name>InvoiceMng</Name>
           <MenuViewOrder>85</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\InvoiceMng\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\InvoiceMng\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4InvoiceMng.menu</string>
           </StandardMenuFiles>
@@ -6519,7 +7224,7 @@
         <ModuleMenuInfo>
           <Name>PricePolicies</Name>
           <MenuViewOrder>86</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\PricePolicies\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\PricePolicies\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4PricePolicies.menu</string>
           </StandardMenuFiles>
@@ -6527,7 +7232,7 @@
         <ModuleMenuInfo>
           <Name>Barcode</Name>
           <MenuViewOrder>86</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\Barcode\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\Barcode\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4Barcode.menu</string>
           </StandardMenuFiles>
@@ -6535,7 +7240,7 @@
         <ModuleMenuInfo>
           <Name>Conai</Name>
           <MenuViewOrder>87</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\Conai\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\Conai\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4Conai.menu</string>
           </StandardMenuFiles>
@@ -6543,7 +7248,7 @@
         <ModuleMenuInfo>
           <Name>SalesPeople</Name>
           <MenuViewOrder>90</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\SalesPeople\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\SalesPeople\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4SalesPeople.menu</string>
           </StandardMenuFiles>
@@ -6556,7 +7261,7 @@
         <ModuleMenuInfo>
           <Name>Languages</Name>
           <MenuViewOrder>90</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\Languages\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\Languages\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4Languages.menu</string>
           </StandardMenuFiles>
@@ -6564,7 +7269,7 @@
         <ModuleMenuInfo>
           <Name>Inventory</Name>
           <MenuViewOrder>90</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\Inventory\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\Inventory\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4Inventory.menu</string>
           </StandardMenuFiles>
@@ -6572,7 +7277,7 @@
         <ModuleMenuInfo>
           <Name>MultiStorage</Name>
           <MenuViewOrder>91</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\MultiStorage\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\MultiStorage\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4MultiStorage.menu</string>
           </StandardMenuFiles>
@@ -6580,15 +7285,50 @@
         <ModuleMenuInfo>
           <Name>BillOfMaterials</Name>
           <MenuViewOrder>100</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\BillOfMaterials\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\BillOfMaterials\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4BillOfMaterials.menu</string>
+          </StandardMenuFiles>
+        </ModuleMenuInfo>
+        <ModuleMenuInfo>
+          <Name>Manufacturing</Name>
+          <MenuViewOrder>110</MenuViewOrder>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\Manufacturing\Menu</StandardMenuPath>
+          <StandardMenuFiles>
+            <string>M4Manufacturing BillOfMaterials.menu</string>
+            <string>M4Manufacturing Routing.menu</string>
+            <string>M4Manufacturing.menu</string>
+          </StandardMenuFiles>
+        </ModuleMenuInfo>
+        <ModuleMenuInfo>
+          <Name>MRP</Name>
+          <MenuViewOrder>120</MenuViewOrder>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\MRP\Menu</StandardMenuPath>
+          <StandardMenuFiles>
+            <string>M4MRP.menu</string>
+          </StandardMenuFiles>
+        </ModuleMenuInfo>
+        <ModuleMenuInfo>
+          <Name>CRP</Name>
+          <MenuViewOrder>200</MenuViewOrder>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\CRP\Menu</StandardMenuPath>
+          <StandardMenuFiles>
+            <string>M4CRP Manufacturing.menu</string>
+            <string>M4CRP.menu</string>
           </StandardMenuFiles>
         </ModuleMenuInfo>
         <ModuleMenuInfo>
           <Name>XGate</Name>
           <MenuViewOrder>2147483647</MenuViewOrder>
           <StandardMenuPath />
+        </ModuleMenuInfo>
+        <ModuleMenuInfo>
+          <Name>WMSMobile</Name>
+          <MenuViewOrder>2147483647</MenuViewOrder>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\WMSMobile\Menu</StandardMenuPath>
+          <StandardMenuFiles>
+            <string>M4WMSMobile.menu</string>
+          </StandardMenuFiles>
         </ModuleMenuInfo>
         <ModuleMenuInfo>
           <Name>WMSBOM</Name>
@@ -6598,7 +7338,7 @@
         <ModuleMenuInfo>
           <Name>WMS</Name>
           <MenuViewOrder>2147483647</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\WMS\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\WMS\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4WMS.menu</string>
           </StandardMenuFiles>
@@ -6606,25 +7346,58 @@
         <ModuleMenuInfo>
           <Name>WEEE</Name>
           <MenuViewOrder>2147483647</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\WEEE\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\WEEE\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4WEEE.menu</string>
           </StandardMenuFiles>
         </ModuleMenuInfo>
         <ModuleMenuInfo>
+          <Name>WarMan</Name>
+          <MenuViewOrder>2147483647</MenuViewOrder>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\WarMan\Menu</StandardMenuPath>
+          <StandardMenuFiles>
+            <string>M4WarMan Manufacturing.menu</string>
+            <string>M4WarMan WMS.menu</string>
+          </StandardMenuFiles>
+        </ModuleMenuInfo>
+        <ModuleMenuInfo>
+          <Name>Variants</Name>
+          <MenuViewOrder>2147483647</MenuViewOrder>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\Variants\Menu</StandardMenuPath>
+          <StandardMenuFiles>
+            <string>M4Variants.menu</string>
+          </StandardMenuFiles>
+        </ModuleMenuInfo>
+        <ModuleMenuInfo>
           <Name>UserDefault</Name>
           <MenuViewOrder>2147483647</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\UserDefault\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\UserDefault\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4UserDefault.menu</string>
           </StandardMenuFiles>
         </ModuleMenuInfo>
         <ModuleMenuInfo>
+          <Name>ToolsManagement</Name>
+          <MenuViewOrder>2147483647</MenuViewOrder>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\ToolsManagement\Menu</StandardMenuPath>
+          <StandardMenuFiles>
+            <string>M4ToolsManagement.menu</string>
+          </StandardMenuFiles>
+        </ModuleMenuInfo>
+        <ModuleMenuInfo>
           <Name>SupplierPricesAdj</Name>
           <MenuViewOrder>2147483647</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\SupplierPricesAdj\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\SupplierPricesAdj\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4SupplierPricesAdj.menu</string>
+          </StandardMenuFiles>
+        </ModuleMenuInfo>
+        <ModuleMenuInfo>
+          <Name>Subcontracting</Name>
+          <MenuViewOrder>2147483647</MenuViewOrder>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\Subcontracting\Menu</StandardMenuPath>
+          <StandardMenuFiles>
+            <string>M4Subcontracting.menu</string>
           </StandardMenuFiles>
         </ModuleMenuInfo>
         <ModuleMenuInfo>
@@ -6635,7 +7408,7 @@
         <ModuleMenuInfo>
           <Name>SmartCode</Name>
           <MenuViewOrder>2147483647</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\SmartCode\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\SmartCode\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4SmartCode.menu</string>
           </StandardMenuFiles>
@@ -6643,7 +7416,7 @@
         <ModuleMenuInfo>
           <Name>SingleStepLifoFifo</Name>
           <MenuViewOrder>2147483647</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\SingleStepLifoFifo\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\SingleStepLifoFifo\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4SingleStepLifoFifo.menu</string>
           </StandardMenuFiles>
@@ -6651,7 +7424,7 @@
         <ModuleMenuInfo>
           <Name>Shippings</Name>
           <MenuViewOrder>2147483647</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\Shippings\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\Shippings\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4Shippings.menu</string>
           </StandardMenuFiles>
@@ -6659,7 +7432,7 @@
         <ModuleMenuInfo>
           <Name>Routing</Name>
           <MenuViewOrder>2147483647</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\Routing\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\Routing\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4Routing.menu</string>
           </StandardMenuFiles>
@@ -6667,31 +7440,60 @@
         <ModuleMenuInfo>
           <Name>QualityInspection</Name>
           <MenuViewOrder>2147483647</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\QualityInspection\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\QualityInspection\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4QualityInspection.menu</string>
           </StandardMenuFiles>
         </ModuleMenuInfo>
         <ModuleMenuInfo>
+          <Name>OpenOrders</Name>
+          <MenuViewOrder>2147483647</MenuViewOrder>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\OpenOrders\Menu</StandardMenuPath>
+          <StandardMenuFiles>
+            <string>M4OpenOrders.menu</string>
+          </StandardMenuFiles>
+        </ModuleMenuInfo>
+        <ModuleMenuInfo>
           <Name>MultiCompanyBalances</Name>
           <MenuViewOrder>2147483647</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\MultiCompanyBalances\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\MultiCompanyBalances\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4MultiCompanyBalances.menu</string>
           </StandardMenuFiles>
         </ModuleMenuInfo>
         <ModuleMenuInfo>
+          <Name>ManufacturingPlus</Name>
+          <MenuViewOrder>2147483647</MenuViewOrder>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\ManufacturingPlus\Menu</StandardMenuPath>
+          <StandardMenuFiles>
+            <string>M4ManufacturingPlus.menu</string>
+          </StandardMenuFiles>
+        </ModuleMenuInfo>
+        <ModuleMenuInfo>
+          <Name>ManufacturingMobile</Name>
+          <MenuViewOrder>2147483647</MenuViewOrder>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\ManufacturingMobile\Menu</StandardMenuPath>
+          <StandardMenuFiles>
+            <string>M4ManufacturingMobile.menu</string>
+          </StandardMenuFiles>
+        </ModuleMenuInfo>
+        <ModuleMenuInfo>
           <Name>LotsSerials</Name>
           <MenuViewOrder>2147483647</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\LotsSerials\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\LotsSerials\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4LotsSerials.menu</string>
           </StandardMenuFiles>
         </ModuleMenuInfo>
         <ModuleMenuInfo>
+          <Name>Kanban</Name>
+          <MenuViewOrder>2147483647</MenuViewOrder>
+          <StandardMenuPath />
+        </ModuleMenuInfo>
+        <ModuleMenuInfo>
           <Name>IdsMng</Name>
           <MenuViewOrder>2147483647</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\IdsMng\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\IdsMng\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4IdsMng.menu</string>
           </StandardMenuFiles>
@@ -6699,7 +7501,7 @@
         <ModuleMenuInfo>
           <Name>IBConnector</Name>
           <MenuViewOrder>2147483647</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\IBConnector\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\IBConnector\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4IBConnector.menu</string>
           </StandardMenuFiles>
@@ -6707,7 +7509,7 @@
         <ModuleMenuInfo>
           <Name>CreditLimit</Name>
           <MenuViewOrder>2147483647</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\CreditLimit\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\CreditLimit\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4CreditLimit.menu</string>
           </StandardMenuFiles>
@@ -6715,15 +7517,23 @@
         <ModuleMenuInfo>
           <Name>Core</Name>
           <MenuViewOrder>2147483647</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\Core\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\Core\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4Core.menu</string>
           </StandardMenuFiles>
         </ModuleMenuInfo>
         <ModuleMenuInfo>
+          <Name>Configurator</Name>
+          <MenuViewOrder>2147483647</MenuViewOrder>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\Configurator\Menu</StandardMenuPath>
+          <StandardMenuFiles>
+            <string>M4Configurator.menu</string>
+          </StandardMenuFiles>
+        </ModuleMenuInfo>
+        <ModuleMenuInfo>
           <Name>ChartOfAccounts</Name>
           <MenuViewOrder>2147483647</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\ChartOfAccounts\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\ChartOfAccounts\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4ChartOfAccounts.menu</string>
           </StandardMenuFiles>
@@ -6731,15 +7541,23 @@
         <ModuleMenuInfo>
           <Name>ChargePolicies</Name>
           <MenuViewOrder>2147483647</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\ChargePolicies\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\ChargePolicies\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4ChargePolicies.menu</string>
           </StandardMenuFiles>
         </ModuleMenuInfo>
         <ModuleMenuInfo>
+          <Name>BillOfMaterialsPlus</Name>
+          <MenuViewOrder>2147483647</MenuViewOrder>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\BillOfMaterialsPlus\Menu</StandardMenuPath>
+          <StandardMenuFiles>
+            <string>M4BillOfMaterialsPlus.menu</string>
+          </StandardMenuFiles>
+        </ModuleMenuInfo>
+        <ModuleMenuInfo>
           <Name>AdditionalCharges</Name>
           <MenuViewOrder>2147483647</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\AdditionalCharges\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\AdditionalCharges\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4AdditionalCharges.menu</string>
           </StandardMenuFiles>
@@ -6747,7 +7565,7 @@
         <ModuleMenuInfo>
           <Name>AccrualsDeferrals</Name>
           <MenuViewOrder>2147483647</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\ERP\AccrualsDeferrals\Menu</StandardMenuPath>
+          <StandardMenuPath>C:\development\Standard\Applications\ERP\AccrualsDeferrals\Menu</StandardMenuPath>
           <StandardMenuFiles>
             <string>M4AccrualsDeferrals.menu</string>
           </StandardMenuFiles>
@@ -6768,22 +7586,11 @@
     <ApplicationMenuInfo>
       <Name>TBS</Name>
       <Type>TaskBuilderApplication</Type>
-      <ModulesMenuInfos>
-        <ModuleMenuInfo>
-          <Name>TBSModule</Name>
-          <MenuViewOrder>1</MenuViewOrder>
-          <StandardMenuPath>C:\Dev4\Standard\Applications\TBS\TBSModule\Menu</StandardMenuPath>
-          <StandardMenuFiles>
-            <string>EasyStudio.menu</string>
-            <string>Woorm.menu</string>
-          </StandardMenuFiles>
-        </ModuleMenuInfo>
-      </ModulesMenuInfos>
     </ApplicationMenuInfo>
   </ApplicationsInfo>
   <CommandsTypeToLoad>All</CommandsTypeToLoad>
-  <ConfigurationHash>702023805-7739790331422499083-1774683213-1783329191875342015-802752371-1895863362888400471-1987765005-106487440519917457875129821501199637-144795038937466257-13491921799642507931013750357-3016546896264091521384534376797983172-18257785332292126911617703829694161087-294059012-807403463-30870736413913067291437871805-1609511465-2705169971379093139203666703-17480273082015460716-1097621653-491455045-425399231</ConfigurationHash>
+  <ConfigurationHash>347025457867802714-1566201247-270516997203666703-17480273082015460716-1097621653-425399231</ConfigurationHash>
   <Culture>en</Culture>
-  <InstallationDate>2018-02-07T12:15:17</InstallationDate>
-  <CacheDate>2018-02-07T12:14:30</CacheDate>
+  <InstallationDate>2018-04-18T18:50:29</InstallationDate>
+  <CacheDate>2018-04-18T18:49:42</CacheDate>
 </CachedMenuInfos>

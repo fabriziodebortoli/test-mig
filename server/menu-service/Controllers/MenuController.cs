@@ -37,11 +37,11 @@ namespace Microarea.Menu.Controllers
                 DateTime dateTime = dateTimeOffset.UtcDateTime;
                 bool isTooOld = NewMenuLoader.IsOldMenuFile(user, company, dateTime, authtoken);
 
-                return new ContentResult { StatusCode = 200, Content = isTooOld.ToJson(), ContentType = "application/json" };
+                return new SuccessResult(isTooOld.ToJson());
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -72,11 +72,12 @@ namespace Microarea.Menu.Controllers
                 string company = value["company"]?.Value<string>();
 
                 string content = NewMenuLoader.LoadMenuWithFavoritesAsJson(user, company, authtoken, true);
-                return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
+                //return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
+                return new SuccessResult (content);
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -90,11 +91,11 @@ namespace Microarea.Menu.Controllers
                 string company = value["company"]?.Value<string>();
 
                 string content = NewMenuLoader.GetPreferencesAsJson(user, company);
-                return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
+                return new SuccessResult(content);
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -114,7 +115,7 @@ namespace Microarea.Menu.Controllers
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -129,11 +130,11 @@ namespace Microarea.Menu.Controllers
                     return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
 
                 string content = NewMenuLoader.GetJsonMenuSettings(authtoken);
-                return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
+                return new SuccessResult(content);
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -148,11 +149,11 @@ namespace Microarea.Menu.Controllers
                     return new ContentResult { StatusCode = 401, Content = "missing authentication token", ContentType = "text/plain" };
 
                 string content = NewMenuLoader.GetConnectionInformation(authtoken);
-                return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
+                return new SuccessResult(content);
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -169,11 +170,12 @@ namespace Microarea.Menu.Controllers
                 string user = value["user"]?.Value<string>();
                 string company = value["company"]?.Value<string>();
                 NewMenuSaver.ClearMostUsed(user, company);
-                return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
+
+                return new SuccessResult();
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -186,11 +188,11 @@ namespace Microarea.Menu.Controllers
                 string user = value["user"]?.Value<string>();
                 string company = value["company"]?.Value<string>();
                 string content = NewMenuLoader.GetMostUsedShowNrElements(user, company);
-                return new ContentResult { StatusCode = 200, Content = content, ContentType = "application/json" };
+                return new SuccessResult(content);
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -208,11 +210,12 @@ namespace Microarea.Menu.Controllers
                 string company = value["company"]?.Value<string>();
                 string favorites = value["favorites"]?.Value<string>();
                 NewMenuSaver.UpdateFavorites(favorites, user, company);
-                return new ContentResult { StatusCode = 200, Content = "", ContentType = "text/plain" };
+                
+                return new SuccessResult();
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -230,11 +233,12 @@ namespace Microarea.Menu.Controllers
                 string company = value["company"]?.Value<string>();
                 string mostUsed = value["mostUsed"]?.Value<string>();
                 NewMenuSaver.UpdateMostUsed(mostUsed, user, company);
-                return new ContentResult { StatusCode = 200, Content = "", ContentType = "text/plain" };
+                
+                return new SuccessResult();
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -250,11 +254,13 @@ namespace Microarea.Menu.Controllers
 
                 //potrebbe arrivarmi vuoto, se non sono ancora connesso, allora ritorno solo informazioni parziali
                 string json = NewMenuLoader.GetJsonProductInfo(authtoken);
-                return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
+                
+                return new SuccessResult(json);
+                return new SuccessResult(json);
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -266,11 +272,12 @@ namespace Microarea.Menu.Controllers
             {
                 string url = MenuStaticFunctions.PingViaSMSUrl();
                 string json = string.Format("{{ \"url\": \"{0}\" }}", url);
-                return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
+                
+                return new SuccessResult(json);
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -282,11 +289,12 @@ namespace Microarea.Menu.Controllers
             {
                 string url = MenuStaticFunctions.ProducerSiteUrl();
                 string json = string.Format("{{ \"url\": \"{0}\" }}", url);
-                return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
+                
+                return new SuccessResult(json);
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -324,11 +332,12 @@ namespace Microarea.Menu.Controllers
                 string culture = value["culture"]?.Value<string>();
                 string url = HelpManager.GetOnlineHelpUrl(nameSpace, culture);
                 string json = string.Format("{{ \"url\": \"{0}\" }}", url);
-                return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
+
+                return new SuccessResult(json);
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -349,11 +358,12 @@ namespace Microarea.Menu.Controllers
                 string menuName = value["menu"]?.Value<string>();
                 string tileName = value["tile"]?.Value<string>();
                 NewMenuSaver.AddToHiddenTiles(user, company, appName, groupName, menuName, tileName);
-                return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
+                
+                return new SuccessResult();
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -374,12 +384,13 @@ namespace Microarea.Menu.Controllers
                 string menuName = value["menu"]?.Value<string>();
                 string tileName = value["tile"]?.Value<string>();
                 NewMenuSaver.RemoveFromHiddenTiles(user, company, appName, groupName, menuName, tileName);
-                return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
+                
+                return new SuccessResult();
 
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
         //---------------------------------------------------------------------
@@ -395,12 +406,12 @@ namespace Microarea.Menu.Controllers
                 string user = value["user"]?.Value<string>();
                 string company = value["company"]?.Value<string>();
                 NewMenuSaver.RemoveAllHiddenTiles(user, company);
-                return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
-
+                
+                return new SuccessResult();
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
 
@@ -417,11 +428,12 @@ namespace Microarea.Menu.Controllers
                 //BasePathFinder.BasePathFinderInstance.ResetApplicationsInfo();
                 PathFinder.PathFinderInstance.RefreshEasyStudioApps(TaskBuilderNetCore.Interfaces.ApplicationType.Customization);
                 PathFinder.PathFinderInstance.InstallationVer.UpdateCachedDateAndSave();
-                return new ContentResult { StatusCode = 200, Content = "", ContentType = "application/json" };
+
+                return new SuccessResult();
             }
             catch (Exception e)
             {
-                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+                return new ErrorResult(e.Message);
             }
         }
     }
