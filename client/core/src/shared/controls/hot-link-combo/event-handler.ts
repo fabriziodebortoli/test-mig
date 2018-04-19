@@ -2,7 +2,7 @@ import { untilDestroy } from '../../commons/untilDestroy';
 import { Observable } from '../../../rxjs.imports';
 import { TbHotlinkComboComponent } from './tb-hot-link-combo.component';
 import { findAnchestorByClass } from '../../commons/u';
-import { HotLinkComboSelectionType, DescriptionHotLinkSelectionType } from './../hot-link-base/hotLinkTypes';
+import { TriggerData, NewComboF8TriggerData, NewComboF9TriggerData } from './../hot-link-base/hotLinkTypes';
 import { get } from 'lodash';
 
 export class TbHotlinkComboEventHandler {
@@ -29,9 +29,9 @@ export class TbHotlinkComboEventHandler {
         Observable.fromEvent<KeyboardEvent>(this.getHotLinkElement(), 'keyup',  {capture: true})
         .pipe(untilDestroy(hlb))
         .filter(e => e.key === 'F8' || e.key === 'F9')
-        .map(e => e.key === 'F8' ? HotLinkComboSelectionType : DescriptionHotLinkSelectionType)
-        .subscribe(selectionType => {
-            hlb.setSelectionType(selectionType);
+        .map(e => e.key === 'F8' ? NewComboF8TriggerData : NewComboF9TriggerData)
+        .subscribe(triggerDataFactory => {
+            hlb.emitQueryTrigger(triggerDataFactory)
             if (!hlb.combobox.isOpen) hlb.combobox.toggle(true);
         });
 

@@ -1,8 +1,8 @@
-import { TbHotlinkComboComponent } from './tb-hot-link-combo.component';
+
 import { untilDestroy } from './../../commons/untilDestroy';
 
 export class TbHotlinkComboHyperLinkHandler {
-    static Attach(hlb: TbHotlinkComboComponent): TbHotlinkComboHyperLinkHandler {
+    static Attach(hlb: any): TbHotlinkComboHyperLinkHandler {
         return new TbHotlinkComboHyperLinkHandler(hlb);
     }
 
@@ -25,9 +25,6 @@ export class TbHotlinkComboHyperLinkHandler {
             },
             hlc.slice$, hlc.afterNoAddOnFly, hlc.afterAddOnFly, hlc.onControlFocusLost);
 
-        hlc.queryTrigger.pipe(untilDestroy(hlc)).subscribe(p => { 
-            hlc.hyperLinkService.workingValue = p.model;
-            hlc.hyperLinkService.workingType = hlc.state.selectionType;
-        });
+        hlc.queryTrigger.pipe(untilDestroy(hlc)).subscribe(p => hlc.hyperLinkService.workingValue = p.model);
     }
 }

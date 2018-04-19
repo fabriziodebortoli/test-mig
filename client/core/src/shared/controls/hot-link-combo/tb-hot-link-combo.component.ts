@@ -20,7 +20,8 @@ import { HyperLinkService, HyperLinkInfo } from '../../../core/services/hyperlin
 import { HotLinkInfo } from './../../models/hotLinkInfo.model';
 import { untilDestroy } from './../../commons/untilDestroy';
 import { HlComponent, HotLinkState } from './../hot-link-base/hotLinkTypes';
-import { HotLinkComboSelectionType, DescriptionHotLinkSelectionType } from './../hot-link-base/hotLinkTypes';
+import { TriggerData, ComboOpeningSelectionType, ComboFilteringSelectionType, CompleteTriggerDataFactory,
+        ValueTriggerDataFactory, NewComboOpeningTriggerData, NewComboFilteringTriggerData } from './../hot-link-base/hotLinkTypes';
 import { TbHotlinkComboHyperLinkHandler } from './hyper-link-handler';
 import { TbHotlinkComboEventHandler } from './event-handler';
 
@@ -28,6 +29,8 @@ import * as _ from 'lodash';
 import { ComboBoxData } from '../../models/combo-box-data';
 
 declare var document: any;
+const updateSelectionType: (self: TbHotlinkComboComponent) => (source: Observable<TriggerData>) => Observable<TriggerData> =
+  self => source => source.do(t => self.setSelectionType(t.selectionType));
 
 @Component({
   selector: 'tb-hotlink-combo',
@@ -41,8 +44,23 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
     return this.modelComponent.width;
   }
 
-  comboInputTyping$: Subject<any> = new Subject<any>();
-  comboExplicitRequest$: Subject<any> = new Subject<any>();
+  private comboInputTypingSubj$: Subject<TriggerData> = new Subject<TriggerData>();
+  emitQueryTrigger(t: TriggerData | ValueTriggerDataFactory): void {
+    let tdata = 
+      (typeof t) === 'function' ? 
+      (t as ValueTriggerDataFactory)(this.modelComponent.model.value) : 
+      t as TriggerData;
+
+    (tdata.selectionType === ComboFilteringSelectionType ? 
+    this.comboInputTypingSubj$  : 
+    this.comboExplicitRequestSubj$).next(tdata);
+  }
+  private get comboInputTyping$(): Observable<string>
+  { return this.comboInputTypingSubj$.pipe(untilDestroy(this), updateSelectionType(this)).map(t => t.value); }
+
+  private comboExplicitRequestSubj$: Subject<TriggerData> = new Subject<TriggerData>();
+  private get comboExplicitRequest$(): Observable<string>
+   { return this.comboExplicitRequestSubj$.pipe(untilDestroy(this), updateSelectionType(this)).map(t => t.value); }
   
 
   constructor(layoutService: LayoutService,
@@ -69,9 +87,8 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
 
   openDropDown(ev) {
     ev.preventDefault();
-    let v = this.modelComponent.model.value;
     this.start();
-    this.comboExplicitRequest$.next(v ? v : '');
+    this.emitQueryTrigger(NewComboFilteringTriggerData(this.modelComponent.model.value));
   }
 
   closeDropDown() {
@@ -88,7 +105,11 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
 
   protected get queryTrigger(): Observable<ServerNeededParams> {
     return this.comboInputTyping$.pipe(debounceFirst(200))
-            .filter(x => !x.isFirst).map(x => x.value).merge(this.comboExplicitRequest$).map(x => ({ model: x }));
+            .filter(x => !x.isFirst).map(x => x.value).merge(this.comboExplicitRequest$)
+            .distinctUntilChanged()
+            .do(console.log)
+            .do(_ => console.log('QUERYTRIGGER - FIRED'))
+            .map(value => ({ model: value }));
   }
 
   start() {
@@ -126,7 +147,7 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
   onFilterChange(filter: string): void {
     if (this.modelComponent && this.modelComponent.model) {
       this.modelComponent.model.value = this.modelComponent.model.uppercase ? filter.toUpperCase() : filter;
-      this.comboInputTyping$.next(filter);
+      this.emitQueryTrigger(NewComboFilteringTriggerData(filter));
     }
   }
 
@@ -144,7 +165,7 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
 
   ngOnInit() {
     this.mediator.storage.options.componentInfo.cmpId = this.modelComponent.cmpId;
-    this.setSelectionType(HotLinkComboSelectionType)
+    this.setSelectionType(ComboOpeningSelectionType)
   }
 
   ngAfterViewInit() {
@@ -153,8 +174,8 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
   }
 
   ngOnDestroy() {
-    this.comboInputTyping$.complete();
-    this.comboExplicitRequest$.complete();
+    this.comboInputTypingSubj$.complete();
+    this.comboExplicitRequestSubj$.complete();
     this.stop();
   }
 }

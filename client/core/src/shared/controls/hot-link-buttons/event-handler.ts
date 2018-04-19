@@ -2,7 +2,7 @@ import { untilDestroy } from '../../commons/untilDestroy';
 import { Observable } from '../../../rxjs.imports';
 import { TbHotlinkButtonsComponent } from './tb-hot-link-buttons.component';
 import { findAnchestorByClass } from '../../commons/u';
-import { DefaultHotLinkSelectionType, DescriptionHotLinkSelectionType } from './../hot-link-base/hotLinkTypes';
+import { ButtonF8SelectionType, ButtonF9SelectionType } from './../hot-link-base/hotLinkTypes';
 
 export class TbHotlinkButtonsEventHandler {
     static Attach(hlb: TbHotlinkButtonsComponent): TbHotlinkButtonsEventHandler {
@@ -20,7 +20,7 @@ export class TbHotlinkButtonsEventHandler {
         Observable.fromEvent<KeyboardEvent>(this.getHotLinkElement(), 'keyup',  {capture: true})
         .pipe(untilDestroy(hlb))
         .filter(e => e.key === 'F8' || e.key === 'F9')
-        .map(e => e.key === 'F8' ? DefaultHotLinkSelectionType : DescriptionHotLinkSelectionType)
+        .map(e => e.key === 'F8' ? ButtonF8SelectionType : ButtonF9SelectionType)
         .subscribe(selectionType =>{
             hlb.setHotLinkIcon(selectionType);
             hlb.selectionTypeChanged(selectionType);

@@ -15,7 +15,8 @@ import { GridDataResult, PageChangeEvent, PagerComponent, } from '@progress/kend
 import { FilterDescriptor, CompositeFilterDescriptor } from '@progress/kendo-data-query';
 import { PopupService } from '@progress/kendo-angular-popup';
 
-import { HlComponent, HotLinkState, DefaultHotLinkSelectionType, DescriptionHotLinkSelectionType } from './../hot-link-base/hotLinkTypes';
+import { HlComponent, HotLinkState, TriggerData, ButtonForKeySelectionType, ButtonForDescriptionSelectionType,
+      NewButtonForKeyTriggerData, NewButtonForDescriptionTriggerData } from './../hot-link-base/hotLinkTypes';
 import { TbHotLinkBaseComponent } from './../hot-link-base/tb-hot-link-base.component';
 import { State } from './../../components/customisable-grid/customisable-grid.component';
 import { OnDestroy, OnInit, Component, Input, ViewContainerRef, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
@@ -128,22 +129,22 @@ export class TbHotlinkButtonsComponent extends TbHotLinkBaseComponent implements
 
   private cursorIsOnHLIconKeyPart(e: MouseEvent) : boolean { return e.offsetY < (HotlinkButtonHeight / 2); }
   public setHotLinkIcon(option: string) {
-    if(option === DefaultHotLinkSelectionType) this.buttonIcon = 'tb-hotlinkup';
+    if(option === ButtonForKeySelectionType) this.buttonIcon = 'tb-hotlinkup';
     else this.buttonIcon = 'tb-hotlinkdown';
   }
   public activateHotLinkIcon(e: MouseEvent) {
     if(this.cursorIsOnHLIconKeyPart(e)) { 
-      this.setHotLinkIcon(DefaultHotLinkSelectionType);
-      this.state = this.state.with({ selectionType: DefaultHotLinkSelectionType });
+      this.setHotLinkIcon(ButtonForKeySelectionType);
+      this.state = this.state.with({ selectionType: ButtonForKeySelectionType });
     } else {
-      this.setHotLinkIcon(DescriptionHotLinkSelectionType);
-      this.state = this.state.with({ selectionType: DescriptionHotLinkSelectionType });
+      this.setHotLinkIcon(ButtonForDescriptionSelectionType);
+      this.state = this.state.with({ selectionType: ButtonForDescriptionSelectionType });
     }
   }
 
   public restoreHotLinkIconToDefault() { 
     setTimeout(() => { 
-      this.state = this.state.with({ selectionType: DefaultHotLinkSelectionType }); 
+      this.state = this.state.with({ selectionType: ButtonForKeySelectionType }); 
       this.buttonIcon = 'tb-hotlink';
       this.mediator.changeDetectorRef.detectChanges();
     });
