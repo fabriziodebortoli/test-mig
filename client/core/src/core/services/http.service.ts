@@ -308,7 +308,8 @@ export class HttpService {
     getThemes(): Observable<any> {
 
         let obj = { authtoken: sessionStorage.getItem('authtoken') };
-        var url = this.infoService.getDocumentBaseUrl() + 'getThemes/';
+        var baseUrl = this.infoService.isDesktop ? this.infoService.getDocumentBaseUrl() : this.infoService.getMenuServiceUrl();
+        var url = baseUrl + 'getThemes/';
         return this.postData(url, obj)
             .map((res: Response) => {
                 return res.json();

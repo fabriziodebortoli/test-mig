@@ -124,7 +124,8 @@ export class TaskBuilderService {
                         this.setConnectionStatus(ConnectionStatus.Unavailable);
                         this.socket.setWsConnectionStatus(ConnectionStatus.Unavailable);
                     } else {
-                        this.themeService.loadThemes();
+                        if (this.infoService.isDesktop)  //in desktop devo aspettare di avere un tb, per far funzionare i temi
+                            this.themeService.loadThemes();
                         this.tbConnection.next(true);
                     }
 

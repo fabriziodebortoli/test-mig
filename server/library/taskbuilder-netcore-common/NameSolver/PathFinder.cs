@@ -1549,7 +1549,7 @@ namespace Microarea.Common.NameSolver
             if (!string.IsNullOrEmpty(defaultTheme) && ExistPath(defaultTheme))
             {
                 DirectoryInfo di = new DirectoryInfo(defaultTheme);
-                List<TBFile> masterThemesInfo = GetFiles(defaultTheme, "*.*");
+                List<TBFile> masterThemesInfo = GetFiles(defaultTheme, "*" + NameSolverStrings.ThemeExtension);
 
                 foreach (TBFile item in masterThemesInfo)
                 {

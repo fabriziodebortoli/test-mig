@@ -9,6 +9,7 @@ using Microarea.Common.Generic;
 using Microarea.Common.MenuLoader;
 using Microarea.Common.NameSolver;
 using Microarea.TaskBuilderNet.Core.Generic;
+using System.Collections.Generic;
 
 namespace Microarea.Menu.Controllers
 {
@@ -37,6 +38,21 @@ namespace Microarea.Menu.Controllers
                 bool isTooOld = NewMenuLoader.IsOldMenuFile(user, company, dateTime, authtoken);
 
                 return new ContentResult { StatusCode = 200, Content = isTooOld.ToJson(), ContentType = "application/json" };
+            }
+            catch (Exception e)
+            {
+                return new ContentResult { StatusCode = 502, Content = e.Message, ContentType = "text/plain" };
+            }
+        }
+
+        //---------------------------------------------------------------------
+        [Route("getThemes")]
+        public IActionResult GetThemes([FromBody] JObject value)
+        {
+            try
+            {
+                string json =  DefaultTheme.GetAllThemesJson();
+                return new ContentResult { StatusCode = 200, Content = json, ContentType = "application/json" };
             }
             catch (Exception e)
             {

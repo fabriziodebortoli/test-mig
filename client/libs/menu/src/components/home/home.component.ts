@@ -92,7 +92,7 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
     }));
 
     this.subscriptions.push(this.tabberService.tabSelected$.subscribe((index: number) => {
-         this.tabberService.currentIndex = index;
+      this.tabberService.currentIndex = index;
       this.kendoTabStripInstance.selectTab(index);
     }));
 
@@ -145,6 +145,9 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
   ngAfterContentInit() {
     setTimeout(() => this.calcViewHeight(), 0);
 
+    if (!this.infoService.isDesktop)  //se non sono in desktop, posso caricare i temi ancora prima del tbloader
+      this.themeService.loadThemes();
+
     this.subscriptions.push(this.sidenavService.sidenavPinned$.subscribe((pinned) => this.sidenavPinned = pinned));
     this.subscriptions.push(this.sidenavService.sidenavOpened$.subscribe((opened) => {
       this.subscriptions.push(this.kendoTabStripInstance.tabSelect.subscribe((event) => { this.tabberService.currentIndex = event.index; }));
@@ -161,6 +164,11 @@ export class HomeComponent extends TbComponent implements OnDestroy, AfterConten
     }));
 
     this.layoutService.detectDPI();
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  beforeunloadHandler(event) {
+    console.log("chiusura");
   }
 
   @HostListener('window:resize', ['$event'])
