@@ -9,6 +9,9 @@ import { WebSocketService } from './../../../core/services/websocket.service';
 import { ControlComponent } from './../control.component';
 import { HotLinkInfo } from './../../models/hotLinkInfo.model';
 
+import { untilDestroy } from '../../commons/untilDestroy';
+
+export type ComboData = { code: any, description: any };
 
 @Component({
     selector: 'tb-combo',
@@ -17,14 +20,13 @@ import { HotLinkInfo } from './../../models/hotLinkInfo.model';
     changeDetection: ChangeDetectionStrategy.Default
 })
 
-export class ComboComponent extends ControlComponent implements OnChanges, DoCheck, OnDestroy, AfterViewInit {
+export class ComboComponent extends ControlComponent implements AfterViewInit, OnChanges, DoCheck, OnDestroy {
 
     @Input() decimals = 0; //todoluca, serve solo per far compilare, poi sarà da gestire
 
-    items: any[] = [];
+    items: ComboData[] = [];
     selectedItem: any;
     private oldValue: any;
-    public itemSourceSub: Subscription;
     @Input() public itemSource: any = undefined;
 
     @Input() propagateSelectionChange = false;
@@ -33,7 +35,6 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
     //TODOLUCA, qua non dovrebbero proprio esserci, 
     @Input('rows') rows: number = 0;
     @Input('chars') chars: number = 0;
-
 
     public isCombo = true;
     private isReady: Observable<boolean>;
@@ -49,13 +50,29 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
 
         this.isReady = new BehaviorSubject(false).distinctUntilChanged();
 
-        this.itemSourceSub = this.webSocketService.itemSource.subscribe((result) => {
-            if (!result.itemSource || result.cmpId !== this.cmpId)
-                return;
-
-            this.items = result.itemSource;
-            if (this.dropdownlist) (this.isReady as Subject<boolean>).next(true);
+        this.webSocketService.itemSource.pipe(untilDestroy(this)).filter(x => x.cmpId === this.cmpId).subscribe((result) => {
+            if (result.itemSource) {
+                for (let j = 0; j < result.itemSource.length; j++) {
+                    this.items.push(result.itemSource[j]);
+                }
+                if (this.items.length > 0) this.items.push({ code: '', description: '' });
+            };
+            if (this.dropdownlist) {
+                (this.isReady as Subject<boolean>).next(true);
+            }
         });
+    }
+
+    ngAfterViewInit() {
+        super.ngAfterViewInit();
+        if (this.dropdownlist) {
+            this.isReady.subscribe(ready => {
+                if (ready) {
+                    this.dropdownlist.toggle(true);
+                    (this.isReady as Subject<boolean>).next(false);
+                }
+            });
+        }
     }
 
     @HostListener('keydown', ['$event'])
@@ -70,18 +87,6 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
                     this.selectedItem = this.oldValue;
                     break;
             }
-        }
-    }
-
-    ngAfterViewInit() {
-        super.ngAfterViewInit();
-        if (this.dropdownlist) {
-            this.isReady.subscribe(ready => {
-                if (ready) {
-                    this.dropdownlist.toggle(true);
-                    (this.isReady as Subject<boolean>).next(false);
-                }
-            });
         }
     }
 
@@ -114,8 +119,6 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
         if (this.selectedItem == undefined || this.model == undefined) {
             return;
         }
-
-
         if (this.model.value == this.selectedItem.code) {
             return;
         }
@@ -138,10 +141,6 @@ export class ComboComponent extends ControlComponent implements OnChanges, DoChe
         let obj = { code: temp, description: temp };
         this.items.push(obj);
         this.selectedItem = obj;
-    }
-
-    ngOnDestroy() {
-        this.itemSourceSub.unsubscribe();
     }
 
     focus() {
