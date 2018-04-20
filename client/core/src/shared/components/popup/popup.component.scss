@@ -69,12 +69,12 @@ a {
     }
     &.top {
         .tooltip-content {
-            bottom: 3.5em;
-            left: 0%;
+            bottom: calc(100% + 42px);
+            left: calc(100% - 170px);
             transform: translateX(-30%);
             &::after {
                 bottom: -5px;
-                left: 50%;
+                left: 80%;
                 margin-left: -5px;
             }
         }
