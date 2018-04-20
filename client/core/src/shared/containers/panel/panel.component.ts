@@ -105,12 +105,14 @@ export class PanelComponent extends TbComponent implements OnInit, OnDestroy {
                 this.realTitle = this._collapsedTitle;
             }
 
-        } else {
-            if (this._title.hasOwnProperty('value')) {
-                this.realTitle = this._title['value'];
-            }
-            else {
-                this.realTitle = this._title;
+        } else if (this._title) {
+            {
+                if (this._title.hasOwnProperty('value')) {
+                    this.realTitle = this._title['value'];
+                }
+                else {
+                    this.realTitle = this._title;
+                }
             }
         }
 

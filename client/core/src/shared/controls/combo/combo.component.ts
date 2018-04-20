@@ -27,8 +27,28 @@ export class ComboComponent extends ControlComponent implements AfterViewInit, O
     items: ComboData[] = [];
     selectedItem: any;
     private oldValue: any;
-    @Input() public itemSourceName: any = undefined;
-    @Input() public itemSourceNamespace: any = undefined;
+
+    private _itemSourceName: any = undefined;
+    @Input()
+    set itemSourceName(itemSourceName: any) {
+        this._itemSourceName = itemSourceName instanceof Object ? itemSourceName.value : itemSourceName;
+    }
+  
+    get itemSourceName() {
+        return this._itemSourceName;
+    }
+
+    private _itemSourceNamespace: any = undefined;
+    @Input()
+    set itemSourceNamespace(itemSourceNamespace: any) {
+        this._itemSourceNamespace = itemSourceNamespace instanceof Object ? itemSourceNamespace.value : itemSourceNamespace;
+    }
+  
+    get itemSourceNamespace() {
+        return this._itemSourceNamespace;
+    }
+
+    @Input() public : any = undefined;
 
     @Input() propagateSelectionChange = false;
     @ViewChild("ddl") public dropdownlist: any;

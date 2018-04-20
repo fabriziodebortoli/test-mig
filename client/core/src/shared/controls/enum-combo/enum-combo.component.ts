@@ -44,8 +44,28 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, O
 
     selectedItem: any;
     private oldValue: any;
-    @Input() public itemSourceName: any;
-    @Input() public itemSourceNamespace: any = undefined;
+
+    private _itemSourceName: any = undefined;
+    @Input()
+    set itemSourceName(itemSourceName: any) {
+        this._itemSourceName = itemSourceName instanceof Object ? itemSourceName.value : itemSourceName;
+    }
+  
+    get itemSourceName() {
+        return this._itemSourceName;
+    }
+
+    private _itemSourceNamespace: any = undefined;
+    @Input()
+    set itemSourceNamespace(itemSourceNamespace: any) {
+        this._itemSourceNamespace = itemSourceNamespace instanceof Object ? itemSourceNamespace.value : itemSourceNamespace;
+    }
+  
+    get itemSourceNamespace() {
+        return this._itemSourceNamespace;
+    }
+
+
     
     @Input() propagateSelectionChange = false;
     @ViewChild("ddl") dropdownlist: any;

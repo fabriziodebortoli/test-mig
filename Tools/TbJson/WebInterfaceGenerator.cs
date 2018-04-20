@@ -1661,11 +1661,13 @@ namespace Microarea.TbJson
                 {
                     string jItemName = jItem.GetFlatString(Constants.name);
                     if (!string.IsNullOrEmpty(jItemName))
-                        htmlWriter.WriteAttribute(Constants.itemSourceName, jItemName.ResolveInterplation());
+                        htmlWriter.WriteAttribute(jItemName.IndexOf("{{") >=0 ? Square(Constants.itemSourceName): Constants.itemSourceName, jItemName.ResolveInterplation());
+                    //htmlWriter.WriteAttribute(Square(Constants.itemSourceName), jItemName.ResolveInter;plation());
 
                     string jItemNamespace = jItem.GetFlatString(Constants.tbNamespace);
                     if (!string.IsNullOrEmpty(jItemNamespace))
-                        htmlWriter.WriteAttribute(Constants.itemSourceNamespace, jItemNamespace.ResolveInterplation());
+                        WriteAttribute(jItem, jItemNamespace.IndexOf("{{") >= 0 ? Square(Constants.itemSourceNamespace) : Constants.itemSourceNamespace, jItemNamespace.ResolveInterplation());
+                    //htmlWriter.WriteAttribute(Square(Constants.itemSourceNamespace), jItemNamespace.ResolveInterplation());
                 }
             }
         }
@@ -1921,11 +1923,13 @@ namespace Microarea.TbJson
             {
                 string jItemName = jItem.GetFlatString(Constants.name);
                 if (!string.IsNullOrEmpty(jItemName))
-                    htmlWriter.WriteAttribute(Constants.itemSourceName, jItemName.ResolveInterplation());
+                    htmlWriter.WriteAttribute(jItemName.IndexOf("{{") >= 0 ? Square(Constants.itemSourceName) : Constants.itemSourceName, jItemName.ResolveInterplation());
+                //htmlWriter.WriteAttribute(Square(Constants.itemSourceName), jItemName.ResolveInter;plation());
 
                 string jItemNamespace = jItem.GetFlatString(Constants.tbNamespace);
                 if (!string.IsNullOrEmpty(jItemNamespace))
-                    htmlWriter.WriteAttribute(Constants.itemSourceNamespace, jItemNamespace.ResolveInterplation());
+                    WriteAttribute(jItem, jItemNamespace.IndexOf("{{") >= 0 ? Square(Constants.itemSourceNamespace) : Constants.itemSourceNamespace, jItemNamespace.ResolveInterplation());
+                //htmlWriter.WriteAttribute(Square(Constants.itemSourceNamespace), jItemNamespace.ResolveInterplation());
             }
 
             JArray jArray = jObj[Constants.validators] as JArray;

@@ -23,8 +23,26 @@ export class UpdateManagerListComponent extends ControlComponent implements OnIn
     _umActions: Array<UMErpAction>;
     currentIndex = -1;
 
-    @Input() public itemSourceName: any;
-    @Input() public itemSourceNamespace: any;
+    private _itemSourceName: any = undefined;
+    @Input()
+    set itemSourceName(itemSourceName: any) {
+        this._itemSourceName = itemSourceName instanceof Object ? itemSourceName.value : itemSourceName;
+    }
+  
+    get itemSourceName() {
+        return this._itemSourceName;
+    }
+
+    private _itemSourceNamespace: any = undefined;
+    @Input()
+    set itemSourceNamespace(itemSourceNamespace: any) {
+        this._itemSourceNamespace = itemSourceNamespace instanceof Object ? itemSourceNamespace.value : itemSourceNamespace;
+    }
+  
+    get itemSourceNamespace() {
+        return this._itemSourceNamespace;
+    }
+
 
     ngOnInit() {
         // 
