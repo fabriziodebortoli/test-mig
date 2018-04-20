@@ -1025,7 +1025,7 @@ namespace Microarea.TbJson
                             if (!string.IsNullOrEmpty(title))
                                 htmlWriter.WriteAttribute(Square(Constants.title), title);
 
-                            if(tag == Constants.tbPanel)
+                            if (tag == Constants.tbPanel)
                             {
                                 htmlWriter.Write(" tbTile");
                                 htmlWriter.Write(jObj.GetTileDialogSize().ToString());
@@ -1659,12 +1659,13 @@ namespace Microarea.TbJson
                 var jItem = jObj[Constants.itemSource] as JObject;
                 if (jItem != null)
                 {
-                    var strItemSource = $"{cmpId}_{Constants.itemSource}";
+                    string jItemName = jItem.GetFlatString(Constants.name);
+                    if (!string.IsNullOrEmpty(jItemName))
+                        htmlWriter.WriteAttribute(Constants.itemSourceName, jItemName.ResolveInterplation());
 
-                    htmlWriter.Write($" [{Constants.itemSource}]=\"{strItemSource}\"");
-
-                    toAppendToDeclaration.AppendIfNotExist($"public {strItemSource}: any;\r\n");
-                    toAppendToDefinition.AppendIfNotExist($"this.{strItemSource} = {jItem}; \r\n");
+                    string jItemNamespace = jItem.GetFlatString(Constants.tbNamespace);
+                    if (!string.IsNullOrEmpty(jItemNamespace))
+                        htmlWriter.WriteAttribute(Constants.itemSourceNamespace, jItemNamespace.ResolveInterplation());
                 }
             }
         }
@@ -1918,12 +1919,13 @@ namespace Microarea.TbJson
             var jItem = jObj[Constants.itemSource] as JObject;
             if (jItem != null)
             {
-                var strItemSource = $"{cmpId}_{Constants.itemSource}";
+                string jItemName = jItem.GetFlatString(Constants.name);
+                if (!string.IsNullOrEmpty(jItemName))
+                    htmlWriter.WriteAttribute(Constants.itemSourceName, jItemName.ResolveInterplation());
 
-                htmlWriter.Write($" [{Constants.itemSource}]=\"{strItemSource}\"");
-
-                toAppendToDeclaration.AppendIfNotExist($"public {strItemSource}: any;\r\n");
-                toAppendToDefinition.AppendIfNotExist($"this.{strItemSource} = {jItem}; \r\n");
+                string jItemNamespace = jItem.GetFlatString(Constants.tbNamespace);
+                if (!string.IsNullOrEmpty(jItemNamespace))
+                    htmlWriter.WriteAttribute(Constants.itemSourceNamespace, jItemNamespace.ResolveInterplation());
             }
 
             JArray jArray = jObj[Constants.validators] as JArray;

@@ -23,7 +23,8 @@ export class UpdateManagerListComponent extends ControlComponent implements OnIn
     _umActions: Array<UMErpAction>;
     currentIndex = -1;
 
-    @Input() public itemSource: any;
+    @Input() public itemSourceName: any;
+    @Input() public itemSourceNamespace: any;
 
     ngOnInit() {
         // 
@@ -33,7 +34,7 @@ export class UpdateManagerListComponent extends ControlComponent implements OnIn
     }
 
     ngAfterViewInit() {
-        if (this.itemSource) {
+        if (this.itemSourceName && this.itemSourceNamespace) {
             this.eventData.checkListBoxAction.emit(this.getActionObject(CheckListBoxAction.CLB_QUERY_LIST));
         }
     }
@@ -95,7 +96,8 @@ export class UpdateManagerListComponent extends ControlComponent implements OnIn
             list: this._umActions,
             action: action,
             cmpId: this.cmpId,
-            itemSource: this.itemSource,
+            itemSourceName: this.itemSourceName,
+            itemSourceNamespace: this.itemSourceNamespace,
             itemID: itemID
         }
     }

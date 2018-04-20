@@ -9,7 +9,8 @@ import { LayoutService } from './../../../core/services/layout.service';
     styleUrls: ['./property-grid.component.scss']
 })
 export class PropertyGridComponent extends ControlComponent {
-    @Input() itemSource: any;
+    @Input() itemSourceName: any;
+    @Input() itemSourceNamespace: any;
 
     constructor(
         layoutService: LayoutService,

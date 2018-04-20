@@ -27,7 +27,8 @@ export class ComboComponent extends ControlComponent implements AfterViewInit, O
     items: ComboData[] = [];
     selectedItem: any;
     private oldValue: any;
-    @Input() public itemSource: any = undefined;
+    @Input() public itemSourceName: any = undefined;
+    @Input() public itemSourceNamespace: any = undefined;
 
     @Input() propagateSelectionChange = false;
     @ViewChild("ddl") public dropdownlist: any;

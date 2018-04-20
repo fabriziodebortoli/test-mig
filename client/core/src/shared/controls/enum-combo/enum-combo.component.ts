@@ -44,7 +44,9 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, O
 
     selectedItem: any;
     private oldValue: any;
-    @Input() public itemSource: any;
+    @Input() public itemSourceName: any;
+    @Input() public itemSourceNamespace: any = undefined;
+    
     @Input() propagateSelectionChange = false;
     @ViewChild("ddl") dropdownlist: any;
     private stateButtonDisabled = false;
@@ -75,11 +77,11 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, O
     }
 
     ngOnInit() {
-        if (this.itemSource) { this.withItemSourceLogic(); }
+        if (this.itemSourceName && this.itemSourceNamespace) { this.withItemSourceLogic(); }
     }
 
     onOpen() {
-        if (this.itemSource) { this.eventDataService.openDropdown.emit(this); }
+        if (this.itemSourceName && this.itemSourceNamespace) { this.eventDataService.openDropdown.emit(this); }
         else { this.items = this.translateItemsCodes(convertToComboData(this.enumsService.getItemsFromTag(this.tag) as Array<any>)); }
     }
 

@@ -113,6 +113,8 @@
         internal const string tbNamespace = "namespace";
         internal const string parameter = "parameter";
         internal const string itemSource = "itemSource";
+        internal const string itemSourceName = "itemSourceName";
+        internal const string itemSourceNamespace = "itemSourceNamespace";
         internal const string validators = "validators";
         internal const string contextMenu = "contextMenu";
         internal const string tbContextMenu = "tbContextMenu";

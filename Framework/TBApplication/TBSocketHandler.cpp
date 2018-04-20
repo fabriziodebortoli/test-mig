@@ -538,10 +538,10 @@ void CTBSocketHandler::pushCheckListBoxItemSource(CJsonParser& json, CAbstractFo
 		return;
 	}
 
-	if (json.BeginReadObject(_T("itemSource")))
-	{
-		CString itemSourceName = json.ReadString(_T("name"));
-		CString itemSourceNamespace = json.ReadString(_T("namespace"));
+	//if (json.BeginReadObject(_T("itemSource")))
+	//{
+		CString itemSourceName = json.ReadString(_T("itemSourceName"));
+		CString itemSourceNamespace = json.ReadString(_T("itemSourceNamespace"));
 
 		CItemSource* pItemSource = pDoc->GetItemSource(itemSourceName, CTBNamespace(CTBNamespace::ITEMSOURCE, itemSourceNamespace));
 
@@ -552,7 +552,7 @@ void CTBSocketHandler::pushCheckListBoxItemSource(CJsonParser& json, CAbstractFo
 		CJsonSerializer resp = pItemSource->GetJson(controlId);
 
 		pSession->PushToClients(resp);
-	}
+	//}
 }
 
 //--------------------------------------------------------------------------------
@@ -575,11 +575,14 @@ void CTBSocketHandler::DoFillListBox(CJsonParser& json)
 	CStringArray strArray;
 	bool bDataFound = false;
 	IItemSource* pItemSource = NULL;
-	if (json.BeginReadObject(_T("itemSource")))
+	
+	//LUCA, discrepanza tra itemsource e controlbehavior, adesso nel ts e html name e namespace sono due variabili separate, perchè  possono essere bindate a 
+	//variabili di documento; mi aspetto che prima o poi esca un caso del genere anche sul behaviour
+	CString itemSourceName = json.ReadString(_T("itemSourceName"));
+	CString itemSourceNamespace = json.ReadString(_T("itemSourceNamespace"));
+	if (!itemSourceName.IsEmpty() && !itemSourceNamespace.IsEmpty())
 	{
-		CString name = json.ReadString(_T("name"));
-		CString nameSpace = json.ReadString(_T("namespace"));
-		pItemSource = pDoc->GetItemSource(name, CTBNamespace(CTBNamespace::ITEMSOURCE, nameSpace));
+		pItemSource = pDoc->GetItemSource(itemSourceName, CTBNamespace(CTBNamespace::ITEMSOURCE, itemSourceNamespace));
 		json.EndReadObject();
 	}
 	else if (json.BeginReadObject(_T("controlBehaviour")))
