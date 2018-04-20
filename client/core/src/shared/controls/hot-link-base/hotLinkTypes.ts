@@ -1,6 +1,10 @@
 import { State } from './../../components/customisable-grid/customisable-grid.component';
 import { HotLinkInfo } from './../../models/hotLinkInfo.model';
 
+type ChildResolver = (idx: number) => (parent: any) => (selector: string) => HTMLElement;
+export const resolveChild: ChildResolver = idx =>  parent => selector => parent.getElementsByClassName(selector)[idx] as HTMLElement;
+export const resolveFirstChild = resolveChild(0);
+
 export type HlComponent = { width?: number, model: any, slice$?: any, cmpId: string, isCombo?: boolean, hotLink: HotLinkInfo, insideBodyEditDirective?: any };
 export interface TriggerData { readonly value: string, readonly selectionType: string };
 export type CompleteTriggerDataFactory = (selType: string) => ValueTriggerDataFactory;
@@ -32,6 +36,23 @@ export const NewComboFilteringTriggerData = CreateTriggerData(ComboFilteringSele
 export const NewComboF8TriggerData = CreateTriggerData(ComboF8SelectionType);
 export const NewComboF9TriggerData = CreateTriggerData(ComboF9SelectionType);
 export const NewComboFocusLostTriggerData = CreateTriggerData(ComboFocusLostSelectionType);
+
+
+export module EventKey {
+  export const KeyUp = 'keyup';
+  export const F8 = 'F8';
+  export const F9 = 'F9';
+  export const Click = 'click';
+  export const ArrowDown = 'ArrowDown'
+}
+
+export module EventMode {
+  export const Capturing = { capture: true };
+  export const Bubbling = { capture: false };
+}
+
+export type DomResolver<T> = () => T;
+export type HTMLElementResolver = DomResolver<HTMLElement>;
 
 export class HotLinkState extends State {
   readonly selectionColumn: string;

@@ -22,7 +22,7 @@ import { HlComponent, HotLinkState } from './../hot-link-base/hotLinkTypes';
 import { TriggerData, ComboOpeningSelectionType, ComboFilteringSelectionType, CompleteTriggerDataFactory,
         ValueTriggerDataFactory, NewComboOpeningTriggerData, NewComboFilteringTriggerData } from './../hot-link-base/hotLinkTypes';
 import { TbHotlinkComboHyperLinkHandler } from './hyper-link-handler';
-import { TbHotlinkComboEventHandler } from './event-handler';
+import { TbHotlinkComboEventHandler } from './event-handler/event-handler';
 
 import * as _ from 'lodash';
 import { ComboBoxData } from '../../models/combo-box-data';
@@ -38,25 +38,13 @@ const updateSelectionType: (self: TbHotlinkComboComponent) => (source: Observabl
   providers: [PaginatorService, ComponentMediator, StorageService]
 })
 export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements OnDestroy, OnInit, AfterViewInit {
-  @ViewChild('combobox') public combobox: any;
-  get width(): number {
-    return this.modelComponent.width;
-  }
 
+  disablePager: boolean = true;
+  get enablePager(): boolean { return !this.disablePager; }
+  get width(): number { return this.modelComponent.width; }
+  @ViewChild('combobox') public combobox: any; 
+ 
   private comboInputTypingSubj$: Subject<TriggerData> = new Subject<TriggerData>();
-  emitQueryTrigger(t: TriggerData | ValueTriggerDataFactory): void {
-    let tdata = 
-      (typeof t) === 'function' ? 
-      (t as ValueTriggerDataFactory)(this.modelComponent.model.value) : 
-      t as TriggerData;
-
-    let eimitter$ = 
-      tdata.selectionType === ComboFilteringSelectionType ?
-      this.comboInputTypingSubj$ : 
-      this.comboExplicitRequestSubj$;
-
-    eimitter$.next(tdata)
-  }
   private get comboInputTyping$(): Observable<string>
   { return this.comboInputTypingSubj$.pipe(untilDestroy(this), updateSelectionType(this)).map(t => t.value); }
 
@@ -64,7 +52,6 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
   private get comboExplicitRequest$(): Observable<string>
    { return this.comboExplicitRequestSubj$.pipe(untilDestroy(this), updateSelectionType(this)).map(t => t.value); }
   
-
   constructor(layoutService: LayoutService,
     protected webSocketService: WebSocketService,
     protected httpService: HttpService,
@@ -79,26 +66,40 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
       paginatorService, null, eventDataService, httpService);
   }
 
-  openDropDown(ev) {
-    ev.preventDefault();
-    //this.emitQueryTrigger(NewComboFilteringTriggerData(this.modelComponent.model.value));
+  emitQueryTrigger(t: TriggerData | ValueTriggerDataFactory): void {
+    let tdata = 
+      (typeof t) === 'function' ? 
+      (t as ValueTriggerDataFactory)(this.modelComponent.model.value) : 
+      t as TriggerData;
+
+    let eimitter$ = 
+      tdata.selectionType === ComboFilteringSelectionType ?
+      this.comboInputTypingSubj$ : 
+      this.comboExplicitRequestSubj$;
+
+    eimitter$.next(tdata)
   }
 
+  openDropDown(ev) { ev.preventDefault(); }
+
+  
+  clearState() {
+    this.state = this.state.with({ selectionColumn: '', gridData: GridData.new({ data: [], total: 0, columns: [] }) });
+  }
   closeDropDown() {
     this.stop();
     this.disablePager = true;
+    this.clearState();
   }
 
   protected get queryTrigger$(): Observable<ServerNeededParams> {
     return this.comboInputTyping$.pipe(debounceFirst(200))
-            .filter(x => !x.isFirst).map(x => x.value)
+            .filter(x => !x.isFirst)
+            .map(x => x.value)
             .distinctUntilChanged()
             .merge(this.comboExplicitRequest$)
             .map(value => ({ model: value }));
   }
-
-  disablePager: boolean = true;
-  get enablePager(): boolean { return !this.disablePager; }
 
   start() {
     this.stop();
@@ -139,8 +140,13 @@ export class TbHotlinkComboComponent extends TbHotLinkBaseComponent implements O
     }
   }
 
+  updateDescription(value: any) {
+    let descriptionModelPath = this.hotLinkInfo.name + '.Description.value';
+    _.set(this.eventDataService.model, descriptionModelPath, _.get(value, 'displayString'));
+  }
+
   selectionChanged(value: any) {
-    _.set(this.eventDataService.model, this.hotLinkInfo.name + '.Description.value', _.get(value, 'displayString'));
+    this.updateDescription(value);
     if (this.modelComponent && this.modelComponent.model) {
       this.modelComponent.model.value = _.get(value, 'id');
       this.emitModelChange();
