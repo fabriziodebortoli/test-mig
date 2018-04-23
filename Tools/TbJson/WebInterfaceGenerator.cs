@@ -1656,21 +1656,21 @@ namespace Microarea.TbJson
                     htmlWriter.WriteAttribute("[hotLink]", hkl.ResolveInterplation());
                 }
 
-                var jItem = jObj[Constants.itemSource] as JObject;
-                if (jItem != null)
-                {
-                    string jItemName = jItem.GetFlatString(Constants.name);
-                    if (!string.IsNullOrEmpty(jItemName))
-                        htmlWriter.WriteAttribute(jItemName.IndexOf("{{") >=0 ? Square(Constants.itemSourceName): Constants.itemSourceName, jItemName.ResolveInterplation());
-                    //htmlWriter.WriteAttribute(Square(Constants.itemSourceName), jItemName.ResolveInter;plation());
-
-                    string jItemNamespace = jItem.GetFlatString(Constants.tbNamespace);
-                    if (!string.IsNullOrEmpty(jItemNamespace))
-                        WriteAttribute(jItem, jItemNamespace.IndexOf("{{") >= 0 ? Square(Constants.itemSourceNamespace) : Constants.itemSourceNamespace, jItemNamespace.ResolveInterplation());
-                    //htmlWriter.WriteAttribute(Square(Constants.itemSourceNamespace), jItemNamespace.ResolveInterplation());
-                }
+                WriteItemSource(jObj);
             }
         }
+
+        //-----------------------------------------------------------------------------------------
+        private void WriteItemSource(JToken jObj)
+        {
+            var jItem = jObj[Constants.itemSource] as JObject;
+            if (jItem == null)
+                return;
+
+            WriteAttribute(jItem, Constants.name, Constants.itemSourceName);
+            WriteAttribute(jItem, Constants.tbNamespace, Constants.itemSourceNamespace);
+        }
+
         //-----------------------------------------------------------------------------------------
         private string AdjustModelExpression(string model)
         {
@@ -1918,19 +1918,7 @@ namespace Microarea.TbJson
 
             WriteBindingAttributes(jObj, true, insideRowView);
 
-            var jItem = jObj[Constants.itemSource] as JObject;
-            if (jItem != null)
-            {
-                string jItemName = jItem.GetFlatString(Constants.name);
-                if (!string.IsNullOrEmpty(jItemName))
-                    htmlWriter.WriteAttribute(jItemName.IndexOf("{{") >= 0 ? Square(Constants.itemSourceName) : Constants.itemSourceName, jItemName.ResolveInterplation());
-                //htmlWriter.WriteAttribute(Square(Constants.itemSourceName), jItemName.ResolveInter;plation());
-
-                string jItemNamespace = jItem.GetFlatString(Constants.tbNamespace);
-                if (!string.IsNullOrEmpty(jItemNamespace))
-                    WriteAttribute(jItem, jItemNamespace.IndexOf("{{") >= 0 ? Square(Constants.itemSourceNamespace) : Constants.itemSourceNamespace, jItemNamespace.ResolveInterplation());
-                //htmlWriter.WriteAttribute(Square(Constants.itemSourceNamespace), jItemNamespace.ResolveInterplation());
-            }
+            WriteItemSource(jObj);
 
             JArray jArray = jObj[Constants.validators] as JArray;
             if (jArray != null)
@@ -1943,7 +1931,7 @@ namespace Microarea.TbJson
                 toAppendToDefinition.AppendIfNotExist($"this.{strValidators} = {jArray}; \r\n");
             }
 
-            jItem = jObj[Constants.contextMenu] as JObject;
+            var jItem = jObj[Constants.contextMenu] as JObject;
             if (jItem != null)
             {
                 var strContextMenu = $"{cmpId}_{Constants.contextMenu}";
