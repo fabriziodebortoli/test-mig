@@ -4,17 +4,20 @@
 #include "beginh.dex"
 
 class CBaseDocument;
+
 class TB_EXPORT CTBSocketHandler
 {
 	typedef void(CTBSocketHandler::*FUNCPTR)(CJsonParser& json);
 	typedef CMap<CString, LPCTSTR, FUNCPTR, FUNCPTR> CTbSocketHandlerFunctionMap;
 
+	CMap <int, int, TDisposablePtr<CBaseDocument>, TDisposablePtr<CBaseDocument>> m_arDocuments;
 	CTbSocketHandlerFunctionMap functionMap;
 public:
 	CTBSocketHandler();
 	~CTBSocketHandler();
 	void Execute(CString& sSocketName, CString& sMessage);
 private:
+	bool IsCancelableCommand(const CString& sCommand);
 	void ExecuteFunction(FUNCPTR fn, CJsonParser* pParser);
 	void DoCommand(CJsonParser& json);
 	void DoClose(CJsonParser& json);
@@ -39,6 +42,8 @@ private:
 	void DoUpdateTitle(CJsonParser& json);
 
 	void pushCheckListBoxItemSource(CJsonParser& json, CAbstractFormDoc* pDoc, const CString& controlId);
+	void RunDocumentOnThreadDocument(const CString& sNamespace, const CString& sArguments);
+	CBaseDocument* GetDocument(int cmpId);
 };
 
 #include "endh.dex"

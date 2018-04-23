@@ -14,7 +14,8 @@ enum SetDataResult { OK = 1, FAIL  = 2, CONFLICT = 3};
 enum ObjectType { DOCUMENT, REPORT, FUNCTION };
 
 TB_EXPORT CBaseDocument* GetDocumentFromHwnd(HWND hWnd);
-
+TB_EXPORT HWND ReadComponentId(CJsonParser& json);
+TB_EXPORT CBaseDocument* GetDocumentFromJson(CJsonParser& jsonParser);
 //--------------------------------------------------------------------------------
 class TB_EXPORT CJSonResponse : public CJsonSerializer
 {
@@ -31,7 +32,6 @@ class TB_EXPORT CDocumentSession : public CDocumentSessionObj
 private:
 	int							m_nSuspendPushToClient = 0;
 	short						m_nPushDataNeedLevel = 0;
-	bool						m_bUpdateUINeeded = false;
 	bool						m_bIgnoreModelChanges = false;
 	
 	int							m_nMessageType = 0;
@@ -44,24 +44,21 @@ private:
 	DWORD						m_nDocumentThreadID = 0;
 	CArray<HWND>				m_arWindowsToNotifyForCreation;//finestre la cui creazione necessita di essere notificata al client
 	CArray<IJsonModelProvider*>	m_arJsonModelsToNotify;//modelli dati che necessitano di essere notificati al client
-	CArray<IJsonModelProvider*>	m_arJsonModelsToUpdate;//modelli dati che necessitano di essere aggiornati con i dati arrivati dal client
 
 protected:
 	bool						m_bPushOnlyWebBoundData = false;//ottimizzazione: per mandare i soli dati usati dal client
 
 public:
+	int							m_bOperationId = 0;
 	CDocumentSession (DWORD nLoginThreadID);
 	~CDocumentSession ();
 	void PushDataToClients();
-	void SetJsonModel(CJsonParser& jsonParser, HWND cmpId);
 	virtual void OnAddThreadWindow(HWND hwnd);
 	virtual void OnRemoveThreadWindow(HWND hwnd);
 	virtual void PushDataToClients(IJsonModelProvider* pProvider);
 	virtual void PushMessageMapToClients(CAbstractFormDoc* pDoc);
 	virtual void IgnoreModelChanges(bool bIgnore) { m_bIgnoreModelChanges = bIgnore; }
 	virtual void PushItemSourceToClients(const CString& cmpId, const CStringArray& arDescriptions, const CStringArray& arData);
-	virtual void AddJsonModelProvider(IJsonModelProvider* pProvider);
-	virtual void RemoveJsonModelProvider(IJsonModelProvider* pProvider);
 	virtual int MessageBoxDialog(LPCTSTR lpszText, UINT nType);
 	virtual void PushToClients(CJsonSerializer& resp);
 	virtual BOOL DiagnosticDialog(CDiagnostic* pDiagnostic, BOOL bModal);
@@ -80,7 +77,6 @@ public:
 	void ResumePushToClient();
 	void PushDataNeeded();
 	void PushBehavioursToClient(IBehaviourContext* pProvider);
-
 private:
 	void Init();
 };

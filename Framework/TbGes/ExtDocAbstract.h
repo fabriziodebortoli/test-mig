@@ -254,6 +254,7 @@ class TB_EXPORT CAbstractFormDoc : public CAbstractDoc, public IBehaviourContext
 	friend class CJsonModelGenerator;
 	friend class CMasterFrame;
 	friend class DBTSlaveBuffered;
+	friend class CTBSocketHandler;
 
 protected:
 	DECLARE_DYNAMIC(CAbstractFormDoc)
@@ -299,6 +300,8 @@ public:
 	Array	m_arFieldAliases;
 	Array	m_arGenericAliases;
 	CArray<CJsonDialog*> m_JsonDialogs;
+	CEvent	m_AbortWebOperation;
+	CEvent	m_PrevWebOperationComplete;
 protected:	
 	CWoormInfo*	m_pWoormInfo;
 	//DMS 

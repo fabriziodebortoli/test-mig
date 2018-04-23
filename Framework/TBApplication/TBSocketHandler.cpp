@@ -5,23 +5,7 @@
 #include <TbGes\DocumentSession.h>
 #include <TbGes\ExtDocAbstract.h>
 
-TCHAR* szCmpId = _T("cmpId");
 
-//--------------------------------------------------------------------------------
-HWND ReadComponentId(CJsonParser& json)
-{
-	CString sId;
-	if (json.TryReadString(szCmpId, sId))
-	{
-		return (HWND)_ttoi(sId);
-	}
-	int id;
-	if (json.TryReadInt(szCmpId, id))
-	{
-		return (HWND)id;
-	}
-	return 0;
-}
 //--------------------------------------------------------------------------------
 CTBSocketHandler::CTBSocketHandler()
 {
@@ -57,9 +41,7 @@ CTBSocketHandler::~CTBSocketHandler()
 void CTBSocketHandler::OpenHyperLink(CJsonParser& json)
 {
 	CString sName = json.ReadString(_T("name"));
-	HWND cmpId = ReadComponentId(json);
-	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd(cmpId);
-
+	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromJson(json);
 	if (!pDoc) return;
 
 	HotKeyLink* pHkl = pDoc->GetHotLink(sName);
@@ -147,9 +129,16 @@ void CTBSocketHandler::QueryHyperLink(CJsonParser& json)
 		SAFE_DELETE(pData);
 	}
 }
-
 //--------------------------------------------------------------------------------
-void RunDocumentOnThreadDocument(const CString& sNamespace, const CString& sArguments)
+CBaseDocument* CTBSocketHandler::GetDocument(int cmpId)
+{
+	CBaseDocument* pDoc = m_arDocuments[cmpId];
+	if (!pDoc)
+		m_arDocuments.RemoveKey(cmpId);
+	return pDoc;
+}
+//--------------------------------------------------------------------------------
+void CTBSocketHandler::RunDocumentOnThreadDocument(const CString& sNamespace, const CString& sArguments)
 {
 	CBaseDocument* pDoc = NULL;
 
@@ -163,6 +152,7 @@ void RunDocumentOnThreadDocument(const CString& sNamespace, const CString& sArgu
 		{
 			pSession->PushRunErrorToClients();
 		}
+		return;
 	}
 	
 	if (!sArguments.IsEmpty())
@@ -173,6 +163,9 @@ void RunDocumentOnThreadDocument(const CString& sNamespace, const CString& sArgu
 	}
 
 	AfxGetDiagnostic()->EndSession();
+	
+	TDisposablePtr<CBaseDocument> ptr = pDoc;
+	m_arDocuments[(int)pDoc->GetFrameHandle()] = ptr;
 }
 //--------------------------------------------------------------------------------
 void CTBSocketHandler::RunDocument(CJsonParser& json)
@@ -185,7 +178,13 @@ void CTBSocketHandler::RunDocument(CJsonParser& json)
 		return;
 	}
 	CDocumentThread* pThread = (CDocumentThread*)AfxGetTbCmdManager()->CreateDocumentThread();
-	AfxInvokeThreadGlobalProcedure<const CString&, const CString&>(pThread->m_nThreadID, &RunDocumentOnThreadDocument, sNamespace, sArguments);
+	AfxInvokeThreadProcedure<CTBSocketHandler, const CString&, const CString&>(pThread->m_nThreadID, this, &CTBSocketHandler::RunDocumentOnThreadDocument, sNamespace, sArguments);
+}
+
+//--------------------------------------------------------------------------------
+bool CTBSocketHandler::IsCancelableCommand(const CString& sCommand)
+{
+	return sCommand == _T("browseRecord");
 }
 
 //--------------------------------------------------------------------------------
@@ -202,7 +201,37 @@ void CTBSocketHandler::Execute(CString& sSocketName, CString& sMessage)
 		HWND cmpId = ReadComponentId(*pParser);
 		if (cmpId)
 		{
-			tId = GetWindowThreadProcessId(cmpId, &pId);
+			CBaseDocument* pDoc = GetDocument((int)cmpId);
+			if (pDoc)
+			{
+				tId = pDoc->GetThreadId();
+				CAbstractFormDoc* pAbsDoc = (CAbstractFormDoc*)pDoc;
+				//è un comando che può essere cancellato da uno successivo
+				if (IsCancelableCommand(sCommand))
+				{
+					//se ho una operazione in corso (evento cancellabile)
+					if (WaitForSingleObject(pAbsDoc->m_PrevWebOperationComplete, 0) != WAIT_OBJECT_0)
+					{
+						//alzo il flag di aborted
+						pAbsDoc->m_AbortWebOperation.SetEvent();
+						//e aspetto che termini l'operazione
+						if (WaitForSingleObject(pAbsDoc->m_PrevWebOperationComplete, 60000) != WAIT_OBJECT_0)
+						{
+							ASSERT(FALSE);
+							return;
+						}
+					}
+
+					//il flag di aborted è a false
+					pAbsDoc->m_AbortWebOperation.ResetEvent();
+					//il flag di completed è a false
+					pAbsDoc->m_PrevWebOperationComplete.ResetEvent();
+				}
+			}
+			else
+			{
+				tId = GetWindowThreadProcessId(cmpId, &pId);
+			}
 		}
 		else
 		{
@@ -274,11 +303,11 @@ void CTBSocketHandler::DoCommand(CJsonParser& json)
 	if (json.TryReadString(_T("controlId"), controlId))
 		idc = AfxGetTBResourcesMap()->GetTbResourceID(controlId, TbControls);
 
+	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd(cmpId);
 	//aggiornamento del model
-	pSession->SetJsonModel(json, cmpId);
+	pDoc->SetJson(json);
 	if (idc)
 	{
-		CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd(cmpId);
 		CParsedCtrl* pCtrl = pDoc->GetLinkedParsedCtrl(idc);
 		if (pCtrl && pCtrl->GetControlBehaviour())
 		{
@@ -304,14 +333,14 @@ void CTBSocketHandler::DoControlCommand(CJsonParser& json)
 	//pSession->SuspendPushToClient();
 	CString sId = json.ReadString(_T("id"));
 	DWORD id = AfxGetTBResourcesMap()->GetTbResourceID(sId, TbCommands);
-	HWND cmpId = ReadComponentId(json);
-	//aggiornamento del model
-	pSession->SetJsonModel(json, cmpId);
 	//esecuzione comando
-	CBaseDocument* pDoc = GetDocumentFromHwnd(cmpId);
+	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromJson(json);
 	CUpdateDataViewLevel _upd(pDoc);
 	if (pDoc)
 	{
+		//aggiornamento del model
+		pDoc->SetJson(json);
+	
 		pDoc->OnCmdMsg(id, EN_CTRL_STATE_CHANGED, NULL, NULL);
 		pDoc->UpdateDataView();
 	}
@@ -332,13 +361,13 @@ void CTBSocketHandler::DoActivateClientContainer(CJsonParser& json)
 	bool tileGroup = false;
 	json.TryReadBool(_T("isTileGroup"), tileGroup);
 	DWORD id = AfxGetTBResourcesMap()->GetTbResourceID(sId, tileGroup ? TbCommands : TbResources);
-	HWND cmpId = ReadComponentId(json);
-	//aggiornamento del model
-	pSession->SetJsonModel(json, cmpId);
 	//esecuzione comando
-	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd(cmpId);
+	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromJson(json);
 	if (pDoc)
 	{
+		//aggiornamento del model
+		pDoc->SetJson(json);
+	
 		pDoc->ActivateWebClientContainer(id, active);
 	}
 }
@@ -358,14 +387,13 @@ void CTBSocketHandler::DoUpdateTitle(CJsonParser& json)
 	//pSession->SuspendPushToClient();
 	CString sId = json.ReadString(_T("id"));
 	DWORD id = AfxGetTBResourcesMap()->GetTbResourceID(sId, TbCommands);
-	HWND cmpId = ReadComponentId(json);
-	//aggiornamento del model
-	pSession->SetJsonModel(json, cmpId);
 	//esecuzione comando
-	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd(cmpId);
+	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromJson(json);
 	CUpdateDataViewLevel _upd(pDoc);
 	if (pDoc)
 	{
+		//aggiornamento del model
+		pDoc->SetJson(json);
 		pDoc->DoUpdateTitle(id);
 	}
 }
@@ -385,14 +413,13 @@ void CTBSocketHandler::DoPinUnpin(CJsonParser& json)
 	CString sId = json.ReadString(_T("id"));
 	bool isPinned = json.ReadBool(_T("pinned"));
 	DWORD id = AfxGetTBResourcesMap()->GetTbResourceID(sId, TbCommands);
-	HWND cmpId = ReadComponentId(json);
-	//aggiornamento del model
-	pSession->SetJsonModel(json, cmpId);
 	//esecuzione comando
-	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd(cmpId);
+	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromJson(json);
 	CUpdateDataViewLevel _upd(pDoc);
 	if (pDoc)
 	{
+		//aggiornamento del model
+		pDoc->SetJson(json);
 		pDoc->DoPinUnpin(id, isPinned);
 	}
 }
@@ -424,13 +451,12 @@ void CTBSocketHandler::DoValueChanged(CJsonParser& json)
 	//pSession->SuspendPushToClient();
 	CString sId = json.ReadString(_T("id"));
 	DWORD id = AfxGetTBResourcesMap()->GetTbResourceID(sId, TbCommands);
-	HWND cmpId = ReadComponentId(json);
-	//aggiornamento del model
-	pSession->SetJsonModel(json, cmpId);
 	//esecuzione comando
-	CBaseDocument* pDoc = GetDocumentFromHwnd(cmpId);
+	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromJson(json);
 	if (!pDoc)
 		return;
+	//aggiornamento del model
+	pDoc->SetJson(json);
 
 	CUpdateDataViewLevel _upd(pDoc);
 	pDoc->OnCmdMsg(id, EN_VALUE_CHANGED, NULL, NULL);
@@ -475,8 +501,7 @@ void CTBSocketHandler::SetReportResult(CJsonParser& json)
 		ASSERT(FALSE);
 		return;
 	}
-	HWND cmpId = ReadComponentId(json);
-	CDocument* pDoc = GetDocumentFromHwnd(cmpId);
+	CDocument* pDoc = GetDocumentFromJson(json);
 	if (pDoc && pDoc->IsKindOf(RUNTIME_CLASS(CWoormDoc)))
 	{
 		CWoormDoc* pWoormDoc = (CWoormDoc*)pDoc;
@@ -489,8 +514,7 @@ void CTBSocketHandler::DoCheckListBoxAction(CJsonParser& json)
 {
 	enum CheckListBoxAction { CLB_QUERY_LIST = 0, CLB_SET_VALUES = 1, CLB_DBL_CLICK = 2 };
 
-	HWND docId = ReadComponentId(json);
-	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd(docId);
+	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromJson(json);
 	if (!pDoc)
 		return;
 
@@ -558,8 +582,7 @@ void CTBSocketHandler::pushCheckListBoxItemSource(CJsonParser& json, CAbstractFo
 //--------------------------------------------------------------------------------
 void CTBSocketHandler::DoFillListBox(CJsonParser& json)
 {
-	HWND cmpId = ReadComponentId(json);
-	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromHwnd(cmpId);
+	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)GetDocumentFromJson(json);
 	if (!pDoc)
 		return;
 
@@ -709,22 +732,25 @@ void CTBSocketHandler::BrowseRecord(CJsonParser& json)
 		return;
 	}
 
-	//non sospendo la push, perch� il comando potrebbe bloccarmi con una dialog modale, 
-	//e non potrei chiudere con la ResumePushToClient
-	//pSession->SuspendPushToClient();
+	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)(GetDocumentFromJson(json));
+	if (!pDoc)
+	{
+		ASSERT(FALSE);
+		return;
+	}
+	pSession->SuspendPushToClient();
 	CString sId = json.ReadString(_T("id"));
 	DWORD id = AfxGetTBResourcesMap()->GetTbResourceID(sId, TbCommands);
 	CString tbGuid = json.ReadString(_T("tbGuid"));
-	HWND cmpId = ReadComponentId(json);
+
 
 	//aggiornamento del model
-	pSession->SetJsonModel(json, cmpId);
-	//esecuzione comando
-	CAbstractFormDoc* pDoc = (CAbstractFormDoc*)(GetDocumentFromHwnd(cmpId));
+	pDoc->SetJson(json);
 
-	ASSERT(pDoc);
+	//esecuzione comando
 	pDoc->BrowseRecordByTBGuid(tbGuid);
-	//pSession->ResumePushToClient();
+	pSession->ResumePushToClient();
+	pDoc->m_PrevWebOperationComplete.SetEvent();
 }
 
 
@@ -750,15 +776,14 @@ void CTBSocketHandler::GetDocumentData(CJsonParser& json)
 		return;
 	}
 
-	HWND cmpId = ReadComponentId(json);
-	CBaseDocument* pDoc = GetDocumentFromHwnd(cmpId);
+	CBaseDocument* pDoc = GetDocumentFromJson(json);
 	ASSERT(pDoc);
 	if (pDoc && pDoc->IsKindOf(RUNTIME_CLASS(CAbstractFormDoc)))
 	{
 		((CAbstractFormDoc*)pDoc)->ResetJsonData(json);
 		pSession->PushDataToClients((CAbstractFormDoc*)pDoc);
 		pSession->PushMessageMapToClients(((CAbstractFormDoc*)pDoc));
-		pSession->PushButtonsStateToClients(cmpId);
+		pSession->PushButtonsStateToClients(pDoc->GetFrameHandle());
 	}
 }
 //--------------------------------------------------------------------------------

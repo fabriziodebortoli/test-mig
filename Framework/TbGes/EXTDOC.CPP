@@ -536,7 +536,7 @@ CAbstractFormDoc::CAbstractFormDoc()
 	Attach(new CGenericEventMng());
 	AfxGetThreadContext()->AddObject(this);
 	SetContextClass(GetRuntimeClass());
-
+	m_PrevWebOperationComplete.SetEvent();
 }
 
 //------------------------------------------------------------------------------
@@ -3388,7 +3388,6 @@ BOOL CAbstractFormDoc::InitDocument()
 	{
 		pSession->SuspendPushToClient();
 		pSession->IgnoreModelChanges(true);//finch� non ho completato l'apertura del documento � inutile registrare i cambiamenti del model
-		pSession->AddJsonModelProvider(this);
 	}
 	//permetto al programmatore di poter istanziare gli oggetti che hanno bisogno del contesto
 	if (!OnInitDocument())
@@ -3919,9 +3918,6 @@ void CAbstractFormDoc::OnCloseDocument()
 	//operazioni di pulizia del client doc PRIMA che venga distrutto tutto
 	if (m_pClientDocs)
 		m_pClientDocs->OnCloseServerDocument();
-	CDocumentSession* pSession = (CDocumentSession*)AfxGetThreadContext()->m_pDocSession;
-	if (pSession && AfxIsRemoteInterface())
-		pSession->RemoveJsonModelProvider(this);
 
 	//PERASSO: spostato qui dal distruttore, perch� il composed hotlink possiede il puntatore alla variabile selettore che, quando siamo nel distruttore del documento, potrebbe essere stata distrutta 
 	//invece a me serve per poter effettuare il detach degli eventi di changed
@@ -8055,6 +8051,11 @@ void CAbstractFormDoc::GetBindingInfo(const CString& sDataSource, const CString 
 //-----------------------------------------------------------------------------
 void CAbstractFormDoc::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 {
+	if (WaitForSingleObject(m_AbortWebOperation, 0) == WAIT_OBJECT_0)
+	{
+		//m_bJsonDataSent = false;
+		return;
+	}
 	CString id = GetComponentId();
 	if (id == _T("0"))
 	{

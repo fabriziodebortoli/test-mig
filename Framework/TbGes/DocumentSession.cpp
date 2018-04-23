@@ -1,9 +1,12 @@
 #include "StdAfx.h"
 
+#include <TbNameSolver\CallbackHandler.h>
+
 #include <TbGeneric\WndObjDescription.h>
 #include <TbGeneric\TBWebFriendlyMenu.h>
 #include <TbGeneric\WndObjDescription.h>
 #include <tbgeneric\tbcmdui.h>
+
 #include <TbGenlib\TBCommandInterface.h>
 #include <TbGenlib\NumbererInfo.h>
 
@@ -25,6 +28,24 @@
 
 #include "DocumentSession.h"
 
+
+TCHAR* szCmpId = _T("cmpId");
+
+//--------------------------------------------------------------------------------
+HWND ReadComponentId(CJsonParser& json)
+{
+	CString sId;
+	if (json.TryReadString(szCmpId, sId))
+	{
+		return (HWND)_ttoi(sId);
+	}
+	int id;
+	if (json.TryReadInt(szCmpId, id))
+	{
+		return (HWND)id;
+	}
+	return 0;
+}
 //--------------------------------------------------------------------------------
 CBaseDocument* GetDocumentFromHwnd(HWND hWnd)
 {
@@ -38,6 +59,13 @@ CBaseDocument* GetDocumentFromHwnd(HWND hWnd)
 	if (pWnd->IsKindOf(RUNTIME_CLASS(CParsedDialog)))
 		return ((CParsedDialog*)pWnd)->GetDocument();
 	return NULL;
+}
+
+//--------------------------------------------------------------------------------
+CBaseDocument* GetDocumentFromJson(CJsonParser& jsonParser)
+{
+	HWND hwnd = ReadComponentId(jsonParser);
+	return GetDocumentFromHwnd(hwnd);
 }
 //-----------------------------------------------------------------------------
 //legge i dati dalla struttura json e li assegna al record (per ogni campo in json, effettua la ricerca nel record)
@@ -266,23 +294,6 @@ void CDocumentSession::PushToClients(CJsonSerializer& resp)
 	::PushToClients(AfxGetAuthenticationToken(), resp.GetJson());
 }
 
-//----------------------------------------------------------------------------
-void CDocumentSession::AddJsonModelProvider(IJsonModelProvider* pProvider)
-{
-	m_arJsonModelsToUpdate.Add(pProvider);
-}
-//----------------------------------------------------------------------------
-void CDocumentSession::RemoveJsonModelProvider(IJsonModelProvider* pProvider)
-{
-	for (int i = 0; i < m_arJsonModelsToUpdate.GetCount(); i++)
-	{
-		if (m_arJsonModelsToUpdate[i] == pProvider)
-		{
-			m_arJsonModelsToUpdate.RemoveAt(i);
-			break;
-		}
-	}
-}
 //----------------------------------------------------------------------------
 void CDocumentSession::OnAddThreadWindow(HWND hwnd)
 {
@@ -713,22 +724,6 @@ void CDocumentSession::PushDataToClients()
 }
 
 //----------------------------------------------------------------------------
-void CDocumentSession::SetJsonModel(CJsonParser& jsonParser, HWND cmpId)
-{
-	CBaseDocument* pDoc = GetDocumentFromHwnd(cmpId);
-	if (!pDoc)
-		return;
-	for (int i = 0; i < m_arJsonModelsToUpdate.GetSize(); i++)
-	{
-		IJsonModelProvider* pProvider = m_arJsonModelsToUpdate[i];
-		if (pProvider == dynamic_cast<IJsonModelProvider*>(pDoc))
-		{
-			pProvider->SetJson(jsonParser);
-		}
-	}
-}
-
-//----------------------------------------------------------------------------
 void CDocumentSession::SuspendPushToClient()
 {
 	m_nSuspendPushToClient++;
@@ -748,7 +743,7 @@ void CDocumentSession::ResumePushToClient()
 		m_nSuspendPushToClient--;
 	}
 
-	if (m_nSuspendPushToClient > 0)
+	if (m_nSuspendPushToClient > 0 || m_bOperationId)
 		return;
 	//prima mando gli oggetti grafici, così vengono creati i componenti
 	PushWindowsToClients();
