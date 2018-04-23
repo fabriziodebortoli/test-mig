@@ -16,7 +16,6 @@ export class ReportSnapshotDropdownComponent extends TbComponent implements OnDe
 
   @ViewChild('anchor', { read: ElementRef }) public anchor: ElementRef;
   @ViewChild('template', { read: TemplateRef }) public template: TemplateRef<any>;
-
   @Input() object: any;
   @Input() snapshots;
 
@@ -68,7 +67,7 @@ export class ReportSnapshotDropdownComponent extends TbComponent implements OnDe
 
   //--------------------------------------------------------------------------------
   private contains(target: any): boolean {
-    return this.anchor.nativeElement.contains(target);
+    return this.elRef.contains(target); 
   }
 
   //--------------------------------------------------------------------------------
