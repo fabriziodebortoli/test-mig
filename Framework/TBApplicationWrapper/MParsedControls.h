@@ -1425,6 +1425,7 @@ namespace Microarea {
 				///<summary>
 				///Update attributes from ChangedProperties for parsed controls with CodeBehind = TRUE
 				///</summary>
+				[ExcludeFromIntellisense]
 				virtual void UpdateChangesForJson(CWndObjDescription* pParentDescription, CWndObjDescription* pParsedDescription);
 
 				///<summary>
@@ -1643,6 +1644,7 @@ namespace Microarea {
 				///<summary>
 				///Update attributes from ChangedProperties for parsed controls with CodeBehind = TRUE
 				///</summary>
+				[ExcludeFromIntellisense]
 				virtual void UpdateChangesForJson(CWndObjDescription* pParentDescription, CWndObjDescription* pParsedDescription) override;
 			};
 
@@ -1722,6 +1724,7 @@ namespace Microarea {
 				///<summary>
 				///Update attributes from ChangedProperties for parsed controls with CodeBehind = TRUE
 				///</summary>
+				[ExcludeFromIntellisense]
 				virtual void UpdateChangesForJson(CWndObjDescription* pParentDescription, CWndObjDescription* pParsedDescription) override;
 			};
 
@@ -2143,6 +2146,12 @@ namespace Microarea {
 				/// </summary>
 				[ExcludeFromIntellisense]
 				virtual void OnCreateStyles(DWORD& styles, DWORD& exStyles) override;
+
+				///<summary>
+				///Update attributes from ChangedProperties for parsed controls with CodeBehind = TRUE
+				///</summary>
+				[ExcludeFromIntellisense]
+				virtual void UpdateChangesForJson(CWndObjDescription* pParentDescription, CWndObjDescription* pParsedDescription) override;
 			};
 
 			/// <summary>
@@ -2206,6 +2215,12 @@ namespace Microarea {
 				/// </summary>
 				[ExcludeFromIntellisense]
 				virtual void OnCreateStyles(DWORD& styles, DWORD& exStyles) override;
+
+				///<summary>
+				///Update attributes from ChangedProperties for parsed controls with CodeBehind = TRUE
+				///</summary>
+				[ExcludeFromIntellisense]
+				virtual void UpdateChangesForJson(CWndObjDescription* pParentDescription, CWndObjDescription* pParsedDescription) override;
 			};
 
 			//=============================================================================

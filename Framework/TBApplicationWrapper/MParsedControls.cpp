@@ -2833,8 +2833,8 @@ void MParsedControl::UpdateAttributesForJson(CWndObjDescription* pParentDescript
 
 		__super::UpdateAttributesForJson(pParentDescription);
 
-		jsonDescription->m_Width = ((BaseWindowWrapper^)this)->Size.Width;
-		jsonDescription->m_Height = ((BaseWindowWrapper^)this)->Size.Height;
+		jsonDescription->m_Width = this->SizeLU.Width;
+		jsonDescription->m_Height = this->SizeLU.Height;
 		jsonDescription->m_strControlCaption = this->Caption;
 		jsonDescription->m_strIds.RemoveAll();
 		jsonDescription->m_strIds.Add(this->Name);
@@ -2916,8 +2916,8 @@ void MParsedControl::UpdateChangesForJson(CWndObjDescription* pParentDescription
 
 		if (prop->CompareTo(gcnew String(_T("Size"))) == 0)
 		{
-			pParsedDescription->m_Width = ((BaseWindowWrapper^)this)->Size.Width;
-			pParsedDescription->m_Height = ((BaseWindowWrapper^)this)->Size.Height;
+			pParsedDescription->m_Width = this->SizeLU.Width;
+			pParsedDescription->m_Height = this->SizeLU.Height;
 			continue;
 		}
 
@@ -5414,6 +5414,32 @@ void MCheckBox::OnCreateStyles(DWORD& styles, DWORD& exStyles)
 	styles |= BS_AUTOCHECKBOX | WS_TABSTOP | BS_LEFTTEXT | BS_VCENTER | BS_RIGHT;
 }
 
+//-----------------------------------------------------------------------------------------------------
+void MCheckBox::UpdateChangesForJson(CWndObjDescription* pParentDescription, CWndObjDescription* pParsedDescription)
+{
+	SAFE_DELETE(pParsedDescription);
+
+	CWndCheckRadioDescription * pParsedCheckedDescription = new CWndCheckRadioDescription(NULL);
+
+	//only modified properties
+	for each (String^ prop in this->ChangedProperties)
+	{
+		if (prop->CompareTo(gcnew String(_T("Checked"))) == 0)
+		{
+			pParsedCheckedDescription->m_bChecked = this->Checked;
+			continue;
+		}
+
+		if (prop->CompareTo(gcnew String(_T("Group"))) == 0)
+		{
+			pParsedCheckedDescription->m_bGroup = this->Group;
+			continue;
+		}
+	}
+
+	__super::UpdateChangesForJson(pParentDescription, pParsedCheckedDescription);
+}
+
 /////////////////////////////////////////////////////////////////////////////
 // 				class MRadioButton Implementation
 /////////////////////////////////////////////////////////////////////////////
@@ -5471,6 +5497,32 @@ void MRadioButton::Checked::set(bool value)
 
 		CheckedChanged(this, EasyBuilderEventArgs::Empty);
 	}
+}
+
+//-----------------------------------------------------------------------------------------------------------
+void MRadioButton::UpdateChangesForJson(CWndObjDescription* pParentDescription, CWndObjDescription* pParsedDescription)
+{
+	SAFE_DELETE(pParsedDescription);
+
+	CWndCheckRadioDescription * pParsedRadioDescription = new CWndCheckRadioDescription(NULL);
+
+	//only modified properties
+	for each (String^ prop in this->ChangedProperties)
+	{
+		if (prop->CompareTo(gcnew String(_T("Checked"))) == 0)
+		{
+			pParsedRadioDescription->m_bChecked = this->Checked;
+			continue;
+		}
+
+		if (prop->CompareTo(gcnew String(_T("Group"))) == 0)
+		{
+			pParsedRadioDescription->m_bGroup = this->Group;
+			continue;
+		}
+	}
+
+	__super::UpdateChangesForJson(pParentDescription, pParsedRadioDescription);
 }
 
 /////////////////////////////////////////////////////////////////////////////
