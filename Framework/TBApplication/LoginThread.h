@@ -19,6 +19,8 @@ class TB_EXPORT CLoginThread : public CLoginContext
 
 	UINT_PTR		m_nTimeoutTimer;//timer for session timeout
 	UINT_PTR		m_nCheckTokenTimer;//timer for authenticationtoken validation
+	UINT_PTR		m_nCheckSqlSessionTimer;
+
 	DECLARE_LOCKABLE(CXMLVariableArray, m_Variables);
 	DECLARE_LOCKABLE(MapStringToBOOL, m_NamespaceMap);
 

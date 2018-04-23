@@ -260,6 +260,12 @@ BOOL CTBWinThread::InitInstance()
 	if (m_pLoginContext)
 		AfxAttachThreadToLoginContext(m_pLoginContext->GetName());
 	return TRUE;
+
+}
+//-----------------------------------------------------------------------------
+void CTBWinThread::GarbageUnusedSqlSession()
+{
+	AfxGetThreadContext()->GarbageUnusedSqlSession();
 }
 
 //-----------------------------------------------------------------------------
@@ -269,7 +275,7 @@ BOOL CTBWinThread::OnIdle(LONG lCount)
 		return FALSE;
 
 	AfxGetThreadContext()->ClearOldObjects();
-	AfxGetThreadContext()->GarbageUnusedSqlSession();
+	
 
 	BOOL bContinueIdle = AfxGetThreadContext()->OnIdle(lCount);
 

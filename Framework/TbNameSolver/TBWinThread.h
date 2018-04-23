@@ -141,7 +141,9 @@ public:
 protected:
 	int m_nSuspendIdle = 0;
 	BOOL m_bSuspendIdleEnabled = TRUE;
+
 public:
+	void GarbageUnusedSqlSession();
 	void IncSuspendIdle() { m_nSuspendIdle++; }
 	void DecSuspendIdle() { if (m_nSuspendIdle) m_nSuspendIdle--; }
 	void ResetSuspendIdle() { m_nSuspendIdle = 0; }

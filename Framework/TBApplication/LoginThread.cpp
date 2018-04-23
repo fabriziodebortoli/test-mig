@@ -53,6 +53,8 @@
 
 #define CHECK_TOKEN_TIMER_INTERVAL 300000
 #define CHECK_TOKEN_TIMER_INTERVAL_SHORT 30000
+#define CHECK_SQLCONN_TIMER_INTERVAL 30000 //ogni 30 secondi parte il check per la chiusura delle SqlConnection 
+
 // CLoginThread
 
 IMPLEMENT_DYNCREATE(CLoginThread, CLoginContext)
@@ -63,7 +65,8 @@ CLoginThread::CLoginThread()
 	:
 	m_bProxy(false), 
 	m_nTimeoutTimer(0),
-	m_nCheckTokenTimer(0)
+	m_nCheckTokenTimer(0),
+	m_nCheckSqlSessionTimer(0)
 {
 }
 
@@ -137,6 +140,9 @@ BOOL CLoginThread::InitInstanceInternal()
 
 	//ogni x minuti minuto controllo lo stato di attivazione
 	m_nCheckTokenTimer = ::SetTimer(NULL, m_nCheckTokenTimer, CHECK_TOKEN_TIMER_INTERVAL, NULL);
+
+	m_nCheckSqlSessionTimer = ::SetTimer(NULL, m_nCheckSqlSessionTimer, CHECK_SQLCONN_TIMER_INTERVAL, NULL);
+
 
 	m_StartupReady.Set();
 	if (!m_bProxy)
@@ -317,6 +323,8 @@ int CLoginThread::ExitInstanceInternal()
 			::KillTimer(NULL, m_nCheckTokenTimer);
 		if (m_nTimeoutTimer)
 			::KillTimer(NULL, m_nTimeoutTimer);
+		if (m_nCheckSqlSessionTimer)
+			::KillTimer(NULL, m_nCheckSqlSessionTimer);
 
 		CDWordArray arThreadIds;
 		GetDocumentThreadArray(arThreadIds);
@@ -604,6 +612,24 @@ void CLoginThread::OnThreadTimer(WPARAM wParam, LPARAM lParam)
 		AfxGetLoginManager()->LogOff();
 		Close();
 	}
+	else
+		if (m_nCheckSqlSessionTimer == wParam) //garbage SqlSession timer
+		{
+			//scorro tutti i thread di documenti e per ognuno chiamo il metodo Garbage
+			TB_OBJECT_LOCK_FOR_READ(&m_DocumentThreads);
+			POSITION pos = m_DocumentThreads.GetStartPosition();
+			while (pos)
+			{
+				DWORD key = 0;
+				CTBWinThread* pValue = NULL;
+				m_DocumentThreads.GetNextAssoc(pos, key, pValue);
+				if (pValue)
+					AfxInvokeAsyncThreadProcedure<CTBWinThread>(pValue->m_nThreadID , pValue, &CTBWinThread::GarbageUnusedSqlSession);
+			}
+
+			//faccio il garbage anche delle eventuali connessioni aperte del LoginThread  (se stesso)
+			GarbageUnusedSqlSession();
+		}
 
 }
 
