@@ -1,3 +1,4 @@
+import { RsSnapshotService } from '@taskbuilder/core';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -30,7 +31,8 @@ const NG_MODULES = [
     exports: [
         LoginComponent,
         LogoutComponent
-    ]
+    ],
+    providers:[RsSnapshotService]
 })
 export class TbMenuModule { }
 

@@ -1,0 +1,10 @@
+<ng-template #template>
+    <div id="customizationPopup" #anchor>
+        <div class="titleClose">
+            <div class="title">{{object.title}}</div>
+
+            <m4-icon icon="tb-closewindows-2" (click)="close()" class="close"></m4-icon>
+        </div>
+        <rs-snapshot-list [namespace]="object.target" (showList)="onShowList($event)" (runSnapAndCloseDialog)="onRunAndClose($event)"></rs-snapshot-list>
+    </div>
+</ng-template>

@@ -71,6 +71,8 @@ import { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-ta
 import { MostUsedComponent } from './components/menu/most-used/most-used.component';
 import { HiddenTilesComponent } from './components/menu/hidden-tiles/hidden-tiles.component';
 import { ApplicationDateComponent } from './components/application-date/application-date.component';
+import { ReportSnapshotDropdownComponent } from './components/menu/menu-element/report-snapshot-dropdown/report-snapshot-dropdown.component';
+
 
 export { FavoritesComponent } from './components/menu/favorites/favorites.component';
 export { SearchComponent } from './components/menu/search/search.component';
@@ -85,6 +87,7 @@ export { MenuTabComponent } from './components/menu/menu-tabber/menu-tab/menu-ta
 export { MostUsedComponent } from './components/menu/most-used/most-used.component';
 export { HiddenTilesComponent } from './components/menu/hidden-tiles/hidden-tiles.component';
 export { ApplicationDateComponent } from './components/application-date/application-date.component';
+export { ReportSnapshotDropdownComponent } from './components/menu/menu-element/report-snapshot-dropdown/report-snapshot-dropdown.component';
 
 const TB_MENU_COMPONENTS = [
   FavoritesComponent,
@@ -99,7 +102,8 @@ const TB_MENU_COMPONENTS = [
   MenuTabComponent,
   MostUsedComponent,
   HiddenTilesComponent,
-  ApplicationDateComponent
+  ApplicationDateComponent,
+  ReportSnapshotDropdownComponent
 ];
 
 /**
