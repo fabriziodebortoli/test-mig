@@ -79,7 +79,7 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, O
 
     constructor(
         public webSocketService: WebSocketService,
-        public eventDataService: EventDataService,
+        public eventData: EventDataService,
         public enumsService: EnumsService,
         layoutService: LayoutService,
         tbComponentService: TbComponentService,
@@ -100,8 +100,23 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, O
         if (this.itemSourceName && this.itemSourceNamespace) { this.withItemSourceLogic(); }
     }
 
+    decodeNS() {
+        let nsBackup = '';
+        let parameterTag = "eventData?.model?.";
+        if (this.itemSourceNamespace.substr(0, (parameterTag).length) === parameterTag) {
+            nsBackup = this.itemSourceNamespace;
+            eval("this.itemSourceNamespace = this." + this.itemSourceNamespace.replace(/[?]/g, "") + ".value");
+        }
+
+        return nsBackup;
+    }
+
     onOpen() {
-        if (this.itemSourceName && this.itemSourceNamespace) { this.eventDataService.openDropdown.emit(this); }
+        if (this.itemSourceName && this.itemSourceNamespace) {
+            let nsBackup = this.decodeNS();
+            this.eventData.openDropdown.emit(this);
+            if (nsBackup.length > 0) this.itemSourceNamespace = nsBackup;
+        }
         else { this.items = this.translateItemsCodes(convertToComboData(this.enumsService.getItemsFromTag(this.tag) as Array<any>)); }
     }
 
@@ -127,7 +142,7 @@ export class EnumComboComponent extends ControlComponent implements OnChanges, O
     valueChange(value) {
         this.selectedItem = value;
         this.model.value = this.selectedItem.code;
-        this.eventDataService.change.emit(this.cmpId);
+        this.eventData.change.emit(this.cmpId);
     }
 
     selectionChange(value) {
