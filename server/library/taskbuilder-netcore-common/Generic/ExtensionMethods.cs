@@ -967,6 +967,8 @@ namespace Microarea.Common.Generic
                 verticalAlign = "bottom";
             else if ((a & AlignType.DT_VCENTER) == AlignType.DT_VCENTER)
                 verticalAlign = "middle";
+            else if ((a & AlignType.DT_EX_FIELD_SET) == AlignType.DT_EX_FIELD_SET)
+                verticalAlign = "fieldSet";
 
             string rotateBy = "0";
             if ((a & AlignType.DT_EX_90) == AlignType.DT_EX_90)

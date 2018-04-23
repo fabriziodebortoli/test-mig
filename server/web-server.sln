@@ -1,5 +1,4 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -51,8 +50,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "taskbuilder-netcore-easystudio", "library\taskbuilder-netcore-easystudio\taskbuilder-netcore-easystudio.csproj", "{1DB02219-F7E5-4DDB-A98F-6C285FF66FCE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NustacheNetCore", "library\NustacheNetCore\NustacheNetCore\NustacheNetCore.csproj", "{BBDE4264-6A78-4690-A422-B14DE3258E5B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "web-server-test", "web-server-test\web-server-test.csproj", "{D501B56C-C60F-4F5E-831E-01E60A71EAAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

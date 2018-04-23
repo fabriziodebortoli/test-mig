@@ -1991,7 +1991,7 @@ namespace Microarea.RSWeb.WoormViewer
                 }
             }
             
-            string title = (!reportTitle.IsNullOrEmpty() ?  reportTitle : this.Namespace.ToString() );
+            string title = getReportTitle((!reportTitle.IsNullOrEmpty() ?  reportTitle : this.Namespace.ToString() ));
 
              s += '{' +
                     title.ToJson("report_title", false, true) + ','+
@@ -2011,6 +2011,16 @@ namespace Microarea.RSWeb.WoormViewer
                 s = '{' + s + '}';
 
             return s;
+        }
+        
+        public string getReportTitle(string reportTitle)
+        {
+            if (reportTitle.EndsWith(".wrm"))
+                reportTitle = reportTitle.Substring(0, reportTitle.Length - 4);
+            /*int index = reportTitle.LastIndexOf('.')+1;
+            if (index >= 0 && index < reportTitle.Length)
+                reportTitle = reportTitle.Substring(index, reportTitle.Length - index);*/
+            return reportTitle;
         }
     }
 }
