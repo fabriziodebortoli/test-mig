@@ -1,0 +1,32 @@
+<tb-card class="maincard">
+    <tb-card-title [title]="item" [isCollapsible]="false">
+        <span class="badge badge-pill badge-danger float-right m-2">{{dueDate}}</span>
+        <span [style.background-color]="workerColor" class="badge badge-pill float-right m-2">{{allWorkers}}</span>
+    </tb-card-title>
+    <tb-card-content>
+        <h5>{{moNumber}}
+            <span [style.background-color]="statusColor" class="badge float-right m-2">{{status}}</span>
+        </h5>
+    </tb-card-content>
+    <tb-card-content>
+        <div>
+            <img [src]="itemImage" style="max-height: 100px; max-width: 200px;" alt="">
+        </div>
+        <div>
+            <elementCard header="Operation" [code]="rec.MA_MOSteps_Operation" [description]="rec.MA_Operations_Description"></elementCard>
+        </div>
+        <div>
+            <elementCard header="Work Center" [code]="rec.MA_MOSteps_WC" [description]="rec.MA_WorkCenters_Description"></elementCard>
+        </div>
+        <div>
+            <elementCard sameHeight="true" header="Times" [code]="setupTime" [description]="processingTime"></elementCard>
+        </div>
+        <div>
+            <gaugeNumberCard header="Produced Quantity" [backgroundColor]="producedQtyColor" [value]="totalQty" [max]="rec.MA_MO_ProductionQty"></gaugeNumberCard>
+        </div>
+        <div>
+            <gaugePercentageCard [backgroundColor]="producedQtyColor" [value]="totalQty" [max]="rec.MA_MO_ProductionQty"></gaugePercentageCard>
+        </div>
+    </tb-card-content>
+</tb-card>
+

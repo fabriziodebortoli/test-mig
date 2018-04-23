@@ -1,0 +1,8 @@
+<tb-card class="elementcard" [style.background-color]="backgroundColor">
+    <tb-card-title [isCollapsible]="false" [title]="header"></tb-card-title>
+    <tb-card-content>
+        <kendo-radialgauge style="left: 30px" [pointer]="{ value: value, color: color}" [scale]="{ max: max }" [gaugeArea]="{ width: 180, height: 120, border: 0, margin: 0 }">
+        </kendo-radialgauge>
+    </tb-card-content>
+</tb-card>
+

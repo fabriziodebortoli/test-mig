@@ -1,0 +1,29 @@
+<div class="card text-white bg-dark ml-4 mb-4 mr-4">
+    <div class="card-header">
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">{{operation}}
+        </h5>
+        <div class="d-flex flex-row flex-wrap">
+            <div>
+                <img [src]="operationImage" style="max-height: 100px; max-width: 200px;" alt="">
+            </div>
+            <div>
+                <elementCard sameHeight="true" header="Times" [code]="setupTime" [description]="processingTime"></elementCard>
+            </div>
+            <div>
+                <elementCard sameHeight="true" header="Production Quantity" [code]="rec.MA_MO_ProductionQty" [description]="rec.MA_MO_UoM"></elementCard>
+            </div>
+            <div>
+                <elementCard [backgroundColor]="producedQtyColor" header="Produced Quantity" [code]="totalQty" [description]="rec.MA_MO_UoM"></elementCard>
+            </div>
+            <div>
+                <gaugePercentageCard [value]="totalQty" [max]="rec.MA_MO_ProductionQty"></gaugePercentageCard>
+            </div>
+            <!-- <div>
+                <kendo-radialgauge [pointer]="{ value: rec.MA_MO_ProductionQty }" [scale]="{ max: 100 }">
+                </kendo-radialgauge>              
+            </div> -->
+        </div>
+    </div>
+</div>

@@ -8,17 +8,14 @@ import { Component, Input, OnInit, ComponentFactoryResolver, ChangeDetectorRef }
 })
 
 export class elementCardComponent implements OnInit {
-    colorClass: string;
-
-    @Input() backgroundColor: string = "bg-secondary";
-    @Input() textColor: string = "text-white";
+    @Input() backgroundColor: string = '#929fba';
+    @Input() textColor: string = '#ffffff';
     @Input() header: string;
     @Input() code: string;
     @Input() description: string;
     @Input() sameHeight: boolean = false;
 
     ngOnInit() {
-        this.colorClass = this.textColor + " " + this.backgroundColor;
     } 
  }
 

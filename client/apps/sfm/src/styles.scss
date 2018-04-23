@@ -1,1 +1,45 @@
-@import '~@taskbuilder/core/style/tb.scss';
+@import '~@taskbuilder/core/style/tb.scss'; 
+ 
+.header { 
+    background-color: #2e3951; 
+    height: 5%; 
+   } 
+ 
+.toolbar { 
+    color: #ffffff; 
+    background-color: #2e3951; 
+   } 
+ 
+.content { 
+    background-color: #b1bace; 
+    height: 5%; 
+   } 
+ 
+.maincard { 
+    margin-left: 200px; 
+    margin-right: 20px; 
+    margin-top: 20px; 
+    background-color: #45526e; 
+   } 
+  
+.elementcard { 
+    color: #ffffff; 
+    width: 250px;  
+    height: 140px; 
+    margin-left: 10px; 
+}    
+ 
+.elementcardtitle { 
+    color: #2e3951; 
+}    
+ 
+.footer { 
+    background-color: #b1bace; 
+    height: 95%; 
+   } 
+ 
+.messagesFooter { 
+    background-color: #b1bace; 
+   } 
+    
+ 

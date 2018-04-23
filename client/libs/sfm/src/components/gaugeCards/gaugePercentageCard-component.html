@@ -1,0 +1,10 @@
+<tb-card class="elementcard" [style.background-color]="backgroundColor">
+    <tb-card-title [isCollapsible]="false" [title]="header"></tb-card-title>
+    <tb-card-content>
+        <kendo-arcgauge style="left: 30px" [value]="valuePerc" [scale]="maxPerc" [gaugeArea]="{ width: 180, height: 120, border: 0, margin: 0 }" [colors]="colors">
+            <ng-template kendoArcGaugeCenterTemplate>
+                {{ valuePerc }}%
+            </ng-template>
+        </kendo-arcgauge>
+    </tb-card-content>
+</tb-card>

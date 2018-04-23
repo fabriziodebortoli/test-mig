@@ -1,0 +1,11 @@
+<tb-card class="elementcard" [style.background-color]="backgroundColor">
+    <tb-card-title [isCollapsible]="false" [title]="header"></tb-card-title>
+    <tb-card-content>
+        <h5>{{code}}</h5>
+    </tb-card-content>
+    <tb-card-content>
+        <h5 *ngIf="sameHeight">{{description}}</h5>
+        <p *ngIf="!sameHeight">{{description}}
+        </p>
+    </tb-card-content>
+</tb-card>

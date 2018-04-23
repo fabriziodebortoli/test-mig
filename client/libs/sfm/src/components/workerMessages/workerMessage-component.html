@@ -1,0 +1,9 @@
+<div>
+    <div class="d-flex w-100 justify-content-between">
+        <h5 [style.color]="msgTypeColor" class="mb-1">{{msgHeader}}</h5>
+        <span [style.background-color]="workerColor" style="color: #ffffff" class="badge badge-pill float-right m-2">{{msgRecipient}}</span>
+    </div>
+    <p class="mb-1" style="color: #ffffff">{{rec.SFM_ProcessingMessages_MessageText}}
+        <span *ngIf="msgExpire > ''" class="badge badge-pill badge-danger float-right m-2">{{msgExpire}}</span>
+    </p>
+</div>
