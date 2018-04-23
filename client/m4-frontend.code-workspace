@@ -6,7 +6,7 @@
 		},
 		{
 			"name": "core",
-			"path": "core\\src"
+			"path": "libs\\core\\src"
 		},
 		{
 			"name": "menu",

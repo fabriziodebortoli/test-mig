@@ -9,8 +9,8 @@
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e",
-        "link-core": "npm link ../../core/src",
-        "link-bpm": "npm link ../../bpm/src",
+        "link-core": "npm link ../../libs/core/src",
+        "link-bpm": "npm link ../../libs/bpm/src",
         "postinstall": "npm run link-core && npm run link-bpm"
     },
     "private": true,

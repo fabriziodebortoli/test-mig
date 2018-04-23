@@ -1,39 +1,39 @@
 @echo off
 
-echo \client\core cleaning...
-cd ..\client\core\src
+echo \client\libs\core cleaning...
+cd ..\client\libs\core\src
 call rimraf node_modules
 
 echo \client\libs\menu cleaning...
-cd ..\..\libs\menu\src
+cd ..\..\..\libs\menu\src
 call rimraf node_modules
 
-echo \client\reporting-studio cleaning...
+echo \client\libs\reporting-studio cleaning...
 cd ..\..\..\libs\reporting-studio\src
 call rimraf node_modules
 
-REM echo \client\icons cleaning...
+REM echo \client\libs\icons cleaning...
 REM cd ..\..\..\libs\icons\src
 REM call rimraf node_modules
 
-echo \client\erp cleaning...
-cd ..\..\..\erp\src
+echo \client\libs\erp cleaning...
+cd ..\..\..\libs\erp\src
 call rimraf node_modules
 
-REM echo \client\bpm cleaning...
-REM cd ..\..\bpm\src
+REM echo \client\libs\bpm cleaning...
+REM cd ..\..\..\libs\bpm\src
 REM call rimraf node_modules
 
-REM echo \client\esp cleaning...
-REM cd ..\..\esp\src
+REM echo \client\libs\esp cleaning...
+REM cd ..\..\..\libs\esp\src
 REM call rimraf node_modules
 
-REM echo \client\sfm cleaning...
-REM cd ..\..\sfm\src
+REM echo \client\libs\sfm cleaning...
+REM cd ..\..\..\libs\sfm\src
 REM call rimraf node_modules
 
 echo \client\web-form cleaning...
-cd ..\..\web-form
+cd ..\..\..\web-form
 call rimraf node_modules
 
 echo.

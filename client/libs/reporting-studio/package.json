@@ -76,7 +76,7 @@
         "node": ">=6.0.0"
     },
     "dependencies": {
-        "@taskbuilder/core": "file:../../core/src",
+        "@taskbuilder/core": "file:../../libs/core/src",
         "@taskbuilder/icons": "git+https://github.com/Microarea/ng-icons.git",
         "@progress/kendo-angular-buttons": "^3.0.2",
         "@progress/kendo-angular-charts": "^2.0.0",
