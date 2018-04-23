@@ -21,7 +21,7 @@
     "jsnext:main": "taskbuilder-erp.js",
     "typings": "taskbuilder-erp.d.ts",
     "peerDependencies": {
-        "@taskbuilder/core": "file:../../core/src",
+        "@taskbuilder/core": "file:../../../core/src",
         "@taskbuilder/libs": "git+https://github.com/Microarea/ng-libs.git",
         "@angular/animations": "^5.2.0",
         "@angular/core": "^5.2.0",

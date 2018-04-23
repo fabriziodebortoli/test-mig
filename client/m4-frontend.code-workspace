@@ -14,7 +14,7 @@
 		},
 		{
 			"name": "erp",
-			"path": "erp\\src"
+			"path": "libs\\erp\\src"
 		},
 		{
 			"name": "icons",
@@ -29,7 +29,8 @@
 			"path": "libs\\reporting-studio\\src"
 		},
 		{
-			"path": "C:\\development\\Standard\\TaskBuilder\\script"
+			"name": "script",
+			"path": "..\\script"
 		}
 	],
 	"settings": {
