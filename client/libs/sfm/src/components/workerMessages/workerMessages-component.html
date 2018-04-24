@@ -1,8 +1,12 @@
-<h5 class="toolbar">{{messageTitle}}</h5>
+<div class="toolbar">
+    <h5 class="title">
+        {{messageTitle}}
+    </h5>
+</div>
 
 <div class="footer">
-    <div class="message-list list-group">
-        <div class="maincard list-group-item ml-4 mr-4 mb-4" *ngFor="let elem of messagesList">
+    <div class="list-group">
+        <div class="maincard list-group-item" *ngFor="let elem of messagesList">
             <workerMessage [workerName]="workerName" [rec]="elem"></workerMessage>
         </div>
     </div>

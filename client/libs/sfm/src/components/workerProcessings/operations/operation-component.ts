@@ -10,7 +10,8 @@ import { Component, Input, OnInit, ComponentFactoryResolver, ChangeDetectorRef }
 export class operationComponent implements OnInit {
 
     @Input() rec: any;
-
+    @Input() backgroundColor: string = '#45526e'
+    
     operation: string;
     operationImage: string;
     totalQty: number;

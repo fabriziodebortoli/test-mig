@@ -19,9 +19,9 @@ export class operationsComponent implements OnInit  {
         private processingsService: ProcessingsService) { }
 
     ngOnInit() {
-        // this.subsProcessings = this.processingsService.getProcessings(this.worker.RM_Workers_WorkerID, filterType.operation).subscribe(rows => {
-        //     this.processingsList = rows;
-        // });
+        this.subsProcessings = this.processingsService.getProcessings(47, filterType.operation).subscribe(rows => {
+            this.processingsList = rows;
+        });
     }
 
 

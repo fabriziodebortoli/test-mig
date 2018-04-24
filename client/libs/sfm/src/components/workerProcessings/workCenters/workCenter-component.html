@@ -1,28 +1,23 @@
-<div class="card ml-4 mb-4 mr-4" style="color: #ffffff; background-color: #45526e;">
-    <div class="card-header">
-    </div>
-    <div class="card-body">
-        <h5 class="card-title">{{workCenter}}
-        </h5>
-        <div class="d-flex flex-row flex-wrap">
-            <div>
-                <img [src]="workCenterImage" style="max-height: 100px; max-width: 200px;" alt="">
-            </div>
-            <div>
-                <elementCard sameHeight="true" header="Times" [code]="setupTime" [description]="processingTime"></elementCard>
-            </div>
-            <div>
-                <elementCard sameHeight="true" header="Production Quantity" [code]="rec.MA_MO_ProductionQty" [description]="rec.MA_MO_UoM"></elementCard>
-            </div>
-            <div>
-                <gaugeNumberCard [backgroundColor]="producedQtyColor" [value]="totalQty" [max]="rec.MA_MO_ProductionQty"></gaugeNumberCard>
-            </div>
-            <div>
-                <gaugePercentageCard [backgroundColor]="producedQtyColor" [value]="totalQty" [max]="rec.MA_MO_ProductionQty"></gaugePercentageCard>
-            </div>
-            <!-- <div>
-                <elementCard [backgroundColor]="producedQtyColor" header="Produced Quantity" [code]="totalQty" [description]="rec.MA_MO_UoM"></elementCard>
-            </div> -->
+<tb-card class="maincard" [style.background-color]="backgroundColor">
+    <tb-card-title [isCollapsible]="false">
+    </tb-card-title>
+    <div class="flexcontainer">
+        <div>
+            <h5>{{workCenter}}</h5>
         </div>
     </div>
-</div>
+    <tb-card-content>
+        <div>
+            <img [src]="workCenterImage" style="max-height: 100px; max-width: 200px;" alt="">
+        </div>
+        <div>
+            <elementCard sameHeight="true" header="Times" [code]="setupTime" [description]="processingTime"></elementCard>
+        </div>
+        <div>
+            <gaugeNumberCard [backgroundColor]="producedQtyColor" [value]="totalQty" [max]="rec.MA_MO_ProductionQty"></gaugeNumberCard>
+        </div>
+        <div>
+            <gaugePercentageCard [backgroundColor]="producedQtyColor" [value]="totalQty" [max]="rec.MA_MO_ProductionQty"></gaugePercentageCard>
+        </div>
+    </tb-card-content>
+</tb-card>

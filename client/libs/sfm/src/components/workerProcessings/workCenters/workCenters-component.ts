@@ -25,8 +25,9 @@ export class workCentersComponent implements OnInit, OnDestroy {
         this.subsWorker = this.coreService.getWorker().subscribe(row => {
             this.worker = row;
         });
-        this.subsProcessings = this.processingsService.getProcessings(this.worker.RM_Workers_WorkerID, filterType.mo_routing_step).subscribe(rows => {
-            this.processingsList = rows;
+        this.subsProcessings = this.processingsService.getProcessings(47, filterType.work_center).subscribe(rows => {
+//            this.subsProcessings = this.processingsService.getProcessings(this.worker.RM_Workers_WorkerID, filterType.mo_routing_step).subscribe(rows => {
+                this.processingsList = rows;
         });
     }
 

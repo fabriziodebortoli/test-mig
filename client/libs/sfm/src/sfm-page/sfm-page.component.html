@@ -3,7 +3,7 @@
     <kendo-splitter-pane>
         <router-outlet></router-outlet>
     </kendo-splitter-pane>
-    <kendo-splitter-pane size="25%">
+    <kendo-splitter-pane [(size)]="sidebarSize">
         <workerMessages></workerMessages>
     </kendo-splitter-pane>
 </kendo-splitter>

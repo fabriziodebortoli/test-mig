@@ -9,7 +9,8 @@ import { Component, Input, OnInit, ComponentFactoryResolver, ChangeDetectorRef }
 
 export class workCenterComponent implements OnInit {
     @Input() rec: any;
-
+    @Input() backgroundColor: string = '#45526e';
+    
     workCenter: string;
     workCenterImage: string;
     totalQty: number;

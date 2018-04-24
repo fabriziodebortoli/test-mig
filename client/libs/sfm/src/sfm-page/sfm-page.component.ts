@@ -33,6 +33,8 @@ export class SFMPageComponent extends DocumentComponent implements OnInit, OnDes
     workerName: string;
     workerImage: string;
 
+    private _sidebarSize: string = localStorage.getItem('sidebarSize') || '25%';
+  
     constructor(
         public sfmService: SFMService,
         eventData: EventDataService,
@@ -59,6 +61,14 @@ export class SFMPageComponent extends DocumentComponent implements OnInit, OnDes
     ngOnDestroy() {
         this.subsWorker.unsubscribe();
     }
+
+    public get sidebarSize(): string {
+        return this._sidebarSize;
+    }
+    public set sidebarSize(newSize: string) {
+        this._sidebarSize = newSize;
+        localStorage.setItem('sidebarSize', newSize);
+    }    
 }
 
 @Component({
