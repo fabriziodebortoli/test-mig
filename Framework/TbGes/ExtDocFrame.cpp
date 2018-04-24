@@ -1316,6 +1316,8 @@ void CAbstractFormFrame::DoModal()
 	TBEventDisposablePtr<CAbstractFormFrame> frame = this;
 	CPushMessageLoopDepthMng __pushLoopDepth(MODAL_STATE);
 	AfxGetThreadContext()->RaiseCallBreakEvent();
+	if (m_pDocument)
+		((CAbstractFormDoc*)m_pDocument)->m_WebOperationComplete.SetEvent();
 	CTBWinThread::LoopUntil(&frame.m_Disposed);
 
 	if (pDockableParent)

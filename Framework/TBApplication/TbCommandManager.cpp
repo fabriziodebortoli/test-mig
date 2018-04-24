@@ -893,6 +893,8 @@ void CTbCommandManager::WaitDocumentEnd (CBaseDocument* pDocument)
 
 	CPushMessageLoopDepthMng __pushLoopDepth(MODAL_STATE);
 	AfxGetThreadContext()->RaiseCallBreakEvent();
+	if (pDocument->IsKindOf(RUNTIME_CLASS(CAbstractFormDoc)))
+		((CAbstractFormDoc*)pDocument)->m_WebOperationComplete.SetEvent();
 	CTBWinThread::LoopUntil(&doc.m_Disposed);
 }
 
@@ -905,7 +907,8 @@ void CTbCommandManager::WaitReportRunning (CWoormDoc* pWoormDoc)
 
 	CPushMessageLoopDepthMng __pushLoopDepth(MODAL_STATE);
 	AfxGetThreadContext()->RaiseCallBreakEvent();
-
+	if (pWoormDoc->m_pCallerDocument && pWoormDoc->m_pCallerDocument->IsKindOf(RUNTIME_CLASS(CAbstractFormDoc)))
+		((CAbstractFormDoc*)pWoormDoc->m_pCallerDocument)->m_WebOperationComplete.SetEvent();
 	while (doc && doc->IsReportRunning() && CTBWinThread::PumpThreadMessages())
 		Sleep(1);
 }

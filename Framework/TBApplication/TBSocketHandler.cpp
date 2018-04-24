@@ -132,6 +132,7 @@ void CTBSocketHandler::QueryHyperLink(CJsonParser& json)
 //--------------------------------------------------------------------------------
 CBaseDocument* CTBSocketHandler::GetDocument(int cmpId)
 {
+	CSingleLock lock(&m_Critical, TRUE);
 	CBaseDocument* pDoc = m_arDocuments[cmpId];
 	if (!pDoc)
 		m_arDocuments.RemoveKey(cmpId);
@@ -165,6 +166,7 @@ void CTBSocketHandler::RunDocumentOnThreadDocument(const CString& sNamespace, co
 	AfxGetDiagnostic()->EndSession();
 	
 	TDisposablePtr<CBaseDocument> ptr = pDoc;
+	CSingleLock lock(&m_Critical, TRUE);
 	m_arDocuments[(int)pDoc->GetFrameHandle()] = ptr;
 }
 //--------------------------------------------------------------------------------
@@ -196,6 +198,7 @@ void CTBSocketHandler::Execute(CString& sSocketName, CString& sMessage)
 	FUNCPTR fn;
 	if (functionMap.Lookup(sCommand, fn))
 	{
+		CAbstractFormDoc* pAbsDoc = NULL;
 		DWORD pId = 0;
 		DWORD tId = 0;
 		HWND cmpId = ReadComponentId(*pParser);
@@ -205,17 +208,19 @@ void CTBSocketHandler::Execute(CString& sSocketName, CString& sMessage)
 			if (pDoc)
 			{
 				tId = pDoc->GetThreadId();
-				CAbstractFormDoc* pAbsDoc = (CAbstractFormDoc*)pDoc;
+				pAbsDoc = (CAbstractFormDoc*)pDoc;
 				//è un comando che può essere cancellato da uno successivo
-				if (IsCancelableCommand(sCommand))
+				
 				{
 					//se ho una operazione in corso (evento cancellabile)
-					if (WaitForSingleObject(pAbsDoc->m_PrevWebOperationComplete, 0) != WAIT_OBJECT_0)
+					if (WaitForSingleObject(pAbsDoc->m_WebOperationComplete, 0) != WAIT_OBJECT_0)
 					{
-						//alzo il flag di aborted
-						pAbsDoc->m_AbortWebOperation.SetEvent();
+						//alzo il flag di aborted, non manderò il json
+						pAbsDoc->m_AbortJsonData.SetEvent();
+						if (IsCancelableCommand(sCommand))
+							pAbsDoc->m_AbortWebOperation.SetEvent();
 						//e aspetto che termini l'operazione
-						if (WaitForSingleObject(pAbsDoc->m_PrevWebOperationComplete, 60000) != WAIT_OBJECT_0)
+						if (WaitForSingleObject(pAbsDoc->m_WebOperationComplete, 60000) != WAIT_OBJECT_0)
 						{
 							ASSERT(FALSE);
 							return;
@@ -223,9 +228,10 @@ void CTBSocketHandler::Execute(CString& sSocketName, CString& sMessage)
 					}
 
 					//il flag di aborted è a false
+					pAbsDoc->m_AbortJsonData.ResetEvent();
 					pAbsDoc->m_AbortWebOperation.ResetEvent();
 					//il flag di completed è a false
-					pAbsDoc->m_PrevWebOperationComplete.ResetEvent();
+					pAbsDoc->m_WebOperationComplete.ResetEvent();
 				}
 			}
 			else
@@ -243,7 +249,7 @@ void CTBSocketHandler::Execute(CString& sSocketName, CString& sMessage)
 		if (!tId)
 			tId = AfxGetApp()->m_nThreadID;
 
-		AfxInvokeAsyncThreadProcedure<CTBSocketHandler, FUNCPTR, CJsonParser*>(tId, this, &CTBSocketHandler::ExecuteFunction, fn, pParser);
+		AfxInvokeAsyncThreadProcedure<CTBSocketHandler, FUNCPTR, CJsonParser*, CAbstractFormDoc*>(tId, this, &CTBSocketHandler::ExecuteFunction, fn, pParser, pAbsDoc);
 
 	}
 	else
@@ -252,10 +258,12 @@ void CTBSocketHandler::Execute(CString& sSocketName, CString& sMessage)
 	}
 }
 //--------------------------------------------------------------------------------
-void CTBSocketHandler::ExecuteFunction(FUNCPTR fn, CJsonParser* pParser)
+void CTBSocketHandler::ExecuteFunction(FUNCPTR fn, CJsonParser* pParser, CAbstractFormDoc* pDoc)
 {
 	(this->*(fn))(*pParser);
 	delete pParser;
+	if (pDoc)
+		pDoc->m_WebOperationComplete.SetEvent();
 }
 
 
@@ -750,7 +758,6 @@ void CTBSocketHandler::BrowseRecord(CJsonParser& json)
 	//esecuzione comando
 	pDoc->BrowseRecordByTBGuid(tbGuid);
 	pSession->ResumePushToClient();
-	pDoc->m_PrevWebOperationComplete.SetEvent();
 }
 
 

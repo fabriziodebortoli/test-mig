@@ -11,6 +11,7 @@ class TB_EXPORT CTBSocketHandler
 	typedef CMap<CString, LPCTSTR, FUNCPTR, FUNCPTR> CTbSocketHandlerFunctionMap;
 
 	CMap <int, int, TDisposablePtr<CBaseDocument>, TDisposablePtr<CBaseDocument>> m_arDocuments;
+	CCriticalSection m_Critical;
 	CTbSocketHandlerFunctionMap functionMap;
 public:
 	CTBSocketHandler();
@@ -18,7 +19,7 @@ public:
 	void Execute(CString& sSocketName, CString& sMessage);
 private:
 	bool IsCancelableCommand(const CString& sCommand);
-	void ExecuteFunction(FUNCPTR fn, CJsonParser* pParser);
+	void ExecuteFunction(FUNCPTR fn, CJsonParser* pParser, CAbstractFormDoc* pDoc);
 	void DoCommand(CJsonParser& json);
 	void DoClose(CJsonParser& json);
 	void DoValueChanged(CJsonParser& json);

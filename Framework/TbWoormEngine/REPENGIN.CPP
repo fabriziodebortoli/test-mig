@@ -770,7 +770,8 @@ BOOL RepEngine::RunEngine()
 {
 	CPushMessageLoopDepthMng __pushLoopDepth(WOORM_REPORT);
 	AfxGetThreadContext()->RaiseCallBreakEvent();
-
+	if (GetCallerDoc()->GetCallerDocument() && GetCallerDoc()->GetCallerDocument()->IsKindOf(RUNTIME_CLASS(CAbstractFormDoc)))
+		((CAbstractFormDoc*)GetCallerDoc()->GetCallerDocument())->m_WebOperationComplete.SetEvent();
 	m_AsyncEngineRunningStatus = -1;
 	if (m_Scheduler.m_bUseMultithreading)
 	{

@@ -536,7 +536,7 @@ CAbstractFormDoc::CAbstractFormDoc()
 	Attach(new CGenericEventMng());
 	AfxGetThreadContext()->AddObject(this);
 	SetContextClass(GetRuntimeClass());
-	m_PrevWebOperationComplete.SetEvent();
+	m_WebOperationComplete.SetEvent();
 }
 
 //------------------------------------------------------------------------------
@@ -5251,8 +5251,8 @@ BOOL CAbstractFormDoc::BrowseRecord(BOOL bFocus/*= TRUE*/, BOOL bCreating/* = FA
 	{ //non togliere la graffa, scope della NEEDS_UPDATE_DATA_VIEW();
 		SUSPEND_UPDATE_DATA_VIEW();
 		AbortAllViews();
-
-
+		if (WebOperationAborted())
+			return FALSE;
 
 		m_pClientDocs->OnBeforeBrowseRecord();
 
@@ -5856,6 +5856,7 @@ void CAbstractFormDoc::BatchStart()
 		{
 			CPushMessageLoopDepthMng __pushLoopDepth(BATCH);
 			AfxGetThreadContext()->RaiseCallBreakEvent();
+			m_WebOperationComplete.SetEvent();
 			try
 			{
 				AfxGetTBThread()->IncSuspendIdle();
@@ -8051,7 +8052,7 @@ void CAbstractFormDoc::GetBindingInfo(const CString& sDataSource, const CString 
 //-----------------------------------------------------------------------------
 void CAbstractFormDoc::GetJson(CJsonSerializer& jsonSerializer, BOOL bOnlyWebBound)
 {
-	if (WaitForSingleObject(m_AbortWebOperation, 0) == WAIT_OBJECT_0)
+	if (WaitForSingleObject(m_AbortJsonData, 0) == WAIT_OBJECT_0)
 	{
 		//m_bJsonDataSent = false;
 		return;

@@ -401,6 +401,8 @@ void DBTObject::Init()
 //-----------------------------------------------------------------------------	
 BOOL DBTObject::FindData(BOOL bPrepareOld)
 {
+	if (GetDocument()->WebOperationAborted())
+		return FALSE;
 	ASSERT(m_pTable);
 
 	// inizializza i parametri per la query in modo conforme alla OnDefineQuery
@@ -1767,6 +1769,8 @@ BOOL DBTSlave::DelayedRead(BOOL bPrepareOld)
 //-----------------------------------------------------------------------------	
 BOOL DBTSlave::FindData(BOOL bPrepareOld)
 {
+	if (GetDocument()->WebOperationAborted())
+		return FALSE;
 	// ripristina lo stato iniziale
 	m_bEmpty = TRUE;
 
@@ -3284,6 +3288,8 @@ void DBTSlaveBuffered::SetDataOSLReadOnly(BOOL bReadOnly, int idx/* = -1*/, BOOL
 //-----------------------------------------------------------------------------	
 BOOL DBTSlaveBuffered::FindData(BOOL bPrepareOld)
 {
+	if (GetDocument()->WebOperationAborted())
+		return FALSE;
 	m_bFindDataCalled = true;
 
 	ClearSlaveDBTs();//cancello eventuali DBT slave

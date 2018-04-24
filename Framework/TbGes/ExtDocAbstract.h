@@ -301,7 +301,8 @@ public:
 	Array	m_arGenericAliases;
 	CArray<CJsonDialog*> m_JsonDialogs;
 	CEvent	m_AbortWebOperation;
-	CEvent	m_PrevWebOperationComplete;
+	CEvent	m_AbortJsonData;
+	CEvent	m_WebOperationComplete;
 protected:	
 	CWoormInfo*	m_pWoormInfo;
 	//DMS 
@@ -322,7 +323,7 @@ public:
 	WoormDocPtr	RunWoormReport	(CWoormInfo* pWoormInfo, BOOL bWaitEnd = FALSE);
 	BOOL		IsReportAlive   (BOOL bActivateLast);
 	void		WaitReportEnd	();
-
+	bool		WebOperationAborted() { return WaitForSingleObject(m_AbortWebOperation, 0) == WAIT_OBJECT_0; }
 public:
 	enum LockStatus { ALL_LOCKED, NO_AUX_DATA, LOCK_FAILED };
 	
