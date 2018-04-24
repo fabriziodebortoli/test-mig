@@ -12,7 +12,7 @@ export class toolbarComponent implements OnInit {
 
     @Input() workerName: string;
     @Input() workerImage: string;
-    
+
     today: Date = new Date();
     
     constructor(
@@ -23,16 +23,36 @@ export class toolbarComponent implements OnInit {
     ngOnInit() {
     }
 
-    onWorkCenter() {
+    onCustomers() {
+        this.router.navigate(['/customers']);
+    }
+    
+    onJobs() {
+        this.router.navigate(['/jobs']);
+    }
+    
+    onSaleOrders() {
+        this.router.navigate(['/saleOrders']);
+    }
+
+    onOperations() {
+        this.router.navigate(['/operations']);
+    }
+
+    onWorkCenters() {
         this.router.navigate(['/workCenters']);
     }
     
-    onOperation() {
-        this.router.navigate(['/operations']);
-    }
+    onMOs() {
+        this.router.navigate(['/mos']);
+    }    
     
-    onMORoutingStep() {
+    onMORoutingSteps() {
         this.router.navigate(['/moSteps']);
     }    
+
+    onLogout() {
+        
+    }
 }
 

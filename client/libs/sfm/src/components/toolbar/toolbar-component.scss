@@ -1,0 +1,56 @@
+.image {
+    border: none;
+    width: 45px;
+    height: 45px;
+    margin: 8px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.button {
+    background-color: #b1bace; 
+    border: none;
+    color: white;
+    padding: 6px 2px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width: 150px;
+    margin: 12px 4px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:focus{
+    background:#b1bace;
+    color: #2e3951;
+}
+
+.buttonBase {
+    background-color: #2e3951; 
+    color: white; 
+    border: 2px solid white;
+}
+
+.buttonBase:hover {
+    background-color: white;
+    color: #2e3951;
+    border: 2px solid white;
+}
+
+.buttonExit {
+    background-color: white; 
+    color: #CC0000;
+    border: 2px solid #CC0000; 
+    float: right;    
+}
+
+.buttonExit:hover {
+    background-color: #CC0000; 
+    color: white; 
+    border: 2px solid white; 
+}
+

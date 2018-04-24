@@ -41,5 +41,35 @@
     height: 95%; 
    } 
 
-    
- 
+span.basebadge {
+    background-color: #2e3951; 
+    border: solid 2px #2e3951;
+    color: white; 
+    margin: 6px 2px;
+    padding: 1px 3px;
+    border-radius: 4px;
+  } 
+
+span.redbadge {
+    background-color: #CC0000; 
+    border: solid 2px #CC0000;
+    color: white; 
+    margin: 6px 2px;
+    padding: 1px 3px;
+    border-radius: 4px;
+  }  
+
+  span.statusbadge {
+    background-color: #4285F4; 
+    border: solid 2px #4285F4;
+    color: white; 
+    margin: 6px 2px;
+    padding: 1px 3px;
+    border-radius: 8px;
+    float: right; 
+  }   
+
+  .flex-container {
+    display: flex;
+    justify-content: space-between;
+  }
