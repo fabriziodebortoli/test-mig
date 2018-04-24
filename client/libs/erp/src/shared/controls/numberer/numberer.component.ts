@@ -192,7 +192,8 @@ export class NumbererComponent extends ControlComponent {
                     break;
                 }
                 default: {
-                    this.mask = this.valueToMask(this.model.value, this.tbMask);
+                    if (this.model)
+                        this.mask = this.valueToMask(this.model.value, this.tbMask);
                     break;
                 }
             }
