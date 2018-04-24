@@ -21,6 +21,10 @@
       "environment": "desktop"
     },
     {
+      "id": "IDC_STATUS_DESCR",
+      "environment": "web"
+    },
+    {
       "id": "IDC_CONTROL_STATIC_UP",
       "type": 2,
       "x": 19,
