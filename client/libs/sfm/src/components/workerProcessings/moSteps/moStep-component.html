@@ -1,4 +1,4 @@
-<tb-card class="maincard" [style.background-color]="backgroundColor">
+<tb-card class="maincard" [style.background-color]="backgroundColor" style="margin-bottom: 20px;">
     <tb-card-title [title]="item" [isCollapsible]="false">
         <span *ngIf="dueDate > ''" class="redbadge">{{dueDate}}</span>
         <span *ngIf="allWorkers > ''" class="basebadge">{{allWorkers}}</span>
