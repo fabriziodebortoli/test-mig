@@ -1,7 +1,6 @@
 import { ComponentService, DocumentComponent, EventDataService, LayoutService, DataService } from '@taskbuilder/core';
 import { Component, Input, OnInit, OnDestroy, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
 import { URLSearchParams, Http } from '@angular/http';
-import { ActivatedRoute, Router } from '@angular/router';
 
 import { SFMService } from './../sfm.service';
 import { CoreService } from './../core/sfm-core.service';
@@ -33,15 +32,12 @@ export class SFMPageComponent extends DocumentComponent implements OnInit, OnDes
 
     workerName: string;
     workerImage: string;
-    today: Date = new Date();
 
     constructor(
         public sfmService: SFMService,
         eventData: EventDataService,
         private dataService: DataService,
         changeDetectorRef: ChangeDetectorRef,
-        private route: ActivatedRoute,
-        private router: Router,
         private coreService: CoreService) {
         super(sfmService, eventData, null, changeDetectorRef);
     }
@@ -62,18 +58,6 @@ export class SFMPageComponent extends DocumentComponent implements OnInit, OnDes
     
     ngOnDestroy() {
         this.subsWorker.unsubscribe();
-    }
-
-    onWorkCenter() {
-        this.router.navigate(['/workCenters']);
-    }
-    
-    onOperation() {
-        this.router.navigate(['/operations']);
-    }
-    
-    onMORoutingStep() {
-        this.router.navigate(['/moSteps']);
     }
 }
 

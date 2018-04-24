@@ -1,21 +1,21 @@
 <div>
-        <nav class="header navbar navbar-white">
-            <a class="navbar-brand text-white">
-                <img [src]="workerImage" width="30" height="30" class="d-inline-block align-top mr-3" alt="">{{workerName}}
-            </a>
-            <div class="form-check">
-                <input class="form-check-input text-white" type="checkbox" checked="checked" id="checkboxAlsoAllWorkers">
-                <label class="form-check-label text-white" for="checkboxAlsoAllWorkers">Also all workers</label>
-            </div>
-            <form class="form-inline">
-                <button class="btn btn-outline-light ml-3 fixedButton">Customer</button>
-                <button class="btn btn-outline-light ml-3 fixedButton">Job</button>
-                <button class="btn btn-outline-light ml-3 fixedButton">Sale Order</button>
-                <button class="btn btn-outline-light ml-3 fixedButton" (click)="onOperation()">Operation</button>
-                <button class="btn btn-outline-light ml-3 fixedButton" (click)="onWorkCenter()">Work Center</button>
-                <button class="btn btn-outline-light ml-3 fixedButton">MO</button>
-                <button class="btn btn-outline-light ml-3 fixedButton" (click)="onMORoutingStep()">MO Routing Step</button>
-            </form>
-            <button class="btn btn-danger text-white ml-3 justify-content-end fixedButton" type="button">Logout</button>
-        </nav>
-    </div>
+    <nav class="header navbar navbar-white">
+        <a class="navbar-brand text-white">
+            <img [src]="workerImage" width="30" height="30" class="d-inline-block align-top mr-3" alt="">{{workerName}}
+        </a>
+        <div class="form-check">
+            <input class="form-check-input text-white" type="checkbox" checked="checked" id="checkboxAlsoAllWorkers">
+            <label class="form-check-label text-white" for="checkboxAlsoAllWorkers">Also all workers</label>
+        </div>
+        <form class="form-inline">
+            <button class="btn btn-outline-light ml-3 fixedButton">Customer</button>
+            <button class="btn btn-outline-light ml-3 fixedButton">Job</button>
+            <button class="btn btn-outline-light ml-3 fixedButton">Sale Order</button>
+            <button class="btn btn-outline-light ml-3 fixedButton" (click)="onOperation()">Operation</button>
+            <button class="btn btn-outline-light ml-3 fixedButton" (click)="onWorkCenter()">Work Center</button>
+            <button class="btn btn-outline-light ml-3 fixedButton">MO</button>
+            <button class="btn btn-outline-light ml-3 fixedButton" (click)="onMORoutingStep()">MO Routing Step</button>
+        </form>
+        <button class="btn btn-danger text-white ml-3 justify-content-end fixedButton" type="button">Logout</button>
+    </nav>
+</div>
