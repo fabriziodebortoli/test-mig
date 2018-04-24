@@ -52,6 +52,9 @@ export class HttpMenuService {
             clearCachedData: clearCachedData
         }
 
+        let timeStamp = new Date().getTime().toString();
+        localStorage.setItem('_lastAllMenuTimeStamp', timeStamp);
+
         let url = this.infoService.getMenuServiceUrl() + 'getMenuElements/';
         return this.httpService.postData(url, obj)
             .map((res: any) => {

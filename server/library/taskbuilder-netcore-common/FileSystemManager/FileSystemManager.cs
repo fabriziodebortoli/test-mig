@@ -181,7 +181,7 @@ namespace Microarea.Common.FileSystemManager
 
             if (IsManagedByAlternativeDriver(sFileName))
             {
-
+                cachedMenuInfos.CacheDate = DateTime.UtcNow;
                 using (MemoryStream stream = new MemoryStream())
                 {
                     ser.Serialize(stream, cachedMenuInfos);

@@ -108,7 +108,7 @@ namespace Microarea.TaskBuilderNet.Core.Generic
 		//--------------------------------------------------------------------------------
 		public void UpdateCachedDateAndSave()
 		{
-			CDate = DateTime.Now;
+			CDate = DateTime.UtcNow;
 			this.Save(BasePathFinder.BasePathFinderInstance.GetInstallationVersionPath());
 		}
 	}

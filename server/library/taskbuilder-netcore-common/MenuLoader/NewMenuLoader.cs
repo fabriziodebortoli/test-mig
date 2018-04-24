@@ -89,7 +89,7 @@ namespace Microarea.Common.MenuLoader
         {
             PathFinder pf = new PathFinder(company, user);
             MenuLoader menuLoader = new MenuLoader(pf, authenticationToken, true);
-            return menuLoader.IsCached(dateTime);
+            return !menuLoader.IsCacheValid(dateTime);
 
             //TODO LARA NN LA CANCELLO ANCORA
             //parte x il file dell utente 

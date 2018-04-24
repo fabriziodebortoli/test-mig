@@ -6714,6 +6714,7 @@ and MSD_CompanyLogins.LoginId = MSD_Logins.LoginId";
                     {
                         RefreshStatus = true;
                         ImportManager.SaveWCE(result.Wce, BasePathFinder.BasePathFinderInstance.GetLogManAppDataPath(), diagnostic);
+                        InstallationVer.UpdateCachedDateAndSave();
                     }
                     else
                         diagnostic.Set(DiagnosticType.LogInfo | DiagnosticType.Error, reader.ToString());
@@ -6734,6 +6735,7 @@ and MSD_CompanyLogins.LoginId = MSD_Logins.LoginId";
                     PingTime = PingTimeEnum.Long;
 
                     ImportManager.SaveWCE(result.Wce, BasePathFinder.BasePathFinderInstance.GetLogManAppDataPath(), diagnostic);
+                    InstallationVer.UpdateCachedDateAndSave();
 					if (mode == 666)
 					{
 						activationManager.ActivationKey = reader.GetKey();

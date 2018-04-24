@@ -617,11 +617,7 @@ export class MenuService {
         }
 
         this.allMenus = allApps;
-
-
-        let timeStamp = new Date().getTime().toString();
         localStorage.setItem('_lastAllMenu', JSON.stringify(this.allMenus));
-        localStorage.setItem('_lastAllMenuTimeStamp', timeStamp);
     }
 
     //---------------------------------------------------------------------------------------------

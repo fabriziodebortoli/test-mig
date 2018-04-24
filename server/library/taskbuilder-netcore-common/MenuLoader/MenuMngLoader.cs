@@ -85,7 +85,7 @@ namespace Microarea.Common.MenuLoader
             public void AddCustomAllUsersMenuFile(string aFileName)
             {
                 if (aFileName == null || aFileName.Length == 0)
-                    return ;
+                    return;
 
                 if (customAllUsersMenuFiles == null)
                     customAllUsersMenuFiles = new List<string>();
@@ -300,7 +300,7 @@ namespace Microarea.Common.MenuLoader
                 this.CommandsTypeToLoad = commandsTypeToLoad;
                 this.Culture = CultureInfo.CurrentUICulture.Name;
                 this.InstallationDate = InstallationData.InstallationDate;
-                this.CacheDate = InstallationData.CacheDate;
+                this.CacheDate = DateTime.UtcNow;
                 this.pathFinder = pathFinder;
             }
 
@@ -312,7 +312,7 @@ namespace Microarea.Common.MenuLoader
                 return menuSerializer;
             }
 
-           
+
             //---------------------------------------------------------------------------
             public string GetStandardMenuCachingFullFileName(string companyName)
             {
@@ -330,7 +330,7 @@ namespace Microarea.Common.MenuLoader
             }
 
             //---------------------------------------------------------------------------
-            public  bool Load(DateTime date)
+            public bool Load(DateTime date)
             {
                 string file = GetStandardMenuCachingFullFileName(pathFinder.Company);
                 if (!pathFinder.ExistFile(file))
@@ -398,7 +398,7 @@ namespace Microarea.Common.MenuLoader
                 {
                     StringBuilder sb = new StringBuilder();
 
-                    sb.Append(e.Message + "load menumanagerloader"  + " ---------");
+                    sb.Append(e.Message + "load menumanagerloader" + " ---------");
 
                     File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                     sb.Clear();
@@ -421,7 +421,7 @@ namespace Microarea.Common.MenuLoader
                     StringBuilder sb = new StringBuilder();
 
                     sb.Append(e.Message + "save menumngloader" + " ---------");
-                    
+
 
                     File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                     sb.Clear();
@@ -437,7 +437,7 @@ namespace Microarea.Common.MenuLoader
 
                     CachedMenuInfos cachedMenuInfos = new CachedMenuInfos(commandsTypeToLoad, configurationHash, pathFinder);
 
-                        string file = cachedMenuInfos.GetStandardMenuCachingFullFileName(company);
+                    string file = cachedMenuInfos.GetStandardMenuCachingFullFileName(company);
                     string dirName = Path.GetDirectoryName(file);
                     if (pathFinder.ExistPath(dirName))
                         pathFinder.RemoveFolder(dirName, true, false, false);
@@ -446,7 +446,7 @@ namespace Microarea.Common.MenuLoader
                 {
                     StringBuilder sb = new StringBuilder();
 
-                    sb.Append(e.Message + "delete menumngloader"+ " ---------");
+                    sb.Append(e.Message + "delete menumngloader" + " ---------");
 
                     File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                     sb.Clear();
@@ -461,7 +461,7 @@ namespace Microarea.Common.MenuLoader
         private string authenticationToken = null;
         private PathFinder menuPathFinder = null;
 
- 
+
         #region MenuInfo constructors
 
         //---------------------------------------------------------------------------
@@ -502,7 +502,7 @@ namespace Microarea.Common.MenuLoader
 
         #region MenuInfo private methods
 
-   
+
         //---------------------------------------------------------------------------
         private void LoadMenuFilesFromArrayList(
             string aApplicationName,
@@ -566,6 +566,11 @@ namespace Microarea.Common.MenuLoader
             if (menuNode == null)
                 return false;
 
+
+            MenuXmlNode tileNode = AppsMenuXmlParser.CreateMenuNode(menuNode, aModule.Name, aModule.Title);
+            if (tileNode == null)
+                return false;
+
             foreach (string userReport in userCreatedReports)
             {
                 string reportName = userReport;
@@ -574,7 +579,7 @@ namespace Microarea.Common.MenuLoader
                     reportName = reportName.Substring(0, extensionIndex);
                 AppsMenuXmlParser.CreateReportCommandNode
                     (
-                    menuNode,
+                    tileNode,
                     reportName,
                     null,
                     "",
@@ -819,14 +824,14 @@ namespace Microarea.Common.MenuLoader
             try
             {
                 CachedMenuInfos cachedMenuInfos = new CachedMenuInfos(commandsTypeToLoad, configurationHash, menuPathFinder);
-                
+
                 return cachedMenuInfos.Load(dateTime);
             }
             catch (Exception e)
             {
                 StringBuilder sb = new StringBuilder();
 
-                sb.Append(e.Message + "LoadCachedStandardMenu" +  "---------");
+                sb.Append(e.Message + "LoadCachedStandardMenu" + "---------");
 
                 File.AppendAllText(AppDomain.CurrentDomain.BaseDirectory + "log.txt", sb.ToString());
                 sb.Clear();
@@ -865,8 +870,8 @@ namespace Microarea.Common.MenuLoader
             List<string> activatedModules = session.GetModules();
             if (activatedModules == null || activatedModules.Count <= 0)
             {
-               Debug.WriteLine("No activated modules found");
-               return;
+                Debug.WriteLine("No activated modules found");
+                return;
             }
 
             cachedInfos.ApplicationsInfo = new List<ApplicationMenuInfo>();
@@ -929,7 +934,7 @@ namespace Microarea.Common.MenuLoader
                                 continue;
 
                             foreach (TBFile aMenuFileInfo in menuFiles)
-                                aModule.AddStandardMenuFile(aMenuFileInfo.Name );
+                                aModule.AddStandardMenuFile(aMenuFileInfo.Name);
                         }
                         aApplication.AddModuleMenuInfos(aModule);
                     }
@@ -951,10 +956,10 @@ namespace Microarea.Common.MenuLoader
             string userName = (menuPathFinder.User != null && menuPathFinder.User.Length > 0) ? menuPathFinder.User : NameSolverStrings.AllUsers;
 
 
-            foreach(ApplicationMenuInfo aApplication in ApplicationsInfo)
+            foreach (ApplicationMenuInfo aApplication in ApplicationsInfo)
             {
                 if
-                    (aApplication == null || aApplication.ModulesMenuInfos == null ||aApplication.ModulesMenuInfos.Count == 0)
+                    (aApplication == null || aApplication.ModulesMenuInfos == null || aApplication.ModulesMenuInfos.Count == 0)
                     continue;
 
                 foreach (ModuleMenuInfo aModule in aApplication.ModulesMenuInfos)
@@ -1000,7 +1005,7 @@ namespace Microarea.Common.MenuLoader
             cachedInfos.AppsMenuXmlParser = new MenuXmlParser();
 
             if (environmentStandAlone)
-               cachedInfos.EnvironmentXmlParser = new MenuXmlParser();
+                cachedInfos.EnvironmentXmlParser = new MenuXmlParser();
 
             foreach (ApplicationMenuInfo aApplication in ApplicationsInfo)
             {
@@ -1014,7 +1019,7 @@ namespace Microarea.Common.MenuLoader
             }
 
             cachedInfos.Save(menuPathFinder.Company);
-            
+
             foreach (ApplicationMenuInfo aApplication in ApplicationsInfo)
             {
                 if (!aApplication.HasModulesMenuInfos)
@@ -1110,7 +1115,7 @@ namespace Microarea.Common.MenuLoader
             {
             }
             return false;
-        } 
+        }
         //---------------------------------------------------------------------------
         public string GetValidUserDirectoryOrFileName()
         {
@@ -1405,7 +1410,7 @@ namespace Microarea.Common.MenuLoader
             this.authenticationToken = authenticationToken;
 
             environmentStandAlone = aEnvironmentStandAloneFlag;
-            
+
 
         }
 
@@ -1436,17 +1441,16 @@ namespace Microarea.Common.MenuLoader
         }
 
         //----------------------------------------------------------------------------
-        public bool IsCached(DateTime dateTime)
+        public bool IsCacheValid(DateTime dateTime)
         {
             if (menuInfo == null)
                 menuInfo = new MenuInfo(pathFinder, authenticationToken, false); //todo LARA questo false sarebbe applysecurity che ancora nn abbiamo
-            
-            return  menuInfo.LoadCachedStandardMenu(CommandsTypeToLoad.All,  dateTime); 
+
+            return menuInfo.LoadCachedStandardMenu(CommandsTypeToLoad.All, dateTime);
         }
         //----------------------------------------------------------------------------
         public bool LoadAllMenus(bool applySecurityFilter, CommandsTypeToLoad commandsTypeToLoad, bool ignoreAllSecurityChecks, bool clearCachedData)
         {
-           
             menuInfo = new MenuInfo(pathFinder, authenticationToken, applySecurityFilter);
 
             if (clearCachedData)
@@ -1460,14 +1464,12 @@ namespace Microarea.Common.MenuLoader
             return true;
         }
 
-
-
         #region MenuLoader public properties
-      //---------------------------------------------------------------------------
+        //---------------------------------------------------------------------------
         public MenuXmlParser AppsMenuXmlParser { get { return (menuInfo != null) ? menuInfo.AppsMenuXmlParser : null; } }
         //---------------------------------------------------------------------------
         public MenuXmlParser EnvironmentXmlParser { get { return (menuInfo != null) ? menuInfo.EnvironmentXmlParser : null; } }
-  
+
         #endregion
 
         #region MenuLoader static methods
