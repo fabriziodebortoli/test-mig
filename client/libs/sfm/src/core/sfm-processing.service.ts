@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ComponentService, DocumentComponent, EventDataService, LayoutService, DataService } from '@taskbuilder/core';
 import { URLSearchParams, Http } from '@angular/http';
 import {Observable} from 'rxjs/Observable';
+import { CoreService } from './../core/sfm-core.service';
 
 export enum filterType {
     mo_routing_step = 0 ,
@@ -19,14 +20,13 @@ export class ProcessingsService {
     completeProcessingsList: any[] = [];
     processingsList: any[] = [];
 
-    WorkerID : number = 47;
-
-    constructor(private dataService: DataService) {}
+    constructor(private dataService: DataService,
+                private coreService: CoreService) {}
     
-    getProcessings(filter: filterType): Observable<any> {
+    getProcessings(worker: number, filter: filterType): Observable<any> {
         
         let p = new URLSearchParams();
-        p.set('filter', this.WorkerID.toString());
+        p.set('filter', worker.toString());
 
         return this.dataService.getData('SFM.SFMProcessingPlanner.Dbl.ProcessingsAssignmentQuery', 'direct', p).map((res: any) => {
             this.completeProcessingsList.push(...res.rows);
@@ -34,7 +34,7 @@ export class ProcessingsService {
             return this.processingsList;
         });
     }
-
+        
     FilterData(type: filterType) {
         switch (type)
         {

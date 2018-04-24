@@ -5,21 +5,25 @@
     height: 5%; 
    } 
  
-.toolbar { 
+.toolbar {
     color: #ffffff; 
     background-color: #2e3951; 
+    margin-bottom: 20px;   
    } 
  
 .content { 
+    margin-left: 20px; 
+    margin-right: 20px; 
+    margin-top: 20px; 
+    margin-bottom: 20px; 
     background-color: #b1bace; 
     height: 5%; 
    } 
  
 .maincard { 
-    margin-left: 200px; 
-    margin-right: 20px; 
-    margin-top: 20px; 
+    color: #ffffff; 
     background-color: #45526e; 
+    margin-bottom: 20px; 
    } 
   
 .elementcard { 
@@ -37,9 +41,6 @@
     background-color: #b1bace; 
     height: 95%; 
    } 
- 
-.messagesFooter { 
-    background-color: #b1bace; 
-   } 
+
     
  

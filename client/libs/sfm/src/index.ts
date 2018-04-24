@@ -23,6 +23,9 @@ export { SFMPageComponent, SFMPageFactoryComponent } from './sfm-page/sfm-page.c
 import { SFMStandaloneComponent } from './sfm-standalone/sfm-standalone.component';
 export { SFMStandaloneComponent } from './sfm-standalone/sfm-standalone.component';
 
+import { toolbarComponent } from './components/toolbar/toolbar-component';
+export { toolbarComponent } from './components/toolbar/toolbar-component';
+
 import { elementCardComponent } from './components/elementCards/elementCard-component';
 export { elementCardComponent } from './components/elementCards/elementCard-component';
 
@@ -77,13 +80,13 @@ export { workerMessageComponent } from './components/workerMessages/workerMessag
     ])
   ],
   declarations: [SFMPageComponent, SFMPageFactoryComponent, SFMStandaloneComponent,
-    elementCardComponent, gaugeNumberCardComponent, gaugePercentageCardComponent,
+    toolbarComponent, elementCardComponent, gaugeNumberCardComponent, gaugePercentageCardComponent,
     moStepsComponent, moStepComponent, 
     workCentersComponent, workCenterComponent,
     operationsComponent, operationComponent, 
     workerMessagesComponent, workerMessageComponent],
   exports: [SFMPageComponent, SFMPageFactoryComponent, SFMStandaloneComponent,
-    elementCardComponent, gaugeNumberCardComponent, gaugePercentageCardComponent,
+    toolbarComponent, elementCardComponent, gaugeNumberCardComponent, gaugePercentageCardComponent,
     moStepsComponent, moStepComponent, 
     workCentersComponent, workCenterComponent,
     operationsComponent, operationComponent, 

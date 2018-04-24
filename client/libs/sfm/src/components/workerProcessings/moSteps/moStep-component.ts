@@ -11,7 +11,8 @@ export class moStepComponent implements OnInit {
 
     @Input() workerName: string;
     @Input() rec: any;
-
+    @Input() backgroundColor: string = '#45526e';
+    
     allWorkers: string;
     dueDate: string;
     moNumber: string;

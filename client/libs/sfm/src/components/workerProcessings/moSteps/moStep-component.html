@@ -1,4 +1,4 @@
-<tb-card class="maincard">
+<tb-card class="maincard" [style.background-color]="backgroundColor">
     <tb-card-title [title]="item" [isCollapsible]="false">
         <span class="badge badge-pill badge-danger float-right m-2">{{dueDate}}</span>
         <span [style.background-color]="workerColor" class="badge badge-pill float-right m-2">{{allWorkers}}</span>

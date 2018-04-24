@@ -1,5 +1,5 @@
 import { ComponentService, DocumentComponent, EventDataService, LayoutService, DataService } from '@taskbuilder/core';
-import { Component, Input, OnInit, OnDestroy, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { CoreService } from './../../../core/sfm-core.service';
 import { ProcessingsService, filterType } from './../../../core/sfm-processing.service';
@@ -10,7 +10,7 @@ import { ProcessingsService, filterType } from './../../../core/sfm-processing.s
     styleUrls: ['./operations-component.scss']
 })
 
-export class operationsComponent implements OnInit, OnDestroy {
+export class operationsComponent implements OnInit  {
 
     processingsList: any[] = [];
     subsProcessings: any;
@@ -19,14 +19,12 @@ export class operationsComponent implements OnInit, OnDestroy {
         private processingsService: ProcessingsService) { }
 
     ngOnInit() {
-        this.subsProcessings = this.processingsService.getProcessings(filterType.operation).subscribe(rows => {
-            this.processingsList = rows;
-        });
+        // this.subsProcessings = this.processingsService.getProcessings(this.worker.RM_Workers_WorkerID, filterType.operation).subscribe(rows => {
+        //     this.processingsList = rows;
+        // });
     }
 
-    ngOnDestroy(): void {
-        this.subsProcessings.unsubscribe();
-    }
+
 }
 
 

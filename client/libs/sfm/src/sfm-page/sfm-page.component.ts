@@ -1,5 +1,5 @@
 import { ComponentService, DocumentComponent, EventDataService, LayoutService, DataService } from '@taskbuilder/core';
-import { Component, Input, OnInit, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
 import { URLSearchParams, Http } from '@angular/http';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -22,7 +22,7 @@ export enum filterType {
     styleUrls: ['./sfm-page.component.scss'],
     providers: [SFMService]
 })
-export class SFMPageComponent extends DocumentComponent implements OnInit {
+export class SFMPageComponent extends DocumentComponent implements OnInit, OnDestroy {
     public isCollapsed = false;
 
     worker: any;
@@ -31,7 +31,6 @@ export class SFMPageComponent extends DocumentComponent implements OnInit {
     manufacturingParameters: any;
     subsManufacturingParameters: any;
 
-    WorkerID: number = 47;
     workerName: string;
     workerImage: string;
     today: Date = new Date();
@@ -61,6 +60,10 @@ export class SFMPageComponent extends DocumentComponent implements OnInit {
 //       this.onMORoutingStep();
     }
     
+    ngOnDestroy() {
+        this.subsWorker.unsubscribe();
+    }
+
     onWorkCenter() {
         this.router.navigate(['/workCenters']);
     }

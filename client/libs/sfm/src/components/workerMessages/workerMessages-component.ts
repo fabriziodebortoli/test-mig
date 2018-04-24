@@ -28,13 +28,14 @@ export class workerMessagesComponent implements OnInit, OnDestroy {
             this.worker = row;
             this.workerName = this.coreService.workerName;
         });
-        this.subsMessages = this.messagesService.getMessages().subscribe(rows => {
+        // this.subsMessages = this.messagesService.getMessages(this.worker.RM_Workers_WorkerID).subscribe(rows => {
+        this.subsMessages = this.messagesService.getMessages(47).subscribe(rows => {
             this.messagesList = rows;
             this.setTitle();
         });
     }
 
-    ngOnDestroy(): void {
+    ngOnDestroy() {
         this.subsMessages.unsubscribe();
         this.subsWorker.unsubscribe();
     }
