@@ -1,0 +1,7 @@
+<tb-control-container type="tb-elapsedtime-text-box" [model]="model" >
+    <tb-caption [captionWidth]="captionWidth" caption="{{caption}}" [for]="cmpId"></tb-caption>
+    <kendo-maskedtextbox [(ngModel)]="selectedValue" [(value)]="formattedValue" (blur)="onBlur($event)"
+       (ngModelChange)="model.value=$event" [mask]="getmask()"
+       [disabled]="!(model?.enabled)" [style.width.px]="width" [includeLiterals]="true" prompt=" ">
+        </kendo-maskedtextbox>
+</tb-control-container>

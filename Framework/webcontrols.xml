@@ -148,12 +148,12 @@
       <arg name="[readonly]" value="true"></arg>
     </WebControl>
 
-    <!-- tb-time-input 
-	<WebControl controlClass="ElapsedTimeEdit" control="tb-time-input"> 
-	<arg name="[readonly]" value="false"></arg>	</WebControl>
-  	<WebControl controlClass="ElapsedTimeStatic" control="tb-time-input">
-	<arg name="[readonly]" value="true"></arg>	</WebControl>
-	-->
+    <WebControl controlClass="ElapsedTimeEdit" control="tb-elapsedtime"> 
+      <arg name="[readonly]" value="false"></arg>
+    </WebControl>
+    <WebControl controlClass="ElapsedTimeStatic" control="tb-elapsedtime">
+      <arg name="[readonly]" value="true"></arg>
+    </WebControl>
 
     <!-- tb-image -->
     <WebControl controlClass="PictureStatic" control="tb-image"></WebControl>

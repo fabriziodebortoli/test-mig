@@ -245,6 +245,7 @@ import { ControlContainerComponent } from './controls/control-container/control-
 import { RowViewFormComponent } from './controls/body-edit/row-view-form/row-view-form.component';
 import { CheckListBoxComponent } from './controls/check-listbox/check-listbox.component';
 import { NamespaceComponent } from './controls/Namespace/namespace.component';
+import { ElapsedTimeComponent } from './controls/elapsedtime/elapsedtime.component';
 import { ExplorerComponent, ExplorerDialogComponent, ExplorerItem, ExplorerOptions, ExplorerResult } from './components/explorer/explorer-dialog.component';
 
 export { LinkComponent } from './controls/link/link.component';
@@ -293,10 +294,11 @@ export { ControlContainerComponent } from './controls/control-container/control-
 export { CheckListBoxComponent } from './controls/check-listbox/check-listbox.component';
 export { RowViewFormComponent } from './controls/body-edit/row-view-form/row-view-form.component';
 export { NamespaceComponent } from './controls/Namespace/namespace.component';
+export { ElapsedTimeComponent } from './controls/elapsedtime/elapsedtime.component';
 export { ExplorerComponent, ExplorerDialogComponent, ExplorerItem, ExplorerOptions, ExplorerResult } from './components/explorer/explorer-dialog.component';
 
 const TB_CONTROLS = [
-    ControlComponent, ColoredStaticComponent, AddressEditComponent, CheckListBoxComponent, NamespaceComponent,
+    ControlComponent, ColoredStaticComponent, AddressEditComponent, CheckListBoxComponent, NamespaceComponent, ElapsedTimeComponent,
     ConnectionStatusComponent, TextComponent, UnknownComponent, LabelStaticComponent, CaptionComponent, NumericTextBoxComponent, MaskedTextBoxComponent,
     PhoneComponent, PasswordComponent, SectionTitleComponent, TextareaComponent, TimeInputComponent, DateInputComponent, CheckBoxComponent,
     RadioComponent, ColorPickerComponent, EmailComponent, ComboSimpleComponent, ComboComponent, ButtonComponent, EnumComboComponent,
