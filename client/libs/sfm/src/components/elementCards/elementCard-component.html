@@ -1,12 +1,9 @@
 <tb-card class="elementcard" [style.background-color]="backgroundColor" style="margin-left: 10px; margin-bottom: 10px;">
     <tb-card-title [isCollapsible]="false"></tb-card-title>
-    <tb-card-content class="elementcardtitle">{{header}}</tb-card-content>
+    <tb-card-content class="elementcardtitle1">{{header}}</tb-card-content>
+    <tb-card-content class="elementcardtitle2">{{code}}</tb-card-content>
     <tb-card-content>
-        <h5>{{code}}</h5>
-    </tb-card-content>
-    <tb-card-content>
-        <h5 *ngIf="sameHeight">{{description}}</h5>
-        <p *ngIf="!sameHeight">{{description}}
-        </p>
+        <p class="elementcardtitle2" *ngIf="sameHeight">{{description}}</p>
+        <p class="elementcardtitle3" *ngIf="!sameHeight">{{description}}</p>
     </tb-card-content>
 </tb-card>

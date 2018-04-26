@@ -29,7 +29,6 @@
         "@taskbuilder/libs": "git+https://github.com/Microarea/ng-libs.git",
         "@taskbuilder/sfm": "file:../../libs/sfm/src",
         "@types/hammerjs": "^2.0.33",
-        "bootstrap": "^4.0.0-beta.3",
         "core-js": "^2.4.1",
         "hammerjs": "^2.0.8",
         "lodash": "4.17.4",

@@ -13,6 +13,7 @@ export class MessagesService {
                 private coreService: CoreService) { }
 
     getMessages(worker: number): Observable<any> {
+        this.messagesList.length = 0;
 
         let p = new URLSearchParams();
         p.set('filter', worker.toString());

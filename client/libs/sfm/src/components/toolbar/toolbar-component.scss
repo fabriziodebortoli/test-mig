@@ -49,9 +49,13 @@ button:focus{
     float: right;    
 }
 
+.buttonExit:focus{
+    background:#CC0000;
+    color: white;
+}
 .buttonExit:hover {
     background-color: #CC0000; 
     color: white; 
-    border: 2px solid white; 
+    border: 2px solid #CC0000; 
 }
 

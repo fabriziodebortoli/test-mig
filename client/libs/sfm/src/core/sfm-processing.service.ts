@@ -24,7 +24,9 @@ export class ProcessingsService {
                 private coreService: CoreService) {}
     
     getProcessings(worker: number, filter: filterType): Observable<any> {
-        
+        this.completeProcessingsList.length = 0;        
+        this.processingsList.length = 0;
+
         let p = new URLSearchParams();
         p.set('filter', worker.toString());
 

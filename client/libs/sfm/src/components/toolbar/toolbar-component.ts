@@ -1,4 +1,4 @@
-import { ComponentService, DocumentComponent, EventDataService, LayoutService, DataService } from '@taskbuilder/core';
+import { ComponentService, DocumentComponent, EventDataService, LayoutService, DataService, AuthService } from '@taskbuilder/core';
 import { Component, Input, OnInit, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -18,6 +18,7 @@ export class toolbarComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private router: Router,
+        public authService: AuthService,
     ) {}
 
     ngOnInit() {
@@ -56,7 +57,7 @@ export class toolbarComponent implements OnInit {
     }    
 
     onLogout() {
-        
+        this.authService.logout();
     }
 }
 

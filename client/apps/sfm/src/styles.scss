@@ -1,16 +1,35 @@
 @import '~@taskbuilder/core/style/tb.scss'; 
  
-.elementcardtitle {
+.elementcardtitle1 {
     font-weight: bold;
     font-size: small;
     color: #2e3951;
+    margin-bottom: 10px;
 }
 
-.maincardtitle {
+.elementcardtitle3 {
     font-weight: bold;
-    font-size: medium;
+    font-size: small;
+    color: white;
+}
+
+.elementcardtitle2{
+    font-weight: bold;
+    font-size: large;
+    color:white;
+}
+
+.maincardtitle1 {
+    font-weight: bold;
+    font-size: 120%;
     color: #b1bace;
     margin-bottom: 10px;
+}
+
+.maincardtitle2 {
+    font-weight: bold;
+    font-size: 180%;
+    color: white;
 }
 
 .header { 
@@ -21,6 +40,8 @@
 .toolbar {
     color: #ffffff; 
     background-color: #2e3951; 
+    font-size: large;
+    vertical-align: middle;
    } 
  
 .content { 
