@@ -1,3 +1,4 @@
+import { InfoService } from './../../../../../core/services/info.service';
 import { Store } from './../../../../../core/services/store.service';
 import { TbComponent } from '../../../../components/tb.component';
 import { EventDataService } from './../../../../../core/services/eventdata.service';
@@ -23,6 +24,10 @@ export class StatusTileComponent extends ControlComponent implements OnDestroy {
   @Input() clickable: boolean;
   @Input() visible: boolean;
   @Input() backgroundColor: any;
+  @Input() descr: any;
+  @Input() up: any;
+  @Input() image: any;
+  imgUrl: string;
   _backGroundHexColors : string;
   DEFAULT_TILE_COLOR;
 
@@ -31,9 +36,11 @@ export class StatusTileComponent extends ControlComponent implements OnDestroy {
     tbComponentService: TbComponentService,
     public eventData: EventDataService,
     public store: Store,
-    elRef: ElementRef) {
+    elRef: ElementRef,
+    public infoService: InfoService) {
     super(layoutService,tbComponentService,changeDetectorRef);
     this.DEFAULT_TILE_COLOR = "RGB(255, 255, 255)";
+    this.imgUrl = this.infoService.getDocumentBaseUrl() + 'getImage/?src=';
   }
 
   ngOnInit() {  
@@ -51,7 +58,9 @@ export class StatusTileComponent extends ControlComponent implements OnDestroy {
         'margin-top' : '2px',
         'margin-right' : '8px',
         'margin-bottom' : '2px',
-        'margin-left' : '8px',     
+        'margin-left' : '8px',  
+        'min-width' : '80px' ,  
+        'min-height' : '50px' ,    
         'background': this._backGroundHexColors
       };
    }

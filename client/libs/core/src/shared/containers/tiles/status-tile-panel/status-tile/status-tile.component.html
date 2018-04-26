@@ -1,18 +1,15 @@
 <div [ngStyle]="inputStyle()">
-    <div>
-        <div class="row">
-            <ng-content select="[cmpId=IDC_CONTROL_STATIC_UP]"></ng-content>
+    <a>
+        <div>
+            <label for="{{up}}">{{up}}</label>
+        </div>
+    </a>
+    <a>
+        <div *ngIf="image">
+            <img src="{{imgUrl}}{{image}}">
         </div>
         <div>
-            <ng-content select="[cmpId=IDC_CONTROL_IMAGE]"></ng-content>
+            <label for="{{descr}}">{{descr}}</label>
         </div>
-    </div>
-    <div class="row">
-        <div>
-            <!-- <ng-content select="[cmpId=IDC_CONTROL_STATIC_DOWN_LEFT]"></ng-content> -->
-        </div>
-        <div>
-            <!-- <ng-content select="[cmpId=IDC_CONTROL_STATIC_DOWN_RIGHT]"></ng-content> -->
-        </div>
-    </div>
+    </a>
 </div>

@@ -2,8 +2,9 @@
     display: flex;
     flex-direction: row;
     background: transparent;
-    height: 50px;
-    max-width: 140px;
+    height: 40px;
+    min-height: 40px;
+    min-width: 100px;
     overflow: hidden;
 }
 
@@ -17,7 +18,6 @@
 
 :host ::ng-deep textarea.tb-textarea {
     background-color: transparent;
-    max-width: 60px;
     border: none;
 }
 
@@ -29,4 +29,18 @@
 :host ::ng-deep textarea.ng-container {
     background-color: transparent;
     border: none;
+}
+
+:host ::ng-deep a {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 2px;
+}
+
+:host ::ng-deep div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }

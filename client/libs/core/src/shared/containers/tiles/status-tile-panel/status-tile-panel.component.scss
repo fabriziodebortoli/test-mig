@@ -3,10 +3,10 @@
     .status-tile-panel {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         align-content: flex-end;
         justify-content: space-between;
         margin-left: auto;
-        height: 60px;
         background: transparent;
         overflow: hidden;
         border-style: solid;
