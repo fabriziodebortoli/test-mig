@@ -16,6 +16,7 @@ export class elementCardComponent implements OnInit {
     @Input() sameHeight: boolean = false;
 
     ngOnInit() {
+        this.header = this.header + ":";
     } 
  }
 

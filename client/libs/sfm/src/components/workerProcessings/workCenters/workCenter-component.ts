@@ -1,4 +1,4 @@
-import { ComponentService, DocumentComponent, EventDataService, LayoutService, DataService } from '@taskbuilder/core';
+import { ComponentService, DocumentComponent, EventDataService, LayoutService, DataService, InfoService } from '@taskbuilder/core';
 import { Component, Input, OnInit, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
 
 @Component({
@@ -19,9 +19,12 @@ export class workCenterComponent implements OnInit {
     setupTime: string = "Setup: ";
     processingTime: string = "Processing: ";
 
+    constructor(private infoService: InfoService) { }
+
     ngOnInit() {
+
+        this.workCenterImage = this.infoService.getUrlImage('Image.sfm.sfmcore.images.work-centers.png');
         this.workCenter = this.rec.MA_MOSteps_WC + ' ' + this.rec.MA_WorkCenters_Description;
-        this.workCenterImage = 'https://cdn4.iconfinder.com/data/icons/free-large-android-icons/512/Industrial_robot_with_shadow.png';
 
         if (!this.IsTimeEmpty(this.rec.MA_MOSteps_ActualSetupTime))
             this.setupTime += this.rec.MA_MOSteps_ActualSetupTime;

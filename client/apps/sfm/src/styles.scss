@@ -1,5 +1,18 @@
 @import '~@taskbuilder/core/style/tb.scss'; 
  
+.elementcardtitle {
+    font-weight: bold;
+    font-size: small;
+    color: #2e3951;
+}
+
+.maincardtitle {
+    font-weight: bold;
+    font-size: medium;
+    color: #b1bace;
+    margin-bottom: 20px;
+}
+
 .header { 
     background-color: #2e3951; 
     height: 5%; 

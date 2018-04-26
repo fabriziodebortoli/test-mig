@@ -1,8 +1,13 @@
 <tb-card class="maincard" [style.background-color]="backgroundColor" style="margin-bottom: 20px;">
-    <tb-card-title [title]="item" [isCollapsible]="false">
-        <span *ngIf="dueDate > ''" class="redbadge">{{dueDate}}</span>
-        <span *ngIf="allWorkers > ''" class="basebadge">{{allWorkers}}</span>
-    </tb-card-title>
+    <tb-card-title [isCollapsible]="false"></tb-card-title>
+    <div class="flexcontainer maincardtitle">
+        <div>{{item}}</div>
+        <div>
+            <span *ngIf="dueDate > ''" class="redbadge">{{dueDate}}</span>
+            <span *ngIf="allWorkers > ''" class="basebadge">{{allWorkers}}</span>
+        </div>
+    </div>
+
     <div class="flexcontainer">
         <div>
             <h5>{{moNumber}}</h5>
@@ -11,7 +16,8 @@
         </span>
     </div>
     <tb-card-content>
-        <div>
+        <div style="height: 100px; width: 200px; text-align: center; vertical-align: middle;">
+            <!-- <ngx-gallery *ngIf="model?.value" id="{{cmpId}}" [options]="options" [images]="itemImage" [ngStyle]="getStyles()"></ngx-gallery> -->
             <img [src]="itemImage" style="max-height: 100px; max-width: 200px;" alt="">
         </div>
         <div>

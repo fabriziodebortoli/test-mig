@@ -35,6 +35,10 @@ export class toolbarComponent implements OnInit {
         this.router.navigate(['/saleOrders']);
     }
 
+    onItems() {
+        this.router.navigate(['/items']);
+    }
+
     onOperations() {
         this.router.navigate(['/operations']);
     }

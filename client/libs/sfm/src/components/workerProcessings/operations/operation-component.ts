@@ -1,4 +1,4 @@
-import { ComponentService, DocumentComponent, EventDataService, LayoutService, DataService } from '@taskbuilder/core';
+import { ComponentService, DocumentComponent, EventDataService, LayoutService, DataService, InfoService } from '@taskbuilder/core';
 import { Component, Input, OnInit, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
 
 @Component({
@@ -22,10 +22,13 @@ export class operationComponent implements OnInit {
     setupTime: string = "Setup: ";
     processingTime: string = "Processing: ";
 
+    constructor(private infoService: InfoService) {
+    }
+
     ngOnInit() {
 
+        this.operationImage = this.infoService.getUrlImage('Image.sfm.sfmcore.images.operations.png');
         this.operation = this.rec.MA_MOSteps_Operation + ' ' + this.rec.MA_Operations_Description;
-        this.operationImage = 'http://inplastic.es/wp-content/uploads/2015/09/icon-worker.png';
 
         if (!this.IsTimeEmpty(this.rec.MA_MOSteps_ActualSetupTime))
             this.setupTime += this.rec.MA_MOSteps_ActualSetupTime;

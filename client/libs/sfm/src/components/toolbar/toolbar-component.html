@@ -1,13 +1,14 @@
 <div class="toolbar">
     <h5>
         <img class="image" [src]="workerImage" alt="">{{workerName}}
+        <button class="button buttonExit" (click)="onLogout()">Logout</button>
         <button class="button buttonBase" (click)="onCustomers()">Customers</button>
         <button class="button buttonBase" (click)="onJobs()">Jobs</button>
         <button class="button buttonBase" (click)="onSaleOrders()">Sale Orders</button>
+        <button class="button buttonBase" (click)="onItems()">Items</button>
         <button class="button buttonBase" (click)="onOperations()">Operations</button>
         <button class="button buttonBase" (click)="onWorkCenters()">Work Centers</button>
         <button class="button buttonBase" (click)="onMOs()">MOs</button>
         <button class="button buttonBase" (click)="onMORoutingSteps()">MO Routing Steps</button>
-        <button class="button buttonExit" (click)="onLogout()">Logout</button>
     </h5>
 </div>
