@@ -35,7 +35,7 @@ export class ToolbarTopButtonComponent extends TbComponent {
    * @returns return true to call default command as well.
    */
   @Input() click: () => boolean = () => true;
-
+public  _CheckedStatus : boolean= false;
   imgUrl: string;
 
   constructor(
@@ -69,6 +69,7 @@ export class ToolbarTopButtonComponent extends TbComponent {
   @Input() public set checkStatus(value: CheckStatus) {
     this._checkStatus = value;
   }
+
   public get checkStatus(): CheckStatus {
     if (this._checkStatus != CheckStatus.UNDEFINED) {
       return this._checkStatus;
@@ -78,11 +79,6 @@ export class ToolbarTopButtonComponent extends TbComponent {
       this.eventData.buttonsState[this.cmpId]) {
       status = this.eventData.buttonsState[this.cmpId].checkStatus;
     }
-    return status ? status : CheckStatus.UNDEFINED;
-  }
-
-
-  public getCheckedStatus() {
-    return this._checkStatus != CheckStatus.UNDEFINED ? this._checkStatus === CheckStatus.CHECKED : false;
+    return status as CheckStatus;
   }
 }

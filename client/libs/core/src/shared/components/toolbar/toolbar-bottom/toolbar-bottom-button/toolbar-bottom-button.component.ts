@@ -33,9 +33,11 @@ export class ToolbarBottomButtonComponent {
       return !this.eventData.buttonsState[this.cmpId].enabled;
     return false;
   }
-  @Input() public set checkStatus(value: CheckStatus) {
+ 
+ @Input() public set checkStatus(value: CheckStatus) {
     this._checkStatus = value;
   }
+
   public get checkStatus(): CheckStatus {
     if (this._checkStatus != CheckStatus.UNDEFINED) {
       return this._checkStatus;
@@ -45,8 +47,9 @@ export class ToolbarBottomButtonComponent {
       this.eventData.buttonsState[this.cmpId]) {
       status = this.eventData.buttonsState[this.cmpId].checkStatus;
     }
-    return status ? status : CheckStatus.UNDEFINED;
+    return status as CheckStatus;
   }
+
   onCommand() {
     this.eventData.raiseCommand(this.ciService.getComponentId(), this.cmpId);
   }

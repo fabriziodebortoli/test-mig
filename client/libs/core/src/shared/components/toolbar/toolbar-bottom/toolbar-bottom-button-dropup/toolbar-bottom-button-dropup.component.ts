@@ -74,9 +74,11 @@ export class ToolbarBottomButtonDropupComponent extends TbComponent implements O
       return !this.eventData.buttonsState[this.cmpId].enabled;
     return false;
   }
-  @Input() public set checkStatus(value: CheckStatus) {
+  
+@Input() public set checkStatus(value: CheckStatus) {
     this._checkStatus = value;
   }
+
   public get checkStatus(): CheckStatus {
     if (this._checkStatus != CheckStatus.UNDEFINED) {
       return this._checkStatus;
@@ -86,8 +88,9 @@ export class ToolbarBottomButtonDropupComponent extends TbComponent implements O
       this.eventData.buttonsState[this.cmpId]) {
       status = this.eventData.buttonsState[this.cmpId].checkStatus;
     }
-    return status ? status : CheckStatus.UNDEFINED;
+    return status as CheckStatus;
   }
+
   private contains(target: any): boolean {
     return this.anchor.nativeElement.contains(target) ||
       (this.popup ? this.popup.nativeElement.contains(target) : false);

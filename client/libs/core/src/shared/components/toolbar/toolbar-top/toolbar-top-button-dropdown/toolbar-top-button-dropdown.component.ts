@@ -67,6 +67,7 @@ export class ToolbarTopButtonDrodownComponent extends TbComponent implements OnD
   @Input() public set checkStatus(value: CheckStatus) {
     this._checkStatus = value;
   }
+
   public get checkStatus(): CheckStatus {
     if (this._checkStatus != CheckStatus.UNDEFINED) {
       return this._checkStatus;
@@ -76,7 +77,7 @@ export class ToolbarTopButtonDrodownComponent extends TbComponent implements OnD
       this.eventData.buttonsState[this.cmpId]) {
       status = this.eventData.buttonsState[this.cmpId].checkStatus;
     }
-    return status ? status : CheckStatus.UNDEFINED;
+    return status as CheckStatus;
   }
 
   ngOnDestroy() {
