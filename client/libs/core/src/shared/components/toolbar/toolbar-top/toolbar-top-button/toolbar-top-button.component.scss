@@ -118,7 +118,18 @@
             color: #888;
             border:1px solid #ecf8ff;
             background: $bkg-light;
-            
+        }
+        &:first-child tb-icon {
+            border-left: 1px solid $bkg-light;
+        }
+        &:last-child tb-icon {
+             border-left: none;
+        }
+        &:only-child tb-icon {
+             border-left: 1px solid $bkg-light;
+        }
+        &:hover {
+            cursor: not-allowed;
         }
     }
     tb-icon .div-icon {
@@ -203,8 +214,11 @@ tb-toolbar-top-button.dropDownButton{
                 flex-direction: row;
                 width: 100%;
                 text-align: left;
-                .checkmark{
+                m4-icon.checkmark{
                     visibility: visible;
+                    background-color: transparent;
+                    color: #fff;
+                    border: 0px;
                 }
                 span {
                     width: 100%;
@@ -236,6 +250,8 @@ tb-toolbar-top-button.dropDownButton{
                     &:hover {
                         background-color: transparent;
                         color:$color-light;
+                        border: 0px;
+                        
                         tb-icon,
                         i {
                             color:$color-light;
