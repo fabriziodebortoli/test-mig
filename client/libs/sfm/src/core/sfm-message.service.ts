@@ -18,7 +18,7 @@ export class MessagesService {
         let p = new URLSearchParams();
         p.set('filter', worker.toString());
 
-        return this.dataService.getData('SFM.SFMProcessingPlanner.Dbl.WorkerMessagesQuery', 'direct', p).map((res: any) => {
+        return this.dataService.getData('SFM.SFMProcessingsAssignment.Dbl.WorkerMessagesQuery', 'direct', p).map((res: any) => {
             this.messagesList.push(...res.rows);
             return this.messagesList;
         });

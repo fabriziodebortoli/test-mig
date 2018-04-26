@@ -19,7 +19,7 @@ export class CoreService {
         let p = new URLSearchParams();
         p.set('filter', localStorage.getItem('_user'));
 
-        return this.dataService.getData('SFM.SFMProcessingPlanner.Dbl.WorkersQuery', 'direct', p).map((res: any) => {
+        return this.dataService.getData('SFM.SFMProcessingsAssignment.Dbl.WorkersQuery', 'direct', p).map((res: any) => {
             this.worker = res.rows[0];
             this.setWorkerName();
             this.workerImage = this.worker.RM_Workers_ImagePath;
@@ -31,7 +31,7 @@ export class CoreService {
         let p = new URLSearchParams();
         p.set('filter', '0');
 
-        return this.dataService.getData('SFM.SFMProcessingPlanner.Dbl.ManufacturingParametersQuery', 'direct', p).map((res: any) => {
+        return this.dataService.getData('SFM.SFMProcessingsAssignment.Dbl.ManufacturingParametersQuery', 'direct', p).map((res: any) => {
             this.manufacturingParameters = res.rows[0];
             return this.manufacturingParameters;
         });

@@ -20,25 +20,25 @@ export class workerMessageComponent implements OnInit {
     workerColor: string = '#2e3951';
     
     ngOnInit() {
-        if (+this.rec.SFM_ProcessingMessages_MessageType == 2044788736)
+        if (+this.rec.SF_WorkerMessages_MessageType == 2044788736)
         {
             this.msgHeader = 'Hint';
         }
-        else if (+this.rec.SFM_ProcessingMessages_MessageType == 2044788737)
+        else if (+this.rec.SF_WorkerMessages_MessageType == 2044788737)
         {
             this.msgHeader = 'Warning';
             this.msgTypeColor = '#ffbb33';
         }
-        else if (+this.rec.SFM_ProcessingMessages_MessageType == 2044788738)
+        else if (+this.rec.SF_WorkerMessages_MessageType == 2044788738)
         {
             this.msgHeader = 'Error';
             this.msgTypeColor = '#ff4444';
         }
 
-        if (!this.IsDateEmpty(this.rec.SFM_ProcessingMessages_MessageDate))
-            this.msgHeader += ' [' + this.rec.SFM_ProcessingMessages_MessageDate + ']';
+        if (!this.IsDateEmpty(this.rec.SF_WorkerMessages_MessageDate))
+            this.msgHeader += ' [' + this.rec.SFWorkerMessages_MessageDate + ']';
 
-        if (+this.rec.SFM_ProcessingMessages_WorkerID == 0)
+        if (+this.rec.SF_WorkerMessages_WorkerID == 0)
             this.msgRecipient = 'All workers';
         else
         {
@@ -46,12 +46,12 @@ export class workerMessageComponent implements OnInit {
             this.workerColor = '#CC0000';
         }
         
-        if (this.rec.SFM_ProcessingMessages_Expire == '1')
+        if (this.rec.SF_WorkerMessages_Expire == '1')
         {
-            if (this.IsDateEmpty(this.rec.SFM_ProcessingMessages_ExpirationDate))
+            if (this.IsDateEmpty(this.rec.SF_WorkerMessages_ExpirationDate))
                 this.msgExpire = 'Expire on exit';
             else
-                this.msgExpire = 'Expire on ' + this.rec.SFM_ProcessingMessages_ExpirationDate;
+                this.msgExpire = 'Expire on ' + this.rec.SF_WorkerMessages_ExpirationDate;
         }
     } 
 

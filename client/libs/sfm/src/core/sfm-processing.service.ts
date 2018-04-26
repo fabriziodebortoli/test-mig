@@ -30,7 +30,7 @@ export class ProcessingsService {
         let p = new URLSearchParams();
         p.set('filter', worker.toString());
 
-        return this.dataService.getData('SFM.SFMProcessingPlanner.Dbl.ProcessingsAssignmentQuery', 'direct', p).map((res: any) => {
+        return this.dataService.getData('SFM.SFMProcessingsAssignment.Dbl.WorkerProcessingsQuery', 'direct', p).map((res: any) => {
             this.completeProcessingsList.push(...res.rows);
             this.FilterData(filter);
             return this.processingsList;

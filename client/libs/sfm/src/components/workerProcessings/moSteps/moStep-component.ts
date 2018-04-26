@@ -48,20 +48,20 @@ export class moStepComponent implements OnInit {
         this.item += ' ' + this.rec.MA_Items_Description;
 
         // All workers
-        if (+this.rec.SFM_ProcessingAssignment_WorkerID === 0)
+        if (+this.rec.SF_WorkerProcessings_WorkerID === 0)
             this.allWorkers = 'All Workers';
 
         // Due date
-        if (!this.IsDateEmpty(this.rec.SFM_ProcessingAssignment_DueDate))
-            this.dueDate = 'Due Date: ' + this.rec.SFM_ProcessingAssignment_DueDate;
+        if (!this.IsDateEmpty(this.rec.SF_WorkerProcessings_DueDate))
+            this.dueDate = 'Due Date: ' + this.rec.SF_WorkerProcessings_DueDate;
 
         // MO Step
-        this.moNumber = 'MO ' + this.rec.MA_MO_MONo + ' Routing Step ' + this.rec.SFM_ProcessingAssignment_RtgStep;
-        if (Number(this.rec.SFM_ProcessingAssignment_AltRtgStep) > 0) {
-            if (this.rec.SFM_ProcessingAssignment_Alternate === '')
-                this.moNumber += ' [Alternative Routing Step ' + this.rec.SFM_ProcessingAssignment_AltRtgStep + ']';
+        this.moNumber = 'MO ' + this.rec.MA_MO_MONo + ' Routing Step ' + this.rec.SF_WorkerProcessings_RtgStep;
+        if (Number(this.rec.SF_WorkerProcessings_AltRtgStep) > 0) {
+            if (this.rec.SF_WorkerProcessings_Alternate === '')
+                this.moNumber += ' [Alternative Routing Step ' + this.rec.SF_WorkerProcessings_AltRtgStep + ']';
             else
-                this.moNumber += ' [Alternative ' + this.rec.SFM_ProcessingAssignment_Alternate + ' Routing Step ' + this.rec.SFM_ProcessingAssignment_AltRtgStep + ']';
+                this.moNumber += ' [Alternative ' + this.rec.SF_WorkerProcessings_Alternate + ' Routing Step ' + this.rec.SF_WorkerProcessings_AltRtgStep + ']';
         }
 
         if (+this.rec.MA_MOSteps_MOStatus === 20578304) {

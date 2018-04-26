@@ -3,7 +3,7 @@
         <h5 [style.color]="msgTypeColor" class="mb-1">{{msgHeader}}</h5>
         <span [style.background-color]="workerColor" style="color: #ffffff" class="badge badge-pill float-right m-2">{{msgRecipient}}</span>
     </div>
-    <p class="mb-1" style="color: #ffffff">{{rec.SFM_ProcessingMessages_MessageText}}
+    <p class="mb-1" style="color: #ffffff">{{rec.SF_WorkerProcessings_MessageText}}
         <span *ngIf="msgExpire > ''" class="badge badge-pill badge-danger float-right m-2">{{msgExpire}}</span>
     </p>
 </div> -->
@@ -15,7 +15,7 @@
         <span [style.background-color]="workerColor" [style.border-color]="workerColor" class="redbadge">{{msgRecipient}}</span>
     </div>
     <div class="flexcontainer">
-        <div>{{rec.SFM_ProcessingMessages_MessageText}}</div>
+        <div>{{rec.SF_WorkerMessages_MessageText}}</div>
         <span *ngIf="msgExpire > ''" class="redbadge">{{msgExpire}}
         </span>
     </div>
