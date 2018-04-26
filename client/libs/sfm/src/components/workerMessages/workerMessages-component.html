@@ -5,9 +5,5 @@
 </div>
 
 <div class="footer">
-    <div class="list-group">
-        <div class="maincard list-group-item" *ngFor="let elem of messagesList">
-            <workerMessage [workerName]="workerName" [rec]="elem"></workerMessage>
-        </div>
-    </div>
+    <workerMessage [workerName]="workerName" [rec]="elem" *ngFor="let elem of messagesList"></workerMessage>
 </div>

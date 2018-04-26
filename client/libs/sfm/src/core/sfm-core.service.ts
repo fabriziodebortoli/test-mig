@@ -8,6 +8,7 @@ export class CoreService {
 
     worker: any;
     workerName: string;
+    workerImage: string;
 
     manufacturingParameters: any;
 
@@ -21,6 +22,7 @@ export class CoreService {
         return this.dataService.getData('SFM.SFMProcessingPlanner.Dbl.WorkersQuery', 'direct', p).map((res: any) => {
             this.worker = res.rows[0];
             this.setWorkerName();
+            this.workerImage = this.worker.RM_Workers_ImagePath;
             return this.worker;
         });
     }

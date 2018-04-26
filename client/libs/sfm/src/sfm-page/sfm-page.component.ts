@@ -1,4 +1,4 @@
-import { ComponentService, DocumentComponent, EventDataService, LayoutService, DataService } from '@taskbuilder/core';
+import { ComponentService, DocumentComponent, EventDataService, LayoutService, DataService, InfoService } from '@taskbuilder/core';
 import { Component, Input, OnInit, OnDestroy, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
 import { URLSearchParams, Http } from '@angular/http';
 
@@ -40,7 +40,8 @@ export class SFMPageComponent extends DocumentComponent implements OnInit, OnDes
         eventData: EventDataService,
         private dataService: DataService,
         changeDetectorRef: ChangeDetectorRef,
-        private coreService: CoreService) {
+        private coreService: CoreService,
+        private infoService: InfoService) {
         super(sfmService, eventData, null, changeDetectorRef);
     }
 
@@ -48,7 +49,7 @@ export class SFMPageComponent extends DocumentComponent implements OnInit, OnDes
         this.subsWorker = this.coreService.getWorker().subscribe(row => {
             this.worker = row;
             this.workerName = this.coreService.workerName;
-            this.workerImage = "http://www.m-d.it/wp-content/uploads/2015/04/allontanamento-colombi-piccioni1.jpg";
+            this.workerImage = this.infoService.getUrlImage(this.coreService.workerImage);
         });
 
         this.subsManufacturingParameters = this.coreService.getManufacturingParameters().subscribe(row => {

@@ -10,7 +10,7 @@
     font-weight: bold;
     font-size: medium;
     color: #b1bace;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .header { 
@@ -73,7 +73,7 @@ span.redbadge {
     border-radius: 4px;
   }  
 
-  span.statusbadge {
+span.statusbadge {
     background-color: #4285F4; 
     border: solid 2px #4285F4;
     color: white; 
@@ -81,9 +81,24 @@ span.redbadge {
     padding: 1px 3px;
     border-radius: 8px;
     float: right; 
-  }   
+}   
 
-  .flexcontainer {
+.flexcontainer {
     display: flex;
     justify-content: space-between;
-  }
+}
+
+.messagecardtitle {
+    font-weight: bold;
+    font-size: small;
+}
+
+.messagecard { 
+    color: #ffffff; 
+    background-color: #45526e; 
+    margin-left: 20px; 
+    margin-right: 20px; 
+    margin-top: 20px; 
+    margin-bottom: 20px; 
+    font-size: medium;
+}

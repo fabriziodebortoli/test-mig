@@ -11,7 +11,8 @@ export class workerMessageComponent implements OnInit {
 
     @Input() workerName: string;
     @Input() rec: any;
-
+    @Input() backgroundColor: string = '#45526e';
+    
     msgHeader: string;
     msgRecipient: string;
     msgExpire: string;
