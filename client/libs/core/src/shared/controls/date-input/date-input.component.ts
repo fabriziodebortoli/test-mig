@@ -70,7 +70,6 @@ export class DateInputComponent extends ControlComponent implements OnInit {
     if (!this.modelValid()) {
       this.model = { enable: 'true', value: '' };
     }
-
     if (!newDate || newDate.getTime() === NullDate.getTime()) {
       this.selectedDate = null;
     }
@@ -78,11 +77,15 @@ export class DateInputComponent extends ControlComponent implements OnInit {
       this.selectedDate = newDate;
     }
 
-      this.model.value = formatDate(this.selectedDate ? this.selectedDate : NullDate, 'y-MM-ddTHH:mm:ss');
+    this.model.value = formatDate(this.selectedDate ? this.selectedDate : NullDate, 'y-MM-ddTHH:mm:ss');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+
     if (this.modelValid()) {
+      if (changes.model)
+        this.onUpdateNgModel(new Date(this.model.value), false);
+
       if (!this.modelChangedSubscription) {
         this.modelChangedSubscription = this.model.modelChanged.subscribe(
           () => {
