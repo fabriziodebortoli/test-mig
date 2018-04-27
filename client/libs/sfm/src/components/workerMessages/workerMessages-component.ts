@@ -17,19 +17,16 @@ export class workerMessagesComponent implements OnInit, OnDestroy {
     messageTitle: string;
 
     worker: any;
-    subsWorker: any;
     workerName: string;
 
     constructor(private coreService: CoreService,
         private messagesService: MessagesService) { }
 
-    ngOnInit() {
-        this.subsWorker = this.coreService.getWorker().subscribe(row => {
-            this.worker = row;
-            this.workerName = this.coreService.workerName;
-        });
-        // this.subsMessages = this.messagesService.getMessages(this.worker.RM_Workers_WorkerID).subscribe(rows => {
-        this.subsMessages = this.messagesService.getMessages(47).subscribe(rows => {
+    async ngOnInit() {
+        this.worker = await this.coreService.getWorker();
+        this.workerName = this.coreService.workerName;
+
+        this.subsMessages = this.messagesService.getMessages(this.worker.RM_Workers_WorkerID).subscribe(rows => {
             this.messagesList = rows;
             this.setTitle();
         });
@@ -37,7 +34,6 @@ export class workerMessagesComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.subsMessages.unsubscribe();
-        this.subsWorker.unsubscribe();
     }
 
     setTitle() {

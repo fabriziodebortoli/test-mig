@@ -14,8 +14,15 @@ export class CoreService {
 
     constructor(private dataService: DataService) {
     }
+
+    async getWorker() {
+        if (this.worker === undefined)
+            return await this.GetWorker().take(1).toPromise();
+        else
+            return this.worker;
+    }
     
-    getWorker(): Observable<any> {
+    private GetWorker(): Observable<any> {
         let p = new URLSearchParams();
         p.set('filter', localStorage.getItem('_user'));
 

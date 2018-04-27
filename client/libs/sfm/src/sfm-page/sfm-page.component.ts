@@ -25,7 +25,6 @@ export class SFMPageComponent extends DocumentComponent implements OnInit, OnDes
     public isCollapsed = false;
 
     worker: any;
-    subsWorker: any;
 
     manufacturingParameters: any;
     subsManufacturingParameters: any;
@@ -45,12 +44,10 @@ export class SFMPageComponent extends DocumentComponent implements OnInit, OnDes
         super(sfmService, eventData, null, changeDetectorRef);
     }
 
-    ngOnInit() {
-        this.subsWorker = this.coreService.getWorker().subscribe(row => {
-            this.worker = row;
-            this.workerName = this.coreService.workerName;
-            this.workerImage = this.infoService.getUrlImage(this.coreService.workerImage);
-        });
+    async ngOnInit() {
+        this.worker = await this.coreService.getWorker();
+        this.workerName = this.coreService.workerName;
+        this.workerImage = this.infoService.getUrlImage(this.coreService.workerImage);
 
         this.subsManufacturingParameters = this.coreService.getManufacturingParameters().subscribe(row => {
             this.manufacturingParameters = row;
@@ -60,7 +57,6 @@ export class SFMPageComponent extends DocumentComponent implements OnInit, OnDes
     }
     
     ngOnDestroy() {
-        this.subsWorker.unsubscribe();
     }
 
     public get sidebarSize(): string {

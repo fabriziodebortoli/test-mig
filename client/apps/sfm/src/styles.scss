@@ -58,13 +58,15 @@
     background-color: #45526e; 
     margin-top: 20px; 
     margin-bottom: 20px; 
-   } 
+    border-radius: 6px; 
+} 
   
 .elementcard { 
     color: #ffffff; 
     width: 250px;  
     height: 140px; 
-    margin-left: 10px; 
+    margin-left: 10px;
+    border-radius: 6px; 
 }    
  
 .elementcardtitle { 
@@ -82,7 +84,10 @@ span.basebadge {
     color: white; 
     margin: 6px 2px;
     padding: 1px 3px;
-    border-radius: 4px;
+    border-radius: 6px;
+    font-size: small;
+    font-weight: normal;
+    height: 16px; 
   } 
 
 span.redbadge {
@@ -91,7 +96,10 @@ span.redbadge {
     color: white; 
     margin: 6px 2px;
     padding: 1px 3px;
-    border-radius: 4px;
+    border-radius: 6px;
+    font-size: small;
+    font-weight: normal;
+    height: 16px; 
   }  
 
 span.statusbadge {
@@ -100,8 +108,12 @@ span.statusbadge {
     color: white; 
     margin: 6px 2px;
     padding: 1px 3px;
-    border-radius: 8px;
+    border-radius: 6px;
     float: right; 
+    font-size: small;
+    font-weight: normal;
+    vertical-align: middle;
+    height: 16px; 
 }   
 
 .flexcontainer {

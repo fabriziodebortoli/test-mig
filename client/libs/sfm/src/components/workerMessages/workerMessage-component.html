@@ -1,17 +1,11 @@
-<!-- <div>
-    <div class="d-flex w-100 justify-content-between">
-        <h5 [style.color]="msgTypeColor" class="mb-1">{{msgHeader}}</h5>
-        <span [style.background-color]="workerColor" style="color: #ffffff" class="badge badge-pill float-right m-2">{{msgRecipient}}</span>
-    </div>
-    <p class="mb-1" style="color: #ffffff">{{rec.SF_WorkerProcessings_MessageText}}
-        <span *ngIf="msgExpire > ''" class="badge badge-pill badge-danger float-right m-2">{{msgExpire}}</span>
-    </p>
-</div> -->
-
 <tb-card class="messagecard" [style.background-color]="backgroundColor" style="margin-left: 20px; margin-right: 20px; margin-bottom: 20px;">
     <tb-card-title [isCollapsible]="false"></tb-card-title>
     <div class="flexcontainer messagecardtitle">
-        <div [style.color]="msgTypeColor">{{msgHeader}}</div>
+        <!-- <div [style.color]="msgTypeColor">{{msgHeader}}</div> -->
+        <div>
+            <img class="smallimage" [src]="messageImage" alt="" style="vertical-align: middle;">
+            <span [style.color]="msgTypeColor">{{msgHeader}}</span>
+        </div>
         <span [style.background-color]="workerColor" [style.border-color]="workerColor" class="redbadge">{{msgRecipient}}</span>
     </div>
     <div class="flexcontainer">

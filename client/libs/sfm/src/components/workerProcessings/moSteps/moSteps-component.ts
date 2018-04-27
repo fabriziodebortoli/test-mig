@@ -16,25 +16,19 @@ export class moStepsComponent implements OnInit, OnDestroy {
     subsProcessings: any;
 
     worker: any;
-    subsWorker: any;
     workerName: string;
 
     constructor(private coreService: CoreService,
         private processingsService: ProcessingsService) { }
 
-    ngOnInit() {
-        this.subsWorker = this.coreService.getWorker().subscribe(row => {
-            this.worker = row;
-            this.workerName = this.coreService.workerName;
-        });
-        //        this.subsProcessings = this.processingsService.getProcessings(this.worker.RM_Workers_WorkerID, filterType.mo_routing_step).subscribe(rows => {
-        this.subsProcessings = this.processingsService.getProcessings(47, filterType.mo_routing_step).subscribe(rows => {
+    async ngOnInit() {
+        this.worker = await this.coreService.getWorker();
+        this.subsProcessings = this.processingsService.getProcessings(this.worker.RM_Workers_WorkerID, filterType.mo_routing_step).subscribe(rows => {
             this.processingsList = rows;
         });
     }
 
     ngOnDestroy() {
-        this.subsWorker.unsubscribe();
         this.subsProcessings.unsubscribe();
     }
 }

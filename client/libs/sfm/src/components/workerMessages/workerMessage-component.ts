@@ -1,4 +1,4 @@
-import { ComponentService, DocumentComponent, EventDataService, LayoutService, DataService } from '@taskbuilder/core';
+import { ComponentService, DocumentComponent, EventDataService, LayoutService, DataService, InfoService } from '@taskbuilder/core';
 import { Component, Input, OnInit, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
 
 @Component({
@@ -16,27 +16,34 @@ export class workerMessageComponent implements OnInit {
     msgHeader: string;
     msgRecipient: string;
     msgExpire: string;
+    messageImage: string;
     msgTypeColor: string = '#00C851';
     workerColor: string = '#2e3951';
     
+    constructor(private infoService: InfoService) {
+    }
+
     ngOnInit() {
         if (+this.rec.SF_WorkerMessages_MessageType == 2044788736)
         {
             this.msgHeader = 'Hint';
+            this.messageImage = this.infoService.getUrlImage('Image.sfm.sfmcore.images.message-hint.png');
         }
         else if (+this.rec.SF_WorkerMessages_MessageType == 2044788737)
         {
             this.msgHeader = 'Warning';
             this.msgTypeColor = '#ffbb33';
+            this.messageImage = this.infoService.getUrlImage('Image.sfm.sfmcore.images.message-warning.png');
         }
         else if (+this.rec.SF_WorkerMessages_MessageType == 2044788738)
         {
             this.msgHeader = 'Error';
             this.msgTypeColor = '#ff4444';
+            this.messageImage = this.infoService.getUrlImage('Image.sfm.sfmcore.images.message-error.png');
         }
 
         if (!this.IsDateEmpty(this.rec.SF_WorkerMessages_MessageDate))
-            this.msgHeader += ' [' + this.rec.SFWorkerMessages_MessageDate + ']';
+            this.msgHeader += ' [' + this.rec.SF_WorkerMessages_MessageDate + ']';
 
         if (+this.rec.SF_WorkerMessages_WorkerID == 0)
             this.msgRecipient = 'All workers';

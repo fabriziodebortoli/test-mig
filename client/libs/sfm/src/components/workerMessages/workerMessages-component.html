@@ -1,9 +1,4 @@
-<div class="toolbar title">
-    <h5 class="title">
-        {{messageTitle}}
-    </h5>
-</div>
-
+<div class="toolbar title">{{messageTitle}}</div>
 <div class="footer">
     <workerMessage [workerName]="workerName" [rec]="elem" *ngFor="let elem of messagesList"></workerMessage>
 </div>
