@@ -712,8 +712,6 @@ namespace Microarea.TbJson
                         break;
                     }
 
-
-
                 case WndObjType.View:
                     {
                         using (OpenCloseTagWriter w = new OpenCloseTagWriter(Constants.tbView, this, false))
@@ -1202,9 +1200,20 @@ namespace Microarea.TbJson
                             WriteAttribute(jObj, Constants.clickable, Constants.clickable);
                             WriteAttribute(jObj, Constants.visible, Constants.visible);
                             WriteAttribute(jObj, Constants.backgroundColor, Constants.backgroundColor);
-                            w.CloseBeginTag();
 
-                            GenerateHtmlChildren(jObj, type, insideRowView, slave);
+                            foreach (JObject child in jObj.GetItems())
+                            {
+                                string id = child.GetId();
+                                if (id == "IDC_CONTROL_STATIC_UP")
+                                {
+                                    WriteBindingAttributes(child, true, false, Constants.up);
+                                }
+                                else if (id == "IDC_CONTROL_IMAGE")
+                                {
+                                    WriteBindingAttributes(child, true, false, Constants.image);
+                                }
+                            }
+                            w.CloseBeginTag();
                         }
                         break;
                     }
@@ -1680,7 +1689,7 @@ namespace Microarea.TbJson
             return model.Replace(".", "?.");
         }
         //-----------------------------------------------------------------------------------------
-        private void WriteBindingAttributes(JObject jObj, bool writeHtml, bool insideRowView)
+        private void WriteBindingAttributes(JObject jObj, bool writeHtml, bool insideRowView, string modelAttrName = Constants.model)
         {
             JObject jBinding = jObj[Constants.binding] as JObject;
             if (jBinding == null)
@@ -1727,17 +1736,17 @@ namespace Microarea.TbJson
                     if (insideRowView)
                     {
                         if (alias.Length == 0 || fieldAlias.Length == 0)
-                            htmlWriter.WriteAttribute(Square(Constants.model), string.Concat("currentRow?.", field));
+                            htmlWriter.WriteAttribute(Square(modelAttrName), string.Concat("currentRow?.", field));
                         else
-                            htmlWriter.WriteAttribute(Square(Constants.model), string.Concat("currentRow", fieldAlias));
+                            htmlWriter.WriteAttribute(Square(modelAttrName), string.Concat("currentRow", fieldAlias));
                     }
                     else
                     {
                         if (alias.Length == 0)
                             //[model]="eventData?.data?.DBT?.Languages?.Language"
-                            htmlWriter.WriteAttribute(Square(Constants.model), string.Concat("eventData?.model?.", AdjustModelExpression(ds)));
+                            htmlWriter.WriteAttribute(Square(modelAttrName), string.Concat("eventData?.model?.", AdjustModelExpression(ds)));
                         else
-                            htmlWriter.WriteAttribute(Square(Constants.model), string.Concat("eventData?.model", alias));
+                            htmlWriter.WriteAttribute(Square(modelAttrName), string.Concat("eventData?.model", alias));
                     }
                 }
                 else

@@ -184,5 +184,7 @@
         internal const string slave = "slave";
         internal const string collapsedTitle = "collapsedTitle";
         internal const string bottom = "bottom";
+        internal const string up= "up";
+        internal const string image = "image";
     }
 }
