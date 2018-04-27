@@ -1,6 +1,7 @@
 import { ComponentService, DocumentComponent, EventDataService, LayoutService, DataService, AuthService } from '@taskbuilder/core';
 import { Component, Input, OnInit, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CoreService, CoreService } from './../../core/sfm-core.service';
 
 @Component({
     selector: 'toolbar',
@@ -19,6 +20,7 @@ export class toolbarComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         public authService: AuthService,
+        public coreService: CoreService
     ) {}
 
     ngOnInit() {
@@ -57,6 +59,7 @@ export class toolbarComponent implements OnInit {
     }    
 
     onLogout() {
+        this.coreService.clear();
         this.authService.logout();
     }
 }

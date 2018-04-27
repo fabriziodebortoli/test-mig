@@ -66,4 +66,17 @@ export class CoreService {
                 this.workerName = this.worker.RM_Workers_LastName;
         }
    }
+
+   clear() {
+        this.clearWorker();
+        this.clearManufacturingParameters();
+   }
+
+   clearWorker() {
+        this.worker = undefined;
+   }
+
+   clearManufacturingParameters() {
+        this.worker = undefined;
+    }
 }
