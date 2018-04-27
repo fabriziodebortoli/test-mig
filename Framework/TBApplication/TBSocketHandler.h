@@ -18,7 +18,7 @@ public:
 	~CTBSocketHandler();
 	void Execute(CString& sSocketName, CString& sMessage);
 private:
-	bool IsCancelableCommand(const CString& sCommand);
+	bool IsCancelableCommand(const CString& sCommand, CJsonParser* pParser);
 	void ExecuteFunction(FUNCPTR fn, CJsonParser* pParser, CAbstractFormDoc* pDoc);
 	void DoCommand(CJsonParser& json);
 	void DoClose(CJsonParser& json);
@@ -45,6 +45,7 @@ private:
 	void pushCheckListBoxItemSource(CJsonParser& json, CAbstractFormDoc* pDoc, const CString& controlId);
 	void RunDocumentOnThreadDocument(const CString& sNamespace, const CString& sArguments);
 	CBaseDocument* GetDocument(int cmpId);
+	CBaseDocument* GetDocumentFromJson(CJsonParser& jsonParser);
 };
 
 #include "endh.dex"

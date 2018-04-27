@@ -183,6 +183,21 @@ CRuntimeClass* CBaseDocument::GetControlClass(UINT id)
 		? pClass 
 		: AfxGetApplicationContext()->GetControlClass(id);
 }
+
+//-----------------------------------------------------------------------------
+CBaseDocument* CBaseDocument::GetActiveDocument()
+{
+	CWnd* pWnd = AfxGetMainWnd();
+	if (!pWnd)
+		return NULL;
+	if (pWnd->IsKindOf(RUNTIME_CLASS(CDockableFrame)))
+	{
+		return (CBaseDocument*)((CDockableFrame*)pWnd)->GetDocument();
+	}
+	
+	CParsedDialog* pDialog = dynamic_cast<CParsedDialog*>(pWnd);
+	return pDialog ? pDialog->GetDocument() : NULL;
+}
 //-----------------------------------------------------------------------------
 void CBaseDocument::RegisterControl(UINT nIDD, CRuntimeClass* pClass)
 {

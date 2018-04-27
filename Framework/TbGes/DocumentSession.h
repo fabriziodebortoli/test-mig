@@ -14,8 +14,6 @@ enum SetDataResult { OK = 1, FAIL  = 2, CONFLICT = 3};
 enum ObjectType { DOCUMENT, REPORT, FUNCTION };
 
 TB_EXPORT CBaseDocument* GetDocumentFromHwnd(HWND hWnd);
-TB_EXPORT HWND ReadComponentId(CJsonParser& json);
-TB_EXPORT CBaseDocument* GetDocumentFromJson(CJsonParser& jsonParser);
 //--------------------------------------------------------------------------------
 class TB_EXPORT CJSonResponse : public CJsonSerializer
 {

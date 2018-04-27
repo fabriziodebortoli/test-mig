@@ -29,23 +29,7 @@
 #include "DocumentSession.h"
 
 
-TCHAR* szCmpId = _T("cmpId");
 
-//--------------------------------------------------------------------------------
-HWND ReadComponentId(CJsonParser& json)
-{
-	CString sId;
-	if (json.TryReadString(szCmpId, sId))
-	{
-		return (HWND)_ttoi(sId);
-	}
-	int id;
-	if (json.TryReadInt(szCmpId, id))
-	{
-		return (HWND)id;
-	}
-	return 0;
-}
 //--------------------------------------------------------------------------------
 CBaseDocument* GetDocumentFromHwnd(HWND hWnd)
 {
@@ -61,12 +45,7 @@ CBaseDocument* GetDocumentFromHwnd(HWND hWnd)
 	return NULL;
 }
 
-//--------------------------------------------------------------------------------
-CBaseDocument* GetDocumentFromJson(CJsonParser& jsonParser)
-{
-	HWND hwnd = ReadComponentId(jsonParser);
-	return GetDocumentFromHwnd(hwnd);
-}
+
 //-----------------------------------------------------------------------------
 //legge i dati dalla struttura json e li assegna al record (per ogni campo in json, effettua la ricerca nel record)
 bool AssignJSONToSqlRecord(SqlRecord* pRecord, CJsonParser& parser, bool checkTBModified, bool& conflict)
@@ -343,6 +322,9 @@ void CDocumentSession::PushExistDataCompletedToClient(HWND cmpId, DataObj* pValu
 //-----------------------------------------------------------------------------
 int CDocumentSession::MessageBoxDialog(LPCTSTR lpszText, UINT nType)
 {
+	CBaseDocument* pActive = CBaseDocument::GetActiveDocument();
+	if (pActive && pActive->IsKindOf(RUNTIME_CLASS(CAbstractFormDoc)))
+		((CAbstractFormDoc*)pActive)->m_WebOperationComplete.SetEvent();
 	m_nMessageType = nType;
 	m_strMessage = lpszText;
 	m_ModalClosed.Reset();
@@ -353,6 +335,10 @@ int CDocumentSession::MessageBoxDialog(LPCTSTR lpszText, UINT nType)
 //-----------------------------------------------------------------------------
 BOOL CDocumentSession::DiagnosticDialog(CDiagnostic* pDiagnostic, BOOL bModal)
 {
+	CBaseDocument* pActive = CBaseDocument::GetActiveDocument();
+	if (pActive && pActive->IsKindOf(RUNTIME_CLASS(CAbstractFormDoc)))
+		((CAbstractFormDoc*)pActive)->m_WebOperationComplete.SetEvent();
+
 	m_pDiagnostic = pDiagnostic;
 	if (bModal)
 		m_ModalClosed.Reset();

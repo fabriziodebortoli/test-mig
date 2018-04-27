@@ -162,6 +162,7 @@ public :
 private:
 	CArray<DataObj*>			m_ModifiedData;//per mandare la json patch dei soli dati modificati
 public:
+	static CBaseDocument* GetActiveDocument();
 	virtual CView*	GetNotValidView	(BOOL bSignalError = FALSE) { return NULL; }
 	virtual void Fire(CObservable* pSender, EventType eType) {}
 	virtual void Signal(CObservable* pSender, EventType eType);
