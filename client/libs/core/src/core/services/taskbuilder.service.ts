@@ -124,8 +124,13 @@ export class TaskBuilderService {
                         this.setConnectionStatus(ConnectionStatus.Unavailable);
                         this.socket.setWsConnectionStatus(ConnectionStatus.Unavailable);
                     } else {
-                        if (this.infoService.isDesktop)  //in desktop devo aspettare di avere un tb, per far funzionare i temi
+                        if (this.infoService.isDesktop)  {
+                            //in desktop devo aspettare di avere un tb, per far funzionare i temi
                             this.themeService.loadThemes();
+
+                            //in desktop non ho la open del websocket che mi chiude la Connected, allora lo faccio qua
+                            this.setConnectionStatus(ConnectionStatus.Connected)
+                        }
                         this.tbConnection.next(true);
                     }
 
