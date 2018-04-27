@@ -1,5 +1,5 @@
 import { ComponentService, DocumentComponent, EventDataService, LayoutService, DataService, InfoService } from '@taskbuilder/core';
-import { Component, Input, OnInit, OnDestroy, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, OnInit, ComponentFactoryResolver, ChangeDetectorRef } from '@angular/core';
 import { URLSearchParams, Http } from '@angular/http';
 
 import { SFMService } from './../sfm.service';
@@ -21,13 +21,12 @@ export enum filterType {
     styleUrls: ['./sfm-page.component.scss'],
     providers: [SFMService]
 })
-export class SFMPageComponent extends DocumentComponent implements OnInit, OnDestroy {
+export class SFMPageComponent extends DocumentComponent implements OnInit  {
     public isCollapsed = false;
 
     worker: any;
 
     manufacturingParameters: any;
-    subsManufacturingParameters: any;
 
     workerName: string;
     workerImage: string;
@@ -48,15 +47,7 @@ export class SFMPageComponent extends DocumentComponent implements OnInit, OnDes
         this.worker = await this.coreService.getWorker();
         this.workerName = this.coreService.workerName;
         this.workerImage = this.infoService.getUrlImage(this.coreService.workerImage);
-
-        this.subsManufacturingParameters = this.coreService.getManufacturingParameters().subscribe(row => {
-            this.manufacturingParameters = row;
-        });
-
-//       this.onMORoutingStep();
-    }
-    
-    ngOnDestroy() {
+        this.manufacturingParameters = this.coreService.getManufacturingParameters();
     }
 
     public get sidebarSize(): string {

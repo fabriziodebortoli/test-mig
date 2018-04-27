@@ -34,7 +34,14 @@ export class CoreService {
         });
     }
 
-    getManufacturingParameters(): Observable<any> {
+    async getManufacturingParameters() {
+        if (this.manufacturingParameters === undefined)
+            return await this.GetManufacturingParameters().take(1).toPromise();
+        else
+            return this.manufacturingParameters;
+    }
+
+    GetManufacturingParameters(): Observable<any> {
         let p = new URLSearchParams();
         p.set('filter', '0');
 
