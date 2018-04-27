@@ -103,8 +103,8 @@ extern const TB_EXPORT TCHAR szConnectionSection[];
 extern const TB_EXPORT TCHAR szDebugSqlTrace[];
 extern const TB_EXPORT TCHAR szDebugSqlTraceActions[];
 extern const TB_EXPORT TCHAR szDebugSqlTraceTables[];
-
 extern const TB_EXPORT TCHAR szEnableEventViewerLog[];
+extern const TB_EXPORT TCHAR szGarbageSqlSessionInterval[];
 
 
 extern const TB_EXPORT TCHAR szDataCaching[];					// Caching

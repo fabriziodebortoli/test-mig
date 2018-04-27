@@ -29,9 +29,6 @@
     <ClInclude Include="TBFSDatabaseDriver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SqlLockManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TbDatabaseManaged.cpp">
@@ -50,9 +47,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TBFSDatabaseDriver.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SqlLockManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

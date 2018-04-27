@@ -716,7 +716,7 @@ void COleDbManager::CheckLockManager(SqlConnection* pSqlConnection)
 	}
 
 	// if it is the first connection on database name, I init lockmanager
-	AfxGetLockManager()->Init(pSqlConnection->GetDefaultSqlSession()->GetMSqlConnection());
+	AfxGetLockManager()->Init(pSqlConnection->GetDatabaseName());
 }
 
 //-----------------------------------------------------------------------------
@@ -895,22 +895,5 @@ CLockManagerInterface* AFXAPI AfxGetLockManager()
 //----------------------------------------------------------------------------
 CLockManagerInterface* AFXAPI AfxCreateLockManager()
 {
-	DataObj* pDataObj = AfxGetSettingValue
-	(
-		snsTbOleDb,
-		szLockManager,
-		szUseNewSqlLockManager,
-		DataBool(FALSE),
-		szTbDefaultSettingFileName
-	);
-	if (!pDataObj && *((DataBool*)pDataObj))
-		return AfxGetLockManager();
-	
-	return  new CLockManagerInterface
-	(
-		AfxGetPathFinder()->GetLockServiceName(),
-		_T("http://microarea.it/LockManager/"),
-		AfxGetLoginManager()->GetServer(),
-		AfxGetCommonClientObjects()->GetServerConnectionInfo()->m_nWebServicesPort
-	);
+	return AfxGetLockManager();
 }

@@ -436,6 +436,7 @@
     <ClCompile Include="..\TbOleDb\Sqlcatalog.cpp" />
     <ClCompile Include="..\TbOleDb\SqlConnect.cpp" />
     <ClCompile Include="..\TbOleDb\sqllock.cpp" />
+    <ClCompile Include="..\TbOleDb\SqlLockManager.cpp" />
     <ClCompile Include="..\TbOleDb\SqlMark.cpp" />
     <ClCompile Include="..\TbOleDb\SqlObject.cpp" />
     <ClCompile Include="..\TbOleDb\SqlProviderInfo.cpp">
@@ -526,6 +527,7 @@
     <ClCompile Include="HtmlParser\LiteHTMLEntityResolver.cpp" />
     <ClCompile Include="HtmlParser\LiteHTMLReader.cpp" />
     <ClInclude Include="..\TbGenlib\Behaviour.h" />
+    <ClInclude Include="..\TbOleDb\SqlLockManager.h" />
     <ClInclude Include="CJsonModelGenerator.h" />
     <ClInclude Include="ComposedHotLink.h" />
     <ClInclude Include="ControlBehaviour.h" />
@@ -617,7 +619,9 @@
     <None Include="..\TbGenlib\ModuleObjects\formats.ini" />
     <None Include="..\TbGenlib\PARSRES.HRC" />
     <None Include="..\TbGenlib\Res\hand.cur" />
-    <None Include="..\TbGenlib\Settings\Settings.config" />
+    <None Include="..\TbGenlib\Settings\Settings.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\TbOleDb\Begincpp.dex" />
     <None Include="..\TbOleDb\Beginh.dex" />
     <None Include="..\TbOleDb\DatabaseScript\Create\All\TB_DBMark.sql" />
@@ -626,7 +630,9 @@
     <None Include="..\TbOleDb\DatabaseScript\Upgrade\Oracle\Release_2\Alter_TB_DBMark.sql" />
     <None Include="..\TbOleDb\Endh.dex" />
     <None Include="..\TbOleDb\Module.config" />
-    <None Include="..\TbOleDb\Settings\Settings.config" />
+    <None Include="..\TbOleDb\Settings\Settings.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="..\TbWoormEngine\BEGINCPP.DEX" />
     <None Include="..\TbWoormEngine\BEGINH.DEX" />
     <None Include="..\TbWoormEngine\ENDH.DEX" />

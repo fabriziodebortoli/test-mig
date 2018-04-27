@@ -277,9 +277,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TbDatabaseManaged\TbDatabaseManaged.vcxproj">
-      <Project>{5130f124-732c-4972-8922-fa70d5d493d9}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\TbGeneric\TbGeneric.vcxproj">
       <Project>{2ec6864f-a6d1-4cb1-9a5a-4bffc02e696e}</Project>
       <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>

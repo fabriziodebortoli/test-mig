@@ -882,6 +882,9 @@
     <ClCompile Include="DBTJsonCache.cpp">
       <Filter>TbGes\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\TbOleDb\SqlLockManager.cpp">
+      <Filter>TbOleDb\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="TbGes.def">
@@ -1992,6 +1995,9 @@
     </ClInclude>
     <ClInclude Include="DBTJsonCache.h">
       <Filter>TbGes\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TbOleDb\SqlLockManager.h">
+      <Filter>TbOleDb\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

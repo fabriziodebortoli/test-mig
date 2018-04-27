@@ -5,6 +5,7 @@
 #include <TBNameSolver\Templates.h>
 #include <TBGeneric\GeneralObjects.h>
 #include <TBGeneric\Critical.h>
+#include <TBGeneric\ParametersSections.h>
 #include <TBGes\SoapFunctions.h>
 #include <TBGenlib\BaseApp.h>
 #include <TBGenlib\TbCommandInterface.h>
@@ -737,8 +738,19 @@ bool TBApplicationProxy::RunReportInUnattendedMode(int woormInfo, System::String
 void TBApplicationProxy::InitLockManager()
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
-	CLockManagerInterface* pLockManager = AfxCreateLockManager();
-	pLockManager->Init(_T(""));
-	delete pLockManager;
+	DataObj* pDataObj = AfxGetSettingValue
+	(
+		CTBNamespace(_T("Module.Framework.TbOleDb")),
+		_T("LockManager"),
+		_T("UseNewSqlLockManager"),
+		DataBool(FALSE),
+		_T("Settings.config")
+	);
+	if (!pDataObj || *((DataBool*)pDataObj) == FALSE)
+	{
+		CLockManagerInterface* pLockManager = AfxCreateLockManager();
+		pLockManager->Init(_T(""));
+		delete pLockManager;
+	}
 }
 

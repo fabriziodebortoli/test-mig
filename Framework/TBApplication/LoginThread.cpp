@@ -53,7 +53,7 @@
 
 #define CHECK_TOKEN_TIMER_INTERVAL 300000
 #define CHECK_TOKEN_TIMER_INTERVAL_SHORT 30000
-#define CHECK_SQLCONN_TIMER_INTERVAL 30000 //ogni 30 secondi parte il check per la chiusura delle SqlConnection 
+#define CHECK_SQLSESSION_TIMER_INTERVAL 15000 //ogni 15 secondi parte il check per la chiusura delle SqlSession 
 
 // CLoginThread
 
@@ -66,7 +66,8 @@ CLoginThread::CLoginThread()
 	m_bProxy(false), 
 	m_nTimeoutTimer(0),
 	m_nCheckTokenTimer(0),
-	m_nCheckSqlSessionTimer(0)
+	m_nCheckSqlSessionTimer(0),
+	m_nCheckSqlSessionMilliseconds(CHECK_SQLSESSION_TIMER_INTERVAL)
 {
 }
 
@@ -140,9 +141,6 @@ BOOL CLoginThread::InitInstanceInternal()
 
 	//ogni x minuti minuto controllo lo stato di attivazione
 	m_nCheckTokenTimer = ::SetTimer(NULL, m_nCheckTokenTimer, CHECK_TOKEN_TIMER_INTERVAL, NULL);
-
-	m_nCheckSqlSessionTimer = ::SetTimer(NULL, m_nCheckSqlSessionTimer, CHECK_SQLCONN_TIMER_INTERVAL, NULL);
-
 
 	m_StartupReady.Set();
 	if (!m_bProxy)
@@ -229,6 +227,9 @@ void CLoginThread::PostLoginInitializations()
 			AfxGetDefaultSqlConnection()->RefreshTraces();
 		}
 	} 
+
+
+	m_nCheckSqlSessionTimer = ::SetTimer(NULL, m_nCheckSqlSessionTimer, m_nCheckSqlSessionMilliseconds, NULL);
 
 	if (m_bValid) 
 		FireOnDSNChanged();
@@ -382,17 +383,6 @@ void CLoginThread::InitLoginContext()
 	AfxAttachThreadToLoginContext(m_strName);
 
 	AttachSettingsTable(new SettingsTable(*((SettingsTable*) AfxGetApplicationContext()->GetGlobalSettingsTable())));
-	
-	DataObj* pDataObj = AfxGetSettingValue
-	(
-		snsTbOleDb,
-		szLockManager,
-		szUseNewSqlLockManager,
-		DataBool(FALSE),
-		szTbDefaultSettingFileName
-	);
-	if (!pDataObj || *((DataBool*)pDataObj) == FALSE)
-		AttachLockManager (AfxCreateLockManager());	
 
 	AttachOleDbMng(new COleDbManager());	
 	AttachCultureInfo(new CCultureInfo());
@@ -496,6 +486,16 @@ BOOL CLoginThread::Login()
 	if (!pOleDbMng->IsValid())
 		m_bValid = FALSE;
 
+	DataObj* pDataObj = AfxGetSettingValue
+	(
+		snsTbOleDb,
+		szLockManager,
+		szUseNewSqlLockManager,
+		DataBool(FALSE),
+		szTbDefaultSettingFileName
+	);
+	if (!pDataObj || *((DataBool*)pDataObj) == FALSE)
+		AttachLockManager(AfxCreateLockManager());
 	return m_bValid;
 }
 	
@@ -563,6 +563,12 @@ void CLoginThread::LoadTaskBuilderParameters ()
 			pDataObj && pDataObj->IsKindOf(RUNTIME_CLASS(DataInt)) ? *((DataInt*) pDataObj) : aDefault
 		);
 
+
+	//timeout per garbage connessioni al database
+	// quantity
+	pDataObj = AfxGetSettingValue(snsTbOleDb, szConnectionSection, szGarbageSqlSessionInterval, aDefault, szTbDefaultSettingFileName);
+	m_nCheckSqlSessionMilliseconds =  (UINT)(int)(pDataObj && pDataObj->IsKindOf(RUNTIME_CLASS(DataInt)) ? *((DataInt*)pDataObj) : CHECK_SQLSESSION_TIMER_INTERVAL);
+	
 	AfxGetOleDbMng()->CacheParameters ();
 }
 

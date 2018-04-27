@@ -25,6 +25,8 @@
 #include "sqlcatalog.h"
 #include "sqlaccessor.h"
 #include "sqlRecoveryManager.h"
+#include "SqlLockManager.h"
+
 
 //includere come ultimo include all'inizio del cpp
 #include "begincpp.dex"
@@ -575,7 +577,8 @@ SqlConnection::SqlConnection(CBaseContext* pContext /*= NULL*/)
 :
 	SqlObject				(pContext),
 	m_bCheckRegisterTable	(TRUE),
-	m_nAlwaysConnectedRef	(0)
+	m_nAlwaysConnectedRef	(0),
+	m_pLockManagerInterface	(NULL)
 {
 	Initialize();	
 }
@@ -682,20 +685,39 @@ CLockManagerInterface* SqlConnection::GetLockManagerInterface()
 		szTbDefaultSettingFileName
 	);
 	if (!pDataObj || *((DataBool*)pDataObj) == FALSE)
-		return  (CLockManagerInterface*)AfxGetLoginContext()->GetLockManager();
+	{
+		CLockManagerInterface* pLockManagerInterface = NULL;
+		if (AfxGetLoginContext()->GetLockManager())
+			pLockManagerInterface = (CLockManagerInterface*)AfxGetLoginContext()->GetLockManager();
+		else
+		{
+			pLockManagerInterface = new CLockManagerInterface
+			(
+				AfxGetPathFinder()->GetLockServiceName(),
+				_T("http://microarea.it/LockManager/"),
+				AfxGetLoginManager()->GetServer(),
+				AfxGetCommonClientObjects()->GetServerConnectionInfo()->m_nWebServicesPort
+			);
+			pLockManagerInterface->Init(GetDatabaseName());
+		}
+		return pLockManagerInterface;
+	}		
 
 	if (!m_pLockManagerInterface)
 	{
-		m_pLockManagerInterface = new CLockManagerInterface
+		pDataObj = AfxGetSettingValue
 		(
-			AfxGetPathFinder()->GetLockServiceName(),
-			_T("http://microarea.it/LockManager/"),
-			AfxGetLoginManager()->GetServer(),
-			AfxGetCommonClientObjects()->GetServerConnectionInfo()->m_nWebServicesPort
+			snsTbOleDb,
+			szLockManager,
+			szUseNewSqlLockCache,
+			DataBool(FALSE),
+			szTbDefaultSettingFileName
 		);
-
-		m_pLockManagerInterface->Init(this->GetNewSqlSession(NULL, false)->GetMSqlConnection());
+		SqlLockManager* pTBLockManager = new SqlLockManager(GetNewSqlSession(NULL, false), (pDataObj && *((DataBool*)pDataObj)));
+		m_pLockManagerInterface = new CLockManagerInterface(pTBLockManager);
+		m_pLockManagerInterface->Init();
 	}
+
 	return m_pLockManagerInterface;
  }
 

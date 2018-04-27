@@ -1,5 +1,7 @@
 #pragma once
 
+#include <TbWebServicesWrappers\LockManagerInterface.h>
+#include "SqlRec.h"
 #include "beginh.dex"
 class MSqlConnection;
 
@@ -64,11 +66,14 @@ public:
 	void RemoveEntriesForContext(const CString& strTableName, const CString& strContext);
 };
 
+
+
+
 /// <summary>
 /// SqlLockManager
 /// </summary>
 //===================================================================================
-class TB_EXPORT SqlLockManager
+class TB_EXPORT SqlLockManager : public CLockManagerObject
 {
 private:
 	CString						m_strAuthenticationToken;
@@ -76,19 +81,16 @@ private:
 	CString						m_strAccountName;
 	CString						m_strCompanyConnectionString;
 	CString						m_strProcessName;
-	bool						m_bOwnSqlConnection;
-	MSqlConnection*				m_pSqlConnection;
+	SqlSession*					m_pSqlSession;
 	CString						m_strErrorMessage;
 
 	//gestione cache
 	bool						m_bEnableLockCache;
 	CacheLocksEntries*			m_pCacheLocksEntries;
 
-	int							m_OldConnState;
-
 public:
-	SqlLockManager();
-	~SqlLockManager();
+	SqlLockManager(SqlSession* pSqlSession, bool bEnableLockCache = false);
+	virtual ~SqlLockManager();
 
 public:
 	/// <summary>
@@ -97,13 +99,10 @@ public:
 	const CString&		GetErrorMessage()  const { return m_strErrorMessage; }
 	void				EnableLockCache(bool bEnable) { m_bEnableLockCache = bEnable; }	
 
-private:
-	void OpenConnection();
-	void CloseConnection();
+
 
 public:
-	BOOL	Init(MSqlConnection* pSqlConnection, const CString& strUserName, const CString& strProcessName, const CString& strAuthenticationToken, const CString& strProcessGuid);
-	BOOL	Init(const CString& strConnectionString, const CString& strUserName, const CString& strProcessName, const CString& strAuthenticationToken, const CString& strProcessGuid);
+	BOOL	Init(const CString& strUserName, const CString& strProcessName, const CString& strAuthenticationToken, const CString& strProcessGuid);
 	BOOL	LockCurrent(const CString& strTableName, const CString& strLockKey, const CString& strContext, CString& lockerUser, CString& lockerApp, DataDate& lockerDate);
 	BOOL	UnlockCurrent(const CString& strTableName, const CString& strLockKey, const CString& strContext);
 	BOOL	IsCurrentLocked(const CString& strTableName, const CString& strLockKey, const CString& strContext);

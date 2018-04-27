@@ -17,6 +17,9 @@ class TB_EXPORT CLoginThread : public CLoginContext
 	CTBEvent		m_StartupReady;
 	bool			m_bProxy;//se true, non e' un vero thread a se' stante ma si aggangia al main thread
 
+
+	UINT			m_nCheckSqlSessionMilliseconds;
+
 	UINT_PTR		m_nTimeoutTimer;//timer for session timeout
 	UINT_PTR		m_nCheckTokenTimer;//timer for authenticationtoken validation
 	UINT_PTR		m_nCheckSqlSessionTimer;

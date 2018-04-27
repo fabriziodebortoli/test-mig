@@ -284,7 +284,8 @@ void CLoginContext::FreeObjects()
 	delete m_pDataCachingSettings;
 	delete m_pThemeManager;
 	delete m_pSqlRecoveryManager;
-	delete m_pLockManager;
+	if (m_pLockManager)
+		delete m_pLockManager;
 	delete m_pWorkersTable;
 	if (m_pDMSRepositoryManager)
 		delete m_pDMSRepositoryManager;

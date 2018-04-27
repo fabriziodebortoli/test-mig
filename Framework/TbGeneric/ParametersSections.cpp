@@ -131,6 +131,8 @@ const TCHAR szDebugSqlTrace[]					= _T("DebugSqlTrace");
 const TCHAR szDebugSqlTraceActions[]			= _T("DebugSqlTraceActions");
 const TCHAR szDebugSqlTraceTables[]				= _T("DebugSqlTraceTables");
 const TCHAR szEnableEventViewerLog[]			= _T("EnableEventViewerLog");
+const TCHAR szGarbageSqlSessionInterval[]		= _T("GarbageSqlSessionInterval");
+
 
 
 //.LockManager........................................................

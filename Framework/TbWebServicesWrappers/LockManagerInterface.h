@@ -1,13 +1,31 @@
 #pragma once
 
-
-
 #include "beginh.dex"
 
 class CFunctionDescription;
 class CLoginManagerInterface;
 class SqlLockManager; //classe di lock managed
-class MSqlConnection;
+class SqlSession;
+
+//----------------------------------------------------------------------------
+class TB_EXPORT CLockManagerObject
+{
+public:
+	virtual ~CLockManagerObject() {}
+
+public:
+	virtual BOOL Init(const CString& strUserName, const CString& strProcessName, const CString& strAuthenticationToken, const CString& strProcessGuid) = 0;
+	virtual BOOL LockCurrent(const CString& strTableName, const CString& strLockKey, const CString& strContext, CString& lockerUser, CString& lockerApp, DataDate& lockerDate) = 0;
+	virtual BOOL UnlockCurrent(const CString& strTableName, const CString& strLockKey, const CString& strContext) = 0;
+	virtual BOOL IsCurrentLocked(const CString& strTableName, const CString& strLockKey, const CString& strContext) = 0;
+	virtual BOOL IsMyLock(const CString& strTableName, const CString& strLockKey, const CString& strContext) = 0;
+	virtual BOOL UnlockAllForCurrentConnection() = 0;
+	virtual BOOL UnlockAllContext(const CString& strContext) = 0;
+	virtual BOOL UnlockAllTableContext(const CString& strTableName, const CString& strContext) = 0;
+	virtual BOOL GetLockInfo(const CString& strLockKey, const CString& strTableName, CString& lockerUser, CString& processName, DataDate& lockerDate) = 0;
+};
+
+
 //----------------------------------------------------------------------------
 class TB_EXPORT CLockManagerInterface : public CObject
 {
@@ -19,7 +37,7 @@ private:
 	CString				m_sLockSessionID;
 	
 private:
-	SqlLockManager * m_pTBLockManager;
+	CLockManagerObject * m_pTBLockManagerObj;
 
 public:
 	CLockManagerInterface(
@@ -28,11 +46,14 @@ public:
 		const CString& strServer,
 		int nWebServicesPort
 		);	
+
+	CLockManagerInterface(CLockManagerObject*);
 	~CLockManagerInterface();
+
 	
 public:
 	BOOL	Init(const CString& strDBName);
-	BOOL	Init(MSqlConnection* pMSqlConnection);
+	BOOL	Init();
 	BOOL	LockCurrent(const CString& strCompanyDBName, const CString& strTableName, const CString& strLockKey, const CString& strAddress, CString& strLockMsg, CString strLockKeyDescription = _T(""));
 	BOOL	UnlockCurrent(const CString& strCompanyDBName, const CString& strTableName, const CString& strLockKey, const CString& strAddress);
 	BOOL	IsCurrentLocked(const CString& strCompanyDBName, const CString& strTableName, const CString& strLockKey, const CString& strAddress);
