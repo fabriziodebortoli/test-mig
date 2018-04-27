@@ -548,22 +548,25 @@ export class MenuService {
         let orderedMenus = [];
         //creo un unico allmenus che contiene tutte le applicazioni sia di environment che di applications
         //metto erp, tbf e tbs per primi
-        let temp = root.ApplicationMenu.AppMenu.Application;
-        for (var a = 0; a < temp.length; a++) {
-            if (temp[a].name.toLowerCase() == "erp")
-                orderedMenus.push(temp[a]);
-            else if (temp[a].name.toLowerCase() == "tbs")
-                orderedMenus.push(temp[a]);
-            else
-                tempMenus.push(temp[a])
+        if (root.ApplicationMenu && root.ApplicationMenu.AppMenu && root.ApplicationMenu.AppMenu.Application) {
+            let temp = root.ApplicationMenu.AppMenu.Application;
+            for (var a = 0; a < temp.length; a++) {
+                if (temp[a].name.toLowerCase() == "erp")
+                    orderedMenus.push(temp[a]);
+                else if (temp[a].name.toLowerCase() == "tbs")
+                    orderedMenus.push(temp[a]);
+                else
+                    tempMenus.push(temp[a])
+            }
         }
-
-        temp = root.EnvironmentMenu.AppMenu.Application;
-        for (var a = 0; a < temp.length; a++) {
-            if (temp[a].name.toLowerCase() == "framework")
-                orderedMenus.push(temp[a]);
-            else
-                tempMenus.push(temp[a]);
+        if (root.EnvironmentMenu && root.EnvironmentMenu.AppMenu && root.EnvironmentMenu.AppMenu.Application) {
+            let temp = root.EnvironmentMenu.AppMenu.Application;
+            for (var a = 0; a < temp.length; a++) {
+                if (temp[a].name.toLowerCase() == "framework")
+                    orderedMenus.push(temp[a]);
+                else
+                    tempMenus.push(temp[a]);
+            }
         }
 
         for (var a = 0; a < tempMenus.length; a++) {
