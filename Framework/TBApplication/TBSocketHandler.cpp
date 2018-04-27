@@ -292,7 +292,18 @@ void CTBSocketHandler::Execute(CString& sSocketName, CString& sMessage)
 //--------------------------------------------------------------------------------
 void CTBSocketHandler::ExecuteFunction(FUNCPTR fn, CJsonParser* pParser, CAbstractFormDoc* pDoc)
 {
-	(this->*(fn))(*pParser);
+	try
+	{
+		(this->*(fn))(*pParser);
+	}
+	catch (...)
+	{
+		delete pParser;
+		if (pDoc)
+			pDoc->m_WebOperationComplete.SetEvent();
+		ASSERT(FALSE);
+		throw;
+	}
 	delete pParser;
 	if (pDoc)
 		pDoc->m_WebOperationComplete.SetEvent();
@@ -646,7 +657,6 @@ void CTBSocketHandler::DoFillListBox(CJsonParser& json)
 	if (!itemSourceName.IsEmpty() && !itemSourceNamespace.IsEmpty())
 	{
 		pItemSource = pDoc->GetItemSource(itemSourceName, CTBNamespace(CTBNamespace::ITEMSOURCE, itemSourceNamespace));
-		json.EndReadObject();
 	}
 	else if (json.BeginReadObject(_T("controlBehaviour")))
 	{
