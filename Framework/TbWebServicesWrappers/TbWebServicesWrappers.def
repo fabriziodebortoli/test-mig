@@ -1,7 +1,0 @@
-; TbWebServicesWrappers.def : Declares the module parameters for the DLL.
-
-LIBRARY      "TbWebServicesWrappers"
-
-EXPORTS
-	InitDynLinkLibrary
-    ; Explicit exports can go here

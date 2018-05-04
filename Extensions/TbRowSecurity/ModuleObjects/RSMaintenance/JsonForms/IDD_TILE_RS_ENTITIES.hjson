@@ -1,4 +1,0 @@
-#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define IDD_TILE_RS_ENTITIES	GET_IDD(IDD_TILE_RS_ENTITIES,D.Extensions.TbRowSecurity.RSMaintenance)
-#define IDC_ENTITIES_BE	GET_IDC(IDC_ENTITIES_BE)

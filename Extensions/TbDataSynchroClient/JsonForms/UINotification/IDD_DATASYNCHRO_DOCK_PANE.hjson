@@ -1,3 +1,0 @@
-#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_DATASYNCHRO_DOCK_PANE		GET_IDD(IDD_DATASYNCHRO_DOCK_PANE,D.Extension.TbDataSynchroClient.Notification)

@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "escli": {
-      "commandName": "Project",
-      "commandLineArgs": "/app/cre sa MiaApp Customization MioMod "
-    }
-  }
-}

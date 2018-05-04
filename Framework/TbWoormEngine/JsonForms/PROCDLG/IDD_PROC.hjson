@@ -1,9 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_PROC			GET_IDD(IDD_PROC, M.Framework.TbWoormEngine.PROCDLG)
-#define	IDC_PROC_CANCEL			GET_IDC(IDC_PROC_CANCEL)
-#define	IDC_PROC_CONF			GET_IDC(IDC_PROC_CONF)
-#define	IDC_PROC_DEL			GET_IDC(IDC_PROC_DEL)
-#define	IDC_PROC_EDIT			GET_IDC(IDC_PROC_EDIT)
-#define	IDC_PROC_LIST			GET_IDC(IDC_PROC_LIST)
-#define	IDC_PROC_REN			GET_IDC(IDC_PROC_REN)

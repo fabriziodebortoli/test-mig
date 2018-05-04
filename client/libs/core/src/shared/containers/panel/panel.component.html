@@ -1,6 +1,0 @@
-<tb-card [isCollapsed]="isCollapsed" [isCollapsible]="isCollapsible" class="tb-card">
-    <tb-card-title class="tb-card-title" icon='{{icon}}' [ngClass]="{'c-pointer': isCollapsible }" [isCollapsible]="isCollapsible" [isCollapsed]="isCollapsed" (click)="toggleCollapse(true)" *ngIf="realTitle || isCollapsible" [title]="realTitle"></tb-card-title>
-    <tb-card-content *ngIf="!isCollapsed" class="tb-card-content">
-        <ng-content></ng-content>
-    </tb-card-content>
-</tb-card>

@@ -1,5 +1,0 @@
-<div class="tb-control erp-esr" [ngClass]="componentClass()">
-    <tb-caption [captionWidth]="captionWidth" caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
-    <input kendoTextBox [ngModel]="model?.value" required="required" (blur)="onBlur()" (keypress)="onTyping($event)" (paste)="onPasting($event)" (ngModelChange)="changeModelValue($event)" [disabled]="!(model?.enabled)" />
-    <div class="has-error">{{errorMessage}}</div>
-</div>

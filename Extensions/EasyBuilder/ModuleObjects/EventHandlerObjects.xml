@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<FunctionObjects>
-	<Functions>
-		<Function namespace="Extensions.EasyBuilder.TbEasyBuilder.OnDSNChanged" type="bool" alwaysreceiveevent="true" localize="Company Connection Change" />
-		<Function namespace="Extensions.EasyBuilder.TbEasyBuilder.ApplicationStarted" type="bool" localize="Application Started" alwaysreceiveevent="true"/>
-	</Functions>
-</FunctionObjects>

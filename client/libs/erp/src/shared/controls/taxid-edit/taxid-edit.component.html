@@ -1,4 +1,0 @@
-<tb-control-container type="erp-taxid-edit" [model]="model">
-    <tb-caption [captionWidth]="captionWidth" caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
-    <input kendoTextBox maxlength="{{maxLength}}" [ngModel]="model?.value | toUpper: true" (blur)="onBlur()" [disabled]="!(model?.enabled)" (ngModelChange)="changeModelValue($event)" [style.width.px]="width" />
-</tb-control-container>

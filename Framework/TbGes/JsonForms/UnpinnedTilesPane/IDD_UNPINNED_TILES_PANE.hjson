@@ -1,4 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_UNPINNED_TILES_PANE			GET_IDD(IDD_UNPINNED_TILES_PANE, M.Framework.TbGes.UnpinnedTilesPane)
-#define	IDC_UNPINNED_TILES_TILEGROUP			GET_IDC(IDC_UNPINNED_TILES_TILEGROUP)

@@ -1,3 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#include	<TbParser\JsonForms\LEXDIAG\IDD_LEX_SHOW_ERRORS.hjson>

@@ -1,9 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#include	<TbOleDb\JsonForms\PerformanceAnalizer\IDD_PERFORMANCE_DLG.hjson>
-
-//-----------------------------------------------------------------------------------------------------
-//Type:	IDC
-//-----------------------------------------------------------------------------------------------------
-#define	IDC_PERFORMANCE_NUMB_FORWARD			GET_IDC(IDC_PERFORMANCE_NUMB_FORWARD)
-#define	IDC_PERFORMANCE_SECOND_TIME_DB_PERC2			GET_IDC(IDC_PERFORMANCE_SECOND_TIME_DB_PERC2)

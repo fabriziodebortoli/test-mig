@@ -1,4 +1,0 @@
-﻿
-namespace Microarea.TaskBuilderNet.Interfaces
-{
-}

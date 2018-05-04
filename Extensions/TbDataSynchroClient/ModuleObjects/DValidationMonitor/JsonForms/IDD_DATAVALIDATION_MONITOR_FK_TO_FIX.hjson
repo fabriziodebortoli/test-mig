@@ -1,4 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_DATAVALIDATION_MONITOR_FK_TO_FIX			GET_IDD(IDD_DATAVALIDATION_MONITOR_FK_TO_FIX, D.Extensions.TbDataSynchroClient.DValidationMonitor)
-#define	IDC_TG_DATAVALIDATION_MONITOR_FK_TO_FIX			GET_IDC(IDC_TG_DATAVALIDATION_MONITOR_FK_TO_FIX)

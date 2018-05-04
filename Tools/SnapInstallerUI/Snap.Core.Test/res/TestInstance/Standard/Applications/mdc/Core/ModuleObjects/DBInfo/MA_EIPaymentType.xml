@@ -1,9 +1,0 @@
-<Table Name="MA_EIPaymentType" Module="Core" Document="" AvailableIf="Core" Namespace="Table.MDC.Core.Dbl.MA_EIPaymentType" RuntimeClass="TEIPaymentType" localize="">
-  <Overview localizable="true">EICode for Payment Type</Overview>
-  <Fields>
-    <Column Name="PaymentType" Type="Enum" Length="0" ReadOnly="" Default="X" Mandatory="X" Enum="PaymentTerms/41" Reference="" localizable="true">Payment Type</Column>
-    <Column Name="EICode" Type="String" Length="8" ReadOnly="" Default="" Mandatory="X" Enum="" Reference="Table.MDC.Core.Dbl.MA_EICoding" localizable="true">Electronic Invoicing Code</Column>
-  </Fields>
-  <Keys />
-  <Remarks localizable="true">Nothing to remark</Remarks>
-</Table>

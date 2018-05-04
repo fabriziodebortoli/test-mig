@@ -1,5 +1,0 @@
-<div class="tb-control" [ngClass]="componentClass()">
-    <tb-caption [captionWidth]="captionWidth" caption="{{caption}}" [for]="cmpId"></tb-caption>
-    <input kendoTextBox required="required" (keypress)="onTyping($event)" (paste)="onPasting($event)" [ngModel]="model.value" (blur)="onBlur()" (ngModelChange)="changeModelValue($event)" [disabled]="!model?.enabled" [style.width.px]="width" />
-    <div class="has-error">{{errorMessage}}</div>
-</div>

@@ -1,8 +1,0 @@
-<div>
-    <div ng-init="setDropdownWidth('.moduleSelector', menuService.selectedApplication.Group.length)" ng-repeat="group in groups = menuService.selectedApplication.Group | repeatFilter" ng-click="menuService.setSelectedGroup(group)" class="box" ng-class="{'elementSelected': group.isSelected, 'elementNotSelected': !group.isSelected}">
-        <div ng-init="group.defaultImage = imageService.getStaticImage(group)">
-            <img ng-src="{{group.defaultImage == '' ? 'Images/Default.png' : group.defaultImage }}" />
-            <div>{{group.title}}</div>
-        </div>
-    </div>
-</div>

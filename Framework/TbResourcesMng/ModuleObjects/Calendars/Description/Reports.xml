@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<ReportObjects>
-  <Reports defaultReport="Framework.TbResourcesMng.CalendarsSheet">
-    <Report namespace="Framework.TbResourcesMng.CalendarsSheet" localize="Calendar Sheet">
-    </Report>
-  </Reports>
-</ReportObjects>

@@ -1,4 +1,0 @@
-<tb-control-container type="erp-strbinedit" [model]="model">
-    <tb-caption [captionWidth]="captionWidth" caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
-    <kendo-maskedtextbox [ngModel]="model?.value" required="required" [disabled]="!(model?.enabled)" (ngModelChange)="changeModelValue($event)" (keydown)="onKeyDown($event)" [style.width.px]="width"></kendo-maskedtextbox>
-</tb-control-container>

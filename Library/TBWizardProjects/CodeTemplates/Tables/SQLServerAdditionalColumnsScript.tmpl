@@ -1,9 +1,0 @@
-@(IfExistsAlterTable{if not exists (select dbo.syscolumns.name from dbo.syscolumns, dbo.sysobjects \n@(+)
-where dbo.sysobjects.name = '@(TableName)' and dbo.sysobjects.id = dbo.syscolumns.id and \n@(+)
-(@(RepeatOnColumns{dbo.syscolumns.name = '@(ColumnName)', " or "})))\n@(+)
-ALTER TABLE [dbo].[@(TableName)]\n@(+)
-ADD @(RepeatOnColumns{[@(ColumnName)] @(ColumnDBFullDataType)@(IfIsAutoIncrement{ IDENTITY(@(Seed),@(Increment))})@(IfIsCollateSensitive{ COLLATE Latin1_General_CI_AS}) @(ColumnDBNullableAttribute)@(IfDefaultConstraintNameExist{ CONSTRAINT @(ColumnDefaultConstraintName)})@(IfHasDefaultValue{ DEFAULT(@(ColumnDBDefaultValue))}), ",\r\n"})\n@(+)
-GO\n@(+)
-
-@(IfUpdateColumnNeeded{@(RepeatOnColumns{UPDATE [dbo].[@(TableName)] \nSET [dbo].[@(TableName)].[@(ColumnName)] = (@(SetValue))@(IfExistsWhereClause{\nWHERE [dbo].[@(WhereTableName)].[@(WhereColumnName)] @(WhereValue)})\nGO\n, "\r\n"})})})
-@(IfExistsUnrelatedUpdates{UPDATE [dbo].[@(UpdateTableName)] \nSET [dbo].[@(UpdateTableName)].[@(UpdateColumnName)] = (@(SetValue))@(IfExistsWhereClause{\nWHERE [dbo].[@(WhereTableName)].[@(WhereColumnName)] @(WhereValue)})\nGO})

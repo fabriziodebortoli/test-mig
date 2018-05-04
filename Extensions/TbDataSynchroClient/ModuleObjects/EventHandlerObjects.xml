@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<FunctionObjects>
-  <Functions>
-    <Function namespace="Extensions.TbDataSynchroClient.TbDataSynchroClient.OnDSNChanged" type="bool" alwaysreceiveevent="true" localize="Company Connection Change" />
-  </Functions>
-</FunctionObjects>

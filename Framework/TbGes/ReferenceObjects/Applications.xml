@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<HotKeyLink>
-  <Function type="string" namespace="Framework.TbGes.TbGes.Applications" localize="Applications" >
-  </Function>
-  <DbField name="Application" />
-  <ComboBox/>
-</HotKeyLink>

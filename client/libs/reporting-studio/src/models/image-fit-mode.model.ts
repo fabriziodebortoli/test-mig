@@ -1,1 +1,0 @@
-export enum ImgFitMode { ORIGINAL, BEST, STRETCH }

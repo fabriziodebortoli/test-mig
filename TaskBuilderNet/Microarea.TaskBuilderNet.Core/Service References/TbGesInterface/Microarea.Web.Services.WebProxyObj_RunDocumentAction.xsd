@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="urn:Microarea.Web.Services.WebProxyObj_RunDocumentAction" elementFormDefault="qualified" targetNamespace="urn:Microarea.Web.Services.WebProxyObj_RunDocumentAction" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:element name="handle" type="xs:int" />
-  <xs:element name="documentNamespace" nillable="true" type="xs:string" />
-  <xs:element name="DocHandle" type="xs:int" />
-  <xs:element name="Description" nillable="true" type="xs:base64Binary" />
-</xs:schema>

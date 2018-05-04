@@ -1,4 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_XE_PARAMETERS			GET_IDD(IDD_XE_PARAMETERS, D.Extensions.XEngine.XEngineParameters)
-#define	IDC_TG_XE_PARAMETERS			GET_IDC(IDC_TG_XE_PARAMETERS)

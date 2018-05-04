@@ -1,7 +1,0 @@
-; TaskBuilder.def : Declares the module parameters for the DLL.
-
-LIBRARY      "TBApplication"
-
-EXPORTS
-	InitDynLinkLibrary
-    ; Explicit exports can go here

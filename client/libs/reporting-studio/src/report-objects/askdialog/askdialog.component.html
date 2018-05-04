@@ -1,9 +1,0 @@
-<kendo-dialog title="  {{askObject.caption? askObject.caption:''}}" (close)="close()" [minWidth]="250" [width]="450">
-  <div *ngFor="let item of objects">
-    <rs-ask-group [askGroup]="item" *ngIf="!item.hidden"></rs-ask-group>
-  </div>
-  <kendo-dialog-actions>
-    <button kendoButton (click)="Prev()" [disabled]="askObject.isFirst">Prev</button>
-    <button kendoButton primary="true" (click)="Next()">{{!askObject.isLast? 'Next':'Execute'}}</button>
-  </kendo-dialog-actions>
-</kendo-dialog>

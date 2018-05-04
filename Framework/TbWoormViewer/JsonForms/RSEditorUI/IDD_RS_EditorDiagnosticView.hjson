@@ -1,4 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_RS_EditorDiagnosticView			GET_IDD(IDD_RS_EditorDiagnosticView, M.Framework.TbWoormViewer.RSEditorUI)
-#define	IDC_RS_EditorDiagnosticEdit			GET_IDC(IDC_RS_EditorDiagnosticEdit)

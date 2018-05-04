@@ -1,6 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#include	<TbWoormEngine\JsonForms\ASKDLG\IDD_ASKDIALOG.hjson>
-#include	<TbWoormEngine\JsonForms\ASKDLG\IDD_ASKFIELD.hjson>
-#include	<TbWoormEngine\JsonForms\ASKDLG\IDD_ASKGROUP.hjson>
-#include	<TbWoormEngine\JsonForms\ASKDLG\IDD_ASKRULE.hjson>

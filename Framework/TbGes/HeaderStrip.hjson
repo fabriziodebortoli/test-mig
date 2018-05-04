@@ -1,3 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#include	<TbGes\JsonForms\HeaderStrip\IDD_HEADERSTRIP_TILE.hjson>

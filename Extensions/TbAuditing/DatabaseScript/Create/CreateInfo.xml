@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<CreateInfo>
-  <ModuleInfo name="TBAuditing" />
-  <Level1>
-    <Step numstep="1" script="CreateTables.sql" />
-  </Level1>
-  <Level2 />
-</CreateInfo>

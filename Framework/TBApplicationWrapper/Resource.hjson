@@ -1,4 +1,0 @@
-#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-
-#define	ID_CREATE_JSON_EDITOR			GET_ID(ID_CREATE_JSON_EDITOR)

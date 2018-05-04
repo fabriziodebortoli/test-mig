@@ -1,9 +1,0 @@
-﻿<Configuration>
-<Product name="MagoNet-Pro">
-<ActivationKeys/>
-<SalesModule name="ERP-Pro.Server" internalcode='0110G081'>
-<Serial>M6WXB34PZ77K75M9</Serial>
-<Serial>M3WXBA4UZC7K7FMK</Serial>
-</SalesModule>
-</Product>
-</Configuration>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="urn:Microarea.Web.Services.ItemPriceFromPriceListToDate" elementFormDefault="qualified" targetNamespace="urn:Microarea.Web.Services.ItemPriceFromPriceListToDate" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:element name="tPriceList" nillable="true" type="xs:string" />
-  <xs:element name="item" nillable="true" type="xs:string" />
-  <xs:element name="quantity" type="xs:double" />
-  <xs:element name="date" nillable="true" type="xs:string" />
-  <xs:element name="return" type="xs:double" />
-</xs:schema>

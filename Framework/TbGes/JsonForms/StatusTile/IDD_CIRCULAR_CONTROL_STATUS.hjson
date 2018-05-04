@@ -1,4 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_CIRCULAR_CONTROL_STATUS			GET_IDD(IDD_CIRCULAR_CONTROL_STATUS, M.Framework.TbGes.StatusTile)
-#define	IDC_CIRCULAR_CONTROL_GAUGE			GET_IDC(IDC_CIRCULAR_CONTROL_GAUGE) 

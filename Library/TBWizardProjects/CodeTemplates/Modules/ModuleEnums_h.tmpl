@@ -1,8 +1,0 @@
-//=================================================================
-// module name	: @(ModuleName)Enums.h 
-//=================================================================
-
-#pragma once
-
-@(RepeatOnEnums{const WORD\tE_@@(_RB(_)_NOINVCHARS:EnumName) = @(EnumValue);\n@(RepeatOnEnumItems{const DWORD\tE_@@(_RB(_)_NOINVCHARS:EnumName)_@@(_RB(_)_NOINVCHARS:EnumItemName) = MAKELONG(@(EnumItemValue), @(EnumValue));, "\r\n"})@(IfDefaultItemDefined(\nconst DWORD\tE_@@(_RB(_)_NOINVCHARS:EnumName)_DEFAULT = E_@@(_RB(_)_NOINVCHARS:EnumName)_@@(_RB(_)_NOINVCHARS:EnumDefaultItemName);)), "\r\n\r\n"})
-

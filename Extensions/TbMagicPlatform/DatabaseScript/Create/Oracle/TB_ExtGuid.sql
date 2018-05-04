@@ -1,8 +1,0 @@
-CREATE TABLE "TB_EXTGUID" ( 
-    "DOCGUID" CHAR(38),
-   CONSTRAINT "PK_EXTGUID" PRIMARY KEY
-    (
-        "DOCGUID"
-    )
-)
-GO

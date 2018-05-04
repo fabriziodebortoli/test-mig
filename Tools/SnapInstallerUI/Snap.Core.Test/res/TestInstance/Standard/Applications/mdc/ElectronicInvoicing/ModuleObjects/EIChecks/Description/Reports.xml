@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ReportObjects>
-	<Reports defaultReport="MDC.ElectronicInvoicing_IT.EIChecks">
-		<Report namespace="MDC.ElectronicInvoicing_IT.EIChecks" localize="Electronic Invoice Checks" />
-	</Reports>
-</ReportObjects>

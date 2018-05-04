@@ -1,7 +1,0 @@
-#pragma once
-#include	<TbGes\JsonForms\BSP\IDD_BSP_TOOLBAR.hjson>
-//-----------------------------------------------------------------------------------------------------
-//Type:	ID
-//-----------------------------------------------------------------------------------------------------
-#define	ID_BSP_ALWAYS_ON_FRONT			GET_ID(ID_BSP_ALWAYS_ON_FRONT)
-#define	ID_BSP_SWITCH_TO_CALLER			GET_ID(ID_BSP_SWITCH_TO_CALLER)

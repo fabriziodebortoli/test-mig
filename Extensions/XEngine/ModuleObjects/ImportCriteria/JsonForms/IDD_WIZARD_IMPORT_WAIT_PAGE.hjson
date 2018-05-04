@@ -1,4 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_WIZARD_IMPORT_WAIT_PAGE			GET_IDD(IDD_WIZARD_IMPORT_WAIT_PAGE, D.Extensions.XEngine.ImportCriteria)
-#define	IDC_IMPORT_DOWNLOAD_MESSAGES			GET_IDC(IDC_IMPORT_DOWNLOAD_MESSAGES)

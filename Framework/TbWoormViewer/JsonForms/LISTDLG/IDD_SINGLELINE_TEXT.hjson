@@ -1,3 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_SINGLELINE_TEXT			GET_IDD(IDD_SINGLELINE_TEXT, M.Framework.TbWoormViewer.LISTDLG)

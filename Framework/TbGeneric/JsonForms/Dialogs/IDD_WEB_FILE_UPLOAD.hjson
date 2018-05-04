@@ -1,3 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_WEB_FILE_UPLOAD			GET_IDD(IDD_WEB_FILE_UPLOAD, M.Framework.TbGeneric.Dialogs)

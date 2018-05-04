@@ -1,7 +1,0 @@
-; TbNameSolver.def : Declares the module parameters for the DLL.
-
-LIBRARY      "TbNameSolver"
-
-EXPORTS
-	InitDynLinkLibrary
-    ; Explicit exports can go here

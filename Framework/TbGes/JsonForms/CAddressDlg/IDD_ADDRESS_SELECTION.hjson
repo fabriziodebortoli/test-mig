@@ -1,5 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_ADDRESS_SELECTION			GET_IDD(IDD_ADDRESS_SELECTION, M.Framework.TbGes.CAddressDlg)
-#define	ID_ADDRESS_SELECTION_SHOW_MAP			GET_IDC(ID_ADDRESS_SELECTION_SHOW_MAP)
-#define	IDC_ADDRESS_LIST			GET_IDC(IDC_ADDRESS_LIST)

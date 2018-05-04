@@ -1,4 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDR_RS_GRANTS			GET_IDR(IDR_RS_GRANTS, D.Extensions.TbRowSecurity.RSGrants)
-#define	ID_RS_OPEN_GRANTS_FORM			GET_ID(ID_RS_OPEN_GRANTS_FORM)

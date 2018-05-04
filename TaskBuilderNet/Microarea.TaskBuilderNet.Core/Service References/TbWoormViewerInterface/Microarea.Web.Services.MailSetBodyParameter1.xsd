@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="urn:Microarea.Web.Services.MailSetBodyParameter" elementFormDefault="qualified" targetNamespace="urn:Microarea.Web.Services.MailSetBodyParameter" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:element name="Name" nillable="true" type="xs:string" />
-  <xs:element name="Value" nillable="true" type="xs:string" />
-  <xs:element name="return" type="xs:boolean" />
-</xs:schema>

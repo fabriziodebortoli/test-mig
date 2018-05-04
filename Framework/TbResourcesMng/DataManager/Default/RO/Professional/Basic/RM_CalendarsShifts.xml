@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<DataTables>
-  <RM_CalendarsShifts Calendar="0000" Line="2" DayNo="1" StartingHour="13" StartingMinute="0" EndingHour="17" EndingMinute="0" Notes=""  />
-  <RM_CalendarsShifts Calendar="0000" Line="1" DayNo="1" StartingHour="8" StartingMinute="0" EndingHour="12" EndingMinute="0" Notes=""  />
-</DataTables>

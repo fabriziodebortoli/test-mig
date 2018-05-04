@@ -1,6 +1,0 @@
-﻿{{#SourceFiles}}
-	<Compile Include="{{RelativeFilePath}}" />
-{{/SourceFiles}}
-{{#ResxFiles}}
-	<EmbeddedResource Include="{{RelativeFilePath}}" />
-{{/ResxFiles}}

@@ -1,4 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_APP_DATE			GET_IDD(IDD_APP_DATE, M.Framework.TbGenlib.BASEFRM)
-#define	IDC_APP_DATE			GET_IDC(IDC_APP_DATE)

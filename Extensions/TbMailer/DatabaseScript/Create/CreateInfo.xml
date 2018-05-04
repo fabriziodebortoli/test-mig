@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<CreateInfo>
-  <ModuleInfo name="TBMailer" />
-  <Level1>
-    <Step numstep="1" script="TB_MsgLots.sql" />
-    <Step numstep="2" script="TB_MsgQueue.sql" />
-  </Level1>
-  <Level2 />
-</CreateInfo>

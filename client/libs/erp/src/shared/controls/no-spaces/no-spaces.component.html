@@ -1,8 +1,0 @@
-<tb-control-container type="erp-no-spaces" [model]="model">
-    <tb-caption [captionWidth]="captionWidth" caption="{{caption}}" forCmpID="forCmpID"></tb-caption>
-    <kendo-maskedtextbox #textbox [ngModel]="model?.value" required="required" (blur)="removeSpaces()" [disabled]="!(model?.enabled)" (ngModelChange)="model.value=$event" [style.width.px]="width" (keydown)="onKeyDown($event)">
-    </kendo-maskedtextbox>
-    <ng-template [ngIf]="hotLink">
-        <ng-template [tbHotLink]="hotLink"></ng-template>
-    </ng-template>
-</tb-control-container>

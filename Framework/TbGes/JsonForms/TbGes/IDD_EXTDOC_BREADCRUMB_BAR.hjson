@@ -1,3 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_EXTDOC_BREADCRUMB_BAR			GET_IDD(IDD_EXTDOC_BREADCRUMB_BAR, M.Framework.TbGes.TbGes)

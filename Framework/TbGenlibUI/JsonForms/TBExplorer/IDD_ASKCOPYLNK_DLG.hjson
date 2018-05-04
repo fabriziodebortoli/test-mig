@@ -1,5 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_ASKCOPYLNK_DLG			GET_IDD(IDD_ASKCOPYLNK_DLG, M.Framework.TbGenlibUI.TBExplorer)
-#define	IDC_ASKCOPYLNK_RD_COPY			GET_IDC(IDC_ASKCOPYLNK_RD_COPY)
-#define	IDC_ASKCOPYLNK_RD_LINK			GET_IDC(IDC_ASKCOPYLNK_RD_LINK)

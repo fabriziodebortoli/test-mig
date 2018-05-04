@@ -1,3 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#include	<TbGenlib\JsonForms\AutoExprDlg\IDD_AUTOEXPR_EDIT_DLG.hjson>

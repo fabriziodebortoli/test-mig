@@ -1,9 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#include	<TbWoormViewer\JsonForms\EditorLinksDlg\IDD_ADD_MOD_LINK.hjson>
-#include	<TbWoormViewer\JsonForms\EditorLinksDlg\IDD_DLG_ADD_PARAM.hjson>
-#include	<TbWoormViewer\JsonForms\EditorLinksDlg\IDD_DLG_NS_VAR.hjson>
-#include	<TbWoormViewer\JsonForms\EditorLinksDlg\IDD_DLG_SEL_EXTFUNCT.hjson>
-#include	<TbWoormViewer\JsonForms\EditorLinksDlg\IDD_LINK_PARAM.hjson>
-#include	<TbWoormViewer\JsonForms\EditorLinksDlg\IDD_LIST_LINKS.hjson>
-#include	<TbWoormViewer\JsonForms\EditorLinksDlg\IDD_PARAM_SEL.hjson>

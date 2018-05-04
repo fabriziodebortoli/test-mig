@@ -1,4 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_COLOR_4			GET_IDD(IDD_COLOR_4, M.Framework.TbWoormViewer.MCLRDLG)
-#define	IDC_EDIT_VALUE_COLOR_EXPR			GET_IDC(IDC_EDIT_VALUE_COLOR_EXPR)

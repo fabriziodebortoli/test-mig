@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<DBTs xmlns:sl="urn:TBStringLoader">
-	<Master namespace="Framework.TbResourcesMng.TbResourcesMng.AbsenceReasons.AbsenceReasons">
-		<Title localizable="true">AbsenceReasons</Title>
-		<Table namespace="framework.tbresourcesmng.tbresourcesmng.RM_AbsenceReasons">RM_AbsenceReasons</Table>
-		<ChooseUpdate>0</ChooseUpdate>
-		<Slaves></Slaves>
-	</Master>
-</DBTs>

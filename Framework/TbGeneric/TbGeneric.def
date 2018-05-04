@@ -1,7 +1,0 @@
-; TbGeneric.def : Declares the module parameters for the DLL.
-
-LIBRARY      "TbGeneric"
-
-EXPORTS
-	InitDynLinkLibrary
-    ; Explicit exports can go here

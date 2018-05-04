@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<DataTables>
-  <RM_ResourceTypes ResourceType="ROOT" Description="Company" ImagePath="" />
-  <RM_ResourceTypes ResourceType="01" Description="Division" ImagePath="" />
-  <RM_ResourceTypes ResourceType="02" Description="Area" ImagePath="" />
-  <RM_ResourceTypes ResourceType="03" Description="Sector" ImagePath="" />
-  <RM_ResourceTypes ResourceType="04" Description="Department" ImagePath="" />
-  <RM_ResourceTypes ResourceType="05" Description="Team" ImagePath="" />
-</DataTables>

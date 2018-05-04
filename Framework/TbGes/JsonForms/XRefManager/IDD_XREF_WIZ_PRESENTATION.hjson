@@ -1,4 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_XREF_WIZ_PRESENTATION			GET_IDD(IDD_XREF_WIZ_PRESENTATION, M.Framework.TbGes.XRefManager)
-#define	IDC_XREF_WIZARD_PRESENTATION_PAGE			GET_IDC(IDC_XREF_WIZARD_PRESENTATION_PAGE)

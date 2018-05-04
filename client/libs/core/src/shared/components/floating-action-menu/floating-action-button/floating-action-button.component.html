@@ -1,8 +1,0 @@
-<div #elementref class="item {{ disabled ? 'disabled' : ''}}" (click)="emitClickEvent($event)">
-    <a class="fab-item">
-        <tb-icon [iconType]="iconType" [icon]="icon"></tb-icon>
-    </a>
-    <div class="content-wrapper" #contentref>
-        <div class="content" [style.display]="caption ? 'block' : 'none'">{{caption}}</div>
-    </div>
-</div>

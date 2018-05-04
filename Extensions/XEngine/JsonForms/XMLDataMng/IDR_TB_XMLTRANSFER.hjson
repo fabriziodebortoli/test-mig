@@ -1,5 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDR_TB_XMLTRANSFER			GET_IDR(IDR_TB_XMLTRANSFER, M.Extensions.XEngine.XMLDataMng)
-#define	ID_EXTDOC_EXPORT_XML_DATA			GET_ID(ID_EXTDOC_EXPORT_XML_DATA)
-#define	ID_EXTDOC_IMPORT_XML_DATA			GET_ID(ID_EXTDOC_IMPORT_XML_DATA)

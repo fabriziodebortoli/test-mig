@@ -1,4 +1,0 @@
-#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define IDD_TD_ATTACHMENT_BODY	GET_IDD(IDD_TD_ATTACHMENT_BODY,M.Extensions.EasyAttachment.UIAttachment)
-#define IDC_ATTACHMENT_TILE_MNG	GET_IDC(IDC_ATTACHMENT_TILE_MNG)

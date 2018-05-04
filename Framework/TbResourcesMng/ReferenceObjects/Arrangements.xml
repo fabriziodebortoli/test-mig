@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<HotKeyLink>
-  <Function namespace="Framework.TbResourcesMng.TbResourcesMng.Arrangements" localize="Arrangements" type="string"/>
-   <DbField name="RM_Arrangements.Arrangements" />
-  <ClassName>HKLArrangements</ClassName>
-</HotKeyLink>
-
-

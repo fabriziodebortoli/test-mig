@@ -1,7 +1,0 @@
-- cd %Installation%Standard
-- eliminare cartella web
-- git clone https://github.com/Microarea/Taskbuilder.git web
-- web/client/web-form/npm i
-- ng build --env=desktop --preserve-symlinks --output-path="C:\Development\Standard\TaskBuilder\WebFramework\M4Client"
-- cd %Installation%Standard\web\server\web-server
-- dotnet publish --framework netcoreapp2.0 --output "C:\Development\Standard\TaskBuilder\WebFramework\M4Server" --configuration release

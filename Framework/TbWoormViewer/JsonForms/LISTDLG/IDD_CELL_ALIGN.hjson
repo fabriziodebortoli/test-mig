@@ -1,3 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_CELL_ALIGN			GET_IDD(IDD_CELL_ALIGN, M.Framework.TbWoormViewer.LISTDLG)

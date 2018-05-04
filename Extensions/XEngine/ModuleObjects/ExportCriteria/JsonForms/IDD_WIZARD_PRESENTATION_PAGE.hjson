@@ -1,3 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_WIZARD_PRESENTATION_PAGE			GET_IDD(IDD_WIZARD_PRESENTATION_PAGE, D.Extensions.XEngine.ExportCriteria)

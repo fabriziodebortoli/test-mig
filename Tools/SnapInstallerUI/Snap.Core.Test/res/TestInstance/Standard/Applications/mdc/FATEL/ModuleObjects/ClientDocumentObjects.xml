@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<ClientDocumentObjects>
-  <ClientDocuments>
-	  <ServerDocument namespace="MDC.ElectronicInvoicing.Services.EIParameters">
-		  <ClientDocument namespace="MDC.FATEL.AddOnsElectronicInvoicing.CDFEPAParameters" localize="FATEL Parameters Addon" />
-	  </ServerDocument>
-  </ClientDocuments>
-</ClientDocumentObjects>

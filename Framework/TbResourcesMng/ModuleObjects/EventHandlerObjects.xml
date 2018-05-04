@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<FunctionObjects>
-  <Functions>
-    <Function namespace="Framework.TbResourcesMng.TbResourcesMng.OnDSNChanged" type="bool" localize="Company Connection Change" />
-  </Functions>
-</FunctionObjects>

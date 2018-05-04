@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<HotKeyLink>
-  <Function type="string" namespace="Framework.TbGes.TbGes.Tables" localize="Tables" >
-    <Param name="Prefix" type="string" localize="Prefix name" value="" optional="true"/>
-  </Function>
-
-  <DbField name="Table" />
-  <ComboBox/>
-</HotKeyLink>

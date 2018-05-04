@@ -1,5 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_RATIOS			GET_IDD(IDD_RATIOS, M.Framework.TbWoormViewer.LISTDLG)
-#define	IDC_HRATIO			GET_IDC(IDC_HRATIO)
-#define	IDC_VRATIO			GET_IDC(IDC_VRATIO)

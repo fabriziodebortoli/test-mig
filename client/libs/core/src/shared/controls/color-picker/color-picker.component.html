@@ -1,4 +1,0 @@
-<tb-control-container type="tb-color-picker" [model]="model">
-    <tb-caption [captionWidth]="captionWidth" caption="{{caption}}" [for]="cmpId"></tb-caption>
-    <input id="{{cmpId}}" type="text" [disabled]="!model?.enabled" [ngModel]="model?.value" (ngModelChange)="model.value=$event" [placeholder]="caption" class="tb-color-picker" />
-</tb-control-container>

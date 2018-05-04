@@ -1,1 +1,0 @@
-﻿<%@ WebService Language="C#" CodeBehind="TbLoaderLauncher.asmx.cs" Class="Microarea.WebServices.TBLoaderLauncher.TBLoaderLauncher" %>

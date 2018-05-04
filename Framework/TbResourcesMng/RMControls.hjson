@@ -1,7 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-
-//-----------------------------------------------------------------------------------------------------
-//Type:	ID
-//-----------------------------------------------------------------------------------------------------
-#define	ID_RESOURCES_PICTURE_OTHER			GET_ID(ID_RESOURCES_PICTURE_OTHER)

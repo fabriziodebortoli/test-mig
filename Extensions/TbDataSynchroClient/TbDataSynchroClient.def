@@ -1,6 +1,0 @@
-; TBDataSynchroClient.def : Declares the module parameters for the DLL.
-
-LIBRARY      "TBDataSynchroClient"
-
-EXPORTS
-    ; Explicit exports can go here

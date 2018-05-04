@@ -1,1 +1,0 @@
-﻿<%@ WebService Language="C#" CodeBehind="EasyAttachmentSync.asmx.cs" Class="Microarea.WebServices.EasyAttachmentSync.MicroareaEasyAttachmentSync" %>

@@ -1,4 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_IMPORT_OUTPUT			GET_IDD(IDD_IMPORT_OUTPUT, M.Extensions.XEngine.XMLDataMng)
-#define	IDC_MESSAGE_STEP			GET_IDC(IDC_MESSAGE_STEP)

@@ -1,4 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#include	<TbGes\ModuleObjects\CompanyUserSettings\JsonForms\IDD_COMPANY_USER_SETTINGS.hjson>
-#include	<TbGes\ModuleObjects\CompanyUserSettings\JsonForms\IDD_TD_COMPANY_USER_SETTINGS.hjson>

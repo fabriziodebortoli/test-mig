@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<HotKeyLink>
-  <Function namespace="Extensions.EasyAttachment.TbDMS.DMSFields" localize="DMSFields" type="string"> 
-  <Param name="CollectionID" type="integer" localize="-1 (No collection) / n (CollectionID)" />
-  </Function>
-  <DbField name="DMS_Field.FieldDescription" />
-  <ClassName>HKLDMSFields</ClassName>
-</HotKeyLink>

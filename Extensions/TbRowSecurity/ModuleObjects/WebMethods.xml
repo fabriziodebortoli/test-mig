@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<FunctionObjects>
-  <Functions>
-    <Function namespace="Extensions.TbRowSecurity.TbRowSecurity.RunRSMaintenance" type="void" sourceInfo="File: Extensions\TbRowSecurity\TbRowSecurityInterface.cpp." localize="Row Security Configuration and Maintenance Procedure" report="false" inEasyBuilder="false" WCF="true" localizable="true">
-      This function runs batch procedure Row Security Configuration and Maintenance
-Return value: No return value
-      </Function>
-  </Functions>
-</FunctionObjects>

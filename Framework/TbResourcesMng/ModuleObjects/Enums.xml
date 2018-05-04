@@ -1,8 +1,0 @@
-<?xml version="1.0" standalone="yes"?>
-<Enums>
-  <Tag name="Gender" value="32">
-    Indicates the type of gender.
-    <Item name="Male" value="0" stored="2097152" />
-    <Item name="Female" value="1" stored="2097153" />
-  </Tag>
-</Enums>

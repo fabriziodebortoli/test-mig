@@ -1,5 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="urn:Microarea.Web.Services.CWoormInfo_MailTo" elementFormDefault="qualified" targetNamespace="urn:Microarea.Web.Services.CWoormInfo_MailTo" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:element name="handle" type="xs:int" />
-  <xs:element name="to" nillable="true" type="xs:string" />
-</xs:schema>

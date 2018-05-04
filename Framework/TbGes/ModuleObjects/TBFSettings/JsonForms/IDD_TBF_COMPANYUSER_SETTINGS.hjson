@@ -1,3 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_TBF_COMPANYUSER_SETTINGS			GET_IDD(IDD_TBF_COMPANYUSER_SETTINGS, D.Framework.TBGes.TBFSettings)

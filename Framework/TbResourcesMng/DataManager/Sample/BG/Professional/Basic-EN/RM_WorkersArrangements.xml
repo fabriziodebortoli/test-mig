@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<DataTables>
-  <RM_WorkersArrangements WorkerID="45" Line="0" Arrangement="" ArrangementLevel="" BasicPay="0" TotalPay="0" FromDate="1799-12-31T00:00:00+01:00" ToDate="1799-12-31T00:00:00+01:00" Notes="" />
-  <RM_WorkersArrangements WorkerID="44" Line="0" Arrangement="VI" ArrangementLevel="6" BasicPay="1745.64" TotalPay="0" FromDate="2010-07-14T00:00:00+02:00" ToDate="1799-12-31T00:00:00+01:00" Notes="" />
-  <RM_WorkersArrangements WorkerID="38" Line="0" Arrangement="IV" ArrangementLevel="4" BasicPay="1427.94" TotalPay="0" FromDate="2003-07-14T00:00:00+02:00" ToDate="2005-02-01T00:00:00+01:00" Notes="" />
-  <RM_WorkersArrangements WorkerID="38" Line="1" Arrangement="V" ArrangementLevel="5" BasicPay="1524.56" TotalPay="0" FromDate="2005-02-01T00:00:00+01:00" ToDate="2010-07-14T00:00:00+02:00" Notes="" />
-  <RM_WorkersArrangements WorkerID="38" Line="2" Arrangement="VI-P" ArrangementLevel="6" BasicPay="1432.78" TotalPay="0" FromDate="2010-07-14T00:00:00+02:00" ToDate="1799-12-31T00:00:00+01:00" Notes="" />
-  <RM_WorkersArrangements WorkerID="28" Line="0" Arrangement="V" ArrangementLevel="5" BasicPay="1524.56" TotalPay="0" FromDate="2000-02-14T00:00:00+01:00" ToDate="2000-02-14T00:00:00+01:00" Notes="" />
-</DataTables>

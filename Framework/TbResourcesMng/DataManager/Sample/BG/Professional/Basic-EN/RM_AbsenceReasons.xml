@@ -1,5 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<DataTables>
-  <RM_AbsenceReasons Reason="STRIKE" Description="Strike" Notes=""  />
-  <RM_AbsenceReasons Reason="DISEASE" Description="Disease" Notes=""  />
-</DataTables>

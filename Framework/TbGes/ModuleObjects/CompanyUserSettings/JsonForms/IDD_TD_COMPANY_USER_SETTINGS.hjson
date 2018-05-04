@@ -1,4 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_TD_COMPANY_USER_SETTINGS			GET_IDD(IDD_TD_COMPANY_USER_SETTINGS, D.Framework.TBGes.CompanyUserSettings)
-#define	IDC_PG_COMPANY_USER_SETTINGS			GET_IDC(IDC_PG_COMPANY_USER_SETTINGS)

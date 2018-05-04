@@ -1,8 +1,0 @@
-<div>
-    <div ng-init="setDropdownWidth('.applicationSelector', getApplicationsNumber())" ng-repeat="application in applications = getApplications() | repeatFilter" class="box" ng-click="menuService.setSelectedApplication(application)" ng-class="{'elementSelected': application.isSelected, 'elementNotSelected': !application.isSelected}">
-        <div>
-            <img ng-src="{{menuService.getApplicationIcon(application)}}" />
-            <div ng-show="menuService.noImageOrDef(application)">{{menuService.getApplicationName(application)}}</div>
-        </div>
-    </div>
-</div>

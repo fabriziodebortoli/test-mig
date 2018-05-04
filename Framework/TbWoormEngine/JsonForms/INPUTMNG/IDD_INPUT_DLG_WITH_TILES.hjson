@@ -1,8 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_INPUT_DLG_WITH_TILES				GET_IDD(IDD_INPUT_DLG_WITH_TILES, M.Framework.TbWoormEngine.INPUTMNG)
-#define IDC_INPUT_DLG_WITH_TILES_TILE_GROUP		GET_IDC(IDC_INPUT_DLG_WITH_TILES_TILE_GROUP)
-
-//define ID
-#define ID_GO_NEXT								GET_ID(ID_GO_NEXT)
-#define ID_GO_PREV								GET_ID(ID_GO_PREV)

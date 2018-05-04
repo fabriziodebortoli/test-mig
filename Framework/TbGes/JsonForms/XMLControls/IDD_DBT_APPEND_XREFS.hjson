@@ -1,5 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_DBT_APPEND_XREFS			GET_IDD(IDD_DBT_APPEND_XREFS, M.Framework.TbGes.XMLControls)
-#define	IDC_APPEND_XREF_DESCRI			GET_IDC(IDC_APPEND_XREF_DESCRI)
-#define	IDC_APPEND_XREFS_DOC_LIST			GET_IDC(IDC_APPEND_XREFS_DOC_LIST)

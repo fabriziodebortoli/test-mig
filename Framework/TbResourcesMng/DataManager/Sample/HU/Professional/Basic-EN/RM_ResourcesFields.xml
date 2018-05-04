@@ -1,5 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<DataTables>
-  <RM_ResourcesFields ResourceType="01" ResourceCode="GENERAL" Line="0" FieldName="Car" FieldValue="Mercedes 330D" Notes="" HideOnLayout="0" />
-  <RM_ResourcesFields ResourceType="01" ResourceCode="GENERAL" Line="1" FieldName="Secretary" FieldValue="Mrs Lange" Notes="" HideOnLayout="0" />
-</DataTables>

@@ -1,7 +1,0 @@
-; TbWoormViewer.def : dichiara i parametri di modulo per la DLL.
-
-LIBRARY      "TbWoormViewer"
-
-EXPORTS
-	InitDynLinkLibrary
-    ; Inserire qui le esportazioni esplicite

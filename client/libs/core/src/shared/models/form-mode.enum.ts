@@ -1,1 +1,0 @@
-export enum FormMode { NONE = 0, BROWSE = 1, NEW = 2, EDIT = 3, FIND = 4 };

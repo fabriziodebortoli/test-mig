@@ -1,3 +1,0 @@
-[ValidarXML]
-ENVIO=envCCe_v1.00.xsd
-CONSULTANF=consSitNFe_v2.00.xsd

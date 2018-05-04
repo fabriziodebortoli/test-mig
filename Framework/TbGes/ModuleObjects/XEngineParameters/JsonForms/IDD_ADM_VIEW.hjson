@@ -1,5 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_ADM_VIEW			GET_IDD(IDD_ADM_VIEW, D.Framework.TbGes.XEngineParameters)
-#define	IDC_ADM_ANIMATION			GET_IDC(IDC_ADM_ANIMATION)
-#define	IDC_ADM_CAPTION			GET_IDC(IDC_ADM_CAPTION)

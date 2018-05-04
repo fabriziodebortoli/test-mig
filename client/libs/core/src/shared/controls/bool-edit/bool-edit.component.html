@@ -1,3 +1,0 @@
-<div [ngClass]="componentClass()">
-    <input id="{{cmpId}}" type="text" [ngModel]="model?.value" [disabled]="!model?.enabled || readonly" (blur)="onBlur($event)" (keydown)="keyPress($event)" (ngModelChange)="model.value=$event" />
-</div>

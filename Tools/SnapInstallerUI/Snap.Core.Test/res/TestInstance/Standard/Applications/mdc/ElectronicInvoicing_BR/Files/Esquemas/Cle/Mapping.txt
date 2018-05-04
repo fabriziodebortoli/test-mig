@@ -1,2 +1,0 @@
-[ValidarXML]
-ENVIO=enviCLe_v1.00.xsd

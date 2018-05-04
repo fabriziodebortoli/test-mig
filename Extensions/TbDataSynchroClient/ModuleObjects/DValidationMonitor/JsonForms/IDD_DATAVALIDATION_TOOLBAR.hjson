@@ -1,7 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-
-#define IDD_DATAVALIDATION_TOOLBAR	GET_IDD(IDD_DATAVALIDATION_TOOLBAR, D.Extension.TbDataSynchroClient.DValidationMonitor)
-
-#define ID_DS_MONITOR_REFRESH			GET_ID(ID_DS_MONITOR_REFRESH)
-

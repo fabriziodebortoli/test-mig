@@ -1,3 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_RS_EngineTreeView			GET_IDD(IDD_RS_EngineTreeView, M.Framework.TbWoormViewer.RSEditorUI)

@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<BehaviourObjects>
-  <Entities>
-    <Entity namespace="Framework.TbResourcesMng.Workers.WorkerId" localize="Workers" service="Framework.TbGes.TbGes.Autoincrement"/>
-  </Entities>
-</BehaviourObjects>

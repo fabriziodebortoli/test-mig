@@ -1,4 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#include	<TbWoormViewer\JsonForms\DocProperties\IDD_DOCPROP_GENERAL.hjson>
-#include	<TbWoormViewer\JsonForms\DocProperties\IDD_DOCPROP_SUMMERY.hjson>

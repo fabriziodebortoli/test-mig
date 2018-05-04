@@ -1,5 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_FORMAT_STYLE			GET_IDD(IDD_FORMAT_STYLE, M.Framework.TbGenlibUI.FormatDialog)
-#define	IDC_FORMAT_COMBOFILTER			GET_IDC(IDC_FORMAT_COMBOFILTER)
-#define	IDC_TREE_STYLE			GET_IDC(IDC_TREE_STYLE)

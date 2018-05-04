@@ -1,8 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#include	<TbWoormViewer\JsonForms\WrmBlockModifier\IDD_WRMBLOCKMODIFIER.hjson>
-
-//-----------------------------------------------------------------------------------------------------
-//Type:	IDC
-//-----------------------------------------------------------------------------------------------------
-#define	IDC_BUTTON1			GET_IDC(IDC_BUTTON1)

@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<DocumentObjects>
-  <Documents>
-    <Document namespace="Framework.TbRadar.TbRadar.Radar" localize="Radar" classhierarchy="CBaseDocument" defaultsecurityroles="aUnprotected Report Manager" securityhidden="true" published="false"/>
-    <Document namespace="Framework.TbRadar.TbRadar.WoormRadar" localize="Woorm Radar" classhierarchy="CBaseDocument" securityhidden="true" published="false"/>
-    <Document namespace="Framework.TbRadar.TbRadar.BERadar" localize="BE Radar" classhierarchy="CBaseDocument" securityhidden="true" published="false"/>
-  </Documents>
-</DocumentObjects>

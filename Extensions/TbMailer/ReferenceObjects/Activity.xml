@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<HotKeyLink>
-  <Function type="integer" namespace="Extensions.TbMailer.Activity" localize="Activity" />
-  <DbField name="Activity" />
-  
-  <ComboBox  datafile="DataFile.Extensions.TbMailer.Activity" />
-</HotKeyLink>

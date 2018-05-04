@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<FunctionObjects>
-  <Functions>
-    <Function namespace="Extensions.XEngine.TBXMLTransfer.OnQueryCanCloseApp" type="bool" localize="Closes cached document because application could be closed" />
-  </Functions>
-</FunctionObjects>

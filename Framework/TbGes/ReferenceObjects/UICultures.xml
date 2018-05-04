@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<HotKeyLink>
-  <Function type="string" namespace="Framework.TbGes.TbGes.UICultures" localize="User Interface Cultures installed" />
-  <DbField name="UICulture" />
-  <ComboBox/>
-</HotKeyLink>

@@ -1,5 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_PROFILE_WIZ_XREF_PAGE			GET_IDD(IDD_PROFILE_WIZ_XREF_PAGE, M.Extensions.XEngine.ProfiliMngWizPage)
-#define	IDC_PROF_WIZ_XREF_TREE			GET_IDC(IDC_PROF_WIZ_XREF_TREE)
-#define	IDC_PROFILE_WIZARD_TREE_PAGE			GET_IDC(IDC_PROFILE_WIZARD_TREE_PAGE)

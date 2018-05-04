@@ -1,5 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_DROP_SHADOW			GET_IDD(IDD_DROP_SHADOW, M.Framework.TbWoormViewer.MCLRDLG)
-#define	IDC_DROP_SHADOW_COLOR			GET_IDC(IDC_DROP_SHADOW_COLOR)
-#define	IDC_DROP_SHADOW_HEIGHT			GET_IDC(IDC_DROP_SHADOW_HEIGHT)

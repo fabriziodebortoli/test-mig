@@ -1,7 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_FONT_STYLE			GET_IDD(IDD_FONT_STYLE, M.Framework.TbGenlibUI.FontsDialog)
-#define	IDC_FONT_COMBOFILTER			GET_IDC(IDC_FONT_COMBOFILTER)
-#define	IDC_FONT_SAVE			GET_IDC(IDC_FONT_SAVE)
-#define	IDC_FONT_USE_PRINTER			GET_IDC(IDC_FONT_USE_PRINTER)
-#define	IDC_TREE_FONT			GET_IDC(IDC_TREE_FONT)

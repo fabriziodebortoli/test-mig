@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<HotKeyLink>
-  <Function namespace="Framework.TbResourcesMng.TbResourcesMng.Calendars" localize="Calendars" type="string">
-  </Function>
-  <DbField name="RM_Calendars.Calendar" />
-  <ClassName>HKLCalendars</ClassName>
-</HotKeyLink>

@@ -1,5 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="urn:Microarea.Web.Services.RunFunctionInNewThread" elementFormDefault="qualified" targetNamespace="urn:Microarea.Web.Services.RunFunctionInNewThread" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:element name="functionNamespace" nillable="true" type="xs:string" />
-  <xs:element name="arguments" nillable="true" type="xs:string" />
-</xs:schema>

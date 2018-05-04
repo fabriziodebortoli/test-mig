@@ -1,3 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define	IDD_EMPTY_TILE			GET_IDD(IDD_EMPTY_TILE, D.Framework.TbGes.XEngineParameters)

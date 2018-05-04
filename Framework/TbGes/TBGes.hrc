@@ -1,5 +1,0 @@
-#pragma once 
-
-
-#define IDR_DUMMY_TEMPLATE				638	//per accontentare MFC e non avere warning
-#define IDD_EXTDOC_BREADCRUMB_BAR		33402

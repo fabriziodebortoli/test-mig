@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="urn:Microarea.Web.Services.ChangeLogin" elementFormDefault="qualified" targetNamespace="urn:Microarea.Web.Services.ChangeLogin" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:element name="oldAuthenticationToken" nillable="true" type="xs:string" />
-  <xs:element name="newAuthenticationToken" nillable="true" type="xs:string" />
-  <xs:element name="bUnLock" type="xs:boolean" />
-  <xs:element name="return" type="xs:int" />
-</xs:schema>

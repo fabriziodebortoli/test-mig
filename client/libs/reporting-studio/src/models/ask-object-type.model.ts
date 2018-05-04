@@ -1,1 +1,0 @@
-export enum AskObjectType { text, radio, check, dropdownlist, hotlink }

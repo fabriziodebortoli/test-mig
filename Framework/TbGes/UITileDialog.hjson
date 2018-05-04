@@ -1,5 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#include	<TbGes\JsonForms\UITileDialog\IDD_TD_BATCH_DOC_HEADER.hjson>
-#include	<TbGes\JsonForms\UITileDialog\IDD_TD_SERVICES_HEADER.hjson>
-#include	<TbGes\JsonForms\UITileDialog\IDD_TB_HEADER_TILE.hjson>

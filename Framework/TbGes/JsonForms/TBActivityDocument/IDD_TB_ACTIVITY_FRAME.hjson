@@ -1,4 +1,0 @@
-﻿#pragma once
-#include	<TbNameSolver\TBResourcesMap.h>
-#define IDD_TB_ACTIVITY_FRAME				GET_IDD(IDD_TB_ACTIVITY_FRAME, M.Framework.TBGes.TBActivityDocument)
-#define IDD_TB_ACTIVITY_TOOLBAR				GET_IDD(IDD_TB_ACTIVITY_TOOLBAR, M.Framework.TBGes.TBActivityDocument)

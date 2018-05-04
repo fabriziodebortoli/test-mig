@@ -1,5 +1,0 @@
-<tb-control-container type="tb-radio" [model]="model">
-    <tb-caption [captionWidth]="captionWidth" caption="{{caption}}" [for]="cmpId"></tb-caption>
-    <input class="k-radio" id="{{cmpId}}" type="radio" [ngModel]="model?.value" [disabled]="!model?.enabled" (ngModelChange)="model.value=$event" [name]="name">
-    <label class="k-radio-label" for="{{cmpId}}">&nbsp;</label>
-</tb-control-container>
